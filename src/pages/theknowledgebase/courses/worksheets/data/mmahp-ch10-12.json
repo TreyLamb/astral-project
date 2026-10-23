@@ -1,0 +1,5460 @@
+{
+ "id": "mmahp-ch10-12",
+ "title": "MMAHP Ch 10-12 — practice MCIs for OLQs 10-12 (answers derived from the chapter text, not yet the official key)",
+ "courseCode": "MICR 2060",
+ "sourceFile": "10. Immune Responses to Microbes.pdf; 11. Microbial Pathogenesis.pdf; 12. Infectious Diseases in Human Populations.pdf",
+ "chapters": [
+  {
+   "number": 10,
+   "title": "Immune Responses, Hypersensitivity, Vaccines and Antibody Techniques",
+   "sections": [
+    {
+     "heading": "Immune responses to viruses",
+     "questions": [
+      {
+       "id": "ch10-q1",
+       "number": 1,
+       "stem": "Which of these is the most important antiviral effector mechanism?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Phagocytosis."
+        },
+        {
+         "letter": "B",
+         "text": "Tc cell cytotoxicity."
+        },
+        {
+         "letter": "C",
+         "text": "NK cell cytotoxicity."
+        },
+        {
+         "letter": "D",
+         "text": "Complement activation."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Tc cells kill virus-infected cells with perforin and granzyme (Table 10.1A); the other three are supporting mechanisms."
+      },
+      {
+       "id": "ch10-q2",
+       "number": 2,
+       "stem": "A complement pathway was activated on naked viruses such as adenoviruses. How will this affect the virus particle?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The virus will be opsonized and cleared by phagocytes."
+        },
+        {
+         "letter": "B",
+         "text": "The virus will be destroyed by the membrane attack complex (MAC)."
+        },
+        {
+         "letter": "C",
+         "text": "The virus will be removed by the anaphylatoxins released due to complement activation."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Table 10.1: the MAC destroys ENVELOPED viruses. A naked virus has no membrane to punch, so C3b/C4b coat it and phagocytes clear it."
+      },
+      {
+       "id": "ch10-q3",
+       "number": 3,
+       "stem": "A child was vaccinated for hepatitis A. The child ate some food that contained many hepatitis A virus particles. Which of the following mechanisms would contribute most to protecting the child from hepatitis A virus infection?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Activation of memory Tc cells."
+        },
+        {
+         "letter": "B",
+         "text": "Neutralization of the virus particles by antibodies."
+        },
+        {
+         "letter": "C",
+         "text": "Activation of the classical complement pathway."
+        },
+        {
+         "letter": "D",
+         "text": "Phagocytosis by DCs, macrophages, and granulocytes."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "A vaccinated child has circulating antibody (and IgA at the gut); neutralizing antibody blocks the virus from binding gut cells."
+      },
+      {
+       "id": "ch10-q4",
+       "number": 4,
+       "stem": "A virus-infected cell was killed (was lysed). Can this cell play any role in protecting other cells from infection?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "No, the cell would spill newly assembled viruses and make other cells vulnerable to infection."
+        },
+        {
+         "letter": "B",
+         "text": "Yes, the cell would release DAMPs and PAMPs that would bind PRRs and activate inflammation."
+        },
+        {
+         "letter": "C",
+         "text": "No, the virus-infected cell would undergo apoptosis and break into pieces to be removed by macrophages."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "A lysed cell releases DAMPs/PAMPs that bind PRRs and start inflammation, which helps protect neighbours."
+      }
+     ]
+    },
+    {
+     "heading": "Immune responses to pathogenic bacteria",
+     "questions": [
+      {
+       "id": "ch10-q5",
+       "number": 5,
+       "stem": "Which of the following innate antimicrobial protection is offered by the mucous membrane but not by the skin?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Dead and exfoliating cells."
+        },
+        {
+         "letter": "B",
+         "text": "Flagella move to remove microbes."
+        },
+        {
+         "letter": "C",
+         "text": "Glandular secretions with antimicrobial activities."
+        },
+        {
+         "letter": "D",
+         "text": "Antimicrobial peptides such as peptide antibiotics."
+        },
+        {
+         "letter": "E",
+         "text": "Resident microbiota and their antimicrobial products."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Table 10.1: mucous membranes have ciliary movement that sweeps microbes out. The skin has no cilia; glands, peptides and microbiota exist on both. (The option says \"flagella\" but means cilia.)"
+      },
+      {
+       "id": "ch10-q6",
+       "number": 6,
+       "stem": "A G(-) bacterium is coated by two molecules of IgG. The bacterium could be removed/killed by each of these agents or phenomena except one. Which of these is that agent or phenomenon? Note: MAC- membrane attach complex.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It can be killed by MAC."
+        },
+        {
+         "letter": "B",
+         "text": "It can be killed by NK cells."
+        },
+        {
+         "letter": "C",
+         "text": "It can be opsonized by C3b."
+        },
+        {
+         "letter": "D",
+         "text": "It can be phagocytized by DCs, macrophages, and neutrophils."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "IgG-coated bacteria can be killed by MAC, opsonized by C3b and phagocytized. NK cells kill infected HOST cells, not free bacteria."
+      },
+      {
+       "id": "ch10-q7",
+       "number": 7,
+       "stem": "Bacteria get into our blood every day when we brush our teeth and eat extra crunchy food such as corn chips. Which of the following protects us from bacterial infections on a moment-by-moment basis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "gd T cells kill bacteria-infected cells."
+        },
+        {
+         "letter": "B",
+         "text": "Complement activation and phagocytosis."
+        },
+        {
+         "letter": "C",
+         "text": "Cytokines released by activated Th cells, DCs, and macrophages."
+        },
+        {
+         "letter": "D",
+         "text": "TLRs-binding to bacterial signature molecules (i.e., activation of leucocytes)."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Complement activation and phagocytosis are the always-on, immediate defences; T cell and cytokine responses take longer."
+      },
+      {
+       "id": "ch10-q8",
+       "number": 8,
+       "stem": "TC cells are more important for protecting us from diseases caused by which of these bacterial pathogens or bacterial toxins?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Intracellular bacterial pathogens such as Mycobacterium tuberculosis and Chlamydia trachomatis."
+        },
+        {
+         "letter": "B",
+         "text": "Extracellular bacterial pathogens such as Escherichia coli and Staphylococcus aureus."
+        },
+        {
+         "letter": "C",
+         "text": "Bacterial exotoxins such as cholera toxins and botulinum toxins."
+        },
+        {
+         "letter": "D",
+         "text": "Bacterial endotoxins such as LTA, LPS, and peptidoglycan."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Tc cells kill cells infected with INTRACELLULAR bacteria (Mycobacterium, Chlamydia). Exotoxins and endotoxins are free, not inside cells."
+      }
+     ]
+    },
+    {
+     "heading": "Immune responses to pathogenic fungi",
+     "questions": [
+      {
+       "id": "ch10-q9",
+       "number": 9,
+       "stem": "Which of the following may directly destroy a fungal cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "MAC."
+        },
+        {
+         "letter": "B",
+         "text": "TLRs."
+        },
+        {
+         "letter": "C",
+         "text": "ab T cells."
+        },
+        {
+         "letter": "D",
+         "text": "Antibodies."
+        },
+        {
+         "letter": "E",
+         "text": "Neutrophils."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Neutrophils phagocytize and kill fungi by oxidative and lytic killing. Complement and antibodies only opsonize fungi (Table 10.1C)."
+      },
+      {
+       "id": "ch10-q10",
+       "number": 10,
+       "stem": "Which of the following cells is most prepared to kill a target host cell that is harboring a fungal cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "DCs."
+        },
+        {
+         "letter": "B",
+         "text": "B cells."
+        },
+        {
+         "letter": "C",
+         "text": "gd T cells."
+        },
+        {
+         "letter": "D",
+         "text": "ab Th cells."
+        },
+        {
+         "letter": "E",
+         "text": "Eosinophils."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "gd T cells are cytotoxic to infected cells. DCs, B cells and ab Th cells are not killers (Th cells secrete cytokines). Table 10.1C does not list a killer T cell for fungi, so this is by elimination.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D"
+       ]
+      },
+      {
+       "id": "ch10-q11",
+       "number": 11,
+       "stem": "Infants, cancer patients, and HIV-1-infected subjects are highly vulnerable to fungal infections. Based on this finding, which of these cells appears to be most essential for antifungal immunity? Note: HIV- 1 infection depletes CD4-positive T cells.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "B"
+        },
+        {
+         "letter": "B",
+         "text": "TH"
+        },
+        {
+         "letter": "C",
+         "text": "TC"
+        },
+        {
+         "letter": "D",
+         "text": "NK"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Th cells secrete cytokines that activate phagocytes to kill fungi (Table 10.1C), and HIV-1 depletes Th cells."
+      }
+     ]
+    },
+    {
+     "heading": "Immune responses to animal parasites",
+     "questions": [
+      {
+       "id": "ch10-q12",
+       "number": 12,
+       "stem": "Which of the following may directly kill a protozoan parasite in the blood (not inside a host cell)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "MAC."
+        },
+        {
+         "letter": "B",
+         "text": "T cells."
+        },
+        {
+         "letter": "C",
+         "text": "Antibodies."
+        },
+        {
+         "letter": "D",
+         "text": "B cells and phagocytes."
+        },
+        {
+         "letter": "E",
+         "text": "Anaphylatoxins C3a, C4a, and C5a."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Table 10.1D: the MAC kills OPSONIZED protozoa. Antibodies only opsonize and activate phagocytosis, complement and ADCC."
+      },
+      {
+       "id": "ch10-q13",
+       "number": 13,
+       "stem": "A worm (size 8 mm x 0.3 mm) is coated with a few IgGs. Which of these effectors will macrophages use to eradicate the worm larva?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Phagocytosis (by reactive oxygen species)."
+        },
+        {
+         "letter": "B",
+         "text": "ADCC, injecting perforins and granzymes."
+        },
+        {
+         "letter": "C",
+         "text": "ADCC, releasing lytic enzymes."
+        },
+        {
+         "letter": "D",
+         "text": "Activating TLR signaling."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Table 10.1E: neutrophils and macrophages bind IgG-coated worms and inject lytic enzymes (ADCC). A worm of 8 mm is too big to phagocytize."
+      }
+     ]
+    },
+    {
+     "heading": "Primary and secondary immunodeficiencies",
+     "questions": [
+      {
+       "id": "ch10-q14",
+       "number": 14,
+       "stem": "Subjects with SCID lack which of these immunities?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Innate immunity."
+        },
+        {
+         "letter": "B",
+         "text": "Humoral immunity."
+        },
+        {
+         "letter": "C",
+         "text": "B and T cell immunity."
+        },
+        {
+         "letter": "D",
+         "text": "Cell-mediated immunity,"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "SCID = severe COMBINED immunodeficiency: both B and T cell immunity are missing."
+      },
+      {
+       "id": "ch10-q15",
+       "number": 15,
+       "stem": "People with DiGeorge symptom may have a complete lack in _______ and some impairments in _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "T cells/ B cells"
+        },
+        {
+         "letter": "B",
+         "text": "NK cell/ gd T cells"
+        },
+        {
+         "letter": "C",
+         "text": "B cells/ granulocytes"
+        },
+        {
+         "letter": "D",
+         "text": "granulocytes/ leucocytes"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "DiGeorge: thymus fails to form, so no T cells and B cells are impaired for lack of T help."
+      },
+      {
+       "id": "ch10-q16",
+       "number": 16,
+       "stem": "A person has a mutated kinase gene (involved in signal transduction). Can this cause primary immunodeficiency?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "No, it may only cause secondary immunodeficiency."
+        },
+        {
+         "letter": "B",
+         "text": "No, it does not cause immunodeficiency, but it may cause other diseases."
+        },
+        {
+         "letter": "C",
+         "text": "Yes, if the kinase signaling is essential for the development of a key innate or adaptive immune function."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "A mutated gene needed to build an immune function is a primary (inherited) immunodeficiency."
+      },
+      {
+       "id": "ch10-q17",
+       "number": 17,
+       "stem": "Lack of function mutations of which of the following complement protein genes would be least harmful?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "C1."
+        },
+        {
+         "letter": "B",
+         "text": "C3."
+        },
+        {
+         "letter": "C",
+         "text": "C5."
+        },
+        {
+         "letter": "D",
+         "text": "C9."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "C9 only adds to the size of the MAC pore; losing C1, C3 or C5 breaks the pathway earlier."
+      },
+      {
+       "id": "ch10-q18",
+       "number": 18,
+       "stem": "How do people develop secondary immunodeficiencies?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Infections and exposures to toxic agents."
+        },
+        {
+         "letter": "B",
+         "text": "Germline gene mutations."
+        },
+        {
+         "letter": "C",
+         "text": "Somatic gene mutations."
+        },
+        {
+         "letter": "D",
+         "text": "Obesity."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Secondary (acquired) immunodeficiencies come from infections (e.g. HIV) and toxic exposures; mutations are primary."
+      }
+     ]
+    },
+    {
+     "heading": "Type I hypersensitivity reactions",
+     "questions": [
+      {
+       "id": "ch10-q19",
+       "number": 19,
+       "stem": "Which of the following may contribute the least to increasing the chances of developing atopy?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Genetic polymorphisms in immunity-controlling genes."
+        },
+        {
+         "letter": "B",
+         "text": "Improved living conditions and hygienic practices."
+        },
+        {
+         "letter": "C",
+         "text": "Changing food habits (say, turning to veganism)."
+        },
+        {
+         "letter": "D",
+         "text": "Having a Th-2 type of T cell immunity."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Genetics, the hygiene hypothesis and a Th-2 bias all raise the odds of atopy; diet change is the one the chapter does not link.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B"
+       ]
+      },
+      {
+       "id": "ch10-q20",
+       "number": 20,
+       "stem": "The acute phase of allergic reaction involves degranulation that causes the release of preformed mediators and enzymes of the granules. Which of these is NOT a performed element of the granules?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Histamines."
+        },
+        {
+         "letter": "B",
+         "text": "Heparin and proteases."
+        },
+        {
+         "letter": "C",
+         "text": "Serotonins and chemotactic factors."
+        },
+        {
+         "letter": "D",
+         "text": "Leukotrienes, prostaglandins, and cytokines."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Leukotrienes, prostaglandins and cytokines are newly made mediators of the delayed phase, not stored in granules."
+      },
+      {
+       "id": "ch10-q21",
+       "number": 21,
+       "stem": "Why it take 1-24 hours for the delayed phase of allergic reactions to take place?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The delayed phase requires sufficient damage of the affected tissues."
+        },
+        {
+         "letter": "B",
+         "text": "The delayed phase requires the migration of TH-2 cells and granulocytes to the affected site."
+        },
+        {
+         "letter": "C",
+         "text": "The delayed phase requires signal transduction and the expression of new genes in the effector cells."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "The text says that in the next 1-24 hours the cells release leukotrienes, prostaglandins and cytokines. Those are newly made, so it takes time for gene expression.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B"
+       ]
+      },
+      {
+       "id": "ch10-q22",
+       "number": 22,
+       "stem": "An allergic reaction may cause local (i.e., tissue-specific) or systemic (whole-body) effects. Which of the following exposure types may lead to either a tissue-specific or a systemic reaction (i.e., anaphylactic shock)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Skin contact."
+        },
+        {
+         "letter": "B",
+         "text": "Eye contact."
+        },
+        {
+         "letter": "C",
+         "text": "Inhalation."
+        },
+        {
+         "letter": "D",
+         "text": "Ingestion."
+        },
+        {
+         "letter": "E",
+         "text": "Injection."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Table 10.3: ingestion causes hives but can lead to systemic anaphylaxis. Skin, eye and inhalation stay local; injection into the blood is systemic.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "E"
+       ]
+      },
+      {
+       "id": "ch10-q23",
+       "number": 23,
+       "stem": "Which of the following is a relatively long-term but non-specific treatment of allergy?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Antihistamines (to block histamine receptors)."
+        },
+        {
+         "letter": "B",
+         "text": "Cromolyns (to stabilize mast cells, prevent mast cell degranulation)."
+        },
+        {
+         "letter": "C",
+         "text": "Corticosteroid (to reduce histamine synthesis and to prevent T cell activation)."
+        },
+        {
+         "letter": "D",
+         "text": "Epinephrine (to activate cAMP production, increase heart rate, and relaxing of smooth muscles)."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "The text says cortisone reduces histamine synthesis and prevents T cell activation, which is broad and longer acting. The others are blockers of single steps."
+      },
+      {
+       "id": "ch10-q24",
+       "number": 24,
+       "stem": "How does allergy vaccination work?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It helps develop an IgG response to an allergen."
+        },
+        {
+         "letter": "B",
+         "text": "It helps activate TH-2 response over TH-1 response to an allergen."
+        },
+        {
+         "letter": "C",
+         "text": "It helps generate anti-IgE antibodies that bind and remove IgEs from blood."
+        },
+        {
+         "letter": "D",
+         "text": "It helps generate anti-IgE antibodies that bind IgE on the surface of B cells and kill B cells by activating complement pathways."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: allergy vaccination is expected to induce an IgG response that binds the allergen before it reaches IgE on mast cells."
+      }
+     ]
+    },
+    {
+     "heading": "Type II hypersensitivity reactions",
+     "questions": [
+      {
+       "id": "ch10-q25",
+       "number": 25,
+       "stem": "Which of the following effects is not expected after activation of a type II hypersensitivity reaction? Note: MAC- membrane attack complex.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Destruction of the antibody-coated host cells by MACs."
+        },
+        {
+         "letter": "B",
+         "text": "ADCC by neutrophils, macrophages, and NK cells."
+        },
+        {
+         "letter": "C",
+         "text": "ADCC by eosinophils and basophils."
+        },
+        {
+         "letter": "D",
+         "text": "Degranulation by granulocytes."
+        },
+        {
+         "letter": "E",
+         "text": "Effects of anaphylatoxins."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Type II = IgG/IgM with MAC, ADCC by macrophages, neutrophils and NK cells, and anaphylatoxins (which also trigger degranulation). Eosinophil/basophil ADCC belongs to IgE-coated worms.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D"
+       ]
+      },
+      {
+       "id": "ch10-q26",
+       "number": 26,
+       "stem": "Which of the following generally triggers most of the transfusion reactions? Note: A transfusion reaction is a type II hypersensitivity.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "IgG or IgM bound to A or B blood group antigens of erythrocytes."
+        },
+        {
+         "letter": "B",
+         "text": "IgG or IgM bound to non-blood group antigens of erythrocytes."
+        },
+        {
+         "letter": "C",
+         "text": "IgG or IgM bound to Rh blood group antigens of erythrocytes."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: transfusion reaction is IgG/IgM bound to blood group antigens on unmatched erythrocytes; ABO is the commonest cause."
+      },
+      {
+       "id": "ch10-q27",
+       "number": 27,
+       "stem": "Which of the following is a cross-reactive antibody?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It binds a viral antigen as well as human beta-2-microglobulin."
+        },
+        {
+         "letter": "B",
+         "text": "It binds both glycosylated and non-glycosylated versions of a protein antigen."
+        },
+        {
+         "letter": "C",
+         "text": "It binds a highly conserved epitope of an antigen of bacteria, fungi, and protozoa."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter (Guillain-Barre): a cross-reactive antibody binds a different but structurally similar (mimic) antigen, here a microbial and a self antigen."
+      },
+      {
+       "id": "ch10-q28",
+       "number": 28,
+       "stem": "Guillain–Barré syndrome (GBS) that develops after a Campylobacter jejuni infection involves lethargy, muscle weakness, and breathing difficulties. The antibodies that cause GBS bind ___________ and activate the classical complement pathway.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "glycoprotein antigens of the epithelial cells"
+        },
+        {
+         "letter": "B",
+         "text": "polysaccharide antigens of myoblasts"
+        },
+        {
+         "letter": "C",
+         "text": "glycolipid antigens of neurons"
+        },
+        {
+         "letter": "D",
+         "text": "lipid antigens of fibroblasts"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Fig 10.4: antibodies to Campylobacter LPS cross-react with gangliosides, a glycolipid on neurons."
+      }
+     ]
+    },
+    {
+     "heading": "Type III hypersensitivity reactions",
+     "questions": [
+      {
+       "id": "ch10-q29",
+       "number": 29,
+       "stem": "Why IgMs and IgAs usually do not form immune complexes to initiate type III hypersensitivity reactions, but IgGs do?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "IgMs and IgAs form large antigen-antibody complexes that are rapidly removed by macrophages."
+        },
+        {
+         "letter": "B",
+         "text": "IgMs and IgAs activate complement pathways more efficiently than IgGs."
+        },
+        {
+         "letter": "C",
+         "text": "IgMs and IgAs bind antigens with higher affinity than IgGs."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: large immune complexes formed by IgM are readily removed by macrophages in the spleen; small IgG complexes are not."
+      },
+      {
+       "id": "ch10-q30",
+       "number": 30,
+       "stem": "Immune complexes were deposited in the choroid plexus of a person. Which of the following diseases would the person suffer from as a consequence?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Systemic lupus erythematosus."
+        },
+        {
+         "letter": "B",
+         "text": "Inflammation in the brain."
+        },
+        {
+         "letter": "C",
+         "text": "Rheumatoid arthritis."
+        },
+        {
+         "letter": "D",
+         "text": "Glomerulonephritis."
+        },
+        {
+         "letter": "E",
+         "text": "Farmer’s lung."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter lists the choroid plexus of the brain as a deposition site; the result is brain inflammation."
+      },
+      {
+       "id": "ch10-q31",
+       "number": 31,
+       "stem": "Rheumatoid arthritis (RA) may follow a bout of scarlet fever (caused by Streptococcus pyogenes), Lyme disease (infection by Borrelia burgdorferi), malaria (caused by a species of the genus Plasmodium), and infectious mononucleosis (infection by Epstein-Barr virus or cytomegalovirus). Which of these triggers RA?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Microbial antigens deposited on the host cells."
+        },
+        {
+         "letter": "B",
+         "text": "Antibodies (to the microbial antigens) deposited on host cells."
+        },
+        {
+         "letter": "C",
+         "text": "Antibodies (to the microbial antigens) bind to other antibodies of the host organism."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Rheumatoid factor: antibodies that bind other antibodies of the host."
+      }
+     ]
+    },
+    {
+     "heading": "Type IV hypersensitivity reactions (DTH)",
+     "questions": [
+      {
+       "id": "ch10-q32",
+       "number": 32,
+       "stem": "For the tuberculin test, purified protein derivatives (PPD) of Mycobacterium tuberculosis are placed under the skin of test subjects. Why does it take 24 hours before the result can be interpreted?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It takes about 24 hours for naïve mature T cells to get activated to the antigen."
+        },
+        {
+         "letter": "B",
+         "text": "It takes about 24 hours for APCs to ingest, process, and present the antigens to naïve mature T cells."
+        },
+        {
+         "letter": "C",
+         "text": "It takes about 24 hours for the antigens to be processed and presented, and memory T cells to get activated."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "DTH needs PRIOR sensitization: APCs present PPD to MEMORY T cells, which need about 24 hours to be activated and recruit cells."
+      },
+      {
+       "id": "ch10-q33",
+       "number": 33,
+       "stem": "Which of the following is a negative tuberculin test?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The diameter of the induration is 0.4 cm, the subject is HIV-positive."
+        },
+        {
+         "letter": "B",
+         "text": "The diameter of the induration is 1.3 cm, the subject is HIV-negative and never exposed to TB patients."
+        },
+        {
+         "letter": "C",
+         "text": "The diameter of the induration is 1.6 cm, the subject is HIV-negative and never exposed to TB patients."
+        },
+        {
+         "letter": "D",
+         "text": "The diameter of the induration is 1.1 cm, the subject is HIV-negative but has been exposed to TB patients."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Cut-offs in the chapter: >1.5 cm no exposure, >1.0 cm exposed, >0.5 cm HIV-positive. A (0.4 cm) and B (1.3 cm) are BOTH below their cut-off; C and D are positive.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B"
+       ]
+      },
+      {
+       "id": "ch10-q34",
+       "number": 34,
+       "stem": "A person developed severe eczema in the head after few weeks of dying hair using paraphenylenediamine (MW= 108 D) hair dye. An immunologist found that the person has developed type IV hypersensitivity to the organic compound. Which of the following is the reason for the person to develop IV hypersensitivity to the organic compound?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Paraphenylenediamine activated Th cells."
+        },
+        {
+         "letter": "B",
+         "text": "Paraphenylenediamine created neoantigens."
+        },
+        {
+         "letter": "C",
+         "text": "Small organic compounds can be processed and presented by APCs to activate Th cells."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "A small compound is a hapten; cross-linked to a self protein it creates a neoantigen that Th cells respond to (chapter)."
+      }
+     ]
+    },
+    {
+     "heading": "Autoimmune diseases",
+     "questions": [
+      {
+       "id": "ch10-q35",
+       "number": 35,
+       "stem": "Which of the following is a sequestered antigen?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "A polypeptide of a host cell that has the same amino acid sequence as a microbial protein."
+        },
+        {
+         "letter": "B",
+         "text": "Neuropeptides that are scantily expressed in the bone marrow or thymus."
+        },
+        {
+         "letter": "C",
+         "text": "Beta-actin that is abundantly expressed in the bone marrow or thymus."
+        },
+        {
+         "letter": "D",
+         "text": "Polysaccharide molecules with repeated identical epitopes."
+        },
+        {
+         "letter": "E",
+         "text": "Mutated proteins of tumor cells of the liver."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: sequestered antigens are proteins (neurons, sperm) not adequately expressed in the thymus or marrow, so T cells were never tolerized to them."
+      },
+      {
+       "id": "ch10-q36",
+       "number": 36,
+       "stem": "Autoantibodies play the central role in almost all organ-specific autoimmune diseases, except _________, which is initiated by anti-self T cells.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "insulin-dependent diabetes mellitus"
+        },
+        {
+         "letter": "B",
+         "text": "glomerulonephritis"
+        },
+        {
+         "letter": "C",
+         "text": "myasthenia graves"
+        },
+        {
+         "letter": "D",
+         "text": "Addison’s disease"
+        },
+        {
+         "letter": "E",
+         "text": "Graves’ disease"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Type 1 diabetes: T cells (with autoantibodies) destroy beta cells; the others are antibody driven."
+      },
+      {
+       "id": "ch10-q37",
+       "number": 37,
+       "stem": "All of the following autoimmune diseases can be considered type II hypersensitive reactions; EXCEPT ________, which should be considered a type III hypersensitive reaction.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "glomerulonephritis"
+        },
+        {
+         "letter": "B",
+         "text": "myasthenia graves"
+        },
+        {
+         "letter": "C",
+         "text": "Addison’s disease"
+        },
+        {
+         "letter": "D",
+         "text": "hemolytic anemia"
+        },
+        {
+         "letter": "E",
+         "text": "Graves’ disease"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter table: glomerulonephritis is a type III hypersensitivity reaction."
+      },
+      {
+       "id": "ch10-q38",
+       "number": 38,
+       "stem": "Autoantibodies are the major players in all of the following systemic autoimmune diseases except ________, self-reactive T cells play the major role in this disease.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "RA"
+        },
+        {
+         "letter": "B",
+         "text": "SLE"
+        },
+        {
+         "letter": "C",
+         "text": "multiple sclerosis (MS)"
+        },
+        {
+         "letter": "D",
+         "text": "Goodpasture’s syndrome"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Multiple sclerosis is T cell mediated; the other three are antibody driven."
+      },
+      {
+       "id": "ch10-q39",
+       "number": 39,
+       "stem": "Of all autoimmune diseases, ___________ can be considered an out-of-control breakdown in the regulation of lymphocyte activation.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "RA"
+        },
+        {
+         "letter": "B",
+         "text": "SLE"
+        },
+        {
+         "letter": "C",
+         "text": "multiple sclerosis"
+        },
+        {
+         "letter": "D",
+         "text": "Goodpasture’s syndrome"
+        },
+        {
+         "letter": "E",
+         "text": "insulin-dependent diabetes mellitus"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: in SLE unregulated B cells secrete autoantibodies to many self antigens."
+      }
+     ]
+    },
+    {
+     "heading": "Passive immunization",
+     "questions": [
+      {
+       "id": "ch10-q40",
+       "number": 40,
+       "stem": "Passive immunization can be offered by __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "transplantation of antigen-specific mature B cells"
+        },
+        {
+         "letter": "B",
+         "text": "transplantation of antigen-specific mature T cells"
+        },
+        {
+         "letter": "C",
+         "text": "serum transfer or blood transfusion"
+        },
+        {
+         "letter": "D",
+         "text": "bone marrow transplantation"
+        },
+        {
+         "letter": "E",
+         "text": "any of these"
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: passive immunization by serum transfer AND by cell therapy (mature B or T cells, stem cells, bone marrow)."
+      },
+      {
+       "id": "ch10-q41",
+       "number": 41,
+       "stem": "Which of the following passive immunization agents is of human origin?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Botulinum antitoxin."
+        },
+        {
+         "letter": "B",
+         "text": "Diphtheria antitoxin."
+        },
+        {
+         "letter": "C",
+         "text": "Snake venom antivenin."
+        },
+        {
+         "letter": "D",
+         "text": "Black widow spider antivenin."
+        },
+        {
+         "letter": "E",
+         "text": "Respiratory syncytial virus antiserum."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "RSV: monoclonal antibody or pooled human immunoglobulin. Botulinum, diphtheria and the venom antivenins are animal sera."
+      },
+      {
+       "id": "ch10-q42",
+       "number": 42,
+       "stem": "Which of the following is a possible adverse outcome of passive immunization?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Serum sickness (type II hypersensitivity reactions)."
+        },
+        {
+         "letter": "B",
+         "text": "Graft versus host disease."
+        },
+        {
+         "letter": "C",
+         "text": "Anaphylactic shock."
+        },
+        {
+         "letter": "D",
+         "text": "Virus infections."
+        },
+        {
+         "letter": "E",
+         "text": "Any of these."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: serum sickness (it says TYPE III, not type II as option A is printed), anaphylaxis, graft-versus-host disease and virus contamination are all listed risks. \"Any of these\" is the only way one answer fits.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ]
+      }
+     ]
+    },
+    {
+     "heading": "Active immunization and vaccination",
+     "questions": [
+      {
+       "id": "ch10-q43",
+       "number": 43,
+       "stem": "How can one produce live attenuated vaccines?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Growing pathogenic microbes in unnatural hosts or mutagenizing the microbes."
+        },
+        {
+         "letter": "B",
+         "text": "Purifying a microbe and inactivating it using chemical agents such as glutaraldehyde."
+        },
+        {
+         "letter": "C",
+         "text": "Creating transgenic nonpathogenic microbes carrying antigens of pathogenic microbes."
+        },
+        {
+         "letter": "D",
+         "text": "Attaching antigens of pathogenic microbes to the surface of live non-pathogenic microbes."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: attenuate by growing in unusual conditions or unnatural hosts, or by mutagenesis."
+      },
+      {
+       "id": "ch10-q44",
+       "number": 44,
+       "stem": "Of the commonly used vaccines, ___________ vaccines require fewest doses to develop both T and B cells immunity, and _________ vaccines allow using antigens of multiple pathogens to create one vaccine.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "subunit/ conjugated"
+        },
+        {
+         "letter": "B",
+         "text": "toxoids/ inactivated whole"
+        },
+        {
+         "letter": "C",
+         "text": "live attenuated/ conjugated"
+        },
+        {
+         "letter": "D",
+         "text": "inactivated whole/ conjugated"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Live attenuated vaccines give humoral and cell-mediated immunity with few doses; conjugated vaccines link several antigens to one toxoid."
+      },
+      {
+       "id": "ch10-q45",
+       "number": 45,
+       "stem": "Why are toxoids more effective than subunit vaccines such as synthetic peptides?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Toxoids are proteins; subunit vaccines are polysaccharides."
+        },
+        {
+         "letter": "B",
+         "text": "Toxoids have lower numbers of epitopes than subunit vaccines/"
+        },
+        {
+         "letter": "C",
+         "text": "Toxoids are bacterial antigens, subunit vaccines are viral antigens"
+        },
+        {
+         "letter": "D",
+         "text": "Toxoids are cross-linked by formaldehyde; subunit vaccines are not cross-linked."
+        },
+        {
+         "letter": "E",
+         "text": "Toxoids can be picked up and processed by DCs more easily than subunit vaccines."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: toxoids are whole cross-linked proteins and are \"ideal\"; subunit vaccines are short peptides and \"antigenically poor\". The likeliest reason is uptake by DCs. Option D is also true as a fact but describes how they are made.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D"
+       ]
+      },
+      {
+       "id": "ch10-q46",
+       "number": 46,
+       "stem": "Of the commonly used antigens, __________ vaccines can be administered orally or nasally, and ________ vaccines are injected in the veins.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "inactivated whole/toxoids"
+        },
+        {
+         "letter": "B",
+         "text": "inactivated whole/ live attenuated"
+        },
+        {
+         "letter": "C",
+         "text": "subunit vaccines/inactivated whole"
+        },
+        {
+         "letter": "D",
+         "text": "live attenuated vaccines/ none of the"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: live attenuated vaccines are given orally or nasally; the others are injected."
+      }
+     ]
+    },
+    {
+     "heading": "Adjuvants",
+     "questions": [
+      {
+       "id": "ch10-q47",
+       "number": 47,
+       "stem": "How do mineral oil, lipids, or alum help strengthen weak vaccine antigens into more effective immunogens?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "They help the vaccine antigens precipitate in the site of administration for DCs to find the antigens."
+        },
+        {
+         "letter": "B",
+         "text": "They activate inflammation for the migration of leukocytes to the site of administration."
+        },
+        {
+         "letter": "C",
+         "text": "They bind PRRs of the host DCs and transmit signals to activate the cells."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: precipitant adjuvants (alum, mineral oil, lipids) make the antigen precipitate or stay at the site so DCs pick it up. Activating PRRs belongs to the immunoactivating adjuvants."
+      },
+      {
+       "id": "ch10-q48",
+       "number": 48,
+       "stem": "Heat-killed Mycobacterium bovis is used in Freund’s complete adjuvants. How do the dead bacteria turn poor vaccine antigens into more effective immunogens? Note: PAMPs- pathogen-associated molecular patterns.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The PAMPs of the dead bacteria bind PRRs and activate leucocytes."
+        },
+        {
+         "letter": "B",
+         "text": "The molecules of the dead bacteria bind vaccine antigens and make conjugated antigens."
+        },
+        {
+         "letter": "C",
+         "text": "Most people are infected by the bacterium, so the immune system gets a booster effect from the dead bacteria."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Heat-killed M. bovis is an immunoactivating adjuvant: its PAMPs bind PRRs and activate macrophages and T cells."
+      },
+      {
+       "id": "ch10-q49",
+       "number": 49,
+       "stem": "There are many alternative vaccine delivery methods available today. Which of the methods is the virosome method? Note: GM- genetically modified.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Antigens trapped inside lipid micelles."
+        },
+        {
+         "letter": "B",
+         "text": "Antigens-trapping lipid micelles with viral membrane glycoproteins."
+        },
+        {
+         "letter": "C",
+         "text": "Viral capsids lacking a virus genome but containing antigens of other microbes."
+        },
+        {
+         "letter": "D",
+         "text": "Non-pathogenic GM viruses expressing antigen genes of other pathogenic microbes."
+        },
+        {
+         "letter": "E",
+         "text": "Antigens of pathogenic microbes attached to microscopic beads made of inert chemical substances"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: a virosome is a lipid micelle/liposome carrying viral membrane glycoproteins and the antigen."
+      }
+     ]
+    },
+    {
+     "heading": "Routine vaccines and other vaccines",
+     "questions": [
+      {
+       "id": "ch10-q50",
+       "number": 50,
+       "stem": "Of the routine childhood vaccines, __________vaccine is given at birth, and _________ vaccine is given every year till the child is 10 years old or older.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "human papillomavirus/ meningococcus"
+        },
+        {
+         "letter": "B",
+         "text": "hepatitis A virus /pneumococcus 13"
+        },
+        {
+         "letter": "C",
+         "text": "hepatitis B virus/ influenza virus A"
+        },
+        {
+         "letter": "D",
+         "text": "rotavirus/varicella zoster virus"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Hepatitis B at birth; the flu shot is yearly."
+      },
+      {
+       "id": "ch10-q51",
+       "number": 51,
+       "stem": "All the following vaccines are or can be live attenuated vaccines EXCEPT __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "MMR (measles, mumps, rubella)"
+        },
+        {
+         "letter": "B",
+         "text": "DTaP (diphtheria, tetanus, polio)"
+        },
+        {
+         "letter": "C",
+         "text": "BCG (bacillus Calmette Guerin)"
+        },
+        {
+         "letter": "D",
+         "text": "VAR (Varicella zoster)"
+        },
+        {
+         "letter": "E",
+         "text": "Yellow fever virus"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "DTaP is inactivated/toxoid; MMR, BCG, varicella and yellow fever are live attenuated."
+      },
+      {
+       "id": "ch10-q52",
+       "number": 52,
+       "stem": "Which of the following sexually transmitted disease agents has a vaccine?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Human immunodeficiency virus 1 and 2."
+        },
+        {
+         "letter": "B",
+         "text": "Human herpesvirus 1 and 2."
+        },
+        {
+         "letter": "C",
+         "text": "Human papillomavirus."
+        },
+        {
+         "letter": "D",
+         "text": "Chlamydia trachomatis."
+        },
+        {
+         "letter": "E",
+         "text": "Neisseria gonorrhoeae."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "HPV has a vaccine; HIV, HSV, chlamydia and gonorrhoea do not."
+      },
+      {
+       "id": "ch10-q53",
+       "number": 53,
+       "stem": "Which of the following potential or presumed side effects of vaccination is the least of a public health problem?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Reversion of the live attenuated vaccines to pathogenic microbes."
+        },
+        {
+         "letter": "B",
+         "text": "Infection risks of immunodeficient children by live attenuated vaccines."
+        },
+        {
+         "letter": "C",
+         "text": "Rashes, soreness, mild fever, cough, chills, sleeplessness, nausea, and mild diarrhea."
+        },
+        {
+         "letter": "D",
+         "text": "Autism and the development of attention deficit disorders (ADHD) among vaccinated children."
+        },
+        {
+         "letter": "E",
+         "text": "High fever and seizure (due to excessive cytokine release), and allergenic reactions (anaphylactic shock)."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: the CDC says concerns that vaccination causes autism are unfounded."
+      }
+     ]
+    },
+    {
+     "heading": "Antibody techniques: Immunodiffusion and agglutination",
+     "questions": [
+      {
+       "id": "ch10-q54",
+       "number": 54,
+       "stem": "In a serological detection of an antigen, antibody used are _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "from the culture fluid of B-cell tumors"
+        },
+        {
+         "letter": "B",
+         "text": "from the serum of vaccinated animals"
+        },
+        {
+         "letter": "C",
+         "text": "serum of the patient in question"
+        },
+        {
+         "letter": "D",
+         "text": "synthetic antibodies"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Immunological detection of an antigen uses antibody raised in vaccinated animals (immune serum). The wording is muddled, because the chapter defines \"serological\" as using antigens to find antibody.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      },
+      {
+       "id": "ch10-q55",
+       "number": 55,
+       "stem": "Immunodiffusion can be used for each of the following purposes EXCEPT ________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "quantifying antigens"
+        },
+        {
+         "letter": "B",
+         "text": "quantifying antibodies"
+        },
+        {
+         "letter": "C",
+         "text": "identifying antigens or antibodies"
+        },
+        {
+         "letter": "D",
+         "text": "identifying the types of antibodies (IgG, IgA, etc.) in the serum"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: immunodiffusion identifies and quantifies ANTIGENS in agar. It is not used to type antibody isotypes."
+      },
+      {
+       "id": "ch10-q56",
+       "number": 56,
+       "stem": "Agglutination reaction would not happen unless the_________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "antibodies are IgGs or IgEs"
+        },
+        {
+         "letter": "B",
+         "text": "antibodies are IgMs or IgAs"
+        },
+        {
+         "letter": "C",
+         "text": "each of the antigens has two or more identical epitopes"
+        },
+        {
+         "letter": "D",
+         "text": "antigens are attached to formaldehyde-fixed sheep erythrocytes or microbeads"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: the antigen must have multiple identical epitopes to form a lattice."
+      }
+     ]
+    },
+    {
+     "heading": "Antibody techniques: Immunoprecipitation",
+     "questions": [
+      {
+       "id": "ch10-q57",
+       "number": 57,
+       "stem": "Why are antibodies used for immunoprecipitation attached to plastic beads or magnetic beads?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The beads bind antigens."
+        },
+        {
+         "letter": "B",
+         "text": "The beads help the antibodies bind to antigens."
+        },
+        {
+         "letter": "C",
+         "text": "The beads help separate the antibody-bound antigens from unbound antigens."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Beads (plastic or magnetic) let you pull the antibody-antigen complexes out of the mixture."
+      },
+      {
+       "id": "ch10-q58",
+       "number": 58,
+       "stem": "Which of the following antigens would be most useful for immunoprecipitation? (Note: The goal is to purify a single protein antigen from a mixture of many protein antigens).",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Polyclonal IgM."
+        },
+        {
+         "letter": "B",
+         "text": "Monoclonal IgG."
+        },
+        {
+         "letter": "C",
+         "text": "A mixture of polyclonal IgM, IgG, and IgA."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "A single specific monoclonal antibody pulls down one protein; polyclonal mixtures grab many."
+      }
+     ]
+    },
+    {
+     "heading": "Antibody techniques: RIA, ELISA, and IFA",
+     "questions": [
+      {
+       "id": "ch10-q59",
+       "number": 59,
+       "stem": "If you need to use chromogenic agent to assess the results of an immunoassay, the method is ________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "IFA"
+        },
+        {
+         "letter": "B",
+         "text": "RIA"
+        },
+        {
+         "letter": "C",
+         "text": "ELISA"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "ELISA ends with a chromogenic substrate; RIA uses radioactivity and IFA uses fluorescence."
+      },
+      {
+       "id": "ch10-q60",
+       "number": 60,
+       "stem": "Why are the plastic plate wells used for ELISA or membranes used for western blot detection coated with excess milk proteins (casein) or bovine albumin proteins?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Casein and bovine albumin proteins facilitate antigen-antibody binding interactions."
+        },
+        {
+         "letter": "B",
+         "text": "Casein and bovine albumin proteins prevent dissociation of antigen-antibody complexes."
+        },
+        {
+         "letter": "C",
+         "text": "To prevent non-specific binding of antigens, or antibodies, to the well or the membrane."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Blocking: excess casein or albumin covers the plastic or membrane so antibodies and antigens do not stick non-specifically."
+      },
+      {
+       "id": "ch10-q61",
+       "number": 61,
+       "stem": "Which of the following is an indirect IFA?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The detection antibody is fluorescently labeled."
+        },
+        {
+         "letter": "B",
+         "text": "The antigen is not fluorescently labeled; the detection antibody is enzyme-linked."
+        },
+        {
+         "letter": "C",
+         "text": "The antigen and the detection antibody are not labeled; a second fluorescently labeled antibody detects the detection antibody."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Indirect IFA = unlabeled detection antibody plus a labeled second antibody."
+      },
+      {
+       "id": "ch10-q62",
+       "number": 62,
+       "stem": "The pregnancy detection kits sold in the department stores employ __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "RIA"
+        },
+        {
+         "letter": "B",
+         "text": "ELISA"
+        },
+        {
+         "letter": "C",
+         "text": "Direct IFA"
+        },
+        {
+         "letter": "D",
+         "text": "Indirect IFA"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: home pregnancy tests are over-the-counter ELISA kits."
+      }
+     ]
+    },
+    {
+     "heading": "Therapeutic antibodies",
+     "questions": [
+      {
+       "id": "ch10-q63",
+       "number": 63,
+       "stem": "Why do the generic names of most of the therapeutic antibiotics end with the three letters mab?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Because they are monoclonal antibodies"
+        },
+        {
+         "letter": "B",
+         "text": "Because they are generic names, not trade names."
+        },
+        {
+         "letter": "C",
+         "text": "Because they are all brands of one biotech manufacturer."
+        },
+        {
+         "letter": "D",
+         "text": "Because they are biotechnological products (not natural products)."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "The \"-mab\" suffix means monoclonal antibody."
+      },
+      {
+       "id": "ch10-q64",
+       "number": 64,
+       "stem": "Which of these therapeutic antibodies work as neutralizers of a target cytokine (prevent the cytokine from binding the cellular receptors to activate inflammation)? Note: Please see Table 10.10 to answer the question.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Rituximab (Rituxan)."
+        },
+        {
+         "letter": "B",
+         "text": "Adalimumab (Humira)."
+        },
+        {
+         "letter": "C",
+         "text": "Lecanemab (Leqembi)."
+        },
+        {
+         "letter": "D",
+         "text": "Palivizumab (Synagis)."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Adalimumab (Humira) neutralizes TNF; rituximab targets CD20 B cells, lecanemab amyloid, palivizumab RSV."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 11,
+   "title": "Pathogenesis of Viral, Bacterial, Fungal, Protozoan, Algal and Worm Infections",
+   "sections": [
+    {
+     "heading": "Viral pathogenesis: Preamble",
+     "questions": [
+      {
+       "id": "ch11-q1",
+       "number": 1,
+       "stem": "The one-step growth cycle of viruses indicates that viruses ________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "grow exponentially"
+        },
+        {
+         "letter": "B",
+         "text": "are non-living entities"
+        },
+        {
+         "letter": "C",
+         "text": "grow by division of the parental virus"
+        },
+        {
+         "letter": "D",
+         "text": "replicate through disintegration followed by molecular synthesis"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Delbruck: viruses do not divide; they are synthesized as parts and assembled, after the particle first disappears (eclipse)."
+      },
+      {
+       "id": "ch11-q2",
+       "number": 2,
+       "stem": "Which of the following steps of the virus replication cycle are not part of the eclipse phase of the virus growth curve?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Assembly and egress."
+        },
+        {
+         "letter": "B",
+         "text": "Attachment and egress."
+        },
+        {
+         "letter": "C",
+         "text": "Uncoating and penetration."
+        },
+        {
+         "letter": "D",
+         "text": "Assembly and biosynthesis."
+        },
+        {
+         "letter": "E",
+         "text": "Biosynthesis and uncoating."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: all steps EXCEPT attachment and egress are completed during the eclipse period."
+      }
+     ]
+    },
+    {
+     "heading": "Virus replication cycle/attachment",
+     "questions": [
+      {
+       "id": "ch11-q3",
+       "number": 3,
+       "stem": "If ligands of a virus are considered as the keys, __________ of the host cells would be the locks; if the receptors for a virus are only found in the liver cells, the virus is a ___________ virus.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "receptors/viscerotropic"
+        },
+        {
+         "letter": "B",
+         "text": "polysaccharides/ pneumotropic"
+        },
+        {
+         "letter": "C",
+         "text": "proteins and enzymes/ neurotropic"
+        },
+        {
+         "letter": "D",
+         "text": "lipids or nucleic acids/ pneumotropic"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Receptors are the locks. A virus that infects internal organs is viscerotropic (dermatotropic, pneumotropic, neurotropic are the other tissue terms)."
+      },
+      {
+       "id": "ch11-q4",
+       "number": 4,
+       "stem": "A virus would be considered a zoonotic agent if the receptors for the virus are present in the cells of _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "bacteria"
+        },
+        {
+         "letter": "B",
+         "text": "fungi and plants"
+        },
+        {
+         "letter": "C",
+         "text": "animals and humans"
+        },
+        {
+         "letter": "D",
+         "text": "animals but not humans"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Zoonotic = can infect both animals and humans, so both have the receptor."
+      }
+     ]
+    },
+    {
+     "heading": "Virus replication cycle/penetration",
+     "questions": [
+      {
+       "id": "ch11-q5",
+       "number": 5,
+       "stem": "Receptor-mediated endocytosis of a virus by a host cell can be considered the ________ step of the replication cycle of the virus, and __________ viruses usually penetrate the cell via a clathrin-coated vesicle.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "uncoating/enveloped"
+        },
+        {
+         "letter": "B",
+         "text": "penetration/ naked"
+        },
+        {
+         "letter": "C",
+         "text": "attachment/ icosahedral"
+        },
+        {
+         "letter": "D",
+         "text": "biosynthesis/ helical"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Receptor-mediated endocytosis is the penetration step; naked viruses (and some enveloped) enter in a clathrin-coated endosome."
+      },
+      {
+       "id": "ch11-q6",
+       "number": 6,
+       "stem": "Bacteria, fungi, and plants have thick cell walls. The viruses bind the receptors on the cell wall, but which of the following processes allows the entry of the virus inside the host cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Receptor-mediated endocytosis."
+        },
+        {
+         "letter": "B",
+         "text": "Viral capsid fuses with the cell wall and delivers the genome inside the cell."
+        },
+        {
+         "letter": "C",
+         "text": "Viral enzymes damage the cell wall, and then the genome is injected into the host cell."
+        },
+        {
+         "letter": "D",
+         "text": "Viral enzymes damage the cell wall, and then the entire virus particle enters the host cell."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: viruses of bacteria and fungi use enzymes to make a hole in the wall and inject the genome, so penetration and uncoating happen together."
+      },
+      {
+       "id": "ch11-q7",
+       "number": 7,
+       "stem": "After receptor-mediated endocytosis, the penetrated virus initially finds itself __________ of the animal cells, although enveloped viruses may find their capsid in the _________ of the host cell if the virus uses membrane fusion for penetration.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "inside a membrane vesicle/ cytosol"
+        },
+        {
+         "letter": "B",
+         "text": "inside a phagolysosome/ nucleus"
+        },
+        {
+         "letter": "C",
+         "text": "in the cytoplasm/ Golgi complex"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "After endocytosis the virus sits in a membrane vesicle; fusing enveloped viruses release the capsid into the cytoplasm."
+      }
+     ]
+    },
+    {
+     "heading": "Virus replication cycle/uncoating",
+     "questions": [
+      {
+       "id": "ch11-q8",
+       "number": 8,
+       "stem": "Which of the following statements is generally INCORRECT about the uncoating of animal viruses?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Uncoating involves the destruction of all virus materials except the genome."
+        },
+        {
+         "letter": "B",
+         "text": "Uncoating makes the viral genome available to the host’s enzyme machinery."
+        },
+        {
+         "letter": "C",
+         "text": "The virus can be destroyed by the host cell enzymes during the process of uncoating."
+        },
+        {
+         "letter": "D",
+         "text": "Uncoating makes the host precursor molecules available to the viral synthetic machinery."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Uncoating is a PARTIAL breakdown; it does not destroy everything but the genome."
+      },
+      {
+       "id": "ch11-q9",
+       "number": 9,
+       "stem": "Virus uncoating is a partial breakdown of the virus particle, it___________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "occurs in the nucleus"
+        },
+        {
+         "letter": "B",
+         "text": "occurs in the cytoplasm"
+        },
+        {
+         "letter": "C",
+         "text": "is aided by viral enzymes"
+        },
+        {
+         "letter": "D",
+         "text": "is aided by the host enzymes"
+        },
+        {
+         "letter": "E",
+         "text": "may involve any of these phenomenon"
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Uncoating can happen in the nucleus or cytoplasm, aided by host and viral enzymes."
+      }
+     ]
+    },
+    {
+     "heading": "Virus replication cycle/biosynthesis",
+     "questions": [
+      {
+       "id": "ch11-q10",
+       "number": 10,
+       "stem": "Translation is usually the first biosynthetic process after uncoating for viruses with a/an ______ genome, RNA replication or transcription is the first biosynthetic process after uncoating for viruses with a ________genome.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "sense ssRNA/ antisense ssRNA or dsRNA genome"
+        },
+        {
+         "letter": "B",
+         "text": "antisense ssRNA or dsRNA genome/ sense ssRNA"
+        },
+        {
+         "letter": "C",
+         "text": "dsRNA/ssDNA"
+        },
+        {
+         "letter": "D",
+         "text": "ssDNA/dsDNA"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Sense ssRNA is already mRNA, so it is translated first; antisense ssRNA and dsRNA must be transcribed or replicated first."
+      },
+      {
+       "id": "ch11-q11",
+       "number": 11,
+       "stem": "RNA viruses with a ________ genome must carry the protein named RNA-dependent RNA polymerase (i.e., RDRP) with the virus particle, and RNA retrovirus particles must bring (the enzyme) _______ into the host cell for a successful replication cycle.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "sense ssRNA/ protease"
+        },
+        {
+         "letter": "B",
+         "text": "antisense ssRNA genome/ integraase"
+        },
+        {
+         "letter": "C",
+         "text": "antisense ssRNA or dsRNA genome/ tRNA and reverse transcriptase"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Antisense/dsRNA viruses must bring RDRP; RNA retroviruses bring reverse transcriptase (with a tRNA primer)."
+      },
+      {
+       "id": "ch11-q12",
+       "number": 12,
+       "stem": "All of the following are steps of the RNA retrovirus replication cycle. Which of the items is the second of the events from the beginning?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Insertion of cDNA into a chromosome of the host cell."
+        },
+        {
+         "letter": "B",
+         "text": "Reverse transcription of ssRNA to synthesize cDNA."
+        },
+        {
+         "letter": "C",
+         "text": "Transcription of the genes of the provirus genome."
+        },
+        {
+         "letter": "D",
+         "text": "Translation of the viral mRNAs."
+        },
+        {
+         "letter": "E",
+         "text": "Processing of viral proteins."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Table 11.3 order for RNA retroviruses: reverse transcription, then insertion of cDNA, then transcription, then translation."
+      },
+      {
+       "id": "ch11-q13",
+       "number": 13,
+       "stem": "All of the following are steps of the replication cycle of DNA retroviruses. Which of the items is the last of the events from the beginning?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Replication of viral DNA."
+        },
+        {
+         "letter": "B",
+         "text": "Transcription of virus genes."
+        },
+        {
+         "letter": "C",
+         "text": "Translation of viral mRNAs."
+        },
+        {
+         "letter": "D",
+         "text": "Reverse transcription of viral mRNA."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "DNA retroviruses (class VII): replicate genome, transcribe, translate, and LAST reverse-transcribe mRNA into DNA."
+      }
+     ]
+    },
+    {
+     "heading": "Virus replication cycle/assembly and egress",
+     "questions": [
+      {
+       "id": "ch11-q14",
+       "number": 14,
+       "stem": "Which of the following steps is involved in the assembly of a virus with an enveloped helical capsid?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The matrix proteins interact with the nucleocapsid and the membrane glycoproteins."
+        },
+        {
+         "letter": "B",
+         "text": "The membrane glycoproteins are sent to the ER or the plasma membrane."
+        },
+        {
+         "letter": "C",
+         "text": "The capsomeres bind the virus genome to form a nucleocapsid."
+        },
+        {
+         "letter": "D",
+         "text": "All these processes are necessary for the assembly."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: for helical viruses, capsomeres bind the genome to form the nucleocapsid, glycoproteins go to membranes, matrix proteins link them; all are needed."
+      },
+      {
+       "id": "ch11-q15",
+       "number": 15,
+       "stem": "Viruses with a ___________ capsid usually egress after the death and decay of the host cells, whereas _________viruses egress out of a live host cell.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "icosahedral/ helical"
+        },
+        {
+         "letter": "B",
+         "text": "helical/ icosahedral"
+        },
+        {
+         "letter": "C",
+         "text": "enveloped/ naked"
+        },
+        {
+         "letter": "D",
+         "text": "naked/ enveloped"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Naked viruses usually leave when the cell collapses; enveloped viruses bud out of living cells."
+      }
+     ]
+    },
+    {
+     "heading": "How viruses avoid immune surveillance and cause disease",
+     "questions": [
+      {
+       "id": "ch11-q16",
+       "number": 16,
+       "stem": "Which of the following strategies may not protect a virus from host immune surveillance?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Mutating the viral genome to change the virus antigens."
+        },
+        {
+         "letter": "B",
+         "text": "Activating the cells to express excess HLA I proteins."
+        },
+        {
+         "letter": "C",
+         "text": "Suppressing the cells to prevent expression of HLA II proteins."
+        },
+        {
+         "letter": "D",
+         "text": "Infecting and killing TH cells, macrophages, and dendritic cells."
+        },
+        {
+         "letter": "E",
+         "text": "Viruses migrate directly from the infected cells to other nearby cells."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Excess HLA I would make infected cells display more viral antigen to Tc cells. Blocking HLA I or II, killing immune cells, mutating and cell-to-cell spread all help the virus."
+      },
+      {
+       "id": "ch11-q17",
+       "number": 17,
+       "stem": "Viruses want to prevent the host cell from developing an antiviral state. Which of these activities of a virus will prevent the host cell from entering an antiviral state?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Activating the infected cells to produce interferons."
+        },
+        {
+         "letter": "B",
+         "text": "Causing the host cell to transcribe new mRNAs"
+        },
+        {
+         "letter": "C",
+         "text": "Causing the host cell to translate mRNAs"
+        },
+        {
+         "letter": "D",
+         "text": "Inhibiting the TLR signaling pathway."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Blocking TLR signaling stops interferon production; making interferons or mRNAs/proteins is what the antiviral state needs."
+      },
+      {
+       "id": "ch11-q18",
+       "number": 18,
+       "stem": "Which of the following would be most beneficial for the long-term survival of a virus species?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The virus replicates slowly and establishes a chronic or latent infection."
+        },
+        {
+         "letter": "B",
+         "text": "The virus quickly activates an apoptotic signal that kills the host cell."
+        },
+        {
+         "letter": "C",
+         "text": "The virus replicates rapidly and establishes an acute infection."
+        },
+        {
+         "letter": "D",
+         "text": "The virus rapidly kills the infected host cells."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "A slow, chronic or latent infection keeps the host alive and transmitting."
+      },
+      {
+       "id": "ch11-q19",
+       "number": 19,
+       "stem": "The possible fates of a cell infected by a virus are summarized in the following statements. Which of the statements is generally INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The cell was killed by leucocytes or the complement pathways."
+        },
+        {
+         "letter": "B",
+         "text": "The cell was transformed into a tumor cell and later a cancer cell."
+        },
+        {
+         "letter": "C",
+         "text": "The cell was killed because of the toxicity of the viral enzymes or viral inclusion bodies."
+        },
+        {
+         "letter": "D",
+         "text": "The cell survived the infection and served as a virus factory till it died several months later."
+        },
+        {
+         "letter": "E",
+         "text": "The infected cell fused with nearby cells and survived as a giant polyploid cell for a long time."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: giant cells \"ultimately collapse\"; they do not survive for a long time."
+      },
+      {
+       "id": "ch11-q20",
+       "number": 20,
+       "stem": "Which of the following is an effect specific to tumor virus infection on a host cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Change in the size, shape, or structure of the host cell."
+        },
+        {
+         "letter": "B",
+         "text": "The host cell undergoes programmed cell death."
+        },
+        {
+         "letter": "C",
+         "text": "Lysis (death by rupture) of the host cell."
+        },
+        {
+         "letter": "D",
+         "text": "The cell repeatedly divides."
+        },
+        {
+         "letter": "E",
+         "text": "No apparent change at all."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Tumor viruses encode oncoproteins that make cells divide repeatedly; the other changes occur with other viruses."
+      },
+      {
+       "id": "ch11-q21",
+       "number": 21,
+       "stem": "Which of the following effects of virus infections may create cavities inside an organ?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Apoptotic cell death."
+        },
+        {
+         "letter": "B",
+         "text": "Giant cell formation."
+        },
+        {
+         "letter": "C",
+         "text": "Cytotoxicity by Tc cells."
+        },
+        {
+         "letter": "D",
+         "text": "Cytotoxicity by neutrophils, macrophages, and NK cells."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Table 11.2: fusion glycoproteins make giant cells that collapse, leaving a cavity in the tissue."
+      },
+      {
+       "id": "ch11-q22",
+       "number": 22,
+       "stem": "Challenge Question: A virus-infected cell presented virus antigens on its membrane on HLA I proteins. What will follow?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The virus-infected cell will be killed by TC Cells."
+        },
+        {
+         "letter": "B",
+         "text": "The virus-infected cell will be killed by TH Cells."
+        },
+        {
+         "letter": "C",
+         "text": "The virus-infected cell will be killed by macrophages."
+        },
+        {
+         "letter": "D",
+         "text": "The virus-infected cell will be transformed into a tumor cell."
+        },
+        {
+         "letter": "E",
+         "text": "The virus-infected cell will be killed by the complement pathways."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Viral antigen on HLA I triggers Tc cells."
+      },
+      {
+       "id": "ch11-q23",
+       "number": 23,
+       "stem": "Challenge Question: If antibodies bind the virus antigens on the surface of a virus-infected cell, any one of the following would be able to kill the virus-infected cells, EXCEPT _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "neutrophils and eosinophils"
+        },
+        {
+         "letter": "B",
+         "text": "complements (i.e., MAC)"
+        },
+        {
+         "letter": "C",
+         "text": "NK cells"
+        },
+        {
+         "letter": "D",
+         "text": "TC cells"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Tc cells recognize antigen on HLA I, not antibody. Phagocytes, NK cells (ADCC) and complement all use bound antibody."
+      },
+      {
+       "id": "ch11-q24",
+       "number": 24,
+       "stem": "The following are the disease signs manifested after a person was infected by a virus. Which of the signs was actually caused by the virus?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Low fever and body pain."
+        },
+        {
+         "letter": "B",
+         "text": "High fever and vascular shock."
+        },
+        {
+         "letter": "C",
+         "text": "Formation of giant cells inside the lung."
+        },
+        {
+         "letter": "D",
+         "text": "Kidney failure due to immune complex formation."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Giant cell formation is the virus (fusion glycoproteins). Fever, shock and immune-complex kidney failure are host immune responses."
+      },
+      {
+       "id": "ch11-q25",
+       "number": 25,
+       "stem": "Which of the following disease signs is/are created entirely by the virus that infected a person?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Hepatitis, jaundice, or liver cirrhosis."
+        },
+        {
+         "letter": "B",
+         "text": "Tonsillitis, pharyngitis, or diarrhea."
+        },
+        {
+         "letter": "C",
+         "text": "Hemorrhage or pneumonia."
+        },
+        {
+         "letter": "D",
+         "text": "Pox or other skin rashes."
+        },
+        {
+         "letter": "E",
+         "text": "None of these."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "The chapter attributes hepatitis, diarrhea, hemorrhage, pox and rashes to leucocyte killing or inflammation as well, so none is made by the virus alone.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      }
+     ]
+    },
+    {
+     "heading": "Viral cancers",
+     "questions": [
+      {
+       "id": "ch11-q26",
+       "number": 26,
+       "stem": "Approximately _________ of all cancers are caused by tumor viruses; a tumor virus would almost certainly transform the host cell if the host cell is a __________ cell.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "0.17%/ permissive"
+        },
+        {
+         "letter": "B",
+         "text": "1.7%/ non-permissive"
+        },
+        {
+         "letter": "C",
+         "text": "17%/ semi-permissive"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: about 15% of cancers are caused by viruses (nearest option is 17%). Tumor viruses move non-permissive cells to semi-permissive and then to tumor cells.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B"
+       ]
+      },
+      {
+       "id": "ch11-q27",
+       "number": 27,
+       "stem": "All the following viruses may cause insertional mutations in the host cell chromosomes EXCEPT ________________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "adenovirus because it has a dsDNA"
+        },
+        {
+         "letter": "B",
+         "text": "hepatitis E virus because it has an ssRNA genome"
+        },
+        {
+         "letter": "C",
+         "text": "hepatitis B virus because it has a partially dsDNA genome"
+        },
+        {
+         "letter": "D",
+         "text": "HIV-1 because it produces dsCNA after infecting a host cell"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Hepatitis E is an ssRNA virus with no DNA stage, so it cannot insert; HIV and HBV make DNA, and adenovirus is dsDNA."
+      },
+      {
+       "id": "ch11-q28",
+       "number": 28,
+       "stem": "The hepatitis C virus lacks oncogenes. How do they cause cancers?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "By inducing inflammation that involves DNA damaging reactive chemicals."
+        },
+        {
+         "letter": "B",
+         "text": "By binding/inactivating tumor suppressor proteins such as p53 and Rb."
+        },
+        {
+         "letter": "C",
+         "text": "By insertional mutations of the host chromosomes."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: HCV lacks oncogenes; chronic inflammation, ROS and cytokines cause the mutations."
+      }
+     ]
+    },
+    {
+     "heading": "Bacterial pathogenesis: Preamble",
+     "questions": [
+      {
+       "id": "ch11-q29",
+       "number": 29,
+       "stem": "Which of the events can be considered an event of microbial occupation? Note: Staphylococcus aureus is a primary pathogen, Staphylococcus epidermidis is a part of the normal biota. Note: Not everyone follows the definitions strictly, but tries to be precise.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "S. epidermidis growing in the mucous membrane of the nose."
+        },
+        {
+         "letter": "B",
+         "text": "S. aureus growing in the mucous membrane of the nose."
+        },
+        {
+         "letter": "C",
+         "text": "S. epidermidis growing in the liver."
+        },
+        {
+         "letter": "D",
+         "text": "S. aureus growing in the liver."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter Box 11.1: normal microbiota colonizing its proper sites (e.g. the upper respiratory tract) is called occupation."
+      },
+      {
+       "id": "ch11-q30",
+       "number": 30,
+       "stem": "Resident bacteria usually do not cause disease because ____________, they may cause disease if ____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "they do not produce harmful metabolite/ they replicate rapidly"
+        },
+        {
+         "letter": "B",
+         "text": "they stay on the outer surfaces/ they enter the inner surfaces of the body"
+        },
+        {
+         "letter": "C",
+         "text": "the immune system quickly neutralizes the microbes and their metabolites/ they colonize an immunocompromised subject"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Resident microbiota are held in check by immunity but become opportunistic in an immunocompromised host or wrong site."
+      }
+     ]
+    },
+    {
+     "heading": "Bacterial entrance and adhesion",
+     "questions": [
+      {
+       "id": "ch11-q31",
+       "number": 31,
+       "stem": "Which of the following offers the highest likelihood for direct entrance of pathogenic bacteria into a subject's blood and visceral organs in large numbers?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Through aerosols, respiratory droplets, and fomite contacts."
+        },
+        {
+         "letter": "B",
+         "text": "Vertically during parturition and through breastfeeding."
+        },
+        {
+         "letter": "C",
+         "text": "Through bites of vectors and invasive medical devices."
+        },
+        {
+         "letter": "D",
+         "text": "Through contaminated foods and drinks."
+        },
+        {
+         "letter": "E",
+         "text": "Through sexual/intimate contacts."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Bites and invasive devices (catheters) bypass the skin and mucous membranes straight into blood and organs."
+      },
+      {
+       "id": "ch11-q32",
+       "number": 32,
+       "stem": "Of the bacterial structures, ___________ usually do not serve as bacterial adhesins, and ___________ type of adhesins can directly destroy host cells.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "capsules and glycocalyx/ LTA of Helicobacter pylori (or LPS of Staphylococcus aureus)"
+        },
+        {
+         "letter": "B",
+         "text": "pili and fimbriae/ capsular materials of Staphylococcus aureus"
+        },
+        {
+         "letter": "C",
+         "text": "LPS and LTA/ fimbriae and pili of Neisseria gonorrhoeae"
+        },
+        {
+         "letter": "D",
+         "text": "flagella/ internalin A of Listeria monocytogenes"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Table 11.6 lists capsules/glycocalyx, pili, LTA and LPS as adhesins, but not flagella. Answer by elimination for the second blank; internalin is an invasin.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      },
+      {
+       "id": "ch11-q33",
+       "number": 33,
+       "stem": "Which of the following bacterial adhesins usually does not require organic molecules (such as proteins or polysaccharides of the host cells) for adhesion on human body surfaces?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "LPS and LTA."
+        },
+        {
+         "letter": "B",
+         "text": "Pili and fimbriae."
+        },
+        {
+         "letter": "C",
+         "text": "Capsules and glycocalyx."
+        },
+        {
+         "letter": "D",
+         "text": "Proteins present on bacterial plasma/outer membrane."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: Streptococcus mutans sticks to non-living tooth surface with its glycocalyx, with no biological receptor."
+      }
+     ]
+    },
+    {
+     "heading": "Invasion and bacterial secretion system",
+     "questions": [
+      {
+       "id": "ch11-q34",
+       "number": 34,
+       "stem": "Why are invasins functionally different from adhesins?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Invasins may not bind receptors; adhesins almost always do."
+        },
+        {
+         "letter": "B",
+         "text": "Invasins are on the cell surface; adhesins are secreted molecules."
+        },
+        {
+         "letter": "C",
+         "text": "Invasins lack enzyme activities; adhesins have enzyme activities."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Adhesins bind host receptors; invasins help bacteria enter tissue without being phagocytized."
+      },
+      {
+       "id": "ch11-q35",
+       "number": 35,
+       "stem": "Of the bacterial spreading factors, _________ makes pores on the host cell membranes; the pore-forming invasins belong to ________ exotoxins.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "lipase/ type III"
+        },
+        {
+         "letter": "B",
+         "text": "collagenase/ type I"
+        },
+        {
+         "letter": "C",
+         "text": "lucocidin/ type II"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Leucocidin forms pores; pore-forming toxins are type II exotoxins."
+      },
+      {
+       "id": "ch11-q36",
+       "number": 36,
+       "stem": "Many bacteria produce gases inside the human body. Which of the following events of gas production may serve as a spreading factor?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Campylobacter mucosalis releases odorous gases in the mouth (causing halitosis)."
+        },
+        {
+         "letter": "B",
+         "text": "Methanobrevibacter smithii releases methane in the alimentary canal."
+        },
+        {
+         "letter": "C",
+         "text": "Desulfovibrio piger in the colon makes hydrogen sulfide gas."
+        },
+        {
+         "letter": "D",
+         "text": "Clostridium perfringens makes CO2 in a muscle wound."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Clostridium perfringens gas (gas gangrene) spreads through muscle."
+      },
+      {
+       "id": "ch11-q37",
+       "number": 37,
+       "stem": "Of the bacterial secretion systems (SS), __________ are membrane channels that release proteins into the surrounding spaces, ___________ act as molecular needles to inject proteins into host cell cells.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "T1SS and T2SS/ T3SS and T4SS"
+        },
+        {
+         "letter": "B",
+         "text": "T3SS and T4SS/ T5SS and T6SS"
+        },
+        {
+         "letter": "C",
+         "text": "T5SS and T6SS/ T1SS and T2SS"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "T1SS and T2SS release proteins through channels; T3SS/T4SS are injection needles."
+      }
+     ]
+    },
+    {
+     "heading": "Bacterial evasion of the innate immune system",
+     "questions": [
+      {
+       "id": "ch11-q38",
+       "number": 38,
+       "stem": "Why is the transcytosis of bacteria by M cells of the intestinal mucous membrane different from phagocytosis or endocytosis of bacteria by phagocytes and other cells?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Transcytosis does not involve receptor-ligand interaction."
+        },
+        {
+         "letter": "B",
+         "text": "Transcytosis does not involve enzymatic or oxidative killing."
+        },
+        {
+         "letter": "C",
+         "text": "Transcytosis does not involve the formation of a membrane vesicle."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "M cells transport bacteria across the epithelium intact, without enzymatic or oxidative killing (Fig 11.7)."
+      },
+      {
+       "id": "ch11-q39",
+       "number": 39,
+       "stem": "Which of the following is an event of molecular mimicry that protects a bacterium from host immune response?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Neisseria gonorrhoeae digests IgA deposited on its surface."
+        },
+        {
+         "letter": "B",
+         "text": "Helicobacter pylori displays surface molecules that resemble certain host cell proteins."
+        },
+        {
+         "letter": "C",
+         "text": "Staphylococcus aureus used their M protein to prevent activation of the complement pathways."
+        },
+        {
+         "letter": "D",
+         "text": "Neisseria gonorrhoeae divides, and its progeny replace the parental pili with new/different pili."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Molecular mimicry = resembling host molecules."
+      },
+      {
+       "id": "ch11-q40",
+       "number": 40,
+       "stem": "Some bacteria occasionally alter their surface antigens, including proteins and polysaccharides. How does antigenic variation directly help the pathogen overcome the host immune response?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It prevents the binding of antibodies."
+        },
+        {
+         "letter": "B",
+         "text": "It prevents complement activation."
+        },
+        {
+         "letter": "C",
+         "text": "It prevents T cell activation."
+        },
+        {
+         "letter": "D",
+         "text": "Preventing phagocytosis."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "New surface antigens are no longer bound by the existing antibodies."
+      },
+      {
+       "id": "ch11-q41",
+       "number": 41,
+       "stem": "How do capsules and biofilms directly protect bacterial pathogens from the host immune surveillance?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Prevent phagocytosis."
+        },
+        {
+         "letter": "B",
+         "text": "Prevent killing by ADCC."
+        },
+        {
+         "letter": "C",
+         "text": "Prevent complement activation."
+        },
+        {
+         "letter": "D",
+         "text": "Prevent TC cell-mediated killing."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Capsules and biofilms physically block phagocytes."
+      },
+      {
+       "id": "ch11-q42",
+       "number": 42,
+       "stem": "Some species of pathogenic bacteria are adapted to avoid phagocytosis and/or phagocytic killing. Which of the following pathogenic bacteria are more likely to be adapted to avoid phagocytic killing?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Intracellular pathogens."
+        },
+        {
+         "letter": "B",
+         "text": "Intercellular pathogens."
+        },
+        {
+         "letter": "C",
+         "text": "Extracellular pathogens."
+        },
+        {
+         "letter": "D",
+         "text": "Toxin-secreting pathogens."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Extracellular pathogens must avoid phagocytes; intracellular ones live inside host cells."
+      },
+      {
+       "id": "ch11-q43",
+       "number": 43,
+       "stem": "Which of these pathogenic intracellular bacteria do not apply to prevent phagocytic killing?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Secreting catalase (an enzyme) while in the phagosome."
+        },
+        {
+         "letter": "B",
+         "text": "Move out of the phagosomes to the nucleus."
+        },
+        {
+         "letter": "C",
+         "text": "Preventing the formation of phagolysosomes."
+        },
+        {
+         "letter": "D",
+         "text": "Preventing acidification of the phagosome."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Pathogens that survive phagocytosis block phagolysosome formation, acidification or detoxify with catalase; they do not escape to the nucleus."
+      }
+     ]
+    },
+    {
+     "heading": "Bacterial destruction by endotoxins and endotoxins",
+     "questions": [
+      {
+       "id": "ch11-q44",
+       "number": 44,
+       "stem": "All the following are actual or potential endotoxins EXCEPT ________, which are exotoxins.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "lipoteichoic acid (LTA)"
+        },
+        {
+         "letter": "B",
+         "text": "lipopolysaccharides (LPS)"
+        },
+        {
+         "letter": "C",
+         "text": "leucocidin and hemolysin"
+        },
+        {
+         "letter": "D",
+         "text": "peptidoglycan and arabinogalactan"
+        },
+        {
+         "letter": "E",
+         "text": "bacterial pili, flagella, DNA, and RNA"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Leucocidin and hemolysin are type II exotoxins (proteins)."
+      },
+      {
+       "id": "ch11-q45",
+       "number": 45,
+       "stem": "Which of the following statements about endotoxins (and endotoxin-like molecules) is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "They are released only by live bacteria."
+        },
+        {
+         "letter": "B",
+         "text": "They are all non-protein organic molecules."
+        },
+        {
+         "letter": "C",
+         "text": "They are all heat-stable (active even after boiling)."
+        },
+        {
+         "letter": "D",
+         "text": "They only work by binding cell receptors and activating signals."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Endotoxins are also released when bacteria die and break up."
+      },
+      {
+       "id": "ch11-q46",
+       "number": 46,
+       "stem": "Type I exotoxins ___________, type II exotoxins ____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "are non-protein molecules/ protein molecules"
+        },
+        {
+         "letter": "B",
+         "text": "acts by binding receptors (without touching the host cell membrane)/ act on the host cell membrane"
+        },
+        {
+         "letter": "C",
+         "text": "act on the host cell membrane/ are made of A and B subunits, where B binds receptors, A enters the host cell."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Type I exotoxins bind receptors and signal without entering or damaging the membrane; type II damage the membrane."
+      },
+      {
+       "id": "ch11-q47",
+       "number": 47,
+       "stem": "Of the type III exotoxins, __________ acts by inhibiting protein synthesis by modifying a tarsnlation factor, and _________ act by inhibiting protein synthesis by destroying rRNA of ribosomes.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "diphtheria toxin/ Shiga toxin"
+        },
+        {
+         "letter": "B",
+         "text": "botulinum toxin/ tetanus toxin"
+        },
+        {
+         "letter": "C",
+         "text": "anthrax toxin (PA-EF)/ cholera toxin"
+        },
+        {
+         "letter": "D",
+         "text": "pertussis toxin/ exotoxin A of Pseudomonas"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Diphtheria toxin modifies a translation factor; Shiga toxin destroys rRNA."
+      },
+      {
+       "id": "ch11-q48",
+       "number": 48,
+       "stem": "Both botulinum toxin and tetanus toxin act on neurons and inhibit the release of neurotransmitters. Why does botulinum toxin cause flaccid paralysis while tetanus toxin causes spastic paralysis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Because botulinum toxin prevents the release of excitatory neurotransmitters, tetanus toxin inhibits the release of the inhibitory neurotransmitter."
+        },
+        {
+         "letter": "B",
+         "text": "Because botulinum toxin prevents the release of inhibitory neurotransmitters, tetanus toxin inhibits the release of the excitatory neurotransmitter."
+        },
+        {
+         "letter": "C",
+         "text": "Because botulinum toxin destroys motor neurons, tetanus toxin destroys sensory nerves."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Botulinum blocks excitatory (acetylcholine) release so muscles go flaccid; tetanus blocks inhibitory release so muscles stay contracted."
+      }
+     ]
+    },
+    {
+     "heading": "Immunopathology due to bacterial infections",
+     "questions": [
+      {
+       "id": "ch11-q49",
+       "number": 49,
+       "stem": "Antigens of Streptococcus pyogenes often create immune complexes that deposit in the joints, heart muscles, and kidney tubules and activate type III hypernasality reactions leading to paralysis, heart disease, and kidney failure. Which of these is NOT a mechanism of the immune complex that causes tissue damage?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The immune complex activates complement pathways and releases anaphylatoxins."
+        },
+        {
+         "letter": "B",
+         "text": "The immune complex activates the formation of the membrane attack complex (MAC)."
+        },
+        {
+         "letter": "C",
+         "text": "The immune complexes clog small blood vessels and prevent oxygenation of the nearby tissues"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter (type III): complement activation, anaphylatoxins and MAC are the listed mechanisms; vessel-clogging and low oxygen are not."
+      },
+      {
+       "id": "ch11-q50",
+       "number": 50,
+       "stem": "G(-) bacteria growing in the blood of a patient may cause septic shock. All the following are events of a septic shock caused by G(-) bacteria. Which of these is the first of the events?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Unregulated complement activation, blood coagulation, and tissue damage."
+        },
+        {
+         "letter": "B",
+         "text": "Binding of endotoxins to the TLRs and other receptors of the leucocytes."
+        },
+        {
+         "letter": "C",
+         "text": "High fever, declining blood pressure, and multiple organ failure."
+        },
+        {
+         "letter": "D",
+         "text": "Excess cytokine secretion by various leucocytes."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Endotoxin binds TLRs first, then cytokines, then fever and shock, then organ failure."
+      },
+      {
+       "id": "ch11-q51",
+       "number": 51,
+       "stem": "Chronic infection of the stomach by Helicobacter pylori may lead to chronic inflammation, releases of excess acid by the stomach, and stomach cancer. Which cell types usually become cancers in Helicobacter pylori-induced stomach cancers?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Lymphocytes such as B cells."
+        },
+        {
+         "letter": "B",
+         "text": "Leucocytes such as macrophages."
+        },
+        {
+         "letter": "C",
+         "text": "Smooth muscle cells of the stomach wall."
+        },
+        {
+         "letter": "D",
+         "text": "Epithelial cells of the mucous membrane of the stomach."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Gastric cancer arises in the epithelial cells of the stomach lining."
+      },
+      {
+       "id": "ch11-q52",
+       "number": 52,
+       "stem": "Many bacteria, including Neisseria meningitis and Streptococcus pneumoniae, may cause meningitis (damage to the membranes that cover the brain). Which of the following damages the meninges?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Endotoxins of the bacteria."
+        },
+        {
+         "letter": "B",
+         "text": "Exotoxins secreted by the bacteria."
+        },
+        {
+         "letter": "C",
+         "text": "Macrophages that are activated by the bacteria."
+        },
+        {
+         "letter": "D",
+         "text": "Antibodies generated against the antigens of the bacteria."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: bacteria in the meninges activate macrophages, which destroy the tissue."
+      },
+      {
+       "id": "ch11-q53",
+       "number": 53,
+       "stem": "Sexually transmitted infections (STI) caused by Neisseria gonorrhoeae and Chlamydia trachomatis often cause blindness (due to opacity of the cornea of the eye). Which of the following is the ultimate cause of STI-related blindness?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Bacterial proteases damage the corneal cells."
+        },
+        {
+         "letter": "B",
+         "text": "Antibodies to bacteria cross-react with and kill the optic nerve."
+        },
+        {
+         "letter": "C",
+         "text": "Granulocytes and macrophages damage the eyelid and create scar tissue."
+        },
+        {
+         "letter": "D",
+         "text": "Scar tissues of the eyelid rub against the cornea, inflame the cornea, and make the cornea opaque."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: leucocytes scar the eyelid and the scar rubs the cornea opaque."
+      },
+      {
+       "id": "ch11-q54",
+       "number": 54,
+       "stem": "Which of the following is the terminal event of the formation of a granuloma?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The macrophage secreted cytokines."
+        },
+        {
+         "letter": "B",
+         "text": "A macrophage phagocytized a bacterium but failed to kill it."
+        },
+        {
+         "letter": "C",
+         "text": "The cytokines attracted neutrophils, other macrophages, and T cells."
+        },
+        {
+         "letter": "D",
+         "text": "Macrophages in the core of the granuloma fuse and create giant cells."
+        },
+        {
+         "letter": "E",
+         "text": "The granuloma grows larger, and the cells in its core die by necrosis."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: the granuloma becomes fibrous and the core dies by necrosis, which comes last."
+      }
+     ]
+    },
+    {
+     "heading": "Fungal pathology",
+     "questions": [
+      {
+       "id": "ch11-q55",
+       "number": 55,
+       "stem": "Which group of mycotoxins interferes with the nucleic acid activities of the host cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Aflatoxin, amatoxin, ochratoxin, and rubratoxin."
+        },
+        {
+         "letter": "B",
+         "text": "Zeralenon, trichothecenes, and fumonisins."
+        },
+        {
+         "letter": "C",
+         "text": "Ergot toxin."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Amatoxin inhibits RNA polymerase II and aflatoxin is carcinogenic (nucleic-acid level). Trichothecenes and zearalenone act elsewhere.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B"
+       ]
+      },
+      {
+       "id": "ch11-q56",
+       "number": 56,
+       "stem": "Pathogenic dimorphic fungi generally grow in natural environments as ________but as _______in human tissues; the dimorphism helps fungi _____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "molds/yeast/ avoid host immune surveillance"
+        },
+        {
+         "letter": "B",
+         "text": "yeast/conidia/ easy transmission to host body"
+        },
+        {
+         "letter": "C",
+         "text": "yeast/mold/ rapidly disseminate in host tissues"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: dimorphic fungi are molds in nature and yeasts in tissue; the change in surface antigens helps them evade surveillance."
+      },
+      {
+       "id": "ch11-q57",
+       "number": 57,
+       "stem": "Which of the following pathologies is caused by the host immune system and not directly by the virulence factors of fungi?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Tissue damage due to delayed-type hypersensitivity."
+        },
+        {
+         "letter": "B",
+         "text": "Itching in the ringworm of the skin."
+        },
+        {
+         "letter": "C",
+         "text": "Asthma due to allergy."
+        },
+        {
+         "letter": "D",
+         "text": "Nodules in the lung."
+        },
+        {
+         "letter": "E",
+         "text": "All these pathologies."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: skin damage, nodules, fungal balls, asthma and DTH are listed as results of the inflammatory response. I could not find ringworm itching listed.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      }
+     ]
+    },
+    {
+     "heading": "Protozoan and algal pathology",
+     "questions": [
+      {
+       "id": "ch11-q58",
+       "number": 58,
+       "stem": "Which of these protozoan parasites damages host cells by releasing proteases?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Trypanosomes."
+        },
+        {
+         "letter": "B",
+         "text": "Entamoeba sp."
+        },
+        {
+         "letter": "C",
+         "text": "Isopora sp. and Cyclospora sp."
+        },
+        {
+         "letter": "D",
+         "text": "Plasmodium sp. (malarial parasite)."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: Entamoeba histolytica secretes proteases that degrade the intestinal mucosa."
+      },
+      {
+       "id": "ch11-q59",
+       "number": 59,
+       "stem": "Algal toxins primarily enter the human body through __________, and the most common algal toxins that affect humans are __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "inhalation of aerosolized algae/ diarrheal toxins"
+        },
+        {
+         "letter": "B",
+         "text": "consumption of contaminated nori/ hepatotoxins"
+        },
+        {
+         "letter": "C",
+         "text": "consumption of contaminated shellfish/ neurotoxins"
+        },
+        {
+         "letter": "D",
+         "text": "the skin while swimming or wading in contaminated water/dermatotoxins"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Shellfish and fish; the common algal toxins cause neurological disease."
+      }
+     ]
+    },
+    {
+     "heading": "Worm pathology",
+     "questions": [
+      {
+       "id": "ch11-q60",
+       "number": 60,
+       "stem": "Which of these pathologies is caused by the activities of the worms or their larvae, not due to the activation of the host’s immune responses?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Perforation of the intestine or gallbladder."
+        },
+        {
+         "letter": "B",
+         "text": "Fatty degeneration (excess fat accumulation in cells)."
+        },
+        {
+         "letter": "C",
+         "text": "Tissue necrosis (cell lysis) and hyperplasia (cell proliferation)."
+        },
+        {
+         "letter": "D",
+         "text": "Hypertrophy (increase in organ size due to excess cell division)."
+        },
+        {
+         "letter": "E",
+         "text": "Metaplasia (change in cell morphology and physiology due to a change in the gene expression program)."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Perforation is mechanical damage by worms; the others come from inflammation or host responses.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ]
+      },
+      {
+       "id": "ch11-q61",
+       "number": 61,
+       "stem": "Which of these is elephantiasis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Blocked lymphatics and lymphatic hyperplasia."
+        },
+        {
+         "letter": "B",
+         "text": "Muscles paralyzed due to small cysts in myocytes."
+        },
+        {
+         "letter": "C",
+         "text": "Small cysts in the skin, eyes, oral cavity, and brain."
+        },
+        {
+         "letter": "D",
+         "text": "Large cysts in the solid organ for asexual reproduction of the tapeworm."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: filarial worms block lymph vessels, causing elephantiasis."
+      },
+      {
+       "id": "ch11-q62",
+       "number": 62,
+       "stem": "The blood fluke Schistosoma sp. avoids host immune surveillance in all these manners. Which of them can be called molecular mimicry?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The worm frequently changes surface antigens."
+        },
+        {
+         "letter": "B",
+         "text": "The worm releases substantial amounts of antigens in the host body."
+        },
+        {
+         "letter": "C",
+         "text": "The worm secretes proteases to digest any deposited antibodies or complement proteins."
+        },
+        {
+         "letter": "D",
+         "text": "The worm expresses antigens nearly identical to host molecules or covers itself with host proteins."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Molecular mimicry = antigens like host molecules or coating itself with host proteins."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 12,
+   "title": "Infectious Diseases in Human Populations",
+   "sections": [
+    {
+     "heading": "Host microbe symbiosis",
+     "questions": [
+      {
+       "id": "ch12-q1",
+       "number": 1,
+       "stem": "Which of the following is most certainly behaving as a commensal?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Lactobacillus crispatus living in the vagina."
+        },
+        {
+         "letter": "B",
+         "text": "Staphylococcus epidermidis thriving in the skin."
+        },
+        {
+         "letter": "C",
+         "text": "Staphylococcus epidermidis growing in the heart valves."
+        },
+        {
+         "letter": "D",
+         "text": "Human papillomavirus replicating in the epidermal skin cells."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: Lactobacillus in the vagina is the textbook MUTUAL, P. acnes on skin is the textbook commensal. S. epidermidis on the skin is the commensal here; in the heart valve it would be an infection, and HPV is a parasite."
+      },
+      {
+       "id": "ch12-q2",
+       "number": 2,
+       "stem": "Which of the following symbiotic relationships can be considered parasitism?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Malassezia furfur (a fungus) on the human skin."
+        },
+        {
+         "letter": "B",
+         "text": "Candida albicans (a fungus) in the human mouth."
+        },
+        {
+         "letter": "C",
+         "text": "Bacteroides fragilis (a bacterium) in the human mouth."
+        },
+        {
+         "letter": "D",
+         "text": "Streptococcus pyogenes (a bacterium), colonizing the human nose."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: ALL primary pathogens are parasites. S. pyogenes is the only primary pathogen listed."
+      },
+      {
+       "id": "ch12-q3",
+       "number": 3,
+       "stem": "It can be argued that all bacterial species of the resident microbiome are mutuals because they ________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "never cause infections"
+        },
+        {
+         "letter": "B",
+         "text": "never cause morbidity or mortality"
+        },
+        {
+         "letter": "C",
+         "text": "occupy the receptors that can be used by pathogenic organisms"
+        },
+        {
+         "letter": "D",
+         "text": "all produce vitamins and other micronutrients for the host organisms"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: normal microbiota occupy the cell receptors, so pathogens fail to attach. Not all of them make vitamins, and some cause opportunistic infections."
+      },
+      {
+       "id": "ch12-q4",
+       "number": 4,
+       "stem": "Which of the following microbes may cause infections?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Occupant transient normal microbiota."
+        },
+        {
+         "letter": "B",
+         "text": "Occupant resident normal microbiota."
+        },
+        {
+         "letter": "C",
+         "text": "Occupant environmental microbes."
+        },
+        {
+         "letter": "D",
+         "text": "Colonizing primary pathogens."
+        },
+        {
+         "letter": "E",
+         "text": "All these microbes."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: resident, transient, environmental microbes and primary pathogens can all cause infection."
+      },
+      {
+       "id": "ch12-q5",
+       "number": 5,
+       "stem": "If a partner of a mutual or commensal relationship causes an infection, it is a/an ________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "superinfection"
+        },
+        {
+         "letter": "B",
+         "text": "primary infection"
+        },
+        {
+         "letter": "C",
+         "text": "secondary infection"
+        },
+        {
+         "letter": "D",
+         "text": "opportunistic infection"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "A mutual or commensal that causes disease after a breach in defences = opportunistic infection."
+      }
+     ]
+    },
+    {
+     "heading": "Normal microbiota and primary pathogens",
+     "questions": [
+      {
+       "id": "ch12-q6",
+       "number": 6,
+       "stem": "Which of these surfaces may the resident microbiota normally occupy?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Lower respiratory tract."
+        },
+        {
+         "letter": "B",
+         "text": "The gall bladder."
+        },
+        {
+         "letter": "C",
+         "text": "The kidney."
+        },
+        {
+         "letter": "D",
+         "text": "The blood."
+        },
+        {
+         "letter": "E",
+         "text": "The eyes."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: only skin, eyes, upper respiratory tract, mouth, ears, alimentary tract, urethra, bladder and vagina. Lower respiratory tract, gall bladder, kidney and blood are not occupied."
+      },
+      {
+       "id": "ch12-q7",
+       "number": 7,
+       "stem": "Which of the body surfaces has the highest microbe count/unit area?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Oral/nasal cavity."
+        },
+        {
+         "letter": "B",
+         "text": "Skin (chest area)."
+        },
+        {
+         "letter": "C",
+         "text": "Small intestine."
+        },
+        {
+         "letter": "D",
+         "text": "Stomach."
+        },
+        {
+         "letter": "E",
+         "text": "Vagina."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Figure 12.2 numbers are not in the text I have. Mouth/nasal surfaces are densely populated per unit; vagina is the main alternative.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "E"
+       ]
+      },
+      {
+       "id": "ch12-q8",
+       "number": 8,
+       "stem": "Which of these bacterial species may colonize the throat of a healthy person?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Neisseria meningitides and Staphylococcus aureus"
+        },
+        {
+         "letter": "B",
+         "text": "Haemophilus infuenzae and Corynebacterium diphtheriae"
+        },
+        {
+         "letter": "C",
+         "text": "Many primary pathogens, including these."
+        },
+        {
+         "letter": "D",
+         "text": "None of these primary pathogens."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: many primary pathogens (C. diphtheriae, H. influenzae, N. meningitidis, S. aureus, S. pyogenes, S. pneumoniae) are found in the throat of healthy people."
+      },
+      {
+       "id": "ch12-q9",
+       "number": 9,
+       "stem": "Which of the following microbes are not considered part of the normal microbiota of a human subject?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Viruses that infect bacteria, archaea, and plants."
+        },
+        {
+         "letter": "B",
+         "text": "Bacteria and archaea."
+        },
+        {
+         "letter": "C",
+         "text": "Animal viruses."
+        },
+        {
+         "letter": "D",
+         "text": "Protozoa."
+        },
+        {
+         "letter": "E",
+         "text": "Fungi."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: all animal viruses, worms and insects in the body are parasites; phages, archaeoviruses, plant viruses (transient), bacteria, archaea, fungi and protozoa can be microbiota."
+      },
+      {
+       "id": "ch12-q10",
+       "number": 10,
+       "stem": "Which of the following events can be considered colonization?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Herpes simplex virus 1 (HSV-1) has caused fever blisters."
+        },
+        {
+         "letter": "B",
+         "text": "Enterococcus faecalis growing in the intestine."
+        },
+        {
+         "letter": "C",
+         "text": "Neisseria meningitides growing in the throat."
+        },
+        {
+         "letter": "D",
+         "text": "Propionibacterium acnes thriving in the skin."
+        },
+        {
+         "letter": "E",
+         "text": "Archaeal cells growing in the gum."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: a primary pathogen on a surface without pathology = colonization; normal microbiota on allowed surfaces = occupation; HSV-1 fever blisters = infection."
+      },
+      {
+       "id": "ch12-q11",
+       "number": 11,
+       "stem": "A normal microbiota protects human subjects from primary pathogens by each of the following methods but not necessarily by ____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "creating an environment unsuitable for invading pathogens"
+        },
+        {
+         "letter": "B",
+         "text": "influencing the immune system of the occupied subject"
+        },
+        {
+         "letter": "C",
+         "text": "occupying the receptors of the exposed human cells"
+        },
+        {
+         "letter": "D",
+         "text": "actively killing/inactivating the invading microbes"
+        },
+        {
+         "letter": "E",
+         "text": "providing some nutrients to the host cells"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "The chapter lists nutrients, receptor occupation, an unsuitable environment and immune influence. Actively killing invaders is not necessarily part of it.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B"
+       ]
+      },
+      {
+       "id": "ch12-q12",
+       "number": 12,
+       "stem": "Why can't Clostridium difficile infect healthy individuals, but it readily infects people treated with broad- spectrum antibiotics?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The bacterium infects healthy subjects, but the signs of infection only manifest in sick subjects."
+        },
+        {
+         "letter": "B",
+         "text": "The bacterium cannot grow in the intestine occupied by normal microbiota."
+        },
+        {
+         "letter": "C",
+         "text": "The bacterium needs broad-spectrum antibiotics as nutrients."
+        },
+        {
+         "letter": "D",
+         "text": "The bacterium only infects sick subjects."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: the normal biota keeps C. difficile out; antibiotics remove it."
+      },
+      {
+       "id": "ch12-q13",
+       "number": 13,
+       "stem": "Which of the following is direct proof that a human superorganism exists because of symbiotic microbes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Removal of resident microbes accompanies opportunistic infections by environmental microbes."
+        },
+        {
+         "letter": "B",
+         "text": "Mutations in mitochondrial genes may cause life-threatening genetic diseases in humans."
+        },
+        {
+         "letter": "C",
+         "text": "Microbe-free mammals develop a smaller heart, spleen, and thymus."
+        },
+        {
+         "letter": "D",
+         "text": "The human body has fewer human cells than microbial cells."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Microbe-free (germ-free) mammals have smaller hearts, spleens and thymuses: direct evidence of dependence on microbes."
+      },
+      {
+       "id": "ch12-q14",
+       "number": 14,
+       "stem": "Pups of obese female mice delivered through sterile surgical procedures were divided into two groups. Group A mice suckled their biological mothers, group B mice suckled non-obese adoptive mothers (group B) for 15 days. All the weaned pups were placed in identical laboratory rodent food (ad libitum). By adulthood (in four months), 88% of the mice in group A became obese, while only 8% of the mice in group B showed some signs of obesity. Which of the following statements explains the results?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Group B mice were nourished poorly by their adoptive mothers."
+        },
+        {
+         "letter": "B",
+         "text": "Group B mice were exposed to a microbiome that promoted obesity."
+        },
+        {
+         "letter": "C",
+         "text": "Group B mice were exposed to a microbiome that prevented obesity."
+        },
+        {
+         "letter": "D",
+         "text": "Group B mice were exposed to hormones in milk unnatural to the non-obese breed."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Same food, different mothers: the obesity-promoting microbiome passed on by the obese mother explains it (chapter: transplants from obese animals)."
+      },
+      {
+       "id": "ch12-q15",
+       "number": 15,
+       "stem": "The host immune system does not always mount a vigorous immune response to the resident microbiota as it does to primary infections because of all the following reasons. Which of the reasons is overstated?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The normal microbiota that invaded restricted areas of the body can be cleared rapidly."
+        },
+        {
+         "letter": "B",
+         "text": "The normal microbiota lacks damaging virulence factors, unlike the primary pathogens."
+        },
+        {
+         "letter": "C",
+         "text": "The immune system is completely tolerized to the antigens of the normal microbiota."
+        },
+        {
+         "letter": "D",
+         "text": "The antigens of the normal microbiota usually do not over-activate host leucocytes."
+        },
+        {
+         "letter": "E",
+         "text": "The normal microbiota is usually non-invasive."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Tolerance is partial; \"completely tolerized\" is the overstatement."
+      }
+     ]
+    },
+    {
+     "heading": "Communicability of diseases and disease portals",
+     "questions": [
+      {
+       "id": "ch12-q16",
+       "number": 16,
+       "stem": "Which of the following is most certainly a communicable disease?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "West Nile virus encephalitis."
+        },
+        {
+         "letter": "B",
+         "text": "Huntington’s disease."
+        },
+        {
+         "letter": "C",
+         "text": "Coccidioidomycosis."
+        },
+        {
+         "letter": "D",
+         "text": "Diabetes mellitus."
+        },
+        {
+         "letter": "E",
+         "text": "Cervical cancer."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: coccidioidomycosis is non-communicable by name, and Huntington, diabetes and cervical cancer are genetic, metabolic or neoplastic. West Nile is the only candidate, though the chapter says vector-borne disease is communicable only if the vector carries it person to person.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "E"
+       ]
+      },
+      {
+       "id": "ch12-q17",
+       "number": 17,
+       "stem": "All of the following diseases are microbial in origin. Which of the diseases is a non-communicable disease for adult subjects?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Rotavirus diarrhea"
+        },
+        {
+         "letter": "B",
+         "text": "Typhoid fever."
+        },
+        {
+         "letter": "C",
+         "text": "Tuberculosis."
+        },
+        {
+         "letter": "D",
+         "text": "Influenza."
+        },
+        {
+         "letter": "E",
+         "text": "Botulism."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: botulism (an exotoxin disease) is non-communicable."
+      },
+      {
+       "id": "ch12-q18",
+       "number": 18,
+       "stem": "A contagious disease is _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "a communicable disease that causes chronic illnesses"
+        },
+        {
+         "letter": "B",
+         "text": "a communicable disease that spreads rapidly"
+        },
+        {
+         "letter": "C",
+         "text": "a non-communicable insidious disease"
+        },
+        {
+         "letter": "D",
+         "text": "a genetic disease"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: a communicable disease that transmits rapidly is contagious."
+      },
+      {
+       "id": "ch12-q19",
+       "number": 19,
+       "stem": "Which of the following pathogens mainly utilizes saliva as the main portal of exit?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Human papillomavirus, and the fungal genera Trichophyton and Microsporum."
+        },
+        {
+         "letter": "B",
+         "text": "Epstein Barr virus, Herpes simplex virus 1, and Cytomegalovirus."
+        },
+        {
+         "letter": "C",
+         "text": "Human immunodeficiency virus 1 and 2 and Hepatitis C virus."
+        },
+        {
+         "letter": "D",
+         "text": "Staphylococcus aureus, and Streptococcus pyogenes."
+        },
+        {
+         "letter": "E",
+         "text": "Bacteroides fragilis and Prophyromonas gingivalis."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "EBV, HSV-1 and CMV are shed in saliva."
+      },
+      {
+       "id": "ch12-q20",
+       "number": 20,
+       "stem": "All of the following pathogens mainly exit through stool except, ___________, which mainly exit through urine.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Enterobacteriaceae, including Shigella flexneri."
+        },
+        {
+         "letter": "B",
+         "text": "Coxsackieviruses and Leptospira interrogans."
+        },
+        {
+         "letter": "C",
+         "text": "Worms, including Ascaris lumbricoides."
+        },
+        {
+         "letter": "D",
+         "text": "Hepatitis A virus and hepatitis E virus."
+        },
+        {
+         "letter": "E",
+         "text": "Poliovirus, rotavirus, and Norovirus."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Leptospira and coxsackie viruses are listed as leaving in urine (Table 12.3)."
+      },
+      {
+       "id": "ch12-q21",
+       "number": 21,
+       "stem": "Endospores of Bacillus anthracis must utilize the ________ as the portal of entry to cause pneumonia, and the endospores to Clostridium tetani must utilize the ________ as the portal of entry to cause tetanus.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "respiratory tract/ puncture wounds"
+        },
+        {
+         "letter": "B",
+         "text": "alimentary canal/respiratory tract"
+        },
+        {
+         "letter": "C",
+         "text": "skin/ alimentary canal"
+        },
+        {
+         "letter": "D",
+         "text": "eyes/blood"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Anthrax pneumonia needs inhalation of endospores; tetanus spores need a puncture wound."
+      }
+     ]
+    },
+    {
+     "heading": "Reservoirs and transmission",
+     "questions": [
+      {
+       "id": "ch12-q22",
+       "number": 22,
+       "stem": "Among which groups are humans the only reservoirs of nearly all pathogens?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Sexually transmitted infections."
+        },
+        {
+         "letter": "B",
+         "text": "Viral pathogens that infect humans."
+        },
+        {
+         "letter": "C",
+         "text": "Helminth pathogens that infect humans."
+        },
+        {
+         "letter": "D",
+         "text": "Pathogens that cause diarrheal diseases."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Table 12.4: gonorrhea, syphilis, HIV and other STIs have humans as their only reservoir."
+      },
+      {
+       "id": "ch12-q23",
+       "number": 23,
+       "stem": "Pathogens of __________ may infect humans rarely, but pathogens of _______ would most quickly infect human subjects.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "fish/ mammals"
+        },
+        {
+         "letter": "B",
+         "text": "toads and frogs/ birds"
+        },
+        {
+         "letter": "C",
+         "text": "lizards and snakes/mammals"
+        },
+        {
+         "letter": "D",
+         "text": "all these animals/apes and other primates"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: zoonoses come more readily from phylogenetically close hosts (monkeys, chimpanzees) than from fish and amphibians. Option wording is clumsy, but D is the only one naming apes and primates.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      },
+      {
+       "id": "ch12-q24",
+       "number": 24,
+       "stem": "About _______% of human infectious diseases are zoonoses, and humans share about _______ infectious diseases with animals.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "5/20"
+        },
+        {
+         "letter": "B",
+         "text": "15/50"
+        },
+        {
+         "letter": "C",
+         "text": "50/80"
+        },
+        {
+         "letter": "D",
+         "text": "75/150"
+        },
+        {
+         "letter": "E",
+         "text": "99/350"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: about 75% of human infections are zoonoses and humans share about 150 diseases with animals."
+      },
+      {
+       "id": "ch12-q25",
+       "number": 25,
+       "stem": "An infant developed severe eye inflammation leading to blindness due to chlamydial infection. The disease was most certainly transmitted _____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "horizontally, through the genital port of entry"
+        },
+        {
+         "letter": "B",
+         "text": "vertically, during parturition"
+        },
+        {
+         "letter": "C",
+         "text": "vertically, through lactation"
+        },
+        {
+         "letter": "D",
+         "text": "vertically, in utero"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chlamydia is passed to the baby during parturition (vertical, at birth)."
+      },
+      {
+       "id": "ch12-q26",
+       "number": 26,
+       "stem": "Which of the following diseases may transmit both vertically and horizontally?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Chickenpox and human immunodeficiency viruses."
+        },
+        {
+         "letter": "B",
+         "text": "Toxoplasma gondii and Chlamydia trachomatis."
+        },
+        {
+         "letter": "C",
+         "text": "Brucella abortus and Neisseria gonorrhoeae."
+        },
+        {
+         "letter": "D",
+         "text": "Any of these diseases."
+        },
+        {
+         "letter": "E",
+         "text": "None of these."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter lists VZV, HIV, Toxoplasma, Brucella, N. gonorrhoeae and C. trachomatis as passing mother-to-child, and all also spread horizontally."
+      },
+      {
+       "id": "ch12-q27",
+       "number": 27,
+       "stem": "Which of the following pathogens usually transmit from the environmental reservoirs (i.e., soil and water) to humans?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Hepatitis A, B, C, D, and G viruses."
+        },
+        {
+         "letter": "B",
+         "text": "Meningococci, pneumococci, and bacteria that cause pertussis and shigellosis."
+        },
+        {
+         "letter": "C",
+         "text": "Hepatitis E virus, and bacteria that cause Q fever, tularemia, psittacosis, and ehrlichiosis."
+        },
+        {
+         "letter": "D",
+         "text": "Bacteria that cause cholera, tetanus, and botulism, and worms such as blood flukes and hookworms."
+        },
+        {
+         "letter": "E",
+         "text": "Protozoans that cause babesiosis, trypanosomiasis, Chagas disease, river blindness, and toxoplasmosis."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Cholera, tetanus, botulism, blood flukes and hookworms have environmental (water or soil) reservoirs."
+      },
+      {
+       "id": "ch12-q28",
+       "number": 28,
+       "stem": "Pathogens that utilize ________ as the portals of exit and entry are usually the most contagious ones.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "anus"
+        },
+        {
+         "letter": "B",
+         "text": "mouth and nose"
+        },
+        {
+         "letter": "C",
+         "text": "the urogenital orifices"
+        },
+        {
+         "letter": "D",
+         "text": "skin flakes, scabs, and pus"
+        },
+        {
+         "letter": "E",
+         "text": "Blood and other body fluids"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Mouth and nose (aerosol and droplets) give the most contagious diseases."
+      },
+      {
+       "id": "ch12-q29",
+       "number": 29,
+       "stem": "Which of the following diseases can be a vector-borne disease?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Viral disease."
+        },
+        {
+         "letter": "B",
+         "text": "worm diseases."
+        },
+        {
+         "letter": "C",
+         "text": "Bacterial diseases."
+        },
+        {
+         "letter": "D",
+         "text": "Protozoan diseases."
+        },
+        {
+         "letter": "E",
+         "text": "Any of these diseases."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Viruses, bacteria, protozoa and worms all have vector-borne members (Fig 12.6)."
+      },
+      {
+       "id": "ch12-q30",
+       "number": 30,
+       "stem": "You want to control malaria on a tropical island. Which of the following would be the most practical and effective method?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Treat the residents with prophylactic antimalarial drugs."
+        },
+        {
+         "letter": "B",
+         "text": "Drain ponds and marshes where mosquitoes reproduce."
+        },
+        {
+         "letter": "C",
+         "text": "Exterminate all the animal reservoirs."
+        },
+        {
+         "letter": "D",
+         "text": "Exterminate all the vector animals."
+        },
+        {
+         "letter": "E",
+         "text": "Vaccinate every resident."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Removing breeding sites is the practical vector control; killing all vectors or reservoirs is not feasible."
+      },
+      {
+       "id": "ch12-q31",
+       "number": 31,
+       "stem": "Of the common vectors, ________ transmit the most diverse types of pathogens from viruses to worms, and _______ deliver plague, typhus and some tapeworms?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "flies/ vampire bats"
+        },
+        {
+         "letter": "B",
+         "text": "mosquitoes/ fleas"
+        },
+        {
+         "letter": "C",
+         "text": "flies/ ticks"
+        },
+        {
+         "letter": "D",
+         "text": "ticks/ lice"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Mosquitoes carry viruses, protozoa and worms; fleas carry plague, murine typhus and tapeworms.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ]
+      },
+      {
+       "id": "ch12-q32",
+       "number": 32,
+       "stem": "A vector is considered a biological vector if a pathogen depends on the vector for ____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "rapid dispersal"
+        },
+        {
+         "letter": "B",
+         "text": "completing its life cycle"
+        },
+        {
+         "letter": "C",
+         "text": "delivering to the appropriate hosts"
+        },
+        {
+         "letter": "D",
+         "text": "transmitting it from infected hosts to naïve hosts"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "A biological vector hosts a stage of the pathogen life cycle (as with mosquitoes and malaria)."
+      }
+     ]
+    },
+    {
+     "heading": "Healthcare-associated infections (HAI)",
+     "questions": [
+      {
+       "id": "ch12-q33",
+       "number": 33,
+       "stem": "About ______ people in USA get HAI every year, and ____________ of them die of the disease.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "110,000/ 1 %"
+        },
+        {
+         "letter": "B",
+         "text": "250,000/ 3 %"
+        },
+        {
+         "letter": "C",
+         "text": "552,000/ 5%"
+        },
+        {
+         "letter": "D",
+         "text": "722,000/ 10%"
+        },
+        {
+         "letter": "E",
+         "text": "1,200,000/ 12.5 %"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: about 722,000 HAI cases in 2011, about 75,000 died (about 10%)."
+      },
+      {
+       "id": "ch12-q34",
+       "number": 34,
+       "stem": "Each of the following increases the chances of nosocomial infections (HAI) EXCEPT___________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "invasive medical procedures"
+        },
+        {
+         "letter": "B",
+         "text": "invasive medical devices"
+        },
+        {
+         "letter": "C",
+         "text": "chain of transmitters"
+        },
+        {
+         "letter": "D",
+         "text": "high herd immunity"
+        },
+        {
+         "letter": "E",
+         "text": "human errors"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "High herd immunity decreases transmission. Procedures, devices, chain of transmitters and errors increase HAI (chapter list)."
+      },
+      {
+       "id": "ch12-q35",
+       "number": 35,
+       "stem": "The most common hospital-associated infection (HAIs) are __________ infections and the most common pathogen that causes HAIs is __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "surgical site infections/ Staphylococcus aureus"
+        },
+        {
+         "letter": "B",
+         "text": "gastrointestinal illnesses/ Enterococcus sp."
+        },
+        {
+         "letter": "C",
+         "text": "urinary tract infections/ Escherichia coli"
+        },
+        {
+         "letter": "D",
+         "text": "primary blood infections/ Candia sp."
+        },
+        {
+         "letter": "E",
+         "text": "pneumonia/ Klebsiella pneumoniae"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "The numbers are in the Fig 12.7 pie charts, which the text file does not carry. Surgical site infection and S. aureus fit the CDC data I know; pneumonia is about as common, so check the figure.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "E"
+       ]
+      },
+      {
+       "id": "ch12-q36",
+       "number": 36,
+       "stem": "According to the Global Alliance for Infections in Surgery (GAIS), each of the following may reduce the incidence of hospital-associated infection (HAIs). Which of the items is likely to be least expensive but highly effective?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "hand hygiene (i.e., proper and timely handwashing)."
+        },
+        {
+         "letter": "B",
+         "text": "Antibiotic stewardship and rigorously following WHO and CDC guidelines."
+        },
+        {
+         "letter": "C",
+         "text": "Environmental hygiene (i.e., reduction of infection agent every way possible)."
+        },
+        {
+         "letter": "D",
+         "text": "Screening and cohorting patients (i.e., isolating patients infected by drug-resistant bacteria)."
+        },
+        {
+         "letter": "E",
+         "text": "Surveillance (integral monitoring of infection control in individual facilities across the nation)."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Handwashing: chapter says it reduces diarrheal disease by 31% and respiratory infections by 21%, and costs almost nothing."
+      }
+     ]
+    },
+    {
+     "heading": "Factors that affect disease outcomes",
+     "questions": [
+      {
+       "id": "ch12-q37",
+       "number": 37,
+       "stem": "Which of the following is least important in terms of disease progression in a subject after the subject has been exposed to the pathogen?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Dose of the pathogen."
+        },
+        {
+         "letter": "B",
+         "text": "Portal of entry of the pathogen."
+        },
+        {
+         "letter": "C",
+         "text": "Health condition of the subject."
+        },
+        {
+         "letter": "D",
+         "text": "Health condition of the community."
+        },
+        {
+         "letter": "E",
+         "text": "Age, sex, and social and economic status of the subject."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Dose, portal of entry, host health, age, sex and social status affect that person; community health matters least for the individual after exposure."
+      },
+      {
+       "id": "ch12-q38",
+       "number": 38,
+       "stem": "Why does high herd immunity prevent transmission of communicable infectious diseases?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "In high herd immunity, the infected subjects are surrounded by naive subjects."
+        },
+        {
+         "letter": "B",
+         "text": "In high herd immunity, the infected subjects are surrounded by protected subjects."
+        },
+        {
+         "letter": "C",
+         "text": "Communities with high herd immunity to infection are wealthy and generally more secure."
+        },
+        {
+         "letter": "D",
+         "text": "Communities with high herd immunity to infection have fewer individuals in vulnerable age groups."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Fig 12.9: with high herd immunity the infected carrier is surrounded by vaccinated (protected) people."
+      },
+      {
+       "id": "ch12-q39",
+       "number": 39,
+       "stem": "The inhalation dose ID50 Mycobacterium tuberculosis is 10. What does this information mean?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "If a person inhale 10 of this bacterium, she has a 50 % chance of developing tuberculosis."
+        },
+        {
+         "letter": "B",
+         "text": "About 50% of healthy subjects would get tuberculosis if everyone in the group inhaled 10 cells of the bacterium."
+        },
+        {
+         "letter": "C",
+         "text": "There is a 50% chance that one would inhale 10 cells of the bacterium while visiting a subject with active tuberculosis."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "ID50 is the dose that infects 50% of exposed subjects, so 50% of a group inhaling 10 cells get TB."
+      },
+      {
+       "id": "ch12-q40",
+       "number": 40,
+       "stem": "Mice in groups were made to inhale 4, 6, 12, 18, and 24 a particular strain of Mycobacterium tuberculosis. About 30%, 44%, 78%, 100%, and 100% of the inoculated mice were infected by the strain of the bacterium. What is the ID50 of the strain of the bacterium?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "8"
+        },
+        {
+         "letter": "B",
+         "text": "9."
+        },
+        {
+         "letter": "C",
+         "text": "10"
+        },
+        {
+         "letter": "D",
+         "text": "11"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter method: (50-44)/(78-44) = 0.18; log 6 + 0.18 = 0.96; the antilog is about 9. (The proper log-interpolation would give about 6.8, which no option matches.)",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      },
+      {
+       "id": "ch12-q41",
+       "number": 41,
+       "stem": "For mice, ingestion ID50 for a strain of Salmonella typhimurium is 1x106 bacterial cells and that of a strain of Campylobacter jejuni is 1x102 bacterial cells. You injected 5,000 bacteria into each mouse in a group. Which of the two agents would cause disease in 50% of the mice?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Campylobacter jejuni."
+        },
+        {
+         "letter": "B",
+         "text": "Salmonella typhimurium."
+        },
+        {
+         "letter": "C",
+         "text": "Both S. typhimurium and C. jejuni."
+        },
+        {
+         "letter": "D",
+         "text": "Cannot be predicted from the information provided."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "The ID50 values are for ingestion, but the bacteria were injected; ID50 depends on portal of entry (Table 12.6)."
+      }
+     ]
+    },
+    {
+     "heading": "The course of infectious diseases",
+     "questions": [
+      {
+       "id": "ch12-q42",
+       "number": 42,
+       "stem": "A patient complained of sickness, but her physician smiled because the patient had __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "no sign or symptom"
+        },
+        {
+         "letter": "B",
+         "text": "some symptoms but no signs"
+        },
+        {
+         "letter": "C",
+         "text": "some signs/ but not the syndrome"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "A symptom is felt by the patient; a sign is measurable. The patient felt sick but had no measurable signs.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      },
+      {
+       "id": "ch12-q43",
+       "number": 43,
+       "stem": "Which of the following is a specific sign of the infectious disease caused by Mycobacterium tuberculosis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Weight loss and lack of appetite."
+        },
+        {
+         "letter": "B",
+         "text": "Sleeplessness and night sweat."
+        },
+        {
+         "letter": "C",
+         "text": "Nodules in the lung."
+        },
+        {
+         "letter": "D",
+         "text": "Low-grade fever."
+        },
+        {
+         "letter": "E",
+         "text": "None of these."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Weight loss, night sweats and low fever are non-specific signs; lung nodules are the nearest to a specific sign. The chapter notes some diseases lack any specific sign.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "E"
+       ]
+      },
+      {
+       "id": "ch12-q44",
+       "number": 44,
+       "stem": "Gastric ulcer is ____________ of Helicobacter pylori infection of the stomach.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "a non-specific symptom"
+        },
+        {
+         "letter": "B",
+         "text": "a specific symptom"
+        },
+        {
+         "letter": "C",
+         "text": "a non-specific sign"
+        },
+        {
+         "letter": "D",
+         "text": "a specific sign"
+        },
+        {
+         "letter": "E",
+         "text": "the syndrome"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "An ulcer is an observable lesion (a sign), and ulcers have other causes so it is not specific to H. pylori.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D"
+       ]
+      },
+      {
+       "id": "ch12-q45",
+       "number": 45,
+       "stem": "Mild symptoms and signs appear during the ________ period of an infectious disease, because ________. (Note: PAMP- pathogen-associated molecular patterns; DAMP- disease-associated molecular patterns).",
+       "options": [
+        {
+         "letter": "A",
+         "text": "incubation/ the concentration of the antigens of the pathogen reaches a critical point during that period"
+        },
+        {
+         "letter": "B",
+         "text": "prodrome/ the immune system starts to mount an effector response to PAMP and DAMP at that point"
+        },
+        {
+         "letter": "C",
+         "text": "active disease stage/ the microbes gain the upper hand over the immune system at that point"
+        },
+        {
+         "letter": "D",
+         "text": "convalescence/ the immune system gains the upper hand over the microbes at that point"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Prodrome: mild non-specific signs as the immune system begins responding to PAMPs and DAMPs."
+      }
+     ]
+    },
+    {
+     "heading": "Different types of infectious diseases",
+     "questions": [
+      {
+       "id": "ch12-q46",
+       "number": 46,
+       "stem": "Which of the following diseases lacks an acute phase during its course?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Latent diseases."
+        },
+        {
+         "letter": "B",
+         "text": "Chronic diseases."
+        },
+        {
+         "letter": "C",
+         "text": "Subacute diseases."
+        },
+        {
+         "letter": "D",
+         "text": "Non-communicable diseases."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Latent infections show no disease for a long time (no acute phase)."
+      },
+      {
+       "id": "ch12-q47",
+       "number": 47,
+       "stem": "The _________ diseases are prolonged maladies, and they show some disease signs throughout their course.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "acute"
+        },
+        {
+         "letter": "B",
+         "text": "latent"
+        },
+        {
+         "letter": "C",
+         "text": "chronic"
+        },
+        {
+         "letter": "D",
+         "text": "subacute"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chronic diseases are prolonged and show signs throughout."
+      },
+      {
+       "id": "ch12-q48",
+       "number": 48,
+       "stem": "Which of the following indicates that the infectious disease is at its early acute phase?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The subject has no antibody to the antigens of the pathogen."
+        },
+        {
+         "letter": "B",
+         "text": "The subject has IgM but no IgG to the antigens of the pathogen."
+        },
+        {
+         "letter": "C",
+         "text": "The IgG titer of the subject to the antigens of the pathogen has tripled recently."
+        },
+        {
+         "letter": "D",
+         "text": "The subject has no detectable antigen of the pathogen but has IgG and IgA to its antigens."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "IgM without IgG = new, early acute infection (IgG comes later)."
+      },
+      {
+       "id": "ch12-q49",
+       "number": 49,
+       "stem": "Which of the following is an event of superinfection?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "A person had syphilis, recently he contracted gonorrhea."
+        },
+        {
+         "letter": "B",
+         "text": "A patient with a viral sore throat developed bacterial laryngitis."
+        },
+        {
+         "letter": "C",
+         "text": "A person infected by Helicobacter pylori developed stomach cancer."
+        },
+        {
+         "letter": "D",
+         "text": "A person being treated with penicillin was found to have a penicillin-resistant strain of the same species."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: a drug-resistant strain arising during treatment of the same infection is a superinfection. Others are secondary or co-infections."
+      },
+      {
+       "id": "ch12-q50",
+       "number": 50,
+       "stem": "Which of the following subjects can become an asymptomatic carrier of a primary pathogen?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "A person persistently infected but currently has no signs of the disease."
+        },
+        {
+         "letter": "B",
+         "text": "A person has a chronic infection with a very low pathogen load."
+        },
+        {
+         "letter": "C",
+         "text": "The person is immunocompromised and is in the prodrome."
+        },
+        {
+         "letter": "D",
+         "text": "A person recovered from an acute infection."
+        },
+        {
+         "letter": "E",
+         "text": "Any of these persons."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: persistently infected, chronic low-load, prodrome and convalescent subjects can all shed the agent while symptom-free."
+      }
+     ]
+    },
+    {
+     "heading": "Prevalence and incidence of diseases and dynamics of diseases in the population",
+     "questions": [
+      {
+       "id": "ch12-q51",
+       "number": 51,
+       "stem": "A city has a population of 100,000. About 21,000 of its citizens were diabetic in 2019. What is the chance that a person living in the city will develop diabetes in the near future?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "0.21 %"
+        },
+        {
+         "letter": "B",
+         "text": "2.1 %"
+        },
+        {
+         "letter": "C",
+         "text": "21.0 %"
+        },
+        {
+         "letter": "D",
+         "text": "It cannot be predicted based on the data."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "21% is point PREVALENCE (existing cases); the chance of developing it needs the incidence rate."
+      },
+      {
+       "id": "ch12-q52",
+       "number": 52,
+       "stem": "Random sampling at an outdoor clinic indicated that 178 of 2021 subjects examined that day had latent TB. The population of the city is 658,000. How many people in the city possibly have latent TB, and what is the point prevalence of latent TB in the city?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "6,580/ 0.01"
+        },
+        {
+         "letter": "B",
+         "text": "26,320/ 0.04"
+        },
+        {
+         "letter": "C",
+         "text": "39,480/ 0.06"
+        },
+        {
+         "letter": "D",
+         "text": "59,220/ 0.09"
+        },
+        {
+         "letter": "E",
+         "text": "72,380/0.11"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "178/2021 = 0.088, rounded to 0.09; 0.09 x 658,000 = 59,220."
+      },
+      {
+       "id": "ch12-q53",
+       "number": 53,
+       "stem": "the United States had 20,000,000 of its 314,000,000 citizens with genital papillomavirus infection in 2012, excluding 353,000 new cases of genital papilloma infection diagnosed that year. What was the 2012 incidence rate (per 100,000 people) of genital papilloma in the USA?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "0.0648"
+        },
+        {
+         "letter": "B",
+         "text": "6480"
+        },
+        {
+         "letter": "C",
+         "text": "314"
+        },
+        {
+         "letter": "D",
+         "text": "112"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Incidence = 353,000 new cases per 314,000,000 = about 112 per 100,000 (if you remove the 20 million existing cases from the denominator you get 120, which is not offered)."
+      },
+      {
+       "id": "ch12-q54",
+       "number": 54,
+       "stem": "Which of the following STDs has the highest incidence rate in the United States of America?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Syphilis."
+        },
+        {
+         "letter": "B",
+         "text": "Chlamydiosis."
+        },
+        {
+         "letter": "C",
+         "text": "Hepatitis B virus infections."
+        },
+        {
+         "letter": "D",
+         "text": "Genital herpes simplex virus 2 infections."
+        },
+        {
+         "letter": "E",
+         "text": "Genital human papillomavirus infections."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Genital HPV has the highest incidence of the listed STDs."
+      },
+      {
+       "id": "ch12-q55",
+       "number": 55,
+       "stem": "Which of the following terms is incorrectly exemplified?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Sporadic disease: Plague among cowboys in the Western United States."
+        },
+        {
+         "letter": "B",
+         "text": "Pandemic disease: Hepatitis C virus infections across the globe."
+        },
+        {
+         "letter": "C",
+         "text": "Outbreak: Measles in the western United States (2019)."
+        },
+        {
+         "letter": "D",
+         "text": "Endemic disease: Chagas disease in Central America."
+        },
+        {
+         "letter": "E",
+         "text": "Epidemic disease: Plague in India."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: plague in India is ENDEMIC; hepatitis C is a pandemic; sporadic plague in the US and endemic Chagas are right."
+      },
+      {
+       "id": "ch12-q56",
+       "number": 56,
+       "stem": "For sporadic diseases such as plague in USA, the incidence rate is ________ and the prevalence is ________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "zero/close to zero"
+        },
+        {
+         "letter": "B",
+         "text": "very low/ close to zero"
+        },
+        {
+         "letter": "C",
+         "text": "never zero/ rapidly increasing"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Sporadic diseases have a very low incidence (a few cases a year, never zero) and prevalence close to zero."
+      },
+      {
+       "id": "ch12-q57",
+       "number": 57,
+       "stem": "Bird flu is spreading rapidly (incidence rate is increasing) in Dade County, Florida, this week. This is _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "an outbreak"
+        },
+        {
+         "letter": "B",
+         "text": "an epidemic"
+        },
+        {
+         "letter": "C",
+         "text": "a pandemic"
+        },
+        {
+         "letter": "D",
+         "text": "a re-emerging disease"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "A rise in a small locality over a short time is an outbreak (bird flu was a Hong Kong outbreak in 1997)."
+      }
+     ]
+    },
+    {
+     "heading": "Emerging, remerging and notifiable diseases",
+     "questions": [
+      {
+       "id": "ch12-q58",
+       "number": 58,
+       "stem": "Which of the following is a re-emerging disease, and why is it considered a re-emerging disease?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Malaria- a major health problem in Africa and Asia."
+        },
+        {
+         "letter": "B",
+         "text": "Drug-resistant S. aureus, many cases surfacing among HIV patients."
+        },
+        {
+         "letter": "C",
+         "text": "Lyme disease- discovered recently, many new cases are now being diagnosed."
+        },
+        {
+         "letter": "D",
+         "text": "Dengue fever- was forgotten, but new cases are appearing in countries affected by climate change."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Re-emerging = a disease once controlled or forgotten that is rising again."
+      },
+      {
+       "id": "ch12-q59",
+       "number": 59,
+       "stem": "Which of the following is the predominant cause of disease emergence?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Ecological changes that cause interactions between people and unfamiliar microbes."
+        },
+        {
+         "letter": "B",
+         "text": "Use of chemotherapeutic agents and mutations among microbes."
+        },
+        {
+         "letter": "C",
+         "text": "Natural disasters, war, and civil unrest."
+        },
+        {
+         "letter": "D",
+         "text": "Human and animal migration."
+        },
+        {
+         "letter": "E",
+         "text": "Use of new technologies."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Ecological changes bringing people into contact with unfamiliar microbes is the chapter's leading cause of emergence."
+      },
+      {
+       "id": "ch12-q60",
+       "number": 60,
+       "stem": "Which of the following, according to the CDC (as updated in 2016), is not a notifiable disease in the United States?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Methicillin-resistant Staphylococcal Infections (MRSA)."
+        },
+        {
+         "letter": "B",
+         "text": "Yellow fever virus infections."
+        },
+        {
+         "letter": "C",
+         "text": "Ehrlichiosis."
+        },
+        {
+         "letter": "D",
+         "text": "Tularemia."
+        },
+        {
+         "letter": "E",
+         "text": "Malaria."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "MRSA is not on the CDC 2016 national notifiable list (VRSA is)."
+      },
+      {
+       "id": "ch12-q61",
+       "number": 61,
+       "stem": "Which of the following, according to the CDC (as updated in 2016), is a notifiable disease in the United States?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Virus infection- Human papillomavirus."
+        },
+        {
+         "letter": "B",
+         "text": "Bacterial infection- Chlamydia trachomatis."
+        },
+        {
+         "letter": "C",
+         "text": "Fungal infection- Cryptococcus neoformans."
+        },
+        {
+         "letter": "D",
+         "text": "Protozoan infection- Trichomonas vaginalis."
+        },
+        {
+         "letter": "E",
+         "text": "Worms infections- Cysticercosis and taeniasis."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chlamydia trachomatis infection is notifiable; HPV, Cryptococcus and trichomonas are not."
+      }
+     ]
+    },
+    {
+     "heading": "Epidemiological studies",
+     "questions": [
+      {
+       "id": "ch12-q62",
+       "number": 62,
+       "stem": "Which of the following is an analytical epidemiological study?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Retrospective study of diarrhea among the Indonesian tsunami victims."
+        },
+        {
+         "letter": "B",
+         "text": "Case-control study of the efficacy of aspirin in preventing cardiovascular diseases."
+        },
+        {
+         "letter": "C",
+         "text": "Studying who gets infected by HIV-2 in Africa and at what stage of life they get infected."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Case-control studies test an association (why/how); the others only describe who, when, where."
+      },
+      {
+       "id": "ch12-q63",
+       "number": 63,
+       "stem": "A group of children exposed to high-level fluoridated water was examined for tooth decay every five years for a period of 30 years. What type of epidemiological study was this?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Descriptive study."
+        },
+        {
+         "letter": "B",
+         "text": "Experimental study."
+        },
+        {
+         "letter": "C",
+         "text": "Analytical (longitudinal) study."
+        },
+        {
+         "letter": "D",
+         "text": "Analytical (retrospective) study."
+        },
+        {
+         "letter": "E",
+         "text": "Analytical (cross-sectional) study."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: the same group measured repeatedly over time is a longitudinal study."
+      },
+      {
+       "id": "ch12-q64",
+       "number": 64,
+       "stem": "Which of the following studies are usually most difficult to conduct, and why are they difficult?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Experimental studies, because they require case and control populations to test a hypothesis."
+        },
+        {
+         "letter": "B",
+         "text": "Descriptive studies, because they ask the questions: who, when, what, and where."
+        },
+        {
+         "letter": "C",
+         "text": "Analytical studies, because they ask the questions: why and how."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: experimental studies need case and control groups, which are often not feasible in humans."
+      },
+      {
+       "id": "ch12-q65",
+       "number": 65,
+       "stem": "All these are analytical studies. Which of the following is a prospective study?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The data of the patient population was collected at one point in time."
+        },
+        {
+         "letter": "B",
+         "text": "The data of one patient population was collected at several points over a long period."
+        },
+        {
+         "letter": "C",
+         "text": "The data were collected from exposed and unexposed populations at multiple time points over a long period."
+        },
+        {
+         "letter": "D",
+         "text": "The data were collected from previously exposed but affected and unaffected populations over a period."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Prospective = exposed vs unexposed followed forward in time."
+      },
+      {
+       "id": "ch12-q66",
+       "number": 66,
+       "stem": "Which of the following is a retrospective epidemiological study?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Fraction of women of childbearing age attending an outpatient clinic with latent chlamydiosis."
+        },
+        {
+         "letter": "B",
+         "text": "Hematological cancers among residents exposed to the fallout of the Chernobyl Nuclear disaster."
+        },
+        {
+         "letter": "C",
+         "text": "Immune dysfunction among children who received Salk or Sabine polio vaccine."
+        },
+        {
+         "letter": "D",
+         "text": "Developmental outcome of children born to displaced families during a war."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Chapter: retrospective example is Nagasaki fallout survivors decades later; Chernobyl fallout is the same design."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
