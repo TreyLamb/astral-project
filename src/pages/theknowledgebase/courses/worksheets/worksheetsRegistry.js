@@ -9,9 +9,10 @@
 
 import mmahpCh14 from './data/mmahp-ch1-4.json';
 import mmahpCh58 from './data/mmahp-ch5-8.json';
+import mmahpCh9 from './data/mmahp-ch9.json';
 import { countQuestions } from './worksheetEngine';
 
-const REGISTRY = [mmahpCh14, mmahpCh58].map((data) => ({
+const REGISTRY = [mmahpCh14, mmahpCh58, mmahpCh9].map((data) => ({
   id: data.id,
   title: data.title,
   courseCode: data.courseCode ?? null,

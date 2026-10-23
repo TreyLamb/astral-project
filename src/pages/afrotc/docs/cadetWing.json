@@ -1,0 +1,577 @@
+{
+ "source": {
+  "title": "855th Cadet Wing Operations Plan (OPLAN), Fall 2026",
+  "dated": "20 August 2026",
+  "pages": "Section C, Unit Manning Document (pp. 8-10) and Fall 2026 Semester Organization Chart (p. 11)",
+  "certifiedBy": "AFROTC Det 855 OFC (Captain Lucas Parker); 855 CW/CC C/Col Caleb Doolittle"
+ },
+ "rankOrder": [
+  "C/Col",
+  "C/Lt Col",
+  "C/Maj",
+  "C/Capt",
+  "C/1st Lt",
+  "C/2d Lt",
+  "N/A"
+ ],
+ "rankFull": {
+  "C/Col": "Cadet Colonel",
+  "C/Lt Col": "Cadet Lieutenant Colonel",
+  "C/Maj": "Cadet Major",
+  "C/Capt": "Cadet Captain",
+  "C/1st Lt": "Cadet First Lieutenant",
+  "C/2d Lt": "Cadet Second Lieutenant",
+  "N/A": "GMC adjutant (no cadet rank listed)"
+ },
+ "people": [
+  {
+   "rank": "C/Col",
+   "rankFull": "Cadet Colonel",
+   "name": "Doolittle, C.",
+   "symbol": "CW/CC",
+   "title": "Cadet Wing Commander",
+   "group": "Wing leadership",
+   "sub": "Wing leadership"
+  },
+  {
+   "rank": "C/Col",
+   "rankFull": "Cadet Colonel",
+   "name": "Kirchhoefer, K.",
+   "symbol": "CW/CD",
+   "title": "Cadet Wing Deputy Commander",
+   "group": "Wing leadership",
+   "sub": "Wing leadership"
+  },
+  {
+   "rank": "C/Col",
+   "rankFull": "Cadet Colonel",
+   "name": "Hill, E.",
+   "symbol": "CW/CS",
+   "title": "Chief of Staff",
+   "group": "Wing leadership",
+   "sub": "Wing leadership"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Blackwell, B.",
+   "symbol": "CW/IG",
+   "title": "Inspector General",
+   "group": "Wing Staff",
+   "sub": "Wing Staff"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Lyons, J.",
+   "symbol": "CW/FM",
+   "title": "Financial Manager",
+   "group": "Wing Staff",
+   "sub": "Wing Staff"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Dryden, T.",
+   "symbol": "HG/CC",
+   "title": "Honor Guard Commander",
+   "group": "Wing Staff",
+   "sub": "Wing Staff"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Johnson, N.",
+   "symbol": "AAS/CC",
+   "title": "Arnold Air Society Commander",
+   "group": "Wing Staff",
+   "sub": "Wing Staff"
+  },
+  {
+   "rank": "C/1st Lt",
+   "rankFull": "Cadet First Lieutenant",
+   "name": "Hwang, C.",
+   "symbol": "CW/XO",
+   "title": "Cadet Wing Executive Officer",
+   "group": "Wing Staff",
+   "sub": "Special Staff"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Clarkson, M.",
+   "symbol": "S&E/CC",
+   "title": "Standards & Evaluation Commander",
+   "group": "Wing Staff",
+   "sub": "Special Staff"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Rockwood, C.",
+   "symbol": "S&E/CD",
+   "title": "Standards & Evaluation Deputy",
+   "group": "Wing Staff",
+   "sub": "Special Staff"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Merrell, M.",
+   "symbol": "CAG/CC",
+   "title": "Commander's Action Group Commander",
+   "group": "Wing Staff",
+   "sub": "Commander's Action Group (CAG)"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Adams, B.",
+   "symbol": "CAG/AO",
+   "title": "Commander's Action Group Action Officer",
+   "group": "Wing Staff",
+   "sub": "Commander's Action Group (CAG)"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Lambert, I.",
+   "symbol": "CAG/AO",
+   "title": "Commander's Action Group Action Officer",
+   "group": "Wing Staff",
+   "sub": "Commander's Action Group (CAG)"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Bushman, K.",
+   "symbol": "CAG/AO",
+   "title": "Commander's Action Group Action Officer",
+   "group": "Wing Staff",
+   "sub": "Commander's Action Group (CAG)"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Percival, I.",
+   "symbol": "CAG/AO",
+   "title": "Commander's Action Group Action Officer",
+   "group": "Wing Staff",
+   "sub": "Commander's Action Group (CAG)"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Perrigo, C.",
+   "symbol": "CAG/AO",
+   "title": "Commander's Action Group Action Officer",
+   "group": "Wing Staff",
+   "sub": "Commander's Action Group (CAG)"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Noll, A.",
+   "symbol": "CAG/AO",
+   "title": "Commander's Action Group Action Officer",
+   "group": "Wing Staff",
+   "sub": "Commander's Action Group (CAG)"
+  },
+  {
+   "rank": "N/A",
+   "rankFull": "GMC adjutant (no cadet rank listed)",
+   "name": "Hale, I.",
+   "symbol": "GMC/WA",
+   "title": "GMC Wing Adjutant",
+   "group": "Wing Staff",
+   "sub": "GMC Wing Adjutants"
+  },
+  {
+   "rank": "N/A",
+   "rankFull": "GMC adjutant (no cadet rank listed)",
+   "name": "Campbell, J.",
+   "symbol": "GMC/DA",
+   "title": "GMC Wing Deputy Adjutant",
+   "group": "Wing Staff",
+   "sub": "GMC Wing Adjutants"
+  },
+  {
+   "rank": "C/Col",
+   "rankFull": "Cadet Colonel",
+   "name": "Storey, R.",
+   "symbol": "TG/CC",
+   "title": "Training Group Commander",
+   "group": "Training Group",
+   "sub": "Training Group leadership"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Van Dam, L.",
+   "symbol": "TG/CD",
+   "title": "Training Group Deputy Commander",
+   "group": "Training Group",
+   "sub": "Training Group leadership"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Russell, D.",
+   "symbol": "X SQ/CC",
+   "title": "X-Ray Squadron Commander",
+   "group": "Training Group",
+   "sub": "X-Ray Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Bailey, B.",
+   "symbol": "A FLT/CC",
+   "title": "Alpha Flight Commander",
+   "group": "Training Group",
+   "sub": "X-Ray Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Seamons, C.",
+   "symbol": "B FLT/CC",
+   "title": "Bravo Flight Commander",
+   "group": "Training Group",
+   "sub": "X-Ray Squadron"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Christensen, I.",
+   "symbol": "Y SQ/CC",
+   "title": "Yankee Squadron Commander",
+   "group": "Training Group",
+   "sub": "Yankee Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "McGuire, T.",
+   "symbol": "C FLT/CC",
+   "title": "Charlie Flight Commander",
+   "group": "Training Group",
+   "sub": "Yankee Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Kovacs, L.",
+   "symbol": "D FLT/CC",
+   "title": "Delta Flight Commander",
+   "group": "Training Group",
+   "sub": "Yankee Squadron"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Hull, S.",
+   "symbol": "Z SQ/CC",
+   "title": "Zulu Squadron Commander",
+   "group": "Training Group",
+   "sub": "Zulu Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Charlesworth, S.",
+   "symbol": "E FLT/CC",
+   "title": "Echo Flight Commander",
+   "group": "Training Group",
+   "sub": "Zulu Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Saunders, C.",
+   "symbol": "F FLT/CC",
+   "title": "Foxtrot Flight Commander",
+   "group": "Training Group",
+   "sub": "Zulu Squadron"
+  },
+  {
+   "rank": "C/Col",
+   "rankFull": "Cadet Colonel",
+   "name": "Hanna, S.",
+   "symbol": "OG/CC",
+   "title": "Operations Group Commander",
+   "group": "Operations Group",
+   "sub": "Operations Group leadership"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Vazquez, A.",
+   "symbol": "OG/CD",
+   "title": "Operations Group Deputy Commander",
+   "group": "Operations Group",
+   "sub": "Operations Group leadership"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Meldrum, C.",
+   "symbol": "PT SQ/CC",
+   "title": "Physical Training Squadron Commander",
+   "group": "Operations Group",
+   "sub": "Physical Training (PMT) Squadron"
+  },
+  {
+   "rank": "C/2d Lt",
+   "rankFull": "Cadet Second Lieutenant",
+   "name": "Smith, P.",
+   "symbol": "PFO",
+   "title": "Physical Fitness Officer",
+   "group": "Operations Group",
+   "sub": "Physical Training (PMT) Squadron"
+  },
+  {
+   "rank": "C/2d Lt",
+   "rankFull": "Cadet Second Lieutenant",
+   "name": "Hunsaker, B.",
+   "symbol": "PFO",
+   "title": "Physical Fitness Officer",
+   "group": "Operations Group",
+   "sub": "Physical Training (PMT) Squadron"
+  },
+  {
+   "rank": "C/2d Lt",
+   "rankFull": "Cadet Second Lieutenant",
+   "name": "Wilson, W.",
+   "symbol": "PFO",
+   "title": "Physical Fitness Officer",
+   "group": "Operations Group",
+   "sub": "Physical Training (PMT) Squadron"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Stock, B.",
+   "symbol": "LLAB SQ/CC",
+   "title": "LLAB Squadron Commander",
+   "group": "Operations Group",
+   "sub": "LLAB Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Crookston, J.",
+   "symbol": "LLAB/AO",
+   "title": "LLAB Action Officer",
+   "group": "Operations Group",
+   "sub": "LLAB Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Merrell, K.",
+   "symbol": "LLAB/AO",
+   "title": "LLAB Action Officer",
+   "group": "Operations Group",
+   "sub": "LLAB Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Trujillo, S.",
+   "symbol": "LLAB/AO",
+   "title": "LLAB Action Officer",
+   "group": "Operations Group",
+   "sub": "LLAB Squadron"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Allen, L.",
+   "symbol": "ODC/CC",
+   "title": "ODC Task Force Commander",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Gourley, K.",
+   "symbol": "ODC/CD",
+   "title": "ODC Task Force Deputy Commander",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/1st Lt",
+   "rankFull": "Cadet First Lieutenant",
+   "name": "Stafford, E.",
+   "symbol": "X FLT/T",
+   "title": "X Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/1st Lt",
+   "rankFull": "Cadet First Lieutenant",
+   "name": "Johnston, C.",
+   "symbol": "X FLT/T",
+   "title": "X Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/1st Lt",
+   "rankFull": "Cadet First Lieutenant",
+   "name": "Russell, S.",
+   "symbol": "Y FLT/T",
+   "title": "Y Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/1st Lt",
+   "rankFull": "Cadet First Lieutenant",
+   "name": "Schafer, B.",
+   "symbol": "Y FLT/T",
+   "title": "Y Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/1st Lt",
+   "rankFull": "Cadet First Lieutenant",
+   "name": "Standage, M.",
+   "symbol": "Z FLT/T",
+   "title": "Z Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/1st Lt",
+   "rankFull": "Cadet First Lieutenant",
+   "name": "Pratt, D.",
+   "symbol": "Z FLT/T",
+   "title": "Z Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Jones, V.",
+   "symbol": "R FLT/T",
+   "title": "R Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Lambourne, E.",
+   "symbol": "R FLT/T",
+   "title": "R Flight Trainer",
+   "group": "Operations Group",
+   "sub": "ODC Task Force"
+  },
+  {
+   "rank": "C/Col",
+   "rankFull": "Cadet Colonel",
+   "name": "Damitz, B.",
+   "symbol": "MGG/CC",
+   "title": "Mission Generation Group Commander",
+   "group": "Mission Generation Group",
+   "sub": "Mission Generation Group leadership"
+  },
+  {
+   "rank": "C/Lt Col",
+   "rankFull": "Cadet Lieutenant Colonel",
+   "name": "Ford, T.",
+   "symbol": "MGG/CD",
+   "title": "Mission Generation Group Deputy Commander",
+   "group": "Mission Generation Group",
+   "sub": "Mission Generation Group leadership"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Hartsell, D.",
+   "symbol": "PA SQ/CC",
+   "title": "Public Affairs Squadron Commander",
+   "group": "Mission Generation Group",
+   "sub": "Public Affairs Squadron"
+  },
+  {
+   "rank": "C/2d Lt",
+   "rankFull": "Cadet Second Lieutenant",
+   "name": "Turley, D.",
+   "symbol": "R/AO",
+   "title": "Recruiting Action Officer",
+   "group": "Mission Generation Group",
+   "sub": "Public Affairs Squadron"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Stanger, J.",
+   "symbol": "FSS SQ/CC",
+   "title": "Force Support Squadron Commander",
+   "group": "Mission Generation Group",
+   "sub": "Force Support Squadron"
+  },
+  {
+   "rank": "C/2d Lt",
+   "rankFull": "Cadet Second Lieutenant",
+   "name": "Woodstock, T.",
+   "symbol": "FSS/AO",
+   "title": "Force Support Squadron Action Officer",
+   "group": "Mission Generation Group",
+   "sub": "Force Support Squadron"
+  },
+  {
+   "rank": "C/2d Lt",
+   "rankFull": "Cadet Second Lieutenant",
+   "name": "Donaldson, L.",
+   "symbol": "FSS/AO",
+   "title": "Force Support Squadron Action Officer",
+   "group": "Mission Generation Group",
+   "sub": "Force Support Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Shearer, A.",
+   "symbol": "CW/CH",
+   "title": "Cadet Wing Chaplain",
+   "group": "Mission Generation Group",
+   "sub": "Force Support Squadron"
+  },
+  {
+   "rank": "C/Maj",
+   "rankFull": "Cadet Major",
+   "name": "Reyes, A.",
+   "symbol": "CY SQ/CC",
+   "title": "Cyber Squadron Commander",
+   "group": "Mission Generation Group",
+   "sub": "Cyber Squadron"
+  },
+  {
+   "rank": "C/2d Lt",
+   "rankFull": "Cadet Second Lieutenant",
+   "name": "Sparks, N.",
+   "symbol": "CY/AO",
+   "title": "Cyber Action Officer",
+   "group": "Mission Generation Group",
+   "sub": "Cyber Squadron"
+  },
+  {
+   "rank": "C/Capt",
+   "rankFull": "Cadet Captain",
+   "name": "Ruegner, G.",
+   "symbol": "P/AO",
+   "title": "Personnel Action Officer",
+   "group": "Mission Generation Group",
+   "sub": "Cyber Squadron"
+  }
+ ]
+}

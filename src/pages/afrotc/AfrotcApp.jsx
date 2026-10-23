@@ -8,6 +8,7 @@ import quizzesMd from './docs/warrior-knowledge-quizzes.md?raw';
 import brief14n from './docs/brief14n.json';
 import brief14nClaims from './docs/brief14nClaims.json';
 import briefMd from './docs/14n-speakers-brief.md?raw';
+import cadetWing from './docs/cadetWing.json';
 import './Afrotc.css';
 
 // To add a document: drop its pages/markdown in, then add one entry here.
@@ -42,11 +43,26 @@ const QRC_PAGES = [
   { n: 23, qrc: '15.1', title: 'Nine principles of IED combat', group: 'IED / UXO' },
 ];
 
+const ORI_PAGES = [
+  { n: 1, label: 'Falling in', title: 'Falling in', group: 'Forming up' },
+  { n: 2, label: 'Sizing', title: 'Figure 4.1 (flight in line formation) and sizing the flight', group: 'Forming up' },
+  { n: 3, label: 'Count off / open ranks', title: 'Counting off and opening the ranks', group: 'Forming up' },
+  { n: 4, label: 'Align / report', title: 'Aligning the elements, then the inspection approach and report', group: 'Inspection' },
+  { n: 5, label: 'Protocol / duck walk', title: 'Inspection protocol and the duck walk', group: 'Inspection' },
+  { n: 6, label: 'Between elements / debrief', title: 'Moving between elements, then the debrief', group: 'Inspection' },
+  { n: 7, label: 'Close ranks', title: 'Closing the ranks and recording the inspection', group: 'Finishing' },
+];
+
 const DOCS = [
   {
     slug: 'qrc', label: 'QRC Study Packet', kind: 'pages',
     blurb: 'AFTTP 3-4 Airman’s Manual quick reference cards: a MARCH cross-reference, all of TCCC (QRC 19.1–19.14), MEDEVAC 9-line, weapon safety (QRC 7.1), and the 5-Cs and IED/UXO cards (QRC 14.1–15.1). Manual pages 64–76, 13 (QRC 7.1 only) and 51–58.',
     pdf: '/afrotc/AFROTC_QRC_Study_Packet.pdf',
+  },
+  {
+    slug: 'ori', label: 'ORI Procedures', kind: 'pages', pageList: ORI_PAGES, imgDir: '/afrotc/ori', noun: 'section',
+    blurb: 'Open Ranks Inspection procedures for the flight commander, dated 10 July 2025, citing DAFPAM 34-1203 (13 Sep 2022): falling in, sizing, counting off, opening the ranks, the inspection itself, the debrief and closing the ranks. 7 pages.',
+    pdf: '/afrotc/ORI_Procedures.pdf',
   },
   {
     slug: 'brief14n', label: '14N Brief', kind: 'slides', slides: brief14n, dir: '/afrotc/briefs/14n', claims: brief14nClaims,
@@ -65,7 +81,17 @@ const DOCS = [
     slug: 'quizzes', label: 'Warrior Knowledge Quizzes', kind: 'markdown', content: quizzesMd,
     blurb: 'Weeks 1 and 2 of the weekly quiz, word for word, with answers marked sure or best-guess.',
   },
+  {
+    slug: 'wing', label: 'Cadet Wing Who’s Who', kind: 'wing',
+    blurb: 'Every cadet in the Fall 2026 Unit Manning Document (OPLAN-F26, 20 Aug 2026), by rank or by group, one section at a time. Cadre and cadets only; positions can change after that date.',
+  },
   { slug: 'tools', label: 'Study tools', kind: 'links' },
+];
+
+const WING_GROUPS = ['Wing leadership', 'Wing Staff', 'Training Group', 'Operations Group', 'Mission Generation Group'];
+const WING_CHAIN = [
+  ['C FLT/CC', 'Charlie Flight Commander'], ['Y SQ/CC', 'Yankee Squadron Commander'], ['TG/CC', 'Training Group Commander'],
+  ['CW/CD', 'Cadet Wing Deputy Commander'], ['CW/CC', 'Cadet Wing Commander'],
 ];
 
 const TOOLS = [
@@ -104,7 +130,9 @@ function ZoomBar({ zoom, setZoom }) {
 }
 
 function PagesDoc({ doc, zoomDef, zoom, setZoom }) {
-  const groups = [...new Set(QRC_PAGES.map((p) => p.group))];
+  const list = doc.pageList ?? QRC_PAGES;
+  const dir = doc.imgDir ?? '/afrotc/qrc';
+  const groups = [...new Set(list.map((p) => p.group))];
   const jump = (n) => document.getElementById(`arc-p${n}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   return (
     <>
@@ -115,25 +143,25 @@ function PagesDoc({ doc, zoomDef, zoom, setZoom }) {
           <a className="arc-btn" href={doc.pdf} target="_blank" rel="noreferrer">Open / download PDF</a>
         </div>
       </div>
-      <nav className="arc-jump" aria-label="Jump to a card">
+      <nav className="arc-jump" aria-label={`Jump to a ${doc.noun ?? 'card'}`}>
         {groups.map((g) => (
           <div key={g} className="arc-jump-group">
             <b>{g}</b>
-            {QRC_PAGES.filter((p) => p.group === g).map((p) => (
+            {list.filter((p) => p.group === g).map((p) => (
               <button key={p.n} type="button" onClick={() => jump(p.n)} title={p.title}>
-                QRC {p.qrc}{QRC_PAGES.filter((q) => q.qrc === p.qrc).length > 1 ? ` (${p.title.match(/\((\d) of/)?.[1] ?? ''})` : ''}
+                {p.label ?? `QRC ${p.qrc}${list.filter((q) => q.qrc === p.qrc).length > 1 ? ` (${p.title.match(/\((\d) of/)?.[1] ?? ''})` : ''}`}
               </button>
             ))}
           </div>
         ))}
       </nav>
       <div className="arc-pages" style={{ '--arc-page-w': `${zoomDef.page}px` }}>
-        {QRC_PAGES.map((p) => (
+        {list.map((p) => (
           <figure key={p.n} id={`arc-p${p.n}`} className="arc-page">
-            <figcaption>{p.n} / {QRC_PAGES.length} &middot; QRC {p.qrc} &middot; {p.title}</figcaption>
+            <figcaption>{p.n} / {list.length} &middot; {p.qrc ? `QRC ${p.qrc} · ` : ''}{p.title}</figcaption>
             <img
-              src={`/afrotc/qrc/p${String(p.n).padStart(2, '0')}.jpg`}
-              alt={`QRC ${p.qrc}: ${p.title}`} loading="lazy"
+              src={`${dir}/p${String(p.n).padStart(2, '0')}.jpg`}
+              alt={p.qrc ? `QRC ${p.qrc}: ${p.title}` : p.title} loading="lazy"
             />
           </figure>
         ))}
@@ -262,6 +290,83 @@ function SourceList({ sources }) {
   );
 }
 
+function WingDoc({ doc, zoomDef, zoom, setZoom }) {
+  const { people, rankOrder, rankFull, source } = cadetWing;
+  const [mode, setMode] = useState('rank');
+  const [pick, setPick] = useState({ rank: rankOrder[0], group: WING_GROUPS[0] });
+  const bySym = Object.fromEntries(people.map((x) => [x.symbol, x]));
+  const rankIx = Object.fromEntries(rankOrder.map((r, i) => [r, i]));
+  const sections = mode === 'rank' ? rankOrder : WING_GROUPS;
+  const current = pick[mode];
+  const shown = current === 'ALL' ? sections : [current];
+  const members = (s) => people.filter((x) => (mode === 'rank' ? x.rank === s : x.group === s));
+  const label = (s) => (mode === 'rank' ? `${s} · ${rankFull[s]}` : s);
+
+  const card = (x) => (
+    <li key={`${x.symbol}-${x.name}`} className="arc-wing-card">
+      <div className="arc-wing-who"><span className="arc-wing-rank">{x.rank}</span><b>{x.name}</b></div>
+      <div className="arc-wing-job">{x.title} <span className="arc-wing-sym">({x.symbol})</span></div>
+      {mode === 'rank' ? <div className="arc-wing-where">{x.sub === x.group ? x.group : `${x.group} · ${x.sub}`}</div> : null}
+    </li>
+  );
+
+  return (
+    <>
+      <div className="arc-toolbar">
+        <p className="arc-blurb">{doc.blurb}</p>
+        <div className="arc-tools"><ZoomBar zoom={zoom} setZoom={setZoom} /></div>
+      </div>
+      <section className="arc-wing-chain" style={{ '--arc-text': zoomDef.text }}>
+        <h2>Your chain of command (Charlie Flight)</h2>
+        <ol>
+          {WING_CHAIN.map(([sym, role]) => (
+            <li key={sym}><span>{role}</span><b>{bySym[sym].rank} {bySym[sym].name}</b></li>
+          ))}
+        </ol>
+        <p className="arc-blurb">
+          Also in your squadron: D Flight Commander {bySym['D FLT/CC'].rank} {bySym['D FLT/CC'].name}
+          {' '}Training Group deputy: {bySym['TG/CD'].rank} {bySym['TG/CD'].name}
+          {' '}Chief of Staff: {bySym['CW/CS'].rank} {bySym['CW/CS'].name}
+        </p>
+      </section>
+      <div className="arc-wing-modes" role="group" aria-label="Group the roster by">
+        <button type="button" className={mode === 'rank' ? 'on' : ''} onClick={() => setMode('rank')}>By rank</button>
+        <button type="button" className={mode === 'group' ? 'on' : ''} onClick={() => setMode('group')}>By group</button>
+      </div>
+      <nav className="arc-jump" aria-label="Pick a section">
+        <div className="arc-jump-group">
+          {sections.map((s) => (
+            <button key={s} type="button" className={current === s ? 'on' : ''} onClick={() => setPick({ ...pick, [mode]: s })}>
+              {s} ({members(s).length})
+            </button>
+          ))}
+          <button type="button" className={current === 'ALL' ? 'on' : ''} onClick={() => setPick({ ...pick, [mode]: 'ALL' })}>Show all</button>
+        </div>
+      </nav>
+      <div className="arc-wing" style={{ '--arc-text': zoomDef.text }}>
+        {shown.map((s) => {
+          const list = members(s);
+          const subs = mode === 'group' ? [...new Set(list.map((x) => x.sub))] : [null];
+          return (
+            <section key={s} className="arc-wing-section">
+              <h2>{label(s)} <span>({list.length})</span></h2>
+              {subs.map((sub) => (
+                <div key={sub ?? 'all'}>
+                  {sub && sub !== s ? <h3>{sub}</h3> : null}
+                  <ul className="arc-wing-list">
+                    {list.filter((x) => sub === null || x.sub === sub).sort((a, b) => rankIx[a.rank] - rankIx[b.rank]).map(card)}
+                  </ul>
+                </div>
+              ))}
+            </section>
+          );
+        })}
+      </div>
+      <p className="arc-blurb arc-wing-src">Source: {source.title}, dated {source.dated}. {source.pages}. Certified by {source.certifiedBy}. Releasable to cadre and cadets only.</p>
+    </>
+  );
+}
+
 function LinksDoc() {
   return (
     <div className="arc-cards">
@@ -304,6 +409,7 @@ export default function AfrotcApp() {
         {doc.kind === 'pages' && <PagesDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {doc.kind === 'markdown' && <MarkdownDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {doc.kind === 'slides' && <SlidesDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
+        {doc.kind === 'wing' && <WingDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {doc.kind === 'links' && <LinksDoc />}
       </main>
     </div>

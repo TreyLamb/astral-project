@@ -22,6 +22,10 @@ import CalendarSideRail from './CalendarSideRail';
 import CalendarNotes from './CalendarNotes';
 import { useCourseTasks } from './courseTasks';
 import { useGoogleOverlay } from './googleOverlayStore';
+import { PLAN_BY_DATE } from './studyPlan';
+
+// Google events and the study plan share one strip on each day, in time order (all-day first).
+const mergeDay = (a = [], b = []) => (b.length ? [...a, ...b].sort((x, y) => x.sortKey.localeCompare(y.sortKey)) : a);
 import { blocksForDay, timeRange } from './classSchedule';
 
 // USAF PFRA personal targets — static reference data, not computed from
@@ -1246,7 +1250,7 @@ export default function CalendarView() {
     bases: orbitBases, dayLocations: orbitDayLocations, onOpenWhere: openWhere,
     courseDue: showCourseChips ? (COURSE_TASKS_BY_DATE[isoDate(date)] || []) : [],
     classBlocks: showClassChips ? blocksForDay(date.getDay()) : [],
-    googleEvents: showGoogleEvents ? (googleByDate[isoDate(date)] || []) : [],
+    googleEvents: showGoogleEvents ? mergeDay(googleByDate[isoDate(date)], PLAN_BY_DATE[isoDate(date)]) : [],
   });
 
   // Shared week-grid header + one week-row (7-day grid + goals/miles side

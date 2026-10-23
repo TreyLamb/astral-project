@@ -1,0 +1,2248 @@
+{
+ "id": "mmahp-ch9",
+ "title": "MMAHP Ch 9 — practice MCIs for OLQ 9 (from the chapter file)",
+ "courseCode": "MICR 2060",
+ "sourceFile": "9. The Immune System & Its Effectors.pdf",
+ "chapters": [
+  {
+   "number": 9,
+   "title": "The Immune System and Its Effectors",
+   "sections": [
+    {
+     "heading": "Preamble",
+     "questions": [
+      {
+       "id": "ch9-q1",
+       "number": 1,
+       "stem": "How is innate immunity different from adaptive immunity?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Innate immunity does not require signaling/expression of any new genes to be fully functional."
+        },
+        {
+         "letter": "B",
+         "text": "Innate immunity may function readily without a previous exposure to microbes."
+        },
+        {
+         "letter": "C",
+         "text": "Innate immunity has cellular receptors, but they bind non-specific ligands."
+        },
+        {
+         "letter": "D",
+         "text": "Innate immunity functions without the need for cellular receptors."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q2",
+       "number": 2,
+       "stem": "Which of these is beyond adaptation for the adaptive immune system?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Receptor ligand binding, signaling events, and expression of new genes."
+        },
+        {
+         "letter": "B",
+         "text": "Expression of different sets of genes in response to infection by different pathogens."
+        },
+        {
+         "letter": "C",
+         "text": "Mutating genes and selecting more effective mutant cells to combat future infections."
+        }
+       ],
+       "answer": "C",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: In the intro he defines adaptation as adjusting by changing which genes are switched on, WITHOUT changing the genes themselves. Options A and B are both just gene-expression changes, so they count as adaptation (innate immunity does them too). Only C changes the genes themselves, and he says the adaptive system \"deliberately mutates genes\" (this is somatic hypermutation of B cells). That is what goes beyond adaptation. Search words: adjustments, hypermutation, somatic. Go to: PDF p1, the intro paragraph that defines \"adaptation\"; PDF p20 for the mechanism.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Skin and mucosal immune effectors",
+     "questions": [
+      {
+       "id": "ch9-q3",
+       "number": 3,
+       "stem": "Which of the following immune defenses is unique to the skin?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Organic acids such as propionic acid."
+        },
+        {
+         "letter": "B",
+         "text": "Defensins such as psoriasin."
+        },
+        {
+         "letter": "C",
+         "text": "Inorganic acid such as HCl."
+        },
+        {
+         "letter": "D",
+         "text": "Proteins such as keratin."
+        },
+        {
+         "letter": "E",
+         "text": "Salt such as NaCl."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q4",
+       "number": 4,
+       "stem": "Which of the following is generally absent in the mucous secretions?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Enzymes such as lysozyme, amylase, and pepsin."
+        },
+        {
+         "letter": "B",
+         "text": "Complement proteins C1 and IgG."
+        },
+        {
+         "letter": "C",
+         "text": "Acids such as hydrochloric acid."
+        },
+        {
+         "letter": "D",
+         "text": "Mucoproteins such as mucin."
+        },
+        {
+         "letter": "E",
+         "text": "Antibodies such as IgA."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q5",
+       "number": 5,
+       "stem": "How do cilia of the ciliated epithelia help remove microbes from the mucous membranes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Cilia bind microbes and allow receptor-mediated endocytosis by the epithelial cells."
+        },
+        {
+         "letter": "B",
+         "text": "Cilia oscillate, thereby removing microbes trapped in a dab of mucus."
+        },
+        {
+         "letter": "C",
+         "text": "Cilia help epithelial cells to move away from the microbes."
+        },
+        {
+         "letter": "D",
+         "text": "Cilia fall off after binding/tagging the microbes."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q6",
+       "number": 6,
+       "stem": "Which of the following antimicrobial polypeptides help phagocytic removal of the microbes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Defesins"
+        },
+        {
+         "letter": "B",
+         "text": "Psoriasin"
+        },
+        {
+         "letter": "C",
+         "text": "Pentraxin"
+        },
+        {
+         "letter": "D",
+         "text": "Dermicidin"
+        }
+       ],
+       "answer": "C",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text says pentraxins bind microbial surfaces and promote phagocytosis (they act like opsonins, tags for phagocytes). The others (defensins, psoriasin, dermcidin) work by directly damaging or impairing the microbe. The slide spells it \"Pentarxin\" (slide 19), which is the kind of misspelling that breaks a Ctrl+F. Search words: pentraxin, opsonin. Go to: PDF p1, the paragraph listing the skin and mucosal antimicrobial polypeptides. On the slides it is slide 19, spelled \"Pentarxin\".",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Blood plasma and serum",
+     "questions": [
+      {
+       "id": "ch9-q7",
+       "number": 7,
+       "stem": "A healthy adult person (65 kg or 144 lb) should have about _______ liters of blood, of which ________% is plasma and the rest is formed elements.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "2.8/ 90"
+        },
+        {
+         "letter": "B",
+         "text": "3.5/ 75"
+        },
+        {
+         "letter": "C",
+         "text": "4.8/ 55"
+        },
+        {
+         "letter": "D",
+         "text": "5.5/ 45"
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q8",
+       "number": 8,
+       "stem": "About 15% of all proteins in blood are gamma globulins, and total proteins constitutes 7.5 % of the blood plasma. A person has 5 kg of blood. How many grams of gamma globulins does the person have?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "15 gms"
+        },
+        {
+         "letter": "B",
+         "text": "30 gms"
+        },
+        {
+         "letter": "C",
+         "text": "45 gms"
+        },
+        {
+         "letter": "D",
+         "text": "60 gms"
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q9",
+       "number": 9,
+       "stem": "The serum has all the following ingredients of the blood plasma EXCEPT ____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "albumins"
+        },
+        {
+         "letter": "B",
+         "text": "beta globulins"
+        },
+        {
+         "letter": "C",
+         "text": "clotting factors"
+        },
+        {
+         "letter": "D",
+         "text": "alpha globulins"
+        },
+        {
+         "letter": "E",
+         "text": "gamma globulins"
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Blood cells",
+     "questions": [
+      {
+       "id": "ch9-q10",
+       "number": 10,
+       "stem": "Which of these correctly describes the granules of the granulocytes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The suspended crystalline chemical substances in the cytoplasm."
+        },
+        {
+         "letter": "B",
+         "text": "Membrane vesicles in the cytoplasm, containing mediators."
+        },
+        {
+         "letter": "C",
+         "text": "Amorphous chemical aggregates in the cytoplasm."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q11",
+       "number": 11,
+       "stem": "All the granulocytes are also _______, although ________ are not a granulocyte.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "phagocytes/ monocytes or macrophages"
+        },
+        {
+         "letter": "B",
+         "text": "solid tissue-resident cells/ eosinophils"
+        },
+        {
+         "letter": "C",
+         "text": "antigen-presenting cells/ basophils"
+        }
+       ],
+       "answer": "A",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: B is wrong because eosinophils ARE granulocytes. C is wrong because basophils ARE granulocytes. Only A has no outright error: monocytes and macrophages are agranulocytes. Pick the option with no false statement. Search words: only phagocytes, avid phagocytes. Go to: PDF p3 (blood cell types, Table 9.2) and PDF p14 (the sentence that says which cells are phagocytes).",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q12",
+       "number": 12,
+       "stem": "Of the agranulocytes, ________ are also lymphocytes, and _________ are solid-tissue resident cells.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "neutrophils/ NK cells"
+        },
+        {
+         "letter": "B",
+         "text": "NK cells/ macrophages"
+        },
+        {
+         "letter": "C",
+         "text": "macrophages/neutrophils"
+        },
+        {
+         "letter": "D",
+         "text": "monocytes/ macrophages"
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q13",
+       "number": 13,
+       "stem": "A person will develop a bleeding disorder if she has inadequate ________ counts in the blood and/or __________ in the plasma.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "monocyte/ gamma globulins"
+        },
+        {
+         "letter": "B",
+         "text": "thrombocyte/ clotting factors"
+        },
+        {
+         "letter": "C",
+         "text": "erythrocyte/ complement proteins"
+        },
+        {
+         "letter": "D",
+         "text": "megakaryocyte/ beta macroglobulin"
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q14",
+       "number": 14,
+       "stem": "Of the lymphocytes, ___________ are seldom seen in the blood, __________ are mostly found in the lymph nodes and spleen.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "DCs/ B cells"
+        },
+        {
+         "letter": "B",
+         "text": "NK cells/ DCs"
+        },
+        {
+         "letter": "C",
+         "text": "T cells/ B cells"
+        },
+        {
+         "letter": "D",
+         "text": "B cells/ NK cells"
+        }
+       ],
+       "answer": "A",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A",
+        "B"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text says NK cells \"primarily reside in solid tissues\" and that DCs and mast cells are tissue-resident, so both DCs and NK cells are seldom in the blood. The tiebreaker is the second blank: B cells are the ones described as mostly in the lymph nodes and spleen (follicles and germinal centers), so A fits both blanks. Read the lymph node and spleen sections to confirm B cells, not DCs, fill the second blank. Search words: tissue-resident, primarily reside, germinal. Go to: PDF p3 (the paragraph after Fig. 9.1) for who is rare in blood; PDF p5 for the spleen and lymph node sections.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q15",
+       "number": 15,
+       "stem": "Of the blood leucocytes, __________ are called PBMCs and ___________ are called PMNs.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "B cells / basophils"
+        },
+        {
+         "letter": "B",
+         "text": "T cells / neutrophils"
+        },
+        {
+         "letter": "C",
+         "text": "NK cells/ eosinophils"
+        },
+        {
+         "letter": "D",
+         "text": "T cells, B cells and NK cells/ neutrophils, basophils, and eosinophils"
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "The bone marrow",
+     "questions": [
+      {
+       "id": "ch9-q16",
+       "number": 16,
+       "stem": "Which of the following cells fully mature in the bone marrow?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "B cells"
+        },
+        {
+         "letter": "B",
+         "text": "T cells"
+        },
+        {
+         "letter": "C",
+         "text": "Macrophages"
+        },
+        {
+         "letter": "D",
+         "text": "Thrombocytes"
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q17",
+       "number": 17,
+       "stem": "Most of the blood cells are born and mature in the bone marrow. Which of these provides the growth factors and other signals necessary for the maturation of these cells?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Bone surfaces."
+        },
+        {
+         "letter": "B",
+         "text": "Endothelial cells and fibroblasts."
+        },
+        {
+         "letter": "C",
+         "text": "Irons deposits of the bone marrow."
+        },
+        {
+         "letter": "D",
+         "text": "Stromal cells, epithelial cells, and macrophages"
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "The thymus",
+     "questions": [
+      {
+       "id": "ch9-q18",
+       "number": 18,
+       "stem": "The blood thymus barrier is created by the _________, to _____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "trabecular cells/ to separate thymic cortex from thymic medulla"
+        },
+        {
+         "letter": "B",
+         "text": "endothelial and reticular cells/ prevent microbes from entering the thymus"
+        },
+        {
+         "letter": "C",
+         "text": "thymic cortical epithelial cells/ prevent immature T cells from leaving the thymus"
+        },
+        {
+         "letter": "D",
+         "text": "thymic medullar epithelial cells/ prevent non-thymocytes from entering the thymus"
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q19",
+       "number": 19,
+       "stem": "The majority of the premature T cells (thymocytes) that enter the thymus are killed during the maturation process. Which of the areas of the thymus contain mature T cells about to leave the thymus?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Cortex."
+        },
+        {
+         "letter": "B",
+         "text": "Medulla."
+        },
+        {
+         "letter": "C",
+         "text": "Areas close to the trabeculae."
+        },
+        {
+         "letter": "D",
+         "text": "The margin between medulla and cortex."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q20",
+       "number": 20,
+       "stem": "A two years old was diagnosed with DiGeorge syndrome manifested by complete lack of T cells. How can this child’s T cell immunity be reconstituted?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "By transplanting a spleen from a marching donor."
+        },
+        {
+         "letter": "B",
+         "text": "By transferring mature T cells from a matching person."
+        },
+        {
+         "letter": "C",
+         "text": "By transferring bone marrow of a matching normal child."
+        },
+        {
+         "letter": "D",
+         "text": "There is no effective method to reconstitute his T cell immunity."
+        }
+       ],
+       "answer": "B",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B",
+        "C"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text says DiGeorge = no thymus, so no T cells can develop. Bone marrow (C) only gives stem cells that STILL need a thymus to make T cells. A spleen transplant (A) does not make T cells. \"No method exists\" (D) overclaims. Only B supplies finished T cells without needing a thymus. Search words: DiGeorge, severe immunodeficiency, reconstitute. Go to: PDF p5, the thymus section (slide 12 for DiGeorge, slide 11 for the marrow \"reconstitution\" slide).",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Spleen and lymph nodes",
+     "questions": [
+      {
+       "id": "ch9-q21",
+       "number": 21,
+       "stem": "In which areas of the spleen are leucocytes more abundant?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Surrounding the splenic arteries."
+        },
+        {
+         "letter": "B",
+         "text": "Surrounding the splenic veins."
+        },
+        {
+         "letter": "C",
+         "text": "In the red pulp."
+        },
+        {
+         "letter": "D",
+         "text": "In the sinuses."
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q22",
+       "number": 22,
+       "stem": "Which of these cells catches microbes and antigens coming to the spleen through the blood?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Macrophages."
+        },
+        {
+         "letter": "B",
+         "text": "Eosinophils."
+        },
+        {
+         "letter": "C",
+         "text": "Neutrophils."
+        },
+        {
+         "letter": "D",
+         "text": "Basophils."
+        },
+        {
+         "letter": "E",
+         "text": "RBCs."
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q23",
+       "number": 23,
+       "stem": "Of the lymphoid organs, ____________ serves as the microbiological filter of the blood, and __________ serves as the microbiological filter of the tissue fluids.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "thymus/spleen"
+        },
+        {
+         "letter": "B",
+         "text": "spleen/lymph nodes"
+        },
+        {
+         "letter": "C",
+         "text": "bone marrow/ thymus"
+        },
+        {
+         "letter": "D",
+         "text": "lymph nodes/"
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q24",
+       "number": 24,
+       "stem": "Mature naïve B cells, T cells, DCs, and macrophages are more abundant in which of the areas of a lymph node, and why are they more abundant there?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Medulla, to avoid overexposure to antigens."
+        },
+        {
+         "letter": "B",
+         "text": "Cortex, to capture antigens and present them."
+        },
+        {
+         "letter": "C",
+         "text": "The follicles and germinal centers, for dividing."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q25",
+       "number": 25,
+       "stem": "About a week after exposure the bacterium Yersinia pestis, the patient develops many buboes in the groin and armpits. The buboes are the signs of bubonic plague. Why does the patient develop buboes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Because of excessive growth of the bacterium in the lymph nodes."
+        },
+        {
+         "letter": "B",
+         "text": "Because of excessive migration of neutrophils to the lymph nodes."
+        },
+        {
+         "letter": "C",
+         "text": "Because of excessive proliferation of lymphocytes in the lymph nodes."
+        }
+       ],
+       "answer": "C",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text says local lymph nodes swell into buboes in response to infection and calls this lymphadenopathy, which \"results from excessive proliferation of T and B lymphocytes\" in the nodes. That is his answer, not bacterial growth or neutrophils. Search words: buboes, lymphadenopathy. Go to: PDF p5, section \"The lymph nodes\", the last two sentences.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q26",
+       "number": 26,
+       "stem": "Children infected with malarial parasites often grow a spleen 4-10 times its standard size ( a condition called splenomegaly). Splenomegaly indicates which of these points?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Excessive lymphocyte proliferation in the spleen."
+        },
+        {
+         "letter": "B",
+         "text": "The child has been repeatedly infected by malarial parasites."
+        },
+        {
+         "letter": "C",
+         "text": "The child’s immune system failed to eradicate the parasites."
+        },
+        {
+         "letter": "D",
+         "text": "All these conditions"
+        }
+       ],
+       "answer": "D",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text says the spleen can grow 5 to 10 times in chronic infections and that splenomegaly is caused by excessive lymphocyte proliferation (A). A chronic infection means repeated infection (B) and failure to clear it (C), so all three hold. (The tail \"MALT and SALT\" on the starred line is a leftover heading from the next section; ignore it.) Search words: splenomegaly, 5-10-fold. Go to: PDF p5, section \"The spleen\", last sentences.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q27",
+       "number": 27,
+       "stem": "Why are MALT and SALT called tissues and not organs?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "They lack a capsule, and no arteries or veins are connected to them."
+        },
+        {
+         "letter": "B",
+         "text": "Their size remains unchanged during good health and infection."
+        },
+        {
+         "letter": "C",
+         "text": "They are populated by granulocytes, not by lymphocytes."
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q28",
+       "number": 28,
+       "stem": "All of the following belong to MALT EXCEPT ________, and langerhans cells, a special type of DCs are found in ________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "BALT/NALT"
+        },
+        {
+         "letter": "B",
+         "text": "NALT/SALT"
+        },
+        {
+         "letter": "C",
+         "text": "SALT/CALT"
+        },
+        {
+         "letter": "D",
+         "text": "GALT/ Payer’s patches"
+        }
+       ],
+       "answer": "C",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text: NALT, GALT and BALT are the MALT subtypes; the lymph nodules under the skin are SALT (also called CALT), not MALT; and Langerhans cells populate the epidermal nodules of the skin. So the thing that is NOT MALT is SALT, and Langerhans cells are in the skin tissue, which his text names SALT or CALT. Search words: Langerhans, CALT, BALT. Go to: PDF p7, the MALT and SALT section (slide 15 for MALT/SALT, slide 9 for the lymphatic system overview).",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "The complement pathways and anaphylatoxins",
+     "questions": [
+      {
+       "id": "ch9-q29",
+       "number": 29,
+       "stem": "Which of the following proteins of the complement pathways lacks any actual, potential, or associative proteolytic enzyme activity?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "C2aC4b and C3bBb"
+        },
+        {
+         "letter": "B",
+         "text": "C1 and MBL"
+        },
+        {
+         "letter": "C",
+         "text": "C5 and C6"
+        },
+        {
+         "letter": "D",
+         "text": "C2 and C4"
+        },
+        {
+         "letter": "E",
+         "text": "C3"
+        }
+       ],
+       "answer": "C",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C",
+        "E"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: C5 is a substrate (it is cut by C3b to give C5a and C5b) and C6 only joins the complex that builds the MAC; neither cuts proteins. The others do: C1 and MBL bring along their associated proteases, C2 and C4 produce the enzyme pieces (C2a, C4b), C2aC4b and C3bBb are the protein-cutting complexes, and C3b joins Bb to make an enzyme. Search words: C5b, C3bBb, C3b-6-7. Go to: PDF p8 and p9, the complement pathways section (slides 20 to 23).",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q30",
+       "number": 30,
+       "stem": "If the complement _________ is processed, one or more of the complement pathways will be activated.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "C1 or C2"
+        },
+        {
+         "letter": "B",
+         "text": "C3 or C5"
+        },
+        {
+         "letter": "C",
+         "text": "C4 or C6"
+        },
+        {
+         "letter": "D",
+         "text": "C7 or C8"
+        },
+        {
+         "letter": "E",
+         "text": "B or P"
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q31",
+       "number": 31,
+       "stem": "The membrane attack complex (MAC) lacks the protein _______, and a MAC would directly destroy any of the following entities EXCEPT_________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "C5b/nucleated animal cells"
+        },
+        {
+         "letter": "B",
+         "text": "C6/animal cells lacking a nucleus"
+        },
+        {
+         "letter": "C",
+         "text": "C8/ enveloped virus and G(-) bacteria"
+        },
+        {
+         "letter": "D",
+         "text": "C3b/naked viruses, G(+) bacteria and fungi"
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q32",
+       "number": 32,
+       "stem": "A person has a chronic hepatitis C infection. Some G(-) bacteria have invaded the person's bloodstream. The person lacks antibodies specific to the bacterium. Which of the following complement pathways might activate in this person’s body to eliminate the G(-) bacteria?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Lectin pathway."
+        },
+        {
+         "letter": "B",
+         "text": "Classical pathway."
+        },
+        {
+         "letter": "C",
+         "text": "Alternative pathway."
+        },
+        {
+         "letter": "D",
+         "text": "Classical or Alternative pathway."
+        },
+        {
+         "letter": "E",
+         "text": "Alternative pathway or lectin pathway."
+        }
+       ],
+       "answer": "E",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q33",
+       "number": 33,
+       "stem": "Anaphylatoxins (ATs) may bind their receptors on the host cells and increase inflammation by all these processes EXCEPT _________, notably, _______ is not an anaphylatoxin.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "neutrophil activation/ C3a"
+        },
+        {
+         "letter": "B",
+         "text": "ECs to cause vasodilation/ C4a"
+        },
+        {
+         "letter": "C",
+         "text": "causing cells to leak DAMPs/ C2a"
+        },
+        {
+         "letter": "D",
+         "text": "causing mast cells to degranulate/ C5a"
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q34",
+       "number": 34,
+       "stem": "Which of these is an immunogen?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is a protein or polysaccharide molecule that an antibody or TCR binds to."
+        },
+        {
+         "letter": "B",
+         "text": "It has one or more epitopes that an antibody or TCR specifically recognizes."
+        },
+        {
+         "letter": "C",
+         "text": "It is a polysaccharide or protein molecule that, if injected into a person, causes the person to develop antibodies or TCRs against it."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q35",
+       "number": 35,
+       "stem": "A protein molecule is made of a polypeptide chain containing 300 amino acids. How many epitopes are expected to be present in the protein molecule?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "25-100"
+        },
+        {
+         "letter": "B",
+         "text": "15-60"
+        },
+        {
+         "letter": "C",
+         "text": "5-15"
+        },
+        {
+         "letter": "D",
+         "text": "1"
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q36",
+       "number": 36,
+       "stem": "Which of these antigens will a TCR bind to?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "A protein antigen made of 200 amino acids, in the blood."
+        },
+        {
+         "letter": "B",
+         "text": "A polypeptide chain made of 21 amino acids, in the blood."
+        },
+        {
+         "letter": "C",
+         "text": "A polysaccharide antigen made of 200 sugars, on a bacterial membrane."
+        },
+        {
+         "letter": "D",
+         "text": "A polypeptide chain made of 21 amino acids is presented on an MHC II molecule."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q37",
+       "number": 37,
+       "stem": "Which of the following are PAMPs of fungal origin?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Histones, heat shock proteins, lactoferrin, and hyaluronic acid."
+        },
+        {
+         "letter": "B",
+         "text": "flagellin, pilin, LPS, LTA and peptidoglycan."
+        },
+        {
+         "letter": "C",
+         "text": "dsRNA and CpG-rich ssRNA and dsDNA."
+        },
+        {
+         "letter": "D",
+         "text": "Chitin, glucan, mannan, and zymosan."
+        },
+        {
+         "letter": "E",
+         "text": "Chitin and hemozoin."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q38",
+       "number": 38,
+       "stem": "Which of the following molecules are not DAMPs?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Proteins byproducts created due to blood coagulation and complement activation."
+        },
+        {
+         "letter": "B",
+         "text": "DNA, RNA, histones, ATP, and heat shock proteins in the blood plasma."
+        },
+        {
+         "letter": "C",
+         "text": "Alpha, beta, and gamma globulins in the blood."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q39",
+       "number": 39,
+       "stem": "TLRs are one of the many groups of pattern-recognition receptors (PRRs) of the host cells. Which of the domains of a TLR 3 or 7 of the cell would bind the unmethylated GC-rich DNA molecule?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The leucine-rich domain."
+        },
+        {
+         "letter": "B",
+         "text": "The transmembrane domain."
+        },
+        {
+         "letter": "C",
+         "text": "The signal transducing domain."
+        },
+        {
+         "letter": "D",
+         "text": "The transmembrane and signal transducing domains."
+        }
+       ],
+       "answer": "A",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text says a typical TLR has a leucine-rich region that binds PAMPs, a transmembrane region, and a signaling region. Any ligand binds the leucine-rich part, regardless of which TLR. Search words: leucine, TLR 3. Go to: PDF p11, the TLR paragraph (slides 24 to 26).",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q40",
+       "number": 40,
+       "stem": "TLR 4 of a leucocyte bound LPS (a PAMP) or heat shock protein (a DAMP). What would be the ULTIMATE outcome of these interactions?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The bound molecules will be internalized by phagocytosis or endocytosis."
+        },
+        {
+         "letter": "B",
+         "text": "A signal will be generated and transmitted to the nucleus of the cell."
+        },
+        {
+         "letter": "C",
+         "text": "Some new genes will be expressed in the cell."
+        },
+        {
+         "letter": "D",
+         "text": "The phenotype of the cell will change."
+        }
+       ],
+       "answer": "D",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D",
+        "B"
+       ],
+       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His TLR4 figure caption walks the chain: signal, transduction to the nucleus, new genes expressed, proteins made, and those proteins \"alter the cell's phenotype (size, shape, and abilities), which are the cell's response to the signal.\" The last step in that chain is the phenotype change. Search words: phenotype. Go to: PDF p8, the caption under the TLR4 signal transduction figure.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Inflammation and cell migration",
+     "questions": [
+      {
+       "id": "ch9-q41",
+       "number": 41,
+       "stem": "Which of these ALWAYS occur in an event of inflammation?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Heat."
+        },
+        {
+         "letter": "B",
+         "text": "Pain."
+        },
+        {
+         "letter": "C",
+         "text": "Fever."
+        },
+        {
+         "letter": "D",
+         "text": "Cell migration."
+        },
+        {
+         "letter": "E",
+         "text": "Redness and swelling."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q42",
+       "number": 42,
+       "stem": "Which of the following would cause rolling of leucocytes in the capillaries near injured/infected tissues?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "ICAM, VCAMs etc., of ECs bound to LFAI and other ligands of leucocytes."
+        },
+        {
+         "letter": "B",
+         "text": "Selectins of ECs bind to selectin ligands (such as mucin) of leucocytes."
+        },
+        {
+         "letter": "C",
+         "text": "Chemokines bound to the chemokine receptors of ECs and leucocytes."
+        },
+        {
+         "letter": "D",
+         "text": "Reorganization of cytoskeleton of the leucocytes arrested on the ECs."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q43",
+       "number": 43,
+       "stem": "Which of these cells cleanses most of the microbes and damaged tissues in an inflamed organ (and ultimately dies to create pus)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Neutrophils."
+        },
+        {
+         "letter": "B",
+         "text": "B and T lymphocytes."
+        },
+        {
+         "letter": "C",
+         "text": "Macrophages and DCs."
+        },
+        {
+         "letter": "D",
+         "text": "Eosinophils and basophils."
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Adhesins and cytokines",
+     "questions": [
+      {
+       "id": "ch9-q44",
+       "number": 44,
+       "stem": "Why are adhesins different from cytokines?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Adhesins for inflammation, cytokines are for activation."
+        },
+        {
+         "letter": "B",
+         "text": "Adhesins are generally secreted; cytokines are on the cell surface"
+        },
+        {
+         "letter": "C",
+         "text": "Adhesins are for attachment, cytokines are for signal transduction."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q45",
+       "number": 45,
+       "stem": "Which of the following cytokines are chemokines?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "They are secreted glycoproteins and act only by binding receptors."
+        },
+        {
+         "letter": "B",
+         "text": "They bind receptors of leucocytes and cause them to migrate."
+        },
+        {
+         "letter": "C",
+         "text": "They have a molecular mass of about 20 kD."
+        },
+        {
+         "letter": "D",
+         "text": "They are secreted only by lymphocytes."
+        },
+        {
+         "letter": "E",
+         "text": "They are secreted by glands, not cells."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Fever response",
+     "questions": [
+      {
+       "id": "ch9-q46",
+       "number": 46,
+       "stem": "Which of the following, if injected into the blood, would directly cause a fever response (without any intermediaries)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Phospholipases or cyclooxygenases."
+        },
+        {
+         "letter": "B",
+         "text": "Arachidonic acid or PGH."
+        },
+        {
+         "letter": "C",
+         "text": "ILPS or LTA."
+        },
+        {
+         "letter": "D",
+         "text": "IL-1 or TNF."
+        },
+        {
+         "letter": "E",
+         "text": "PGE2."
+        }
+       ],
+       "answer": "E",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q47",
+       "number": 47,
+       "stem": "Ho do NSAIDs reduce fever and pain?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "By binding/inactivating cytokines."
+        },
+        {
+         "letter": "B",
+         "text": "By killing activated macrophages."
+        },
+        {
+         "letter": "C",
+         "text": "By inhibiting cyclooxygenases."
+        },
+        {
+         "letter": "D",
+         "text": "By inhibiting PGE2 synthase."
+        },
+        {
+         "letter": "E",
+         "text": "By inhibiting phospholipases."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Chronic inflammation",
+     "questions": [
+      {
+       "id": "ch9-q48",
+       "number": 48,
+       "stem": "Which of the following may lead to chronic inflammation?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Failure of the body to completely remove microbial/foreign antigens."
+        },
+        {
+         "letter": "B",
+         "text": "Lack of sustained presence of cytokines such as TNFa and IFNg."
+        },
+        {
+         "letter": "C",
+         "text": "Sustained secretion of IL-1, IL-6 and TNFb by leucocytes."
+        },
+        {
+         "letter": "D",
+         "text": "Two of these."
+        },
+        {
+         "letter": "E",
+         "text": "All these."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q49",
+       "number": 49,
+       "stem": "Chronic inflammation may cause each of the following EXCEPT___________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "cirrhosis of the liver"
+        },
+        {
+         "letter": "B",
+         "text": "atherosclerosis and wasting"
+        },
+        {
+         "letter": "C",
+         "text": "lack of tertiary lymphoid tissues"
+        },
+        {
+         "letter": "D",
+         "text": "tumorigenesis in the affected tissues"
+        },
+        {
+         "letter": "E",
+         "text": "granulomas and autoimmune diseases such as arthritis"
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q50",
+       "number": 50,
+       "stem": "Which of the following would be the best treatment for chronic inflammation caused by chronic hepatitis C virus (HCV) infection of the liver?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "NASIDs."
+        },
+        {
+         "letter": "B",
+         "text": "Corticosteroids."
+        },
+        {
+         "letter": "C",
+         "text": "Liver transplantation."
+        },
+        {
+         "letter": "D",
+         "text": "Drugs that prevent replication of HCV or destroy it."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q51",
+       "number": 51,
+       "stem": "Which of these involves protrusion of the plasma membrane to catch an external microbe or large insoluble antigen?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Receptor-mediated endocytosis."
+        },
+        {
+         "letter": "B",
+         "text": "Macropioncytosis."
+        },
+        {
+         "letter": "C",
+         "text": "Phagocytosis"
+        },
+        {
+         "letter": "D",
+         "text": "Autophagy."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q52",
+       "number": 52,
+       "stem": "Which of these vesicles are endolysosomes (also called phagolysosomes)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Clathrin-coated vesicles, macropinosomes, autophagosomes."
+        },
+        {
+         "letter": "B",
+         "text": "Early endosomes fused to trans-Golgi vesicles."
+        },
+        {
+         "letter": "C",
+         "text": "Late endosomes fused to trans-Golgi vesicles."
+        },
+        {
+         "letter": "D",
+         "text": "Late endosomes fused to lysosomes."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Oxidative destruction of trapped materials",
+     "questions": [
+      {
+       "id": "ch9-q53",
+       "number": 53,
+       "stem": "Of the reactive oxygen species (ROSs), ________ is a hydroxyl radical, and __________ is a superoxide?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "OH*/O2-"
+        },
+        {
+         "letter": "B",
+         "text": "OH-/ OH*"
+        },
+        {
+         "letter": "C",
+         "text": "O2-/ OONO-"
+        },
+        {
+         "letter": "D",
+         "text": "HOCl-/ OH-"
+        },
+        {
+         "letter": "E",
+         "text": "OONO-/ H2O2"
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q54",
+       "number": 54,
+       "stem": "How do the reactive oxygen species (ROSs) prevent microbial infections?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "They kill the microbe-infected cells."
+        },
+        {
+         "letter": "B",
+         "text": "They react with and inactivate macromolecules of phagocytized microbes."
+        },
+        {
+         "letter": "C",
+         "text": "They change the chemical conditions of the cytoplasm and prevent microbes from growing."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Lytic destruction of trapped materials",
+     "questions": [
+      {
+       "id": "ch9-q55",
+       "number": 55,
+       "stem": "Lysosomes always contain enzymes. Why do those enzymes not kill the phagocytes, but they do kill phagocytized microbes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Because the enzymes are contained in membrane vesicles."
+        },
+        {
+         "letter": "B",
+         "text": "Because phagocytosis helps reduce pH of the phagolysosome to rise above 8."
+        },
+        {
+         "letter": "C",
+         "text": "Because phagocytosis helps reduce pH of the phagolysosome to fall below 6."
+        }
+       ],
+       "answer": "C",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C",
+        "A"
+       ],
+       "answerRationale": "No star in your file; best reading from the lecture and chapter. His logic: A is true but does not explain why microbes die and the cell does not. His text says the acidic pH of the phagolysosome ACTIVATES the enzymes, which is why they work on the captured microbe. Lecture slide 36 says the same (\"Gradual acidification, activation of lysosomal enzymes\"). B is wrong (pH rises). Search words: acidic, proton. Go to: PDF p15, the phagocytosis section; lecture slide 36.",
+       "answerSource": "derived"
+      },
+      {
+       "id": "ch9-q56",
+       "number": 56,
+       "stem": "Which of the following acid hydrolases (enzymes) would digest microbial polysaccharides?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Lipases."
+        },
+        {
+         "letter": "B",
+         "text": "Proteases."
+        },
+        {
+         "letter": "C",
+         "text": "Nucleases."
+        },
+        {
+         "letter": "D",
+         "text": "Glycosidases."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Part 3: Adaptive Immunity",
+     "questions": [
+      {
+       "id": "ch9-q57",
+       "number": 57,
+       "stem": "Which of the information about TCR is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "A TCR can have alpha and beta chains, or gamma and delta chains."
+        },
+        {
+         "letter": "B",
+         "text": "It is made of two polypeptide chains, each about 250 amino acids in size."
+        },
+        {
+         "letter": "C",
+         "text": "A TCR has a membrane domain, a constant region domain, and a variable region domain."
+        },
+        {
+         "letter": "D",
+         "text": "A TCR can be found on the plasma membrane of T cells or dissolved in the blood and body fluids."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q58",
+       "number": 58,
+       "stem": "Which of the information about an antibody is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is made of two light chains (250 amino acids, each) and one heavy chain (450 amino acids, each)."
+        },
+        {
+         "letter": "B",
+         "text": "It can be on the plasma membrane or dissolved in blood and body fluids."
+        },
+        {
+         "letter": "C",
+         "text": "It has two variable (Fab) regions and one constant (Fc) region."
+        },
+        {
+         "letter": "D",
+         "text": "The molecule appears like the letter Y or T."
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q59",
+       "number": 59,
+       "stem": "Which of these is an IgE antibody?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Five of the antibodies can form a pentameric antibody with 10 different antigen-binding arms."
+        },
+        {
+         "letter": "B",
+         "text": "The antibody can move from the mother's circulation to the fetal circulation via the placenta."
+        },
+        {
+         "letter": "C",
+         "text": "The Fc region of the antibody may bind to the FC receptor on eosinophils and mast cells."
+        },
+        {
+         "letter": "D",
+         "text": "The antibody can be found in the mucous secretions, such as sputum and milk."
+        },
+        {
+         "letter": "E",
+         "text": "The antibody is found in maturing B cells but is rare in the blood."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q60",
+       "number": 60,
+       "stem": "Which of these events has no role in creating variations in the variable regions of TCRs and antibodies?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Having many variable (V), diversity (D), and junction (J) gene fragments in the TCR and Ig genes."
+        },
+        {
+         "letter": "B",
+         "text": "Mutations in between the V and D, the VD and J gene fragments of TCR and Ig genes."
+        },
+        {
+         "letter": "C",
+         "text": "Having multiple C region gene fragments in the TCR and Ig genes."
+        },
+        {
+         "letter": "D",
+         "text": "Random recombination of the V, D, and J gene fragments."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q61",
+       "number": 61,
+       "stem": "Which of these is the right sequence of TCR or IG gene recombination events?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "A V recombines with a D, the VD recombines with a J, and the intervening unused V, D, or J fragments are removed."
+        },
+        {
+         "letter": "B",
+         "text": "A J recombines with a D, the JD recombines with a V, and the intervening unused V, D, or J, fragments are removed."
+        },
+        {
+         "letter": "C",
+         "text": "A V recombines with a D, a D recombines with a J, a J recombines with a C gene fragment. B cell development and maturation"
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q62",
+       "number": 62,
+       "stem": "Which of these B-cell development/maturation events takes place outside the bone marrow?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Recombination of Ig genes"
+        },
+        {
+         "letter": "B",
+         "text": "Negative selection of self-reactive B cells."
+        },
+        {
+         "letter": "C",
+         "text": "Expression of IgM and IgD on the plasma membrane."
+        },
+        {
+         "letter": "D",
+         "text": "Positive selection of B cells not binding self-antigens."
+        },
+        {
+         "letter": "E",
+         "text": "Binding foreign antigens, activation, and differentiation to plasma cells."
+        }
+       ],
+       "answer": "E",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q63",
+       "number": 63,
+       "stem": "Can B cells improve the ability of the variable region of their antibodies to bind a given antigen?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Yes, by recombination of the Ig gene segments in the bone marrow."
+        },
+        {
+         "letter": "B",
+         "text": "Yes, by mutating the variable region gene fragments in the bone marrow."
+        },
+        {
+         "letter": "C",
+         "text": "Yes, by somatic hypermutation of the variable region gene fragments while in the lymph nodes or spleen."
+        },
+        {
+         "letter": "D",
+         "text": "No, B cells recombine and mutate the V, D, and J gene fragments before binding to an antigen, not after meeting the antigen."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q64",
+       "number": 64,
+       "stem": "A child's B cell has IgM on its surface. The child has a chronic worm infection, and the T cells produced IL-4. To which of these antibodies would the child's B cell likely switch class?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "IgA."
+        },
+        {
+         "letter": "B",
+         "text": "IgD."
+        },
+        {
+         "letter": "C",
+         "text": "IgG."
+        },
+        {
+         "letter": "D",
+         "text": "IgE."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q65",
+       "number": 65,
+       "stem": "Which of these effector functions can IgGs not perform?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Activation of the classical pathway of complement activation."
+        },
+        {
+         "letter": "B",
+         "text": "Opsonization for more effective phagocytosis."
+        },
+        {
+         "letter": "C",
+         "text": "Promoting ADCC and B cell activation."
+        },
+        {
+         "letter": "D",
+         "text": "Neutralization of viruses and toxins."
+        },
+        {
+         "letter": "E",
+         "text": "Priming eosinophils and mast cells?"
+        }
+       ],
+       "answer": "E",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q66",
+       "number": 66,
+       "stem": "The events of antibody-dependent cellular toxicity (ADCC) on a virus-infected cell by an NK cell are listed here. Which of these is event 3 from the beginning?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The Fc receptors of the NK cell bind the Fc region of the deposited IgG."
+        },
+        {
+         "letter": "B",
+         "text": "The NK cell secretes granzyme and perforin onto the infected cell."
+        },
+        {
+         "letter": "C",
+         "text": "IgG deposits on the surface of the infected cell."
+        },
+        {
+         "letter": "D",
+         "text": "The infected cell dies of apoptosis."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q67",
+       "number": 67,
+       "stem": "Which of these T cells may leave the thymus to the blood and to the spleen and lymph nodes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Any T cells that have TCRs on their surface capable of binding an antigen."
+        },
+        {
+         "letter": "B",
+         "text": "Only single-positive (SP) T cells expressing TCR and either CD4 or CD8."
+        },
+        {
+         "letter": "C",
+         "text": "Only double-positive (DP) T cells expressing TCR, CD4, and CD8."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q68",
+       "number": 68,
+       "stem": "Which of these T cells will be positively selected (i.e., will not be killed by the process of apoptosis)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The TCRs of DP T cells cannot bind an antigen presented on MHC I or MHC II."
+        },
+        {
+         "letter": "B",
+         "text": "The TCRs of DP T cells bind an antigen presented on MHC I or MHC II with low affinity."
+        },
+        {
+         "letter": "C",
+         "text": "The TCRs of DP T cells bind an antigen presented on MHC I or MHC II with high affinity."
+        },
+        {
+         "letter": "D",
+         "text": "The TCRs of DP T cells either cannot bind an antigen presented on MHC I or MHC II or bind with very low affinity."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q69",
+       "number": 69,
+       "stem": "Why is there a physical antimicrobial barrier between the blood and the bone marrow and thymus?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "To prevent microbial antigens to appear like self-antigen in the primary lymphoid organs."
+        },
+        {
+         "letter": "B",
+         "text": "To prevent microbe and their antigens from entering the bone marrow and thymus."
+        },
+        {
+         "letter": "C",
+         "text": "To prevent microbial antigens from negatively selecting maturing B and T cells."
+        },
+        {
+         "letter": "D",
+         "text": "To accomplish all these goals."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Antigen processing and presentation",
+     "questions": [
+      {
+       "id": "ch9-q70",
+       "number": 70,
+       "stem": "Which of these protein antigens was processed by an APC?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The antigen was processed in a phagolysosome, and it is composed of 20 amino acids."
+        },
+        {
+         "letter": "B",
+         "text": "The protein antigen was synthesized by the ribosome of the presenting cells."
+        },
+        {
+         "letter": "C",
+         "text": "The antigen is made of about 8 amino acids and presented by MHC-I."
+        },
+        {
+         "letter": "D",
+         "text": "The antigen was processed by proteasomes in the cytoplasm."
+        },
+        {
+         "letter": "E",
+         "text": "Any of these antigens."
+        }
+       ],
+       "answer": "E",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q71",
+       "number": 71,
+       "stem": "A virus infected a macrophage. Currently, the viral proteins are in the cytoplasm of the infected cell. Which of the following statements is CORRECT about this event?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The macrophage would continue to behave as an antigen-presenting cell, not as a target cell."
+        },
+        {
+         "letter": "B",
+         "text": "The viral proteins will be processed in the phagolysosomes and presented on MHC II."
+        },
+        {
+         "letter": "C",
+         "text": "The viral proteins will be processed by the proteasomes and presented on MHC I."
+        },
+        {
+         "letter": "D",
+         "text": "The antigen will be recognized by TH cells, and the macrophage will not be killed."
+        }
+       ],
+       "answer": "C",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q72",
+       "number": 72,
+       "stem": "Only activated dendritic cells (DCs) can activate a mature naïve TH or TC cell. How do DCs get activated? Note: Only the best answer will be scored.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "If the DCs get infected by microbes (the microbes are inside the DCs)."
+        },
+        {
+         "letter": "B",
+         "text": "If the DCs phagocytize microbes and kill them in their phagolysosomes."
+        },
+        {
+         "letter": "C",
+         "text": "If T cells and or leucocytes secrete cytokines in the area where the DCs were posted."
+        },
+        {
+         "letter": "D",
+         "text": "If PAMPs and DAMPs bind the various receptors (TLRs, etc.) on the DCs and transduce signals."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q73",
+       "number": 73,
+       "stem": "Which of these mature naïve T cells is about to become a fully activated TH cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Its LFAI and CD2 have bound ligands on the DC."
+        },
+        {
+         "letter": "B",
+         "text": "Its TCR has bound an antigen on the MHC II of a DC."
+        },
+        {
+         "letter": "C",
+         "text": "Its CD4 molecule has interacted with the MHC II of a DC."
+        },
+        {
+         "letter": "D",
+         "text": "Its CD28 and CD40L have bound B7 and BD40 on the DC."
+        },
+        {
+         "letter": "E",
+         "text": "It has secreted IL-2, and IL-2 has bound its IL-2 receptors."
+        }
+       ],
+       "answer": "E",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q74",
+       "number": 74,
+       "stem": "A mature naïve T cell was being activated by an activated DC. The surrounding environment has abundant TGF- beta and IL-2 (cytokines). What type of effector TH cell is the activated Th cell likely to become? Note: Please refer to Table 9.13 of MMAHP to answer this question.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "TH1 cells."
+        },
+        {
+         "letter": "B",
+         "text": "TH2 cells."
+        },
+        {
+         "letter": "C",
+         "text": "TH17 cells."
+        },
+        {
+         "letter": "D",
+         "text": "iTreg cells."
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q75",
+       "number": 75,
+       "stem": "What type of cytokines do TH1 effector cells secrete, and what immune protections do the TH1 type effectors provide? Note: Please refer to Table 9.13 in MMAHP to answer this question.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "IL-4, IL-5, IL-13; activate B cells to class-switch to IgG and IgE"
+        },
+        {
+         "letter": "B",
+         "text": "IFN-gamma, IL-12, IL-27; activate TC cells to kill virus-infected cells."
+        },
+        {
+         "letter": "C",
+         "text": "IL-17, IL-22, IL-26; protect the mucous membranes from microbial damage."
+        },
+        {
+         "letter": "D",
+         "text": "IL-10, TGF-beta; suppress activated T cells, prevent excess inflammation."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q76",
+       "number": 76,
+       "stem": "A mature naïve TC cell is being activated by an activated DC. Which of these interactions can the TC cell not do, but rather depend on a TH cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Its LFAI and CD2 have bound ligands on the DC."
+        },
+        {
+         "letter": "B",
+         "text": "Its TCR has bound an antigen on the MHC I of a DC."
+        },
+        {
+         "letter": "C",
+         "text": "Its CD8 molecule has interacted with the MHC I of a DC."
+        },
+        {
+         "letter": "D",
+         "text": "Its CD28 and CD40L have bound B7 and BD40 on the DC."
+        },
+        {
+         "letter": "E",
+         "text": "It has secreted IL-2, and IL-2 has bound its IL-2 receptors."
+        }
+       ],
+       "answer": "E",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q77",
+       "number": 77,
+       "stem": "Which of these activated T cells is an activated TH cell?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It’s TCRs bound to antigens on MHC II of a presenting cell; the cell is secreting cytokines."
+        },
+        {
+         "letter": "B",
+         "text": "It’s TCRs bound to antigens on MHC I of a target cell; the cell is releasing perforins and granzymes."
+        }
+       ],
+       "answer": "A",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q78",
+       "number": 78,
+       "stem": "How are activated T cells and memory T cells different from mature naïve T cells in terms of effector functions?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Activated T cells and memory T cells are long-lived stem cells; mature naïve T cells are short-lived cells."
+        },
+        {
+         "letter": "B",
+         "text": "Activated T cells and memory T cells do not need activated DCs to get activated; mature naïve T cells do."
+        },
+        {
+         "letter": "C",
+         "text": "Activated T cells and memory T cells stay in the lymph nodes and spleen; mature naïve T cells migrate to inflamed tissues."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    },
+    {
+     "heading": "Regulation of the immune system",
+     "questions": [
+      {
+       "id": "ch9-q79",
+       "number": 79,
+       "stem": "The adaptive immune system may totally collapse if _________ are very low or lacking in the body of a person.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "monocytes and macrophages"
+        },
+        {
+         "letter": "B",
+         "text": "granulocytes and Tc cells"
+        },
+        {
+         "letter": "C",
+         "text": "B cells and NK cells"
+        },
+        {
+         "letter": "D",
+         "text": "DCs and Th cells"
+        }
+       ],
+       "answer": "D",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      },
+      {
+       "id": "ch9-q80",
+       "number": 80,
+       "stem": "Why does inflammation subside, and lymphocyte counts return to normal after an infection is controlled?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "When an infection is under control, microbial antigens accumulate, suppressing the growth of T and B cells."
+        },
+        {
+         "letter": "B",
+         "text": "When an infection is under control, activated T and B cells die due to the lack of antigens and IL-2."
+        },
+        {
+         "letter": "C",
+         "text": "When an infection is under control, T cells and other leukocytes secrete excessive cytokines."
+        }
+       ],
+       "answer": "B",
+       "answerRationale": "Starred in your Ch 9 chapter file.",
+       "answerSource": "starred"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

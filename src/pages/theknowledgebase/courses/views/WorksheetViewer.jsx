@@ -263,6 +263,7 @@ const WorksheetQuestion = memo(function WorksheetQuestion({ question, marks, not
           {question.answerSource === 'graded' && <span className="wks-official-tag">confirmed by your graded OLQ attempt</span>}
           {question.answerSource === 'corrected' && <span className="wks-official-tag">corrected after OLQ grading, checked against the chapter text</span>}
           {question.answerSource === 'checked' && <span className="wks-official-tag">checked against the chapter text</span>}
+          {question.answerSource === 'starred' && <span className="wks-derived-tag">starred in your chapter file, not the official key yet (it opens Nov 8)</span>}
         </div>
       )}
     </div>
