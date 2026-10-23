@@ -34,8 +34,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q2",
@@ -95,8 +95,8 @@
         }
        ],
        "answer": "D",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q4",
@@ -212,8 +212,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q8",
@@ -268,8 +268,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       }
      ]
     },
@@ -295,8 +295,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q11",
@@ -347,8 +347,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q13",
@@ -461,8 +461,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q17",
@@ -606,8 +606,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q22",
@@ -662,8 +662,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q24",
@@ -706,12 +706,8 @@
         }
        ],
        "answer": "C",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "C"
-       ],
-       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text says local lymph nodes swell into buboes in response to infection and calls this lymphadenopathy, which \"results from excessive proliferation of T and B lymphocytes\" in the nodes. That is his answer, not bacterial growth or neutrophils. Search words: buboes, lymphadenopathy. Go to: PDF p5, section \"The lymph nodes\", the last two sentences.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q26",
@@ -762,8 +758,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q28",
@@ -788,12 +784,8 @@
         }
        ],
        "answer": "C",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "C"
-       ],
-       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His text: NALT, GALT and BALT are the MALT subtypes; the lymph nodules under the skin are SALT (also called CALT), not MALT; and Langerhans cells populate the epidermal nodules of the skin. So the thing that is NOT MALT is SALT, and Langerhans cells are in the skin tissue, which his text names SALT or CALT. Search words: Langerhans, CALT, BALT. Go to: PDF p7, the MALT and SALT section (slide 15 for MALT/SALT, slide 9 for the lymphatic system overview).",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       }
      ]
     },
@@ -827,13 +819,8 @@
         }
        ],
        "answer": "C",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "C",
-        "E"
-       ],
-       "answerRationale": "Starred in your Ch 9 chapter file. His logic: C5 is a substrate (it is cut by C3b to give C5a and C5b) and C6 only joins the complex that builds the MAC; neither cuts proteins. The others do: C1 and MBL bring along their associated proteases, C2 and C4 produce the enzyme pieces (C2a, C4b), C2aC4b and C3bBb are the protein-cutting complexes, and C3b joins Bb to make an enzyme. Search words: C5b, C3bBb, C3b-6-7. Go to: PDF p8 and p9, the complement pathways section (slides 20 to 23).",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q30",
@@ -862,8 +849,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q31",
@@ -944,8 +931,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q34",
@@ -966,8 +953,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q35",
@@ -1048,8 +1035,8 @@
         }
        ],
        "answer": "D",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q38",
@@ -1126,13 +1113,8 @@
         }
        ],
        "answer": "D",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "D",
-        "B"
-       ],
-       "answerRationale": "Starred in your Ch 9 chapter file. His logic: His TLR4 figure caption walks the chain: signal, transduction to the nucleus, new genes expressed, proteins made, and those proteins \"alter the cell's phenotype (size, shape, and abilities), which are the cell's response to the signal.\" The last step in that chain is the phenotype change. Search words: phenotype. Go to: PDF p8, the caption under the TLR4 signal transduction figure.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       }
      ]
     },
@@ -1166,8 +1148,8 @@
         }
        ],
        "answer": "D",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q42",
@@ -1218,8 +1200,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       }
      ]
     },
@@ -1310,8 +1292,8 @@
         }
        ],
        "answer": "E",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q47",
@@ -1340,8 +1322,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       }
      ]
     },
@@ -1518,8 +1500,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q54",
@@ -1629,8 +1611,8 @@
         }
        ],
        "answer": "D",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q58",
@@ -1655,8 +1637,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q59",
@@ -1685,8 +1667,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q60",
@@ -1733,8 +1715,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q62",
@@ -1763,8 +1745,8 @@
         }
        ],
        "answer": "E",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q63",
@@ -1789,8 +1771,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q64",
@@ -1815,8 +1797,8 @@
         }
        ],
        "answer": "D",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q65",
@@ -1845,8 +1827,8 @@
         }
        ],
        "answer": "E",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q66",
@@ -1871,8 +1853,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q67",
@@ -1919,8 +1901,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q69",
@@ -1980,8 +1962,8 @@
         }
        ],
        "answer": "E",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q71",
@@ -2006,8 +1988,8 @@
         }
        ],
        "answer": "C",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q72",
@@ -2114,8 +2096,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q76",
@@ -2162,8 +2144,8 @@
         }
        ],
        "answer": "A",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       },
       {
        "id": "ch9-q78",
@@ -2184,8 +2166,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       }
      ]
     },
@@ -2237,8 +2219,8 @@
         }
        ],
        "answer": "B",
-       "answerRationale": "Starred in your Ch 9 chapter file.",
-       "answerSource": "starred"
+       "answerRationale": "Confirmed by your graded OLQ 9 (20/20, 10-23): you picked this and it scored.",
+       "answerSource": "graded"
       }
      ]
     }
