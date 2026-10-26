@@ -19,8 +19,8 @@
 
 function Call({ kind, tag, children }) {
   return (
-    <div className={`afq-rotc-call ${kind}`}>
-      {tag && <span className="afq-rotc-tag">{tag}</span>}
+    <div className={`arc-s-call ${kind}`}>
+      {tag && <span className="arc-s-tag">{tag}</span>}
       {children}
     </div>
   );
@@ -28,11 +28,11 @@ function Call({ kind, tag, children }) {
 
 function Sec({ id, sob, title, clock, children }) {
   return (
-    <section id={id} className="afq-rotc-sec">
-      <div className="afq-rotc-sec-head">
-        <span className="afq-rotc-sob">{sob}</span>
+    <section id={id} className="arc-s-sec">
+      <div className="arc-s-sec-head">
+        <span className="arc-s-sob">{sob}</span>
         <h3>{title}</h3>
-        <span className="afq-rotc-clock">{clock}</span>
+        <span className="arc-s-clock">{clock}</span>
       </div>
       {children}
     </section>
@@ -41,7 +41,7 @@ function Sec({ id, sob, title, clock, children }) {
 
 function Fact({ term, value, small }) {
   return (
-    <div className="afq-rotc-fact">
+    <div className="arc-s-fact">
       <dt>{term}</dt>
       <dd>{value}{small && <small>{small}</small>}</dd>
     </div>
@@ -63,32 +63,32 @@ export default function RecitationSheet({ onGoToDrill }) {
   };
 
   return (
-    <div className="afq-rotc-sheet">
-      <header className="afq-rotc-mast">
-        <p className="afq-rotc-eyebrow">AFROTC · Samples of Behavior 1, 2, 4, 6, 7, 8</p>
+    <div className="arc-s-sheet">
+      <header className="arc-s-mast">
+        <p className="arc-s-eyebrow">AFROTC · Samples of Behavior 1, 2, 4, 6, 7, 8</p>
         <h2>Forty Minutes to Recitation</h2>
-        <p className="afq-rotc-sub">
+        <p className="arc-s-sub">
           A crash sheet for the graded recitation. Ordered by what the syllabus says you must
           recite from memory, then by what is most likely to be asked. Every fact was verified
           against live sources on 3 September 2026 — the flags are as important as the answers.
         </p>
-        <div className="afq-rotc-meta">
+        <div className="arc-s-meta">
           <span>Verified 03 SEP 2026</span>
           <span>5 research passes · 1,696 lines of source notes</span>
         </div>
       </header>
 
-      <div className="afq-rotc-budget">
-        <div className="afq-rotc-budget-head">
+      <div className="arc-s-budget">
+        <div className="arc-s-budget-head">
           <strong>Suggested 40-minute split</strong>
           <span>Priority block = the three you must recite from memory</span>
         </div>
-        <div className="afq-rotc-budget-bar" aria-hidden="true">
+        <div className="arc-s-budget-bar" aria-hidden="true">
           {BUDGET.map((b) => (
             <i key={b.id} style={{ flex: b.flex }} className={b.priority ? 'pri' : ''} />
           ))}
         </div>
-        <div className="afq-rotc-budget-legend">
+        <div className="arc-s-budget-legend">
           {BUDGET.map((b) => (
             <a key={b.id} href={`#${b.id}`} onClick={jump(b.id)}>
               <span className="mins">{b.mins} min</span>
@@ -128,10 +128,10 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <h4>National / DAF</h4>
-            <ol className="afq-rotc-ladder">
+            <ol className="arc-s-ladder">
               <li><span className="role">President of the United States</span><span className="name">Donald J. Trump</span></li>
               <li><span className="role">Secretary of Defense</span><span className="name">The Hon. Pete Hegseth</span></li>
               <li><span className="role">Secretary of the Air Force</span><span className="name">The Hon. Dr. Troy E. Meink</span></li>
@@ -146,9 +146,9 @@ export default function RecitationSheet({ onGoToDrill }) {
             </ul>
           </div>
 
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h4>AFROTC</h4>
-            <ol className="afq-rotc-ladder">
+            <ol className="arc-s-ladder">
               <li><span className="role">Commander, AETC</span><span className="name">Lt Gen Clark J. Quinn</span></li>
               <li><span className="role">Cdr, AF Accessions Center / AFRS</span><span className="name">Maj Gen Jeffrey W. Nelson</span></li>
               <li className="changed"><span className="role">Commander, Holm Center</span><span className="name">Brig Gen Christopher T. Lay</span></li>
@@ -175,7 +175,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <div className="afq-rotc-card">
+        <div className="arc-s-card">
           <h4>Three questions instructors like</h4>
           <h5>&ldquo;Is the Chairman of the Joint Chiefs in your chain of command?&rdquo;</h5>
           <p>
@@ -223,7 +223,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <div className="afq-rotc-scroll">
+        <div className="arc-s-scroll">
           <table>
             <thead>
               <tr><th className="num">Grade</th><th>Title</th><th>Abbr</th><th>Tier</th><th className="num">Up</th><th className="num">Rockers</th><th className="num">Total</th></tr>
@@ -242,7 +242,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </table>
         </div>
 
-        <div className="afq-rotc-cols">
+        <div className="arc-s-cols">
           <Call kind="alert" tag="There is no wreath at E-8 or E-9">
             <p className="last">
               Regular SMSgt and CMSgt insignia have <strong>no wreath</strong>. A laurel wreath
@@ -252,7 +252,7 @@ export default function RecitationSheet({ onGoToDrill }) {
               wreath, the key is wrong.
             </p>
           </Call>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h4>Special insignia</h4>
             <ul className="last">
               <li><strong>First Sergeant</strong> — a <strong>diamond replaces the star</strong>. It is a <em>duty position, not a rank</em>, held at E-7, E-8, or E-9 (so three versions exist).</li>
@@ -273,7 +273,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <div className="afq-rotc-scroll">
+        <div className="arc-s-scroll">
           <table>
             <thead><tr><th className="num">Grade</th><th>Title</th><th>Abbr</th><th>Group</th><th>Insignia</th></tr></thead>
             <tbody>
@@ -293,7 +293,7 @@ export default function RecitationSheet({ onGoToDrill }) {
         <p><strong>Terms of address:</strong> all four general grades are &ldquo;General.&rdquo; Both lieutenant grades are &ldquo;Lieutenant.&rdquo; <strong>Lt Col is addressed as &ldquo;Colonel.&rdquo;</strong></p>
 
         <h4>Joint — the Navy traps are the whole test</h4>
-        <div className="afq-rotc-scroll">
+        <div className="arc-s-scroll">
           <table>
             <thead><tr><th className="num">Grade</th><th>Air Force / Space Force</th><th>Army</th><th>Marine Corps</th><th>Navy / Coast Guard</th></tr></thead>
             <tbody>
@@ -323,7 +323,7 @@ export default function RecitationSheet({ onGoToDrill }) {
         <p><strong>The shortcut that makes this easy:</strong> the metal collar devices are the <em>same across all six services</em> for O-1 through O-10. A gold bar is an O-1 in every service. Only the titles change.</p>
 
         <h4>Space Force enlisted — one divergence matters</h4>
-        <dl className="afq-rotc-facts">
+        <dl className="arc-s-facts">
           <Fact term="USAF E-1 → E-4" value="AB · Amn · A1C · SrA" />
           <Fact term="USSF E-1 → E-4" value="Specialist 1 – 4" />
           <Fact term="The only NCO-level split" value="E-5" small="USAF = Staff Sergeant. USSF = Sergeant. There is no USSF Staff Sergeant." />
@@ -346,7 +346,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <div className="afq-rotc-scroll">
+        <div className="arc-s-scroll">
           <table>
             <thead><tr><th>Cadet grade</th><th>Abbr</th><th>Course</th><th>Class</th><th>Insignia</th></tr></thead>
             <tbody>
@@ -362,8 +362,8 @@ export default function RecitationSheet({ onGoToDrill }) {
           </table>
         </div>
 
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <h4>GMC vs POC</h4>
             <p className="last">
               <strong>GMC</strong> = General Military Course, AS100/AS200, grades C/4C and C/3C only.
@@ -371,7 +371,7 @@ export default function RecitationSheet({ onGoToDrill }) {
               <strong> Field Training is the gate between them.</strong> POC is not &ldquo;point of contact.&rdquo;
             </p>
           </div>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h4>Wear rules they quiz</h4>
             <ul className="last">
               <li><strong>GMC</strong> = blue &amp; silver, <strong>point toward the neck</strong>. <strong>POC</strong> = black &amp; silver, <strong>stripes parallel to the shoulder seam</strong>.</li>
@@ -394,7 +394,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
           <p className="last">
             <strong>Drill them:</strong>{' '}
-            <button type="button" className="afq-rotc-inline-link" onClick={onGoToDrill}>
+            <button type="button" className="arc-s-inline-link" onClick={onGoToDrill}>
               open the rank drill
             </button>{' '}
             — flashcards from insignia to name, then a name-to-insignia picker. Use its settings to
@@ -421,12 +421,12 @@ export default function RecitationSheet({ onGoToDrill }) {
         </Call>
 
         <h4>Reporting in and out — the verbatim scripts</h4>
-        <div className="afq-rotc-cols">
+        <div className="arc-s-cols">
           <div>
             <h5>Reporting in</h5>
-            <div className="afq-rotc-script"><span className="who">If you were ordered to report</span>&ldquo;Sir/Ma&rsquo;am, Cadet [Last Name] reports as ordered.&rdquo;</div>
-            <div className="afq-rotc-script"><span className="who">If you came on your own initiative</span>&ldquo;Sir/Ma&rsquo;am, Cadet [Last Name] reports.&rdquo;</div>
-            <p className="afq-rotc-fine">
+            <div className="arc-s-script"><span className="who">If you were ordered to report</span>&ldquo;Sir/Ma&rsquo;am, Cadet [Last Name] reports as ordered.&rdquo;</div>
+            <div className="arc-s-script"><span className="who">If you came on your own initiative</span>&ldquo;Sir/Ma&rsquo;am, Cadet [Last Name] reports.&rdquo;</div>
+            <p className="arc-s-fine">
               Knock once firmly · wait for &ldquo;Enter&rdquo; · close the door without turning your
               back to the room · march by the most direct route to <strong>two paces in front of the
               desk</strong> · position of attention · <strong>salute</strong> and speak · hold the
@@ -435,14 +435,14 @@ export default function RecitationSheet({ onGoToDrill }) {
           </div>
           <div>
             <h5>Reporting out</h5>
-            <div className="afq-rotc-script"><span className="who">When the meeting is winding down</span>&ldquo;Will that be all?&rdquo;</div>
-            <div className="afq-rotc-script"><span className="who">Then, on the salute</span>&ldquo;Good morning / afternoon / evening, [Rank and Name].&rdquo;</div>
-            <p className="afq-rotc-fine">
+            <div className="arc-s-script"><span className="who">When the meeting is winding down</span>&ldquo;Will that be all?&rdquo;</div>
+            <div className="arc-s-script"><span className="who">Then, on the salute</span>&ldquo;Good morning / afternoon / evening, [Rank and Name].&rdquo;</div>
+            <p className="arc-s-fine">
               Stand to attention · <strong>one step to the side, one step to the rear</strong> ·
               salute and speak · drop the salute once it is returned · most direct route out · close
               the door.
             </p>
-            <p className="afq-rotc-fine last">
+            <p className="arc-s-fine last">
               <strong>Trap:</strong> if the officer has <em>already</em> said &ldquo;that will be
               all,&rdquo; do <strong>not</strong> ask &ldquo;Will that be all?&rdquo; — it has been answered.
             </p>
@@ -457,8 +457,8 @@ export default function RecitationSheet({ onGoToDrill }) {
         </Call>
 
         <h4>The salute</h4>
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <h5>Mechanics</h5>
             <ul className="last">
               <li>Flat hand, fingers and thumb <strong>extended and joined</strong> — a straight unbroken line from <strong>fingertip to elbow</strong>. No cupping, no bent wrist.</li>
@@ -468,7 +468,7 @@ export default function RecitationSheet({ onGoToDrill }) {
               <li>Coming down, retrace the same path and <strong>cup the hand as it passes the waist</strong>.</li>
             </ul>
           </div>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h5>Do <em>not</em> salute</h5>
             <ul className="last">
               <li>Indoors (unless reporting / ceremony / under arms)</li>
@@ -481,7 +481,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </div>
         </div>
 
-        <dl className="afq-rotc-facts">
+        <dl className="arc-s-facts">
           <Fact term="Who initiates" value="The junior" small="The senior returns it; you then drop yours." />
           <Fact term="Distance" value="≈ 6 paces" small="Far enough to be seen and returned." />
           <Fact term="Passing the colors" value="6 paces" small="Salute at 6 out, hold until 6 past." />
@@ -505,7 +505,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <div className="afq-rotc-scroll">
+        <div className="arc-s-scroll">
           <table>
             <thead><tr><th>Situation</th><th>During the bugle call</th><th>During To the Colors / Anthem</th></tr></thead>
             <tbody>
@@ -516,15 +516,15 @@ export default function RecitationSheet({ onGoToDrill }) {
             </tbody>
           </table>
         </div>
-        <p className="afq-rotc-fine">
+        <p className="arc-s-fine">
           If the flag is not visible, face the direction of the music. Exact Reveille and Retreat
           clock times are set locally — they are not fixed by regulation, so don&rsquo;t quote a time
           unless your det posts one.
         </p>
 
         <h4>Indoor ceremonies</h4>
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <h5>National Anthem indoors</h5>
             <ul className="last">
               <li><strong>Bareheaded</strong> — stand at attention, <strong>do not salute</strong>.</li>
@@ -532,7 +532,7 @@ export default function RecitationSheet({ onGoToDrill }) {
               <li>Face the flag if displayed, otherwise the music.</li>
             </ul>
           </div>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h5>Headgear and &ldquo;Room, attention&rdquo;</h5>
             <ul className="last">
               <li><strong>Indoors = headgear off.</strong> Exception: <strong>under arms</strong> / armed duty.</li>
@@ -555,7 +555,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <div className="afq-rotc-card">
+        <div className="arc-s-card">
           <h4>Everyday courtesies</h4>
           <ul>
             <li><strong>Juniors walk on the left</strong> — the senior takes the right, the position of honour. <em>Exception:</em> during an inspection the senior walks on the left.</li>
@@ -563,7 +563,7 @@ export default function RecitationSheet({ onGoToDrill }) {
             <li>Officers: <strong>rank + last name</strong>, or Sir/Ma&rsquo;am. NCOs: <strong>rank + last name — never &ldquo;Sir&rdquo; or &ldquo;Ma&rsquo;am.&rdquo;</strong> Cadets: &ldquo;Cadet [Last Name].&rdquo;</li>
           </ul>
           <h5>The seven basic responses</h5>
-          <p className="afq-rotc-responses last">
+          <p className="arc-s-responses last">
             &ldquo;Yes, Sir/Ma&rsquo;am.&rdquo; · &ldquo;No, Sir/Ma&rsquo;am.&rdquo; · &ldquo;No excuse,
             Sir/Ma&rsquo;am.&rdquo; · &ldquo;Sir/Ma&rsquo;am, I do not understand.&rdquo; ·
             &ldquo;Sir/Ma&rsquo;am, I do not know.&rdquo; · &ldquo;Sir/Ma&rsquo;am, may I make a
@@ -584,8 +584,8 @@ export default function RecitationSheet({ onGoToDrill }) {
 
         <h4>6.1 — When <em>not</em> to wear the uniform</h4>
         <p>This is a discrete list objective, from DAFI 36-2903 para 1.4. The high-yield items:</p>
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <ul className="last">
               <li>At meetings of organizations the <strong>Attorney General has named</strong> totalitarian, fascist, communist or subversive</li>
               <li>At <strong>public speeches, picket lines, marches, rallies or demonstrations</strong> that may imply Air Force sanction</li>
@@ -594,7 +594,7 @@ export default function RecitationSheet({ onGoToDrill }) {
               <li>After a <strong>bad-conduct or other-than-honorable discharge</strong></li>
             </ul>
           </div>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <ul className="last">
               <li>While furthering <strong>political activity, private employment or commercial interest</strong></li>
               <li>While working an <strong>off-duty civilian job</strong></li>
@@ -607,7 +607,7 @@ export default function RecitationSheet({ onGoToDrill }) {
         </div>
 
         <h4>6.2 — Grooming numbers</h4>
-        <dl className="afq-rotc-facts">
+        <dl className="arc-s-facts">
           <Fact term="Men's hair bulk" value="2½ in" small="¼ in at the natural termination point" />
           <Fact term="Women's hair bulk" value="4 in" small="From the scalp; 6 in when gathered" />
           <Fact term="Ponytail / braid limit" value="Shoulder blades" small="Not below a line under the arms; never over the shoulder" />
@@ -636,8 +636,8 @@ export default function RecitationSheet({ onGoToDrill }) {
         </Call>
 
         <h4>6.3 — Dress and appearance</h4>
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <h5>The tie rule is not &ldquo;no tie with short sleeves&rdquo;</h5>
             <ul className="last">
               <li><strong>Long-sleeve blues</strong> — tie is <strong>mandatory</strong>.</li>
@@ -645,7 +645,7 @@ export default function RecitationSheet({ onGoToDrill }) {
               <li><strong>Short-sleeve with the service coat</strong> — tie is <strong>required</strong>.</li>
             </ul>
           </div>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h5>Rules that recently relaxed</h5>
             <ul className="last">
               <li><strong>Phone use and texting while walking in uniform is authorized</strong> — customs and courtesies still take precedence.</li>
@@ -660,7 +660,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           <strong> AFROTC:</strong> POC wear the Prop and Wings on the flight cap and silver sleeve
           braid on mess dress; GMC do not.
         </p>
-        <p className="afq-rotc-fine">
+        <p className="arc-s-fine">
           <strong>Three things that could not be confirmed in the current DAFI:</strong> the &ldquo;no
           hands in pockets&rdquo; rule (a bearing standard, not a citable paragraph), a
           headgear-in-a-vehicle rule, and any male-specific umbrella restriction — the current text
@@ -678,7 +678,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
         </Call>
 
-        <dl className="afq-rotc-facts">
+        <dl className="arc-s-facts">
           <Fact term="Quick time" value="100–120" small="steps per minute" />
           <Fact term="Double time" value="180" small="steps/min · 30-inch step" />
           <Fact term="Forward march step" value="24 in" />
@@ -688,7 +688,7 @@ export default function RecitationSheet({ onGoToDrill }) {
         </dl>
 
         <h4>Rest positions — the classic trap</h4>
-        <div className="afq-rotc-scroll">
+        <div className="arc-s-scroll">
           <table>
             <thead><tr><th>Position</th><th>Right foot stays put?</th><th>Talking?</th><th>Mechanics</th></tr></thead>
             <tbody>
@@ -707,8 +707,8 @@ export default function RecitationSheet({ onGoToDrill }) {
         </p>
 
         <h4>Commands and movements</h4>
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <h5>Anatomy of a command</h5>
             <ul className="last">
               <li><strong>Preparatory command</strong> — <em>what</em> the movement is (&ldquo;Forward&rdquo;). <strong>Rising inflection.</strong></li>
@@ -719,7 +719,7 @@ export default function RecitationSheet({ onGoToDrill }) {
               <li>If a command is given wrong, troops <strong>execute it as best they can</strong>.</li>
             </ul>
           </div>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h5>Which foot</h5>
             <ul className="last">
               <li>General rule: given as the heel of the foot <strong>matching the direction</strong> of the movement strikes the ground.</li>
@@ -739,13 +739,13 @@ export default function RecitationSheet({ onGoToDrill }) {
         </p>
 
         <h4>8.3 — POC-In-Charge</h4>
-        <div className="afq-rotc-cols">
-          <div className="afq-rotc-card">
+        <div className="arc-s-cols">
+          <div className="arc-s-card">
             <h5>What you are graded on</h5>
             <p>The <strong>POC-In-Charge Evaluation Form</strong> scores six areas, each Ineffective / Satisfactory / Highly Effective:</p>
-            <p className="afq-rotc-six last">Planning · Communication · Decision-Making · Leadership · Mission · Debrief</p>
+            <p className="arc-s-six last">Planning · Communication · Decision-Making · Leadership · Mission · Debrief</p>
           </div>
-          <div className="afq-rotc-card">
+          <div className="arc-s-card">
             <h5>Your routing sheet <em>is</em> the evidence</h5>
             <p className="last">
               The PLANNING criterion asks whether you developed thorough documentation and <strong>got
@@ -772,7 +772,7 @@ export default function RecitationSheet({ onGoToDrill }) {
           These could not be settled from public sources. Each is a real conflict or a genuine gap —
           not padding. Getting an answer on them is worth more than another pass over the tables.
         </p>
-        <div className="afq-rotc-scroll">
+        <div className="arc-s-scroll">
           <table>
             <thead><tr><th>Question</th><th>Why it&rsquo;s open</th></tr></thead>
             <tbody>
@@ -787,7 +787,7 @@ export default function RecitationSheet({ onGoToDrill }) {
         </div>
       </Sec>
 
-      <footer className="afq-rotc-foot">
+      <footer className="arc-s-foot">
         <p>
           <strong>Built 3 September 2026</strong> from five parallel research passes against DAFPAM
           34-1203, DAFI 36-2903 (as amended through DAFGM 2026-02), AFROTCI 36-2011 Vols 1 and 3,

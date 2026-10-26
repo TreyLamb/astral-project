@@ -10,9 +10,9 @@
  * Colours come from the --tkb-* tokens, so both themes work without a second palette.
  */
 
-const PLATE = 'var(--afq-rotc-plate)';
-const MARK = 'var(--afq-rotc-mark)';
-const GMC_MARK = 'var(--afq-rotc-gmc)';
+const PLATE = 'var(--arc-s-plate)';
+const MARK = 'var(--arc-s-mark)';
+const GMC_MARK = 'var(--arc-s-gmc)';
 
 /** Shoulder epaulet: a dark sleeve, marks reading outboard edge inward. */
 export function Epaulet({ rank, size = 148 }) {
@@ -38,7 +38,7 @@ export function Epaulet({ rank, size = 148 }) {
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} width={size} height={(size / W) * H} role="img"
-      aria-label={`${rank.name} epaulet`} className="afq-rotc-svg">
+      aria-label={`${rank.name} epaulet`} className="arc-s-svg">
       <rect width={W} height={H} rx="2" fill={PLATE} />
       {marks}
     </svg>
@@ -62,7 +62,7 @@ export function Pin({ rank, size = 74 }) {
     ));
     return (
       <svg viewBox={`0 0 ${S} ${S}`} width={size} height={size} role="img"
-        aria-label={`${rank.name} utility pin`} className="afq-rotc-svg">
+        aria-label={`${rank.name} utility pin`} className="arc-s-svg">
         <rect width={S} height={S} rx="2" fill={PLATE} />
         {rows}
       </svg>
@@ -84,7 +84,7 @@ export function Pin({ rank, size = 74 }) {
   }
   return (
     <svg viewBox={`0 0 ${S} ${S}`} width={size} height={size} role="img"
-      aria-label={`${rank.name} utility pin`} className="afq-rotc-svg">
+      aria-label={`${rank.name} utility pin`} className="arc-s-svg">
       {chevrons}
     </svg>
   );
@@ -93,12 +93,12 @@ export function Pin({ rank, size = 74 }) {
 /** One or both forms with captions, for the flashcard face. */
 export function Plates({ rank, form }) {
   return (
-    <div className="afq-rotc-plates">
+    <div className="arc-s-plates">
       {(form === 'both' || form === 'epaulet') && (
-        <div className="afq-rotc-plate-box"><Epaulet rank={rank} /><span className="afq-rotc-cap">Epaulet</span></div>
+        <div className="arc-s-plate-box"><Epaulet rank={rank} /><span className="arc-s-cap">Epaulet</span></div>
       )}
       {(form === 'both' || form === 'pin') && (
-        <div className="afq-rotc-plate-box"><Pin rank={rank} /><span className="afq-rotc-cap">Utility pin</span></div>
+        <div className="arc-s-plate-box"><Pin rank={rank} /><span className="arc-s-cap">Utility pin</span></div>
       )}
     </div>
   );

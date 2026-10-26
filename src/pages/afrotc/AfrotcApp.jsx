@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import HubLink from '../../components/HubLink';
+import { RotcStoreProvider } from './study/rotcStore';
+import RecitationSheet from './study/RecitationSheet';
+import RankDrill from './study/RankDrill';
+import KnowledgeCards from './study/KnowledgeCards';
+import SongMemorizer from './study/SongMemorizer';
+import AirframeBriefs from './study/AirframeBriefs';
+import './study/study.css';
 import handbookMd from './docs/det855-handbook.md?raw';
 import quizzesMd from './docs/warrior-knowledge-quizzes.md?raw';
 import brief14n from './docs/brief14n.json';
@@ -85,19 +92,33 @@ const DOCS = [
     slug: 'wing', label: 'Cadet Wing Who’s Who', kind: 'wing',
     blurb: 'Every cadet in the Fall 2026 Unit Manning Document (OPLAN-F26, 20 Aug 2026), by rank or by group, one section at a time. Cadre and cadets only; positions can change after that date.',
   },
-  { slug: 'tools', label: 'Study tools', kind: 'links' },
+  // The study pages. They used to live under /TKB/afoqt/afrotc; they are AFROTC coursework, so they live here now.
+  {
+    slug: 'sheet', label: 'Recitation', kind: 'study', view: 'sheet',
+    blurb: 'The graded recitation: chain of command, cadet grades, customs and drill, with a way to check yourself.',
+  },
+  {
+    slug: 'drill', label: 'Rank drill', kind: 'study', view: 'drill',
+    blurb: 'Cadet insignia in both directions. Pick the grades you want to be drilled on.',
+  },
+  {
+    slug: 'cards', label: 'Knowledge cards', kind: 'study', view: 'cards',
+    blurb: 'Mottos, mission and values, real AF and Space Force ranks, customs and courtesies, organization, acronyms.',
+  },
+  {
+    slug: 'song', label: 'Song & Creed', kind: 'study', view: 'song',
+    blurb: 'The Air Force Song, the Space Force Song and the Airman’s Creed, one line at a time, with a player that loops any section.',
+  },
+  {
+    slug: 'briefs', label: 'Airframe briefs', kind: 'study', view: 'briefs',
+    blurb: 'Roma, Sea Scout and the seven-airframe dossier.',
+  },
 ];
 
 const WING_GROUPS = ['Wing leadership', 'Wing Staff', 'Training Group', 'Operations Group', 'Mission Generation Group'];
 const WING_CHAIN = [
   ['C FLT/CC', 'Charlie Flight Commander'], ['Y SQ/CC', 'Yankee Squadron Commander'], ['TG/CC', 'Training Group Commander'],
   ['CW/CD', 'Cadet Wing Deputy Commander'], ['CW/CC', 'Cadet Wing Commander'],
-];
-
-const TOOLS = [
-  { to: '/TKB/afoqt/afrotc', name: 'Recitation sheet', desc: 'Chain of command, cadet grades, customs and the graded recitation.' },
-  { to: '/TKB/afoqt/afrotc?view=drill', name: 'Rank drill', desc: 'Cadet insignia both directions; pick your grades.' },
-  { to: '/TKB/afoqt/afrotc?view=cards', name: 'Knowledge cards', desc: 'Mottos, mission & values, real ranks, customs, acronyms.' },
 ];
 
 const ZOOMS = [
@@ -367,15 +388,15 @@ function WingDoc({ doc, zoomDef, zoom, setZoom }) {
   );
 }
 
-function LinksDoc() {
+function StudyDoc({ doc, go }) {
   return (
-    <div className="arc-cards">
-      {TOOLS.map((t) => (
-        <Link key={t.to} to={t.to} className="arc-card">
-          <b>{t.name}</b>
-          <span>{t.desc}</span>
-        </Link>
-      ))}
+    <div className="arc-s">
+      <p className="arc-blurb">{doc.blurb}</p>
+      {doc.view === 'sheet' && <RecitationSheet onGoToDrill={() => go('drill')} />}
+      {doc.view === 'drill' && <RankDrill />}
+      {doc.view === 'cards' && <KnowledgeCards />}
+      {doc.view === 'song' && <SongMemorizer />}
+      {doc.view === 'briefs' && <AirframeBriefs />}
     </div>
   );
 }
@@ -390,7 +411,10 @@ export default function AfrotcApp() {
     try { localStorage.setItem(ZOOM_KEY, zoom); } catch { /* storage blocked */ }
   }, [zoom]);
 
+  const go = (slug) => { setParams(slug === DOCS[0].slug ? {} : { doc: slug }); window.scrollTo({ top: 0 }); };
+
   return (
+    <RotcStoreProvider>
     <div className="arc-app">
       <header className="arc-topbar">
         <HubLink className="arc-site-home" />
@@ -400,7 +424,7 @@ export default function AfrotcApp() {
             <button
               key={d.slug} type="button" role="tab" aria-selected={d.slug === doc.slug}
               className={d.slug === doc.slug ? 'on' : ''}
-              onClick={() => { setParams(d.slug === DOCS[0].slug ? {} : { doc: d.slug }); window.scrollTo({ top: 0 }); }}
+              onClick={() => go(d.slug)}
             >{d.label}</button>
           ))}
         </nav>
@@ -410,8 +434,9 @@ export default function AfrotcApp() {
         {doc.kind === 'markdown' && <MarkdownDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {doc.kind === 'slides' && <SlidesDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {doc.kind === 'wing' && <WingDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
-        {doc.kind === 'links' && <LinksDoc />}
+        {doc.kind === 'study' && <StudyDoc doc={doc} go={go} />}
       </main>
     </div>
+    </RotcStoreProvider>
   );
 }

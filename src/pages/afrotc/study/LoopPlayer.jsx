@@ -60,7 +60,7 @@ function TimeField({ label, value, onCommit }) {
     setDraft(null);
   };
   return (
-    <input className="afq-rotc-listen-time" inputMode="decimal" aria-label={`${label} time`} placeholder="--:--"
+    <input className="arc-s-listen-time" inputMode="decimal" aria-label={`${label} time`} placeholder="--:--"
       value={shown} onFocus={(e) => e.target.select()} onChange={(e) => setDraft(e.target.value)} onBlur={commit}
       onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); if (e.key === 'Escape') setDraft(null); }} />
   );
@@ -82,8 +82,8 @@ function CroppedFrame({ page }) {
     return () => ro.disconnect();
   }, [w]);
   return (
-    <div className="afq-rotc-listen-crop" ref={box}>
-      <div className="afq-rotc-listen-crop-sizer" style={{ width: w * scale, height: h * scale }}>
+    <div className="arc-s-listen-crop" ref={box}>
+      <div className="arc-s-listen-crop-sizer" style={{ width: w * scale, height: h * scale }}>
         <iframe title={`Lyrics from ${page.host}`} src={page.url} scrolling="no" loading="lazy" referrerPolicy="no-referrer"
           sandbox="allow-same-origin" style={{ width: pageW, height: pageH, transform: `scale(${scale}) translate(${-x}px, ${-y}px)` }} />
       </div>
@@ -292,55 +292,55 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
   const cur = activeLine(stamps, time);
 
   const marker = (lbl, val, set, mark) => (
-    <div key={lbl} className="afq-rotc-listen-mark">
-      <button className="afq-btn afq-rotc-listen-set" onClick={mark}>Set {lbl}</button>
-      <button className="afq-btn afq-rotc-listen-step" aria-label={`${lbl} 0.1 second earlier`} disabled={val == null}
+    <div key={lbl} className="arc-s-listen-mark">
+      <button className="arc-s-btn arc-s-listen-set" onClick={mark}>Set {lbl}</button>
+      <button className="arc-s-btn arc-s-listen-step" aria-label={`${lbl} 0.1 second earlier`} disabled={val == null}
         {...holdProps(() => set((v) => (v == null ? v : nudge(v, -0.1, live.current.dur))))}>−0.1</button>
       <TimeField label={lbl} value={val} onCommit={(t) => set(Math.min(t, live.current.dur || t))} />
-      <button className="afq-btn afq-rotc-listen-step" aria-label={`${lbl} 0.1 second later`} disabled={val == null}
+      <button className="arc-s-btn arc-s-listen-step" aria-label={`${lbl} 0.1 second later`} disabled={val == null}
         {...holdProps(() => set((v) => (v == null ? v : nudge(v, 0.1, live.current.dur))))}>+0.1</button>
     </div>
   );
 
   return (
-    <div className="afq-rotc-listen">
+    <div className="arc-s-listen">
       {suggested.length > 0 && (
-        <div className="afq-rotc-listen-row">
-          <span className="afq-rotc-song-lbl">Recordings</span>
+        <div className="arc-s-listen-row">
+          <span className="arc-s-song-lbl">Recordings</span>
           {suggested.map((v) => (
-            <button key={v.id} className={'afq-btn' + (src?.key === `yt:${v.id}` ? ' afq-primary' : '')}
+            <button key={v.id} className={'arc-s-btn' + (src?.key === `yt:${v.id}` ? ' arc-s-primary' : '')}
               title={v.note} onClick={() => loadVideo(v.id)}>{v.label}</button>
           ))}
         </div>
       )}
-      <details className="afq-rotc-listen-other" open={!suggested.length}>
+      <details className="arc-s-listen-other" open={!suggested.length}>
         <summary>Use a different video or a file</summary>
-        <div className="afq-rotc-listen-src">
-          <input className="afq-rotc-listen-link" type="url" inputMode="url" placeholder="Paste a YouTube link" value={link}
+        <div className="arc-s-listen-src">
+          <input className="arc-s-listen-link" type="url" inputMode="url" placeholder="Paste a YouTube link" value={link}
             onChange={(e) => setLink(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && pickLink()} />
-          <button className="afq-btn afq-primary" onClick={pickLink} disabled={!link.trim()}>Load</button>
-          <label className="afq-btn afq-rotc-listen-file">
+          <button className="arc-s-btn arc-s-primary" onClick={pickLink} disabled={!link.trim()}>Load</button>
+          <label className="arc-s-btn arc-s-listen-file">
             Use a file
             <input type="file" accept="audio/*,video/*" onChange={pickFile} hidden />
           </label>
         </div>
       </details>
-      {msg && <p className="afq-note afq-rotc-listen-msg">{msg}</p>}
+      {msg && <p className="arc-s-note arc-s-listen-msg">{msg}</p>}
 
-      {src?.kind === 'yt' && <div className="afq-rotc-listen-frame" ref={host} />}
+      {src?.kind === 'yt' && <div className="arc-s-listen-frame" ref={host} />}
       {src?.kind === 'file' && (
-        <audio ref={audio} className="afq-rotc-listen-audio" src={src.url} controls preload="metadata"
+        <audio ref={audio} className="arc-s-listen-audio" src={src.url} controls preload="metadata"
           onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
       )}
 
       {lyricsPage && (
-        <details className="afq-rotc-listen-page" open>
+        <details className="arc-s-listen-page" open>
           <summary>Lyrics from {lyricsPage.host}</summary>
           {lyricsPage.crop ? <CroppedFrame page={lyricsPage} /> : (
-            <iframe className="afq-rotc-listen-pageframe" title={`Lyrics from ${lyricsPage.host}`} src={lyricsPage.url}
+            <iframe className="arc-s-listen-pageframe" title={`Lyrics from ${lyricsPage.host}`} src={lyricsPage.url}
               loading="lazy" referrerPolicy="no-referrer" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox" />
           )}
-          <p className="afq-note">
+          <p className="arc-s-note">
             Shown from {lyricsPage.host}, a third-party site, so the wording may differ from your handbook.{' '}
             <a href={lyricsPage.url} target="_blank" rel="noreferrer">Open it in its own tab</a>.
           </p>
@@ -348,39 +348,39 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
       )}
 
       {src && (
-        <div className="afq-rotc-listen-lyrics">
-          <div className="afq-rotc-listen-lyrics-head">
-            <span className="afq-rotc-song-lbl">Lyrics</span>
+        <div className="arc-s-listen-lyrics">
+          <div className="arc-s-listen-lyrics-head">
+            <span className="arc-s-song-lbl">Lyrics</span>
             {lines.length > 0 && (
-              <button className={'afq-btn' + (syncing ? ' afq-primary' : '')} aria-pressed={syncing}
+              <button className={'arc-s-btn' + (syncing ? ' arc-s-primary' : '')} aria-pressed={syncing}
                 onClick={() => { setSyncing((v) => !v); setSyncIdx(Math.max(0, stamps.findIndex((x) => x == null))); }}>
                 {syncing ? 'Done syncing' : 'Sync to the video'}
               </button>
             )}
           </div>
           {lines.length === 0 ? (
-            <p className="afq-note">
+            <p className="arc-s-note">
               No lyrics yet. Add them (type, paste, or scan your handbook page) and they show here, following the video.{' '}
-              {onAddLyrics && <button className="afq-btn" onClick={onAddLyrics}>Add lyrics</button>}
+              {onAddLyrics && <button className="arc-s-btn" onClick={onAddLyrics}>Add lyrics</button>}
             </p>
           ) : (
             <>
               {syncing && (
-                <div className="afq-rotc-listen-syncbar">
-                  <p className="afq-note">
+                <div className="arc-s-listen-syncbar">
+                  <p className="arc-s-note">
                     Play the video (0.5× is easier) and tap the big button the instant each line starts. Tap a line to redo it.
                   </p>
-                  <button className="afq-btn afq-primary afq-rotc-listen-stamp" onClick={stampNow}>
+                  <button className="arc-s-btn arc-s-primary arc-s-listen-stamp" onClick={stampNow}>
                     Line {syncIdx + 1} starts now
                   </button>
-                  <button className="afq-btn" onClick={undoStamp}>Undo</button>
+                  <button className="arc-s-btn" onClick={undoStamp}>Undo</button>
                 </div>
               )}
-              <ol className="afq-rotc-listen-lines">
+              <ol className="arc-s-listen-lines">
                 {lines.map((l, i) => (
                   <li key={l.n}>
                     <button
-                      className={'afq-rotc-listen-line' + (i === cur ? ' cur' : '') + (stamps[i] != null ? ' synced' : '')
+                      className={'arc-s-listen-line' + (i === cur ? ' cur' : '') + (stamps[i] != null ? ' synced' : '')
                         + (syncing && i === syncIdx ? ' next' : '')}
                       onClick={() => tapLine(i)}
                       title={stamps[i] != null ? `Starts at ${fmtTime(stamps[i])}. Tap to loop this line.` : 'Not synced yet'}>
@@ -389,7 +389,7 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
                   </li>
                 ))}
               </ol>
-              {!syncing && stamps.some((x) => x != null) && <p className="afq-note">Tap a line to loop just that line.</p>}
+              {!syncing && stamps.some((x) => x != null) && <p className="arc-s-note">Tap a line to loop just that line.</p>}
             </>
           )}
         </div>
@@ -397,62 +397,62 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
 
       {src && (
         <>
-          <div className="afq-rotc-listen-row">
-            <button className="afq-btn afq-primary afq-rotc-listen-play" onClick={togglePlay}>
+          <div className="arc-s-listen-row">
+            <button className="arc-s-btn arc-s-primary arc-s-listen-play" onClick={togglePlay}>
               {playing ? 'Pause' : 'Play'} <kbd>Space</kbd>
             </button>
-            <span className="afq-rotc-listen-clock">{fmtTime(time)} / {fmtTime(dur)}</span>
+            <span className="arc-s-listen-clock">{fmtTime(time)} / {fmtTime(dur)}</span>
           </div>
-          <div className="afq-rotc-listen-row">
-            <span className="afq-rotc-song-lbl">Starts at</span>
+          <div className="arc-s-listen-row">
+            <span className="arc-s-song-lbl">Starts at</span>
             <TimeField label="Start" value={start} onCommit={(t) => saveStart(Math.min(t, dur || t))} />
-            <button className="afq-btn" onClick={() => run((p) => p.seek(start))}>Go to start</button>
-            <button className="afq-btn" onClick={() => saveStart(Math.round(time * 10) / 10)}>Start here</button>
+            <button className="arc-s-btn" onClick={() => run((p) => p.seek(start))}>Go to start</button>
+            <button className="arc-s-btn" onClick={() => saveStart(Math.round(time * 10) / 10)}>Start here</button>
           </div>
 
-          <div className="afq-rotc-listen-marks">
+          <div className="arc-s-listen-marks">
             {marker('A', a, setA, markA)}
             {marker('B', b, setB, markB)}
-            <div className="afq-rotc-listen-row">
-              <button className="afq-btn" onClick={hearA} disabled={a == null}>Hear A</button>
-              <button className="afq-btn" onClick={hearEnd} disabled={b == null}>Hear end</button>
-              <button className="afq-btn" onClick={() => { setA(null); setB(null); }} disabled={a == null && b == null}>Clear</button>
+            <div className="arc-s-listen-row">
+              <button className="arc-s-btn" onClick={hearA} disabled={a == null}>Hear A</button>
+              <button className="arc-s-btn" onClick={hearEnd} disabled={b == null}>Hear end</button>
+              <button className="arc-s-btn" onClick={() => { setA(null); setB(null); }} disabled={a == null && b == null}>Clear</button>
             </div>
           </div>
 
-          <div className="afq-rotc-listen-row">
+          <div className="arc-s-listen-row">
             {END_MODES.map((m) => (
-              <button key={m.id} aria-pressed={mode === m.id} className={'afq-btn' + (mode === m.id ? ' afq-primary' : '')}
+              <button key={m.id} aria-pressed={mode === m.id} className={'arc-s-btn' + (mode === m.id ? ' arc-s-primary' : '')}
                 onClick={() => setMode(m.id)}>{m.label}</button>
             ))}
           </div>
-          <div className="afq-rotc-listen-row">
-            <span className="afq-rotc-song-lbl">Speed</span>
+          <div className="arc-s-listen-row">
+            <span className="arc-s-song-lbl">Speed</span>
             {RATES.map((r) => (
-              <button key={r} aria-pressed={rate === r} className={'afq-btn' + (rate === r ? ' afq-primary' : '')}
+              <button key={r} aria-pressed={rate === r} className={'arc-s-btn' + (rate === r ? ' arc-s-primary' : '')}
                 onClick={() => pickRate(r)}>{r === 1 ? 'Normal' : `${r}×`}</button>
             ))}
           </div>
 
-          <div className="afq-rotc-listen-row">
-            <input className="afq-rotc-listen-link" placeholder="Name this section (e.g. Verse 1)" value={name}
+          <div className="arc-s-listen-row">
+            <input className="arc-s-listen-link" placeholder="Name this section (e.g. Verse 1)" value={name}
               onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && saveSection()} />
-            <button className="afq-btn" onClick={saveSection} disabled={a == null || b == null}>Save section</button>
+            <button className="arc-s-btn" onClick={saveSection} disabled={a == null || b == null}>Save section</button>
           </div>
           {sections.length > 0 && (
-            <div className="afq-rotc-listen-secs">
+            <div className="arc-s-listen-secs">
               {sections.map((s, k) => (
-                <span key={`${s.name}-${k}`} className="afq-rotc-listen-sec">
-                  <button className="afq-btn" onClick={() => useSection(s)} title={`${fmtTime(s.a)} to ${fmtTime(s.b)}`}>
+                <span key={`${s.name}-${k}`} className="arc-s-listen-sec">
+                  <button className="arc-s-btn" onClick={() => useSection(s)} title={`${fmtTime(s.a)} to ${fmtTime(s.b)}`}>
                     {s.name}
                   </button>
-                  <button className="afq-rotc-listen-x" aria-label={`Delete ${s.name}`}
+                  <button className="arc-s-listen-x" aria-label={`Delete ${s.name}`}
                     onClick={() => saveMarks(sections.filter((_, j) => j !== k))}>×</button>
                 </span>
               ))}
             </div>
           )}
-          <p className="afq-note afq-rotc-help">
+          <p className="arc-s-note arc-s-help">
             <kbd>Space</kbd> play/pause · <kbd>[</kbd> set A · <kbd>]</kbd> set B · <kbd>L</kbd> loop mode. Hold −0.1 / +0.1 to
             creep a mark; type a time to jump straight to it.
           </p>

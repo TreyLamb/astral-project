@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useAfoqt } from '../AfoqtApp';
+import { useRotc } from './rotcContext';
 import { SUBJECTS, SUBJECT_IDS, CARDS, PRESETS, cardsFor, bySubject } from './cardData';
-import { addCardFlag, removeCardFlag, isCardFlagged } from '../afoqtStorage';
+import { addCardFlag, removeCardFlag, isCardFlagged } from './rotcData';
 
 /**
  * AFROTC knowledge-card drill: mission/values, creeds/oaths/songs, real AF/Space Force officer
@@ -29,7 +29,7 @@ const shuffle = (a) => {
 };
 
 export default function KnowledgeCards() {
-  const { progress, updateSettings } = useAfoqt();
+  const { progress, updateSettings } = useRotc();
 
   const saved = useMemo(() => progress?.settings?.afrotcCards ?? {}, [progress]);
   const cfg = useMemo(() => ({ ...DEFAULTS, ...saved }), [saved]);
@@ -70,10 +70,10 @@ export default function KnowledgeCards() {
   const matchesPreset = (ids) => selected.length === ids.length && ids.every((id) => selected.includes(id));
 
   return (
-    <div className="afq-rotc-drill">
-      <div className="afq-rotc-bar">
+    <div className="arc-s-drill">
+      <div className="arc-s-bar">
         <button
-          className={'afq-btn afq-rotc-settings-btn' + (showSettings ? ' afq-primary' : '')}
+          className={'arc-s-btn arc-s-settings-btn' + (showSettings ? ' arc-s-primary' : '')}
           onClick={() => setShowSettings((v) => !v)}
           aria-expanded={showSettings}
         >
@@ -81,7 +81,7 @@ export default function KnowledgeCards() {
         </button>
         <button
           type="button"
-          className={'afq-btn afq-rotc-flag-toggle' + (flaggedOnly ? ' afq-primary' : '')}
+          className={'arc-s-btn arc-s-flag-toggle' + (flaggedOnly ? ' arc-s-primary' : '')}
           onClick={() => setFlaggedOnly((v) => !v)}
           aria-pressed={flaggedOnly}
           title={flaggedOnly ? 'Show every card again' : 'Study only the cards you’ve flagged'}
@@ -91,40 +91,40 @@ export default function KnowledgeCards() {
       </div>
 
       {showSettings && (
-        <div className="afq-rotc-settings">
+        <div className="arc-s-settings">
           <h4>Which subjects do you want dealt?</h4>
-          <div className="afq-rotc-presets">
+          <div className="arc-s-presets">
             <button
-              className={'afq-btn' + (allOn ? ' afq-primary' : '')}
+              className={'arc-s-btn' + (allOn ? ' arc-s-primary' : '')}
               onClick={() => setCfg({ subjects: SUBJECT_IDS })}
             >
               All subjects
-              <span className="afq-rotc-preset-hint">{CARDS.length} cards total</span>
+              <span className="arc-s-preset-hint">{CARDS.length} cards total</span>
             </button>
             {PRESETS.map((p) => {
               const count = CARDS.filter((c) => p.subjects.includes(c.subject)).length;
               return (
                 <button
                   key={p.id}
-                  className={'afq-btn' + (matchesPreset(p.subjects) ? ' afq-primary' : '')}
+                  className={'arc-s-btn' + (matchesPreset(p.subjects) ? ' arc-s-primary' : '')}
                   onClick={() => setCfg({ subjects: p.subjects })}
                   title={p.hint}
                 >
                   {p.label}
-                  <span className="afq-rotc-preset-hint">{count} cards</span>
+                  <span className="arc-s-preset-hint">{count} cards</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="afq-rotc-checks">
+          <div className="arc-s-checks">
             {SUBJECTS.map((s) => {
               const on = selected.includes(s.id);
               const count = CARDS.filter((c) => c.subject === s.id).length;
               return (
-                <label key={s.id} className={'afq-rotc-check' + (on ? ' on' : '')}>
+                <label key={s.id} className={'arc-s-check' + (on ? ' on' : '')}>
                   <input type="checkbox" checked={on} onChange={() => toggleSubject(s.id)} />
-                  <span className="afq-rotc-check-txt">
+                  <span className="arc-s-check-txt">
                     <b>{s.label}</b>
                     <span>{s.hint}</span>
                     <em>{count} cards</em>
@@ -134,7 +134,7 @@ export default function KnowledgeCards() {
             })}
           </div>
 
-          <p className="afq-note">At least one subject must stay selected.</p>
+          <p className="arc-s-note">At least one subject must stay selected.</p>
         </div>
       )}
 
@@ -149,7 +149,7 @@ function makeRun(deck) {
 }
 
 function DrillRun({ deck }) {
-  const { progress, mutate } = useAfoqt();
+  const { progress, mutate } = useRotc();
   const [run, setRun] = useState(() => makeRun(deck));
   const cur = run.done ? null : run.queue[run.i];
 
@@ -194,7 +194,7 @@ function DrillRun({ deck }) {
 
   if (!deck.length) {
     return (
-      <p className="afq-note">
+      <p className="arc-s-note">
         No cards match the current filters. Try turning off "Flagged only" or selecting another
         subject.
       </p>
@@ -203,10 +203,10 @@ function DrillRun({ deck }) {
 
   return (
     <>
-      <div className="afq-rotc-prog">
+      <div className="arc-s-prog">
         <i style={{ width: run.done ? '100%' : `${(run.i / run.queue.length) * 100}%` }} />
       </div>
-      <div className="afq-rotc-prog-txt">
+      <div className="arc-s-prog-txt">
         <span>{run.done ? 'Deck complete' : `Card ${run.i + 1} of ${run.queue.length}`}</span>
         <span>{run.done ? '' : bySubject(cur.subject)?.label}</span>
       </div>
@@ -214,39 +214,39 @@ function DrillRun({ deck }) {
       {run.done ? (
         <Done deck={deck} onAgain={restart} />
       ) : (
-        <div className="afq-rotc-stage">
-          <p className="afq-rotc-prompt">{bySubject(cur.subject)?.label}</p>
-          <div className="afq-rotc-kc-card">
+        <div className="arc-s-stage">
+          <p className="arc-s-prompt">{bySubject(cur.subject)?.label}</p>
+          <div className="arc-s-kc-card">
             <button
               type="button"
-              className={'afq-rotc-flag-btn' + (isCardFlagged(progress, cur.id) ? ' on' : '')}
+              className={'arc-s-flag-btn' + (isCardFlagged(progress, cur.id) ? ' on' : '')}
               onClick={toggleFlag}
               aria-pressed={isCardFlagged(progress, cur.id)}
               title={isCardFlagged(progress, cur.id) ? 'Remove flag (F)' : 'Flag this card (F)'}
             >
               ⚑
             </button>
-            <p className="afq-rotc-kc-front">{cur.front}</p>
+            <p className="arc-s-kc-front">{cur.front}</p>
             {run.revealed && (
               <>
-                <hr className="afq-rotc-kc-rule" />
-                <p className="afq-rotc-kc-back">{cur.back}</p>
-                {cur.note && <p className="afq-note afq-rotc-kc-note">{cur.note}</p>}
+                <hr className="arc-s-kc-rule" />
+                <p className="arc-s-kc-back">{cur.back}</p>
+                {cur.note && <p className="arc-s-note arc-s-kc-note">{cur.note}</p>}
               </>
             )}
           </div>
 
-          <div className="afq-rotc-actions">
+          <div className="arc-s-actions">
             {!run.revealed ? (
-              <button className="afq-btn afq-primary" onClick={reveal}>Show answer <kbd>Space</kbd></button>
+              <button className="arc-s-btn arc-s-primary" onClick={reveal}>Show answer <kbd>Space</kbd></button>
             ) : (
-              <button className="afq-btn afq-primary" onClick={next}>Next <kbd>Space</kbd></button>
+              <button className="arc-s-btn arc-s-primary" onClick={next}>Next <kbd>Space</kbd></button>
             )}
           </div>
         </div>
       )}
 
-      <p className="afq-note afq-rotc-help">
+      <p className="arc-s-note arc-s-help">
         <kbd>Space</kbd> reveal, then next · <kbd>F</kbd> flag · <kbd>R</kbd> reshuffle.
       </p>
     </>
@@ -255,11 +255,11 @@ function DrillRun({ deck }) {
 
 function Done({ deck, onAgain }) {
   return (
-    <div className="afq-rotc-stage afq-rotc-done">
+    <div className="arc-s-stage arc-s-done">
       <h3>Deck complete</h3>
-      <p className="afq-note">Went through all {deck.length} card{deck.length === 1 ? '' : 's'}.</p>
-      <div className="afq-rotc-actions">
-        <button className="afq-btn afq-primary" onClick={onAgain}>Run again <kbd>R</kbd></button>
+      <p className="arc-s-note">Went through all {deck.length} card{deck.length === 1 ? '' : 's'}.</p>
+      <div className="arc-s-actions">
+        <button className="arc-s-btn arc-s-primary" onClick={onAgain}>Run again <kbd>R</kbd></button>
       </div>
     </div>
   );

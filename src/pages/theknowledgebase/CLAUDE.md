@@ -52,6 +52,20 @@ why it cannot be fixed right now.
    and hold it to the same distractor-quality bar (`RC-AUTHORING-SPEC.md` §4a/4b) a real test-prep
    professional would. Do not wait to be told the exact words to write.
 
+6. **A template is a GENERATOR, not a question, and a thin one is a failure.** Trey, 2026-10-25, after the first
+   cut of the coordinate-shapes family: *"Why are you making bland 'question templates'? … Those templates look like
+   you're going to ask me the same 7 questions over and over again. Why not different kinds of triangles? Why only
+   squares and rectangles? I SHOULDN'T HAVE TO ASK THIS."* The engine (`engine/generator.js`, `drill.js`, `bank.js`) deals
+   unlimited instances; what makes them worth studying is how much each template VARIES. Before shipping a family:
+   model the thing as **data** (shapes, cases, scenarios), vary the figure, its orientation, which part is hidden, the
+   labels and the wording, and cover the **different kinds of question** about it, not one question with new numbers.
+   Then measure it: print a mixed 20-question drill and read it, and pin variety in a test (see
+   `templates/mk/ch12b-coordinate-shapes.test.js`: distinct stems per template, distinct wordings across the family,
+   every shape kind turns up). If twenty questions would feel like four, it is not done.
+   **This applies to EVERY subtest, not just the one you were told about** (Trey, 2026-10-25). The full standard, the 100-question
+   acceptance test and the tools live in `.claude/skills/question-engine-quality/SKILL.md`; read it before touching any generator, and run
+   `npm run afoqt:audit-all` before saying any subtest is filled out.
+
 This does not license inventing a false "100% complete" status or padding a bank with weak
 filler to hit a round number - `featuredesign.md`'s "never silently drop scope" cuts both ways:
 report real gaps honestly, with specifics, the same way you'd report a blocked task. The failure
@@ -70,7 +84,7 @@ settled fact rather than as your own unfinished work.
 | `/TKB/afoqt/*` | AFOQT training module *(in build)* — Math Knowledge, Arithmetic Reasoning, Table Reading, Aviation Information, Instrument Comprehension and Block Counting live |
 | `/TKB/afoqt/subtest/:code` | **One page per subtest** — live content inventory, where you stand, every study option, its chapters. Reached by clicking a row on the dashboard. Anything that belongs to exactly ONE subtest lives here, not on the dashboard (`OWNED` in `views/SubtestHub.jsx`). |
 | `/TKB/courses/*` | Courses module — per-course document/assessment tracking, real-question capture, and zero-AI question generation feeding TKB's spaced-review engine |
-| `/TKB/afoqt/afrotc` | **AFROTC tab — not an AFOQT subtest.** Two pages behind one tab (`?view=drill` switches): the graded-recitation crash sheet and the cadet rank drill. See the AFROTC note below. |
+| `/TKB/afoqt/afrotc` | **MOVED OUT OF TKB on 2026-10-25.** Old links redirect to the AFROTC page (`/AFROTC?doc=<tab>`). Everything AFROTC lives in `src/pages/afrotc/` now; see the AFROTC note below. |
 
 **Full AFOQT docs: `docs/afoqt/`.** `PLAN.md` there is the **live handoff state** — read it first
 in a new session, update it at the end of every working block.
@@ -200,26 +214,21 @@ eleven job choices are scored on. MK, AR, TR and BC are open and cannot run out;
 
 ---
 
-## ℹ️ The AFROTC tab is coursework, NOT an AFOQT subtest
+## ℹ️ AFROTC is NOT part of TKB any more (moved 2026-10-25)
 
-Added 2026-09-05. `afoqt/afrotc/` holds two pages that were built in an earlier session as
-standalone published HTML with **no route into the site at all** — reachable only by URL, no theme,
-no sync, no phone layout. They now live at `/TKB/afoqt/afrotc`.
+Trey, 2026-10-25: *"Get all of my AFROTC stuff out of TKB AND into the AFROTC page itself."* AFROTC is coursework, not an
+AFOQT subtest, and it never belonged under TKB. **Do not build or add anything AFROTC under `src/pages/theknowledgebase/`.**
 
-- **One tab, two pages**, switched by `?view=drill`. The AFOQT subnav already carries eight entries
-  and scrolls sideways on a phone; two more would push the daily-use tabs off-screen.
-- **It is inside AFOQT for scheduling reasons, not taxonomic ones.** Nothing here feeds a composite,
-  a template, the bank, or `afoqt:coverage`. Do not wire it into the drill engine, and do not let
-  `afoqt:selftest` start expecting it.
-- **`rankData.js` must stay at exactly eight grades.** AFROTCI 36-2011 Vol 3 para 10.7.5 forbids
-  cadet enlisted rank; Cadet Airman Basic and friends are AFJROTC/Civil Air Patrol. A "helpful"
-  expansion here teaches something that loses points in the room.
-- **The recitation sheet's flags are load-bearing.** Several facts are recent enough that most
-  course material still teaches the superseded answer (Holm Center left Air University 8 Oct 2024;
-  CSAF Wilsbach; CMSAF Wolfe). They are marked rather than silently corrected because the move in
-  the room is to give what cadre teaches and show you know it changed. **Do not delete a flag to
-  tidy the page**, and treat leadership names as perishable.
-- The drill's deck selection persists under `settings.afrotc` and has a floor of two grades.
+- **Where it lives:** the `/AFROTC` page, `src/pages/afrotc/`. The study pages (recitation sheet, rank drill, knowledge cards,
+  song and creed memorizer, airframe briefs) are tabs there (`study/`), and the reference material from `afrotc-fundamentals/` is now
+  `src/pages/afrotc/fundamentals/`. Add a tab with one entry in `DOCS` in `AfrotcApp.jsx`.
+- **Old URLs still work.** `/TKB/afoqt/afrotc?view=song` redirects to `/AFROTC?doc=song` (`AfrotcMoved` in `AfoqtApp.jsx`).
+- **Their data is no longer in AFOQT progress.** `study/rotcStore.jsx` keeps it in localStorage (`arc_study_v1`) and
+  `users/{uid}/prefs/afrotcStudy`, and copies the old `settings.afrotc / afrotcCards / afrotcSong` and `flaggedCards` across once.
+- **CSS prefix is `arc-s-`** (it was `afq-rotc-`) on the AFROTC page's dark `--arc-*` tokens.
+- **Facts that still bind** (unchanged by the move): `rankData.js` stays at exactly eight grades (AFROTCI 36-2011 Vol 3 para 10.7.5
+  forbids cadet enlisted rank); the recitation sheet's flags are load-bearing, so do not delete one to tidy the page, and treat
+  leadership names as perishable.
 
 ## THE TWO RULES THAT MATTER MOST
 

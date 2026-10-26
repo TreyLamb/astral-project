@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useAfoqt } from '../AfoqtApp';
+import { useRotc } from './rotcContext';
 import { RANKS, RANK_IDS, PRESETS, byId } from './rankData';
 import { Plates, PlateOnly, Epaulet } from './RankInsignia';
 
@@ -38,7 +38,7 @@ const shuffle = (a) => {
 const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
 
 export default function RankDrill() {
-  const { progress, updateSettings } = useAfoqt();
+  const { progress, updateSettings } = useRotc();
 
   // Stored under settings.afrotc as one object. settings shallow-merges over the defaults in
   // afoqtStorage, so a whole-object replace is the correct write and no migration is needed for
@@ -75,19 +75,19 @@ export default function RankDrill() {
   const activePreset = PRESETS.find((p) => sameSet(p.ids, selected));
 
   return (
-    <div className="afq-rotc-drill">
-      <div className="afq-rotc-bar">
-        <div className="afq-rotc-seg" role="group" aria-label="Mode">
+    <div className="arc-s-drill">
+      <div className="arc-s-bar">
+        <div className="arc-s-seg" role="group" aria-label="Mode">
           <button className={mode === 'flash' ? 'on' : ''} onClick={() => setCfg({ mode: 'flash' })}>Flashcard</button>
           <button className={mode === 'mc' ? 'on' : ''} onClick={() => setCfg({ mode: 'mc' })}>Pick insignia</button>
         </div>
-        <div className="afq-rotc-seg" role="group" aria-label="Insignia form">
+        <div className="arc-s-seg" role="group" aria-label="Insignia form">
           <button className={form === 'both' ? 'on' : ''} onClick={() => setCfg({ form: 'both' })}>Both</button>
           <button className={form === 'epaulet' ? 'on' : ''} onClick={() => setCfg({ form: 'epaulet' })}>Epaulet</button>
           <button className={form === 'pin' ? 'on' : ''} onClick={() => setCfg({ form: 'pin' })}>Pin</button>
         </div>
         <button
-          className={'afq-btn afq-rotc-settings-btn' + (showSettings ? ' afq-primary' : '')}
+          className={'arc-s-btn arc-s-settings-btn' + (showSettings ? ' arc-s-primary' : '')}
           onClick={() => setShowSettings((v) => !v)}
           aria-expanded={showSettings}
         >
@@ -97,30 +97,30 @@ export default function RankDrill() {
       </div>
 
       {showSettings && (
-        <div className="afq-rotc-settings">
+        <div className="arc-s-settings">
           <h4>Which grades do you want dealt?</h4>
-          <div className="afq-rotc-presets">
+          <div className="arc-s-presets">
             {PRESETS.map((p) => (
               <button
                 key={p.id}
-                className={'afq-btn' + (activePreset?.id === p.id ? ' afq-primary' : '')}
+                className={'arc-s-btn' + (activePreset?.id === p.id ? ' arc-s-primary' : '')}
                 onClick={() => setCfg({ ranks: p.ids })}
                 title={p.hint}
               >
                 {p.label}
-                <span className="afq-rotc-preset-hint">{p.hint}</span>
+                <span className="arc-s-preset-hint">{p.hint}</span>
               </button>
             ))}
           </div>
 
-          <div className="afq-rotc-checks">
+          <div className="arc-s-checks">
             {RANKS.map((r) => {
               const on = selected.includes(r.id);
               return (
-                <label key={r.id} className={'afq-rotc-check' + (on ? ' on' : '')}>
+                <label key={r.id} className={'arc-s-check' + (on ? ' on' : '')}>
                   <input type="checkbox" checked={on} onChange={() => toggleRank(r.id)} />
                   <Epaulet rank={r} size={74} />
-                  <span className="afq-rotc-check-txt">
+                  <span className="arc-s-check-txt">
                     <b>{r.abbr}</b>
                     <span>{r.name}</span>
                     <em>{r.tier}</em>
@@ -130,20 +130,20 @@ export default function RankDrill() {
             })}
           </div>
 
-          <div className="afq-rotc-scope">
+          <div className="arc-s-scope">
             <h4>Wrong options come from</h4>
-            <div className="afq-rotc-seg" role="group" aria-label="Distractor pool">
+            <div className="arc-s-seg" role="group" aria-label="Distractor pool">
               <button className={scope === 'all' ? 'on' : ''} onClick={() => setCfg({ scope: 'all' })}>All eight grades</button>
               <button className={scope === 'selected' ? 'on' : ''} onClick={() => setCfg({ scope: 'selected' })}>Only the ones I picked</button>
             </div>
-            <p className="afq-note">
+            <p className="arc-s-note">
               {scope === 'all'
                 ? 'A two-grade drill whose options are only those two grades is a coin flip. Wrong answers are drawn from the whole roster so a narrow deck still has to be recognised, not guessed.'
                 : `Strict focus: nothing outside your selection is ever shown. With ${selected.length} picked, each card offers ${optCount} option${optCount === 1 ? '' : 's'}.`}
             </p>
           </div>
 
-          <p className="afq-note">Two grades is the minimum — the last two cannot be switched off.</p>
+          <p className="arc-s-note">Two grades is the minimum — the last two cannot be switched off.</p>
         </div>
       )}
 
@@ -251,15 +251,15 @@ function DrillRun({ deck, mode, form, scope }) {
   return (
     <>
       {mode === 'mc' && (
-        <p className="afq-rotc-score">
+        <p className="arc-s-score">
           <b className="ok">{run.right}</b> right · <b className="no">{run.wrong}</b> missed
         </p>
       )}
 
-      <div className="afq-rotc-prog">
+      <div className="arc-s-prog">
         <i style={{ width: run.done ? '100%' : `${(run.i / run.queue.length) * 100}%` }} />
       </div>
-      <div className="afq-rotc-prog-txt">
+      <div className="arc-s-prog-txt">
         <span>{run.done ? 'Deck complete' : `Card ${run.i + 1} of ${run.queue.length}`}</span>
         <span>{mode === 'flash' ? 'Insignia → name' : 'Name → insignia'}</span>
       </div>
@@ -267,60 +267,60 @@ function DrillRun({ deck, mode, form, scope }) {
       {run.done ? (
         <Done run={run} mode={mode} deck={deck} onAgain={restart} />
       ) : mode === 'flash' ? (
-        <div className="afq-rotc-stage">
-          <p className="afq-rotc-prompt">Which cadet grade is this?</p>
+        <div className="arc-s-stage">
+          <p className="arc-s-prompt">Which cadet grade is this?</p>
           <Plates rank={cur} form={form} />
           {run.revealed && (
-            <div className="afq-rotc-answer">
-              <p className="afq-rotc-rank">{cur.name}</p>
-              <p className="afq-rotc-abbr">{cur.abbr}</p>
-              <p className="afq-rotc-tier">{cur.tier}</p>
-              <p className="afq-note">{cur.note}</p>
+            <div className="arc-s-answer">
+              <p className="arc-s-rank">{cur.name}</p>
+              <p className="arc-s-abbr">{cur.abbr}</p>
+              <p className="arc-s-tier">{cur.tier}</p>
+              <p className="arc-s-note">{cur.note}</p>
             </div>
           )}
-          <div className="afq-rotc-actions">
+          <div className="arc-s-actions">
             {run.revealed
-              ? <button className="afq-btn afq-primary" onClick={next}>Next <kbd>Space</kbd></button>
-              : <button className="afq-btn afq-primary" onClick={reveal}>Reveal <kbd>Space</kbd></button>}
+              ? <button className="arc-s-btn arc-s-primary" onClick={next}>Next <kbd>Space</kbd></button>
+              : <button className="arc-s-btn arc-s-primary" onClick={reveal}>Reveal <kbd>Space</kbd></button>}
           </div>
         </div>
       ) : (
-        <div className="afq-rotc-stage">
-          <p className="afq-rotc-prompt">Pick the matching insignia</p>
-          <div className="afq-rotc-namecard">
-            <p className="afq-rotc-rank">{cur.name}</p>
-            <p className="afq-rotc-abbr">{cur.abbr}</p>
+        <div className="arc-s-stage">
+          <p className="arc-s-prompt">Pick the matching insignia</p>
+          <div className="arc-s-namecard">
+            <p className="arc-s-rank">{cur.name}</p>
+            <p className="arc-s-abbr">{cur.abbr}</p>
           </div>
-          <div className={'afq-rotc-opts' + (form === 'pin' ? ' pins' : '')}>
+          <div className={'arc-s-opts' + (form === 'pin' ? ' pins' : '')}>
             {run.opts.map((o, k) => {
               const settled = run.answered !== null;
               const cls = settled
                 ? (o.id === cur.id ? ' correct' : o.id === run.answered ? ' wrong' : '')
                 : '';
               return (
-                <button key={o.id} className={'afq-rotc-opt' + cls} disabled={settled} onClick={() => answer(o.id)}>
+                <button key={o.id} className={'arc-s-opt' + cls} disabled={settled} onClick={() => answer(o.id)}>
                   <PlateOnly rank={o} form={form === 'pin' ? 'pin' : 'epaulet'} />
-                  <span className="afq-rotc-key">{k + 1}</span>
+                  <span className="arc-s-key">{k + 1}</span>
                 </button>
               );
             })}
           </div>
           {run.answered !== null && (
             <>
-              <p className={'afq-rotc-verdict ' + (run.answered === cur.id ? 'ok' : 'no')}>
+              <p className={'arc-s-verdict ' + (run.answered === cur.id ? 'ok' : 'no')}>
                 {run.answered === cur.id
                   ? `Correct — ${cur.abbr}`
                   : `That was not ${cur.abbr} — the highlighted one is. ${byId(run.answered).abbr} is ${byId(run.answered).name}.`}
               </p>
-              <div className="afq-rotc-actions">
-                <button className="afq-btn afq-primary" onClick={next}>Next <kbd>Space</kbd></button>
+              <div className="arc-s-actions">
+                <button className="arc-s-btn arc-s-primary" onClick={next}>Next <kbd>Space</kbd></button>
               </div>
             </>
           )}
         </div>
       )}
 
-      <p className="afq-note afq-rotc-help">
+      <p className="arc-s-note arc-s-help">
         <kbd>Space</kbd> reveal, then next · <kbd>1</kbd>–<kbd>{optCount}</kbd> pick an option · <kbd>R</kbd> reshuffle.
         Officer stripes read <strong>outboard edge inward</strong>. Count widths, not stripes.
       </p>
@@ -332,24 +332,24 @@ function Done({ run, mode, deck, onAgain }) {
   const fumbled = deck.filter((r) => run.firstTry[r.id] === false);
   const pct = deck.length ? Math.round((run.right / deck.length) * 100) : 0;
   return (
-    <div className="afq-rotc-stage afq-rotc-done">
+    <div className="arc-s-stage arc-s-done">
       <h3>{mode === 'flash' ? 'Deck done' : 'Round clear'}</h3>
       {mode === 'flash' ? (
-        <p className="afq-note">All {deck.length} selected grade{deck.length === 1 ? '' : 's'} shown. Reshuffle and go again.</p>
+        <p className="arc-s-note">All {deck.length} selected grade{deck.length === 1 ? '' : 's'} shown. Reshuffle and go again.</p>
       ) : (
         <>
-          <p className="afq-rotc-big">{run.right}<span>/{deck.length}</span></p>
-          <p className="afq-note">{pct}% first time. Every grade was cleared before the round ended.</p>
+          <p className="arc-s-big">{run.right}<span>/{deck.length}</span></p>
+          <p className="arc-s-note">{pct}% first time. Every grade was cleared before the round ended.</p>
           {fumbled.length > 0 && (
-            <div className="afq-rotc-missed">
+            <div className="arc-s-missed">
               <strong>Missed first time</strong>
               <ul>{fumbled.map((r) => <li key={r.id}>{r.abbr} — {r.name}</li>)}</ul>
             </div>
           )}
         </>
       )}
-      <div className="afq-rotc-actions">
-        <button className="afq-btn afq-primary" onClick={onAgain}>Run again <kbd>R</kbd></button>
+      <div className="arc-s-actions">
+        <button className="arc-s-btn arc-s-primary" onClick={onAgain}>Run again <kbd>R</kbd></button>
       </div>
     </div>
   );

@@ -42,16 +42,16 @@ const BRIEFS = [
 
 export default function AirframeBriefs() {
   return (
-    <div className="afq-rotc-drill">
-      <p className="afq-note">
+    <div className="arc-s-drill">
+      <p className="arc-s-note">
         Full documents. They open in a new tab and print cleanly — each one is self-contained
         with its own sources and image credits.
       </p>
 
-      <div className="afq-brief-list">
+      <div className="arc-s-brief-list">
         {BRIEFS.map((b) => (
-          <a key={b.href} className="afq-brief" href={b.href} target="_blank" rel="noopener noreferrer">
-            <span className="afq-brief-top">
+          <a key={b.href} className="arc-s-brief" href={b.href} target="_blank" rel="noopener noreferrer">
+            <span className="arc-s-brief-top">
               <b>{b.title}</b>
               <span className={b.af ? 'tag af' : 'tag'}>{b.tag}</span>
             </span>
@@ -61,7 +61,7 @@ export default function AirframeBriefs() {
         ))}
       </div>
 
-      <div className="afq-brief-note">
+      <div className="arc-s-brief-note">
         <strong>If the requirement is an Air Force airframe, brief the Roma.</strong> The Army and
         the Air Force were one service until 18 September 1947, and the Air Force traces its own
         lineage to 1 August 1907 — so an Army Air Service aircraft is Air Force heritage by the

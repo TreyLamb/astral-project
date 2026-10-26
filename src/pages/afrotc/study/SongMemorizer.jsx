@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { useAfoqt } from '../AfoqtApp';
+import { useRotc } from './rotcContext';
 import { MODES, parseSong, buildSteps, hintAt } from './songEngine';
 import { AIRMANS_CREED } from './creedText';
 import LoopPlayer from './LoopPlayer';
@@ -45,12 +45,17 @@ const SONGS = [
   },
   { id: 'cr', title: "Airman's Creed", where: 'handbook p.20', builtin: AIRMANS_CREED, word: 'Part' },
 ];
-const textOf = (cfg, s) => cfg.lyrics?.[s.id] ?? s.builtin ?? '';
+// A saved override only counts when it has words in it. An empty saved string used to beat the built-in
+// text (`??` only skips null and undefined), which is how the Airman's Creed ended up loading as a blank editor.
+const textOf = (cfg, s) => {
+  const saved = cfg.lyrics?.[s.id];
+  return typeof saved === 'string' && saved.trim() ? saved : (s.builtin ?? '');
+};
 const parseFor = (s, text) => parseSong(text, { stanzaWord: s.word ?? 'Verse' });
 const DEFAULTS = { songId: 'af', mode: 'forward', ctx: 2, lyrics: {}, runs: {}, listen: {} };
 
 export default function SongMemorizer() {
-  const { progress, updateSettings } = useAfoqt();
+  const { progress, updateSettings } = useRotc();
   const saved = useMemo(() => progress?.settings?.afrotcSong ?? {}, [progress]);
   const cfg = useMemo(() => ({ ...DEFAULTS, ...saved }), [saved]);
   const setCfg = useCallback(
@@ -74,19 +79,19 @@ export default function SongMemorizer() {
   );
 
   return (
-    <div className="afq-rotc-drill afq-rotc-song">
-      <div className="afq-rotc-song-pick" role="tablist" aria-label="Song">
+    <div className="arc-s-drill arc-s-song">
+      <div className="arc-s-song-pick" role="tablist" aria-label="Song">
         {SONGS.map((s) => {
           const n = parseFor(s, textOf(cfg, s)).lines.length;
           return (
             <button key={s.id} role="tab" aria-selected={s.id === song.id}
-              className={'afq-btn' + (s.id === song.id ? ' afq-primary' : '')}
+              className={'arc-s-btn' + (s.id === song.id ? ' arc-s-primary' : '')}
               onClick={() => { setCfg({ songId: s.id }); setStanza(null); setEditing(false); setListening(Boolean(s.videos)); }}>
-              {s.title}<span className="afq-rotc-preset-hint">{n ? `${n} lines` : 'no lyrics yet'}</span>
+              {s.title}<span className="arc-s-preset-hint">{n ? `${n} lines` : 'no lyrics yet'}</span>
             </button>
           );
         })}
-        <button className={'afq-btn afq-rotc-song-listen' + (listening ? ' afq-primary' : '')} aria-pressed={listening}
+        <button className={'arc-s-btn arc-s-song-listen' + (listening ? ' arc-s-primary' : '')} aria-pressed={listening}
           onClick={() => setListening((v) => !v)}>{listening ? 'Hide player' : 'Listen & loop'}</button>
       </div>
 
@@ -103,34 +108,34 @@ export default function SongMemorizer() {
           onCancel={() => setEditing(false)} />
       ) : (
         <>
-          <div className="afq-rotc-bar afq-rotc-song-bar">
-            <div className="afq-rotc-song-chips" role="group" aria-label="Direction">
+          <div className="arc-s-bar arc-s-song-bar">
+            <div className="arc-s-song-chips" role="group" aria-label="Direction">
               {MODES.map((m) => (
                 <button key={m.id} title={m.hint} aria-pressed={cfg.mode === m.id}
-                  className={'afq-btn' + (cfg.mode === m.id ? ' afq-primary' : '')}
+                  className={'arc-s-btn' + (cfg.mode === m.id ? ' arc-s-primary' : '')}
                   onClick={() => setCfg({ mode: m.id })}>{m.label}</button>
               ))}
             </div>
-            <div className="afq-rotc-song-chips" role="group" aria-label="Lines of context">
-              <span className="afq-rotc-song-lbl">Context</span>
+            <div className="arc-s-song-chips" role="group" aria-label="Lines of context">
+              <span className="arc-s-song-lbl">Context</span>
               {[1, 2, 3].map((n) => (
                 <button key={n} aria-pressed={cfg.ctx === n}
-                  className={'afq-btn' + (cfg.ctx === n ? ' afq-primary' : '')}
+                  className={'arc-s-btn' + (cfg.ctx === n ? ' arc-s-primary' : '')}
                   onClick={() => setCfg({ ctx: n })}>{n}</button>
               ))}
             </div>
-            <button className="afq-btn" onClick={() => setEditing(true)}>Edit lyrics</button>
+            <button className="arc-s-btn" onClick={() => setEditing(true)}>Edit lyrics</button>
           </div>
 
 
           {parsed.stanzas.length > 1 && (
-            <div className="afq-rotc-song-chips" role="group" aria-label="Part of the song">
-              <span className="afq-rotc-song-lbl">Practice</span>
-              <button className={'afq-btn' + (scope == null ? ' afq-primary' : '')} onClick={() => setStanza(null)}>
+            <div className="arc-s-song-chips" role="group" aria-label="Part of the song">
+              <span className="arc-s-song-lbl">Practice</span>
+              <button className={'arc-s-btn' + (scope == null ? ' arc-s-primary' : '')} onClick={() => setStanza(null)}>
                 Whole song
               </button>
               {parsed.stanzas.map((s) => (
-                <button key={s.index} className={'afq-btn' + (scope === s.index ? ' afq-primary' : '')}
+                <button key={s.index} className={'arc-s-btn' + (scope === s.index ? ' arc-s-primary' : '')}
                   onClick={() => setStanza(s.index)}>{s.label}</button>
               ))}
             </div>
@@ -171,32 +176,32 @@ function Editor({ song, text, hasLyrics, onSave, onCancel, onReset }) {
     }
   };
   return (
-    <div className="afq-rotc-settings afq-rotc-song-edit">
+    <div className="arc-s-settings arc-s-song-edit">
       <h4>{song.builtin ? `${song.title}: edit the text` : hasLyrics ? `${song.title}: edit the lyrics` : `${song.title}: add the lyrics (they show under the video and run the line-by-line drill)`}</h4>
-      <p className="afq-note">
+      <p className="arc-s-note">
         {song.builtin ? 'This text is built in. Change it only to match the exact wording printed in your handbook. ' : ''}
         {song.builtin ? '' : `Type or paste your copy of the lyrics once, one line per line, with a blank line between verses.
         Use the version printed in your handbook (${song.where}); the exact wording is what gets graded,
         and the song is under copyright, so it is kept in your own settings and not in the app itself.`}
       </p>
-      <textarea className="afq-rotc-song-text" rows={12} value={draft} spellCheck={false}
+      <textarea className="arc-s-song-text" rows={12} value={draft} spellCheck={false}
         onChange={(e) => setDraft(e.target.value)} placeholder={'First line\nSecond line\n\nNext verse, first line…'} />
-      <div className="afq-rotc-actions afq-rotc-song-scan">
-        <label className={'afq-btn' + (scan.busy ? ' afq-rotc-disabled' : '')}>
+      <div className="arc-s-actions arc-s-song-scan">
+        <label className={'arc-s-btn' + (scan.busy ? ' arc-s-disabled' : '')}>
           {scan.busy ? `Reading… ${Math.round(scan.pct * 100)}%` : 'Scan a photo of the page'}
           <input type="file" accept="image/*" multiple hidden disabled={scan.busy} onChange={onPhotos} />
         </label>
-        {!song.builtin && <button className="afq-btn" onClick={pasteClip}>Paste from clipboard</button>}
-        {song.page && <a className="afq-btn" href={song.page} target="_blank" rel="noreferrer">Open the official lyrics page</a>}
-        <span className="afq-note">Copy the lyrics there, then tap Paste. Or scan a photo of your handbook page; check the result against the page.</span>
+        {!song.builtin && <button className="arc-s-btn" onClick={pasteClip}>Paste from clipboard</button>}
+        {song.page && <a className="arc-s-btn" href={song.page} target="_blank" rel="noreferrer">Open the official lyrics page</a>}
+        <span className="arc-s-note">Copy the lyrics there, then tap Paste. Or scan a photo of your handbook page; check the result against the page.</span>
       </div>
-      {scan.err && <p className="afq-note afq-rotc-listen-msg">{scan.err}</p>}
-      <div className="afq-rotc-actions">
-        <button className="afq-btn afq-primary" disabled={!n} onClick={() => onSave(draft)}>
+      {scan.err && <p className="arc-s-note arc-s-listen-msg">{scan.err}</p>}
+      <div className="arc-s-actions">
+        <button className="arc-s-btn arc-s-primary" disabled={!n} onClick={() => onSave(draft)}>
           Save {n ? `(${n} lines)` : ''}
         </button>
-        {hasLyrics && <button className="afq-btn" onClick={onCancel}>Cancel</button>}
-        {onReset && <button className="afq-btn" onClick={onReset}>Reset to built-in</button>}
+        {hasLyrics && <button className="arc-s-btn" onClick={onCancel}>Cancel</button>}
+        {onReset && <button className="arc-s-btn" onClick={onReset}>Reset to built-in</button>}
       </div>
     </div>
   );
@@ -241,7 +246,7 @@ function Run({ song, parsed, mode, stanza, ctx, runs, onRunDone }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [done, revealed, next, back, reveal, again, moreHint]);
 
-  if (!cur) return <p className="afq-note">Nothing to practice here yet.</p>;
+  if (!cur) return <p className="arc-s-note">Nothing to practice here yet.</p>;
 
   // Drop focus after a click so Space / Enter keep driving the run instead of re-pressing this button.
   const tap = (fn) => (e) => { e.currentTarget.blur(); fn(); };
@@ -253,23 +258,23 @@ function Run({ song, parsed, mode, stanza, ctx, runs, onRunDone }) {
 
   if (done) {
     return (
-      <div className="afq-rotc-stage afq-rotc-done">
+      <div className="arc-s-stage arc-s-done">
         <h3>Run {runs} complete</h3>
-        <p className="afq-note">All {steps.length} lines of {scopeLabel}. {runs > 1 ? `${runs} runs in total.` : ''}</p>
-        <div className="afq-rotc-actions">
-          <button className="afq-btn afq-primary" onClick={tap(again)}>Go again <kbd>Space</kbd></button>
+        <p className="arc-s-note">All {steps.length} lines of {scopeLabel}. {runs > 1 ? `${runs} runs in total.` : ''}</p>
+        <div className="arc-s-actions">
+          <button className="arc-s-btn arc-s-primary" onClick={tap(again)}>Go again <kbd>Space</kbd></button>
         </div>
       </div>
     );
   }
 
   const answer = (
-    <div className={'afq-rotc-song-answer' + (revealed ? ' on' : '')}>
-      {revealed ? cur.answer.text : (hintText ?? <span className="afq-rotc-song-q">?</span>)}
+    <div className={'arc-s-song-answer' + (revealed ? ' on' : '')}>
+      {revealed ? cur.answer.text : (hintText ?? <span className="arc-s-song-q">?</span>)}
     </div>
   );
   const context = (
-    <div className="afq-rotc-song-ctx">
+    <div className="arc-s-song-ctx">
       {ctxLines.map((l, k) => (
         <p key={l.n} className={k === (cur.dir === 'next' ? ctxLines.length - 1 : 0) ? 'near' : ''}>{l.text}</p>
       ))}
@@ -281,27 +286,27 @@ function Run({ song, parsed, mode, stanza, ctx, runs, onRunDone }) {
 
   return (
     <>
-      <div className="afq-rotc-prog"><i style={{ width: `${(i / steps.length) * 100}%` }} /></div>
-      <div className="afq-rotc-prog-txt">
+      <div className="arc-s-prog"><i style={{ width: `${(i / steps.length) * 100}%` }} /></div>
+      <div className="arc-s-prog-txt">
         <span>Line {i + 1} of {steps.length} · {scopeLabel}</span>
         <span>{runs ? `${runs} run${runs === 1 ? '' : 's'} done` : 'first run'}</span>
       </div>
-      <div className="afq-rotc-stage afq-rotc-song-stage">
-        <p className="afq-rotc-prompt">{ask}</p>
+      <div className="arc-s-stage arc-s-song-stage">
+        <p className="arc-s-prompt">{ask}</p>
         {cur.dir === 'next' ? <>{context}{answer}</> : <>{answer}{context}</>}
-        <div className="afq-rotc-actions afq-rotc-song-actions">
-          <button className="afq-btn" onClick={tap(moreHint)} disabled={revealed || hint >= 2}>
+        <div className="arc-s-actions arc-s-song-actions">
+          <button className="arc-s-btn" onClick={tap(moreHint)} disabled={revealed || hint >= 2}>
             {hint === 0 ? 'Hint' : 'More hint'} <kbd>H</kbd>
           </button>
-          <button className={'afq-btn' + (revealed ? '' : ' afq-primary')} onClick={tap(reveal)} disabled={revealed}>
+          <button className={'arc-s-btn' + (revealed ? '' : ' arc-s-primary')} onClick={tap(reveal)} disabled={revealed}>
             Show line <kbd>Space</kbd>
           </button>
-          <button className={'afq-btn afq-rotc-song-next' + (revealed ? ' afq-primary' : '')} onClick={tap(next)}>
+          <button className={'arc-s-btn arc-s-song-next' + (revealed ? ' arc-s-primary' : '')} onClick={tap(next)}>
             Next <kbd>Enter</kbd>
           </button>
         </div>
       </div>
-      <p className="afq-note afq-rotc-help">
+      <p className="arc-s-note arc-s-help">
         <kbd>Space</kbd> show, then next · <kbd>Enter</kbd>/<kbd>→</kbd> next any time · <kbd>←</kbd> back ·
         <kbd>H</kbd> hint · <kbd>R</kbd> restart.
       </p>

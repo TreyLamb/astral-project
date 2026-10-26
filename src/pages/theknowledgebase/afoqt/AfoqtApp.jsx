@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useState, useEffect, useCallback, createContext, useContext, useRef } from 'react';
 import { useAuth } from '../../../AuthContext';
 import { AfoqtLocal, AfoqtCloud, defaultProgress, applyAnswer, addRun } from './afoqtStorage';
@@ -17,7 +17,6 @@ import WordBank from './views/WordBank';
 import StudyPlan from './views/StudyPlan';
 import FlaggedQuestions from './views/FlaggedQuestions';
 import AfoqtResults from './views/AfoqtResults';
-import AfrotcView from './afrotc/AfrotcView';
 import './Afoqt.css';
 
 // Templates self-register on import; this pulls the whole registry in once.
@@ -25,6 +24,15 @@ import './templates';
 
 const AfoqtContext = createContext(null);
 export const useAfoqt = () => useContext(AfoqtContext);
+
+// AFROTC is not an AFOQT subtest and no longer lives here (moved to /AFROTC on 2026-10-25). Old links and
+// bookmarks (/TKB/afoqt/afrotc?view=song) land on the matching tab of the AFROTC page instead of a 404.
+function AfrotcMoved() {
+  const [params] = useSearchParams();
+  const view = params.get('view');
+  const slug = ['sheet', 'drill', 'cards', 'song', 'briefs'].includes(view) ? view : 'sheet';
+  return <Navigate replace to={`/AFROTC?doc=${slug}`} />;
+}
 
 export default function AfoqtApp() {
   const navigate = useNavigate();
@@ -147,9 +155,6 @@ export default function AfoqtApp() {
     { path: '/TKB/afoqt/flagged', label: 'Flagged', match: (p) => p.startsWith('/TKB/afoqt/flagged') },
     { path: '/TKB/afoqt/exam', label: 'Exam', match: (p) => p.startsWith('/TKB/afoqt/exam') },
     { path: '/TKB/afoqt/results', label: 'Results', match: (p) => p.startsWith('/TKB/afoqt/results') },
-    // Not an AFOQT subtest - AFROTC coursework, kept here because it is studied in the same
-    // sitting and both its pages had no route into the site at all before this.
-    { path: '/TKB/afoqt/afrotc', label: 'AFROTC', match: (p) => p.startsWith('/TKB/afoqt/afrotc') },
   ];
 
   return (
@@ -182,7 +187,7 @@ export default function AfoqtApp() {
           <Route path="study" element={<StudyPlan />} />
           <Route path="flagged" element={<FlaggedQuestions />} />
           <Route path="results" element={<AfoqtResults />} />
-          <Route path="afrotc" element={<AfrotcView />} />
+          <Route path="afrotc" element={<AfrotcMoved />} />
         </Routes>
       </div>
     </AfoqtContext.Provider>
