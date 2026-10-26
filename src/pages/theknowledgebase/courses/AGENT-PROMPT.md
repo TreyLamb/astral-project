@@ -763,6 +763,12 @@ with no visible symptom. **Hand-write the wrong string as its own value.** Never
 
 ### CHEM 1210 — Principles of Chemistry I
 
+🔒 **How Trey sees the difficulty (2026-10-25; INTERNAL, never show "bands" in a UI or discuss them in his courses).** Band 1 = the basics needed to attempt
+Band 2; **Band 2 = the professor's quizzes**; **Band 3 = the national (ACS) exam level.** His professor's REAL exams are about **3x harder than most quiz
+questions** and paced like the AFOQT: **about 2 minutes per question**, some fast logic and some heavy-math items. **Quizzes are benchmarks and raw material for
+building the question engine; they are not the real study.** The bulk of his study should come from the CURRENT chapter's topics **tuned to the national test**
+(Band 3), less to the professor's quizzes. Build drills, pacing and the exam tool to that. Details: `chem/PLAN.md` top, and the skill's `profile.md`.
+
 **Two audiences, and they are not the same test.** The ACS standardized final is *debatably
 harder* than the instructor's own questions and is **>50% of the grade**. Every chapter guide
 must serve both:

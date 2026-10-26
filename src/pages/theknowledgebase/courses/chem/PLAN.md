@@ -1,5 +1,10 @@
 # Chem 1 curriculum — live handoff state
 
+🔒 **Read first: how Trey sees the difficulty (2026-10-25, INTERNAL: never surface "bands" in the UI or discuss them in his courses).** Band 1 = basics needed for
+Band 2; **Band 2 = the professor's quizzes; Band 3 = the national (ACS) exam level.** Real exams are ~3x harder than most quiz questions, AFOQT-paced (~2 min/question;
+some fast logic, some heavy math). **Quizzes are benchmarks that feed this question engine; they are not the real study.** His real chem study = the CURRENT
+chapter's topics tuned to the national test, timed. When extending banks, drills or the exam tool, target Band 3 content and pacing, and keep Band 2 coverage honest to the quizzes.
+
 Built 2026-08-28 at Trey's request: "Build a curriculum based on chem 1 for now, and then build
 the repeatable quizzes for each curriculum, and then the base for the mass-review mass-study
 version of tests." Mirrors AFOQT's proven gate → lesson → drill → mastery pattern (see
