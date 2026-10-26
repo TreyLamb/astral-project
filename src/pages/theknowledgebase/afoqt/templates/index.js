@@ -28,6 +28,7 @@ import './mk/ch09-geometry-foundations.js';
 import './mk/ch10-geometry-measurement.js';
 import './mk/ch11-right-triangles-solids.js';
 import './mk/ch12-coordinate.js';
+import './mk/ch12b-coordinate-shapes.js';
 import './mk/ch13-probability-stats.js';
 
 // --- Arithmetic Reasoning (Phase 8) ----------------------------------------
@@ -41,6 +42,7 @@ import './ar/ch03-proportion.js';
 import './ar/ch04-percent-context.js';
 import './ar/ch05-averages.js';
 import './ar/ch06-counting-measure.js';
+import './ar/ch07-work.js';
 
 // --- Word Knowledge (Phase 9) ----------------------------------------------
 // 12.0 s/question, and pure recall - the most improvable subtest in the project. Two engines:

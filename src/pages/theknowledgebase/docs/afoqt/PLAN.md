@@ -9,6 +9,33 @@ and know exactly where to pick up. Update it at the end of every working block.
   Treat attempt #1 as the one that counts.
 - **Goal:** all six composites. "Dominate all the topics even if I'll never use them."
 
+> **2026-10-25: Trey's real-test debrief has started (he took the real AFOQT 2026-09-23; retake planned for the 1st week of January 2027;
+> AFROTC gap is 90 days = eligible ~Dec 22; confirm booking with the Det testing officer).** He restarts studying end of Oct or the 1st-2nd
+> week of Nov, depending on his homework load. **Gap found:** he remembers 2-3 Math Knowledge items (5-7% of the math) that gave x,y
+> coordinates and asked for a missing VERTEX ("the 3rd point of a triangle"). The bank had slope, midpoint, distance, line equation, intercepts
+> and perpendicular slope, and nothing that asks for a vertex. **The first fix (6 templates, one sentence each, rectangle + parallelogram) was too
+> thin and Trey said so**; it was replaced the same day by a real shape family: `templates/mk/shapes.js` (the figure as DATA: rectangle, square,
+> rhombus and parallelogram squared to the axes or tilted, kite, isosceles trapezoid, four kinds of triangle) and `templates/mk/ch12b-coordinate-shapes.js`
+> (14 templates: missing vertex of a rectangle / parallelogram family / square from a diagonal / symmetric figures / right triangle, classify a
+> triangle, perimeter, area of a triangle and of four quadrilaterals, centroid, where diagonals meet, move a point, name the move, collinear k),
+> concepts `polygon-vertices`, `coordinate-area`, `triangle-from-coordinates`, `coordinate-transformations`, `collinear-points`, lesson sections 7-11 in
+> `curriculum/chapters/mk/ch12-coordinate.md`. Every answer is computed by a rule and re-checked a second way inside the template (it throws on
+> disagreement), so `afoqt:selftest` at 8000 samples doubles as a correctness test. Variety is pinned by `ch12b-coordinate-shapes.test.js`
+> (a 20-question mixed drill reads as 14 different kinds of question). The wording of his real items is NOT known, so this is breadth, not a guess;
+> `calibratedAgainst` is left off on purpose. **Next: finish the debrief** - ask him, subtest by subtest, what else felt unfamiliar (a 5-7% miss
+> means other gaps are likely), then audit each against the lesson list.
+>
+> **2026-10-25 (same debrief, second half).** Trey: no unit conversions he did not already know in his head (maybe feet to miles); "work load" questions
+> on worker speeds and headcount that he still missed even though the bank had one; he did badly on the PILOT-related sections (Pilot = MK + TR + IC + AI) and wants
+> general aviation knowledge up. **Findings:** (1) AR had ONE work-rate generator (~64 stems) and a code comment claiming work-rate is in "no official AFOQT
+> material" (false); built a 10-generator work-and-rate family (`templates/ar/ch07-work.js`: three workers, missing solo time, "twice as fast", head start, fraction
+> done, headcount x days, crew changes, machine output, output rates, fill-and-drain) + lesson sections 5-7 in `curriculum/chapters/ar/ch05-averages.md`. (2) The standing
+> complaint that generators are shallow became a rule for EVERY subtest: skill `.claude/skills/question-engine-quality/SKILL.md`, drill-by-topic (`?concepts=`), variant-spreading in
+> `buildDrill`, `npm run afoqt:concept-audit` and `npm run afoqt:audit-all` (scoreboard: `ENGINE-AUDIT.md`). (3) **Aviation Information is NOT filled out:** 64 generators, ~670 distinct
+> questions total, every one of its 50 topics deals only ~8-22 distinct questions (a 100-question run on one topic repeats), and the style is almost all
+> definition/recall ("The red line" -> a description) with little cause-and-effect, scenario or calculation. (4) **Instrument Comprehension (also Pilot) is still flagged broken**
+> (pictures wrong ~half the time, deferred 2026-09-20); with Pilot at 29 it is time to revisit.
+
 ---
 
 ## STATUS BOARD

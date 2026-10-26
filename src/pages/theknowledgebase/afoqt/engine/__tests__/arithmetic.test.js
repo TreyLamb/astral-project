@@ -1,6 +1,6 @@
 // Arithmetic Reasoning (Phase 8).
 //
-// Section A is the generic structural gate, scoped to the 37 AR templates, plus the
+// Section A is the generic structural gate, scoped to the 47 AR templates (37, plus the 10 work-and-rate generators added 2026-10-25), plus the
 // bidirectional concept-coverage check (Doctrine rule 2) run the same way afoqt:coverage runs
 // it. Section B is regression coverage for defects that actually shipped this phase and were
 // fixed - each test here is written so it would have caught the bug before the fix, not to
@@ -26,8 +26,8 @@ const arTemplates = templatesFor('AR');
 const reasoningChapters = CHAPTERS.filter((c) => c.track === 'reasoning');
 
 describe('every AR template', () => {
-  it('registers all 37 of them', () => {
-    expect(arTemplates).toHaveLength(37);
+  it('registers all 47 of them', () => {
+    expect(arTemplates).toHaveLength(47);
   });
 
   it.each(arTemplates.map((t) => [t.id, t]))('%s holds its structural contract', (_id, t) => {

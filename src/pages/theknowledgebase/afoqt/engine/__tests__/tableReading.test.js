@@ -264,7 +264,10 @@ describe('the shared figure', () => {
   it('leaves subtests without a figure alone', () => {
     const qs = buildDrill({ subtest: 'MK', count: 10, rng: mulberry32(1), distinct: true });
     expect(qs.every((q) => q.render === null)).toBe(true);
-    expect(qs.every((q) => q.errors === null)).toBe(true);
+    // Named distractor errors are NOT a figure: mk-mean-missing-value carries them on purpose (it shares its slate with AR),
+    // and whether a seeded 10-question drill happens to deal it changes whenever MK gains templates. This used to assert
+    // `errors === null` for every question, which only held while that template was not in the dealt ten.
+    expect(qs.every((q) => q.errors === null || Array.isArray(q.errors))).toBe(true);
     expect(new Set(qs.map((q) => q.seed)).size).toBe(10);
   });
 });

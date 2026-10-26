@@ -6,6 +6,7 @@ import { templatesFor } from '../engine/generator';
 import { bankCount } from '../engine/bank';
 import { askableWords } from '../engine/words';
 import { PRESSURE_PRESETS } from '../engine/timing';
+import { CHAPTERS } from '../curriculum/chapters';
 
 const COUNTS = [5, 10, 20, 40];
 
@@ -79,6 +80,14 @@ export default function DrillConfig() {
   const [showTypeBuilder, setShowTypeBuilder] = useState(false);
   const [typeFilter, setTypeFilter] = useState('');
   const [typePicks, setTypePicks] = useState({});
+
+  // Custom "by TOPIC" drill. Trey, 2026-10-25: "I should be able to say 'I want a 100 question test on ONLY this one
+  // thing, vertices' and get 100 questions that never repeat and vary as much as possible." A topic is a concept
+  // (the unit the lessons and the coverage check already use), so this reaches every generator that tests it and the
+  // drill builder spreads the run across their variants. `npm run afoqt:concept-audit` prints the same run as a report.
+  const [showTopicBuilder, setShowTopicBuilder] = useState(false);
+  const [topicPicks, setTopicPicks] = useState([]);
+  const [topicCount, setTopicCount] = useState(50);
 
   // Every derived value below is scoped to the chosen subtest, so all of them have to tolerate
   // not having one yet - step one renders before any of this means anything.
@@ -157,6 +166,31 @@ export default function DrillConfig() {
     const needle = typeFilter.trim().toLowerCase();
     return t.name.toLowerCase().includes(needle) || t.id.toLowerCase().includes(needle);
   });
+
+  // The topics a subtest can be drilled by: every concept some generator tests, with how many generators there are and
+  // the lesson chapter that teaches it. Stretch-only concepts are left out, as in every other drill.
+  const topics = (() => {
+    const counts = new Map();
+    for (const t of templates) if (!t.stretch) for (const c of t.concepts ?? []) counts.set(c, (counts.get(c) ?? 0) + 1);
+    const chapterOf = new Map();
+    for (const ch of CHAPTERS) if (ch.subtest === subtest) for (const c of ch.concepts) if (!chapterOf.has(c)) chapterOf.set(c, ch.title);
+    return [...counts.entries()]
+      .map(([id, n]) => ({ id, n, label: id.split('-').join(' '), chapter: chapterOf.get(id) ?? '' }))
+      .sort((a, b) => (a.chapter + a.label).localeCompare(b.chapter + b.label));
+  })();
+  const toggleTopic = (id) => setTopicPicks((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
+  const startTopic = () => {
+    if (!topicPicks.length) return;
+    updateSettings({ mode, pressure });
+    const q = new URLSearchParams({
+      subtest,
+      count: Math.max(1, Math.min(200, Number(topicCount) || 50)),
+      mode,
+      pressure,
+      concepts: topicPicks.join(','),
+    });
+    navigate(`/TKB/afoqt/drill/run?${q}`);
+  };
 
   const startTyped = () => {
     if (!activeTypePicks.length) return;
@@ -263,7 +297,55 @@ export default function DrillConfig() {
           >
             🎯 Build by type{activeTypePicks.length ? ` (${typeTotal})` : ''}
           </button>
+          {/* By TOPIC: one concept, or several, at any count up to 200. The drill is spread across every kind of
+              question that topic has, so a long run is not one kind of question with new numbers. */}
+          <button
+            className={'afq-btn afq-ghost' + (showTopicBuilder ? ' afq-primary' : '')}
+            onClick={() => setShowTopicBuilder((v) => !v)}
+          >
+            🧭 Build by topic{topicPicks.length ? ` (${topicPicks.length})` : ''}
+          </button>
         </div>
+
+        {showTopicBuilder && (
+          <div className="afq-typebuilder">
+            <p className="afq-note">
+              Pick one topic, or several, and how many questions. Every question comes from that topic only, none repeats,
+              and the run is spread across the different kinds of question the topic has (different shapes, different
+              things asked) instead of drawing them at random.
+            </p>
+            <div className="afq-typebuilder-list">
+              {topics.map((t) => {
+                const picked = topicPicks.includes(t.id);
+                return (
+                  <div key={t.id} className={'afq-typebuilder-row' + (picked ? ' afq-typebuilder-on' : '')}>
+                    <button type="button" className="afq-typebuilder-name" onClick={() => toggleTopic(t.id)} title={t.id}>
+                      <span className={'afq-typebuilder-check' + (picked ? ' on' : '')}>{picked ? '✓' : '+'}</span>
+                      {t.label}
+                      <small>{t.n} kind{t.n === 1 ? "" : "s"} of question{t.chapter ? ` · ${t.chapter}` : ''}</small>
+                    </button>
+                  </div>
+                );
+              })}
+              {topics.length === 0 && <p className="afq-note">This subtest has no topic tags yet, so use "Build by type".</p>}
+            </div>
+            <div className="afq-row afq-wrap-row">
+              <label className="afq-note" htmlFor="afq-topic-count">Questions</label>
+              <input
+                id="afq-topic-count"
+                type="number"
+                min={1}
+                max={200}
+                className="afq-typebuilder-count"
+                value={topicCount}
+                onChange={(e) => setTopicCount(e.target.value)}
+              />
+              <button className="afq-btn afq-primary" onClick={startTopic} disabled={topicPicks.length === 0}>
+                {topicPicks.length ? `Start ${Math.max(1, Math.min(200, Number(topicCount) || 50))} questions on ${topicPicks.length} topic${topicPicks.length === 1 ? '' : 's'}` : 'Pick at least one topic'}
+              </button>
+            </div>
+          </div>
+        )}
 
         {showTypeBuilder && (
           <div className="afq-typebuilder">

@@ -143,11 +143,149 @@ The test: two slopes are perpendicular exactly when they **multiply to −1**. `
 
 ---
 
+## 7. Missing vertices
+
+Some items give you three corners of a shape and ask for the fourth. There is no new formula: each
+shape has **one fact** that does the whole job. The figure can be squared to the axes or **tilted**,
+and the missing corner can be **any** of the four, so name the shape first and use its fact.
+
+**Rectangle with sides parallel to the axes.** Its four corners use only **two different x-values and
+two different y-values**. Among the three points you are given, one x appears once and one y appears
+once. The missing corner takes **the x that is alone and the y that is alone.**
+
+> Given `(2, 1)`, `(8, 1)` and `(8, 6)`: x = 8 appears twice, x = 2 once; y = 1 twice, y = 6 once.
+> The fourth corner is `**(2, 6)**`.
+
+**Parallelogram, and so rectangle, rhombus and square too, tilted or not.** The diagonals **bisect each
+other**, so opposite corners have the same sum. For corners lettered in order, the missing one is
+
+> **missing = (the two corners next to it, added) − (the corner opposite it)**
+
+Given A `(1, 1)`, B `(6, 3)`, C `(9, 7)` of parallelogram ABCD: D = A + C − B = `(1 + 9 − 6, 1 + 7 − 3) = **(4, 5)**`.
+It works the same on a tilted rectangle: A `(1, 0)`, B `(4, 4)`, C `(−4, 10)` gives D = `(1 − 4 − 4, 0 + 10 − 4) = **(−7, 6)**`.
+
+> **The trap:** subtracting the wrong corner. `B + C − A` and `A + B − C` are both among the answer
+> choices, and so is the **center** (where the diagonals cross), which is not a vertex.
+
+**Square from one diagonal.** The center is the midpoint of the diagonal. From the center, a corner is a
+step; the next corner is that step **turned a quarter turn**. Turn **counterclockwise** (x, y) → (−y, x), or
+**clockwise** (x, y) → (y, −x). With the letters going counterclockwise, the next letter is the counterclockwise turn.
+
+> Square ABCD, counterclockwise, A `(5, 1)`, C `(−1, −3)`. Center `(2, −1)`; A is the step `(3, 2)` from it.
+> B = center + (−2, 3) = `**(0, 2)**`, and D = center + (2, −3) = `(4, −4)`.
+
+> **The trap:** turning the wrong way. The other corner is always among the answer choices.
+
+**Symmetric figures: use the mirror.**
+
+- **Isosceles triangle**, equal sides from the apex: the apex is above the **midpoint of the base**. Base from
+  `(2, 0)` to `(10, 0)`, apex `(x, 7)`: x = **6**. Half the base *length* (4) is a distance, not a coordinate.
+- **Isosceles trapezoid**: symmetric about the vertical line through the middle of its bases. With A `(−1, −1)`,
+  B `(7, −1)`, C `(5, 2)`: the mirror line is x = 3, so D is C reflected across it, `**(1, 2)**`.
+  Do **not** use the parallelogram rule here: it would give `(−1 + 5 − 7, 2)` = `(−3, 2)`, which is not isosceles.
+- **Kite** with a vertical axis of symmetry x = 3 through A `(3, 6)` and C `(3, −1)`: B `(0, 2)` has the mirror
+  image D = `**(6, 2)**`. Reflecting across a vertical line keeps y and changes only x.
+
+**Right triangle with a horizontal leg and a vertical leg.** A horizontal side keeps its **y**; a vertical side
+keeps its **x**. A `(1, 2)`, B `(7, 9)`, right angle at C, AC horizontal, BC vertical → C = `**(7, 2)**`.
+
+> **The trap:** the other corner of the box, `(1, 9)`, is among the answer choices. Read **which** side
+> was called horizontal. If the legs are **equal** (right isosceles), the second leg has the same length as the first.
+
+**Where the diagonals meet.** The midpoint of either diagonal. A rectangle with `(0, −5)` and `(8, −11)`
+opposite: `(4, −8)`. Using the other diagonal gives the same point, which is a free check.
+
+**When in doubt, sketch it.** Five seconds with a rough grid shows whether your answer is the corner that
+closes the shape or the one on the wrong side.
+
+---
+
+## 8. Reading a triangle from its vertices
+
+**Classify it with squared side lengths.** Use `(Δx)² + (Δy)²` for each side. No square roots are needed:
+
+- two equal → **isosceles**; none equal → **scalene**
+- the two smaller add up to the largest → **right** (Pythagoras)
+
+`(0, 0)`, `(3, 4)`, `(−4, 3)`: squared sides 25, 25, 50. Two equal, and 25 + 25 = 50, so **right and isosceles**.
+
+> **A fact worth knowing:** a triangle on whole-number grid points is **never equilateral**, so "equilateral" is
+> never the answer for such points.
+
+**Centroid** (where the three medians meet): the **average of the three vertices**, coordinate by coordinate.
+`(0, 0)`, `(6, 3)`, `(3, 9)` → `((0 + 6 + 3)/3, (0 + 3 + 9)/3) = **(3, 4)**`.
+
+> **The trap:** dividing by 2 (that is the midpoint) or not dividing at all.
+
+---
+
+## 9. Perimeter and area from coordinates
+
+**Perimeter uses LENGTHS, not steps.** A tilted side with steps (3, 4) has length 5, not 3 + 4.
+Parallelogram `(0, 0)`, `(3, 4)`, `(9, 4)`, `(6, 0)`: sides 5 and 6, perimeter **2(5 + 6) = 22**.
+Adding the steps (2 × (3 + 4 + 6 + 0) = 26) is the standard wrong answer.
+
+**Area.** When a side is horizontal or vertical, the lengths are differences of coordinates:
+
+| Shape | Area | Note |
+|---|---|---|
+| rectangle | across × up | `(2, 1)` and `(9, 5)` opposite → 7 × 4 = **28** |
+| triangle | **½** × base × height | base horizontal or vertical; height is the **perpendicular** distance |
+| parallelogram | base × **vertical** height | **not** base × slanted side |
+| trapezoid | **½** (b₁ + b₂) × height | bases 8 and 4, height 3 → **18** |
+| rhombus or kite | **½** × d₁ × d₂ | diagonals 10 and 6 → **30** |
+
+For a triangle, where the third vertex sits *along* the base does not change the area. For the parallelogram above,
+base 6 and vertical height 4 give **24**, not 6 × 5 = 30.
+
+> **The traps:** forgetting the ½ (it is among the answer choices every time), multiplying the slanted side,
+> and multiplying the coordinates instead of subtracting them.
+
+---
+
+## 10. Moving a point: reflections, rotations, translations
+
+For a point (x, y), each move is a rule. Learn the table once:
+
+| Move | New point | For (3, 2) |
+|---|---|---|
+| reflect across the **x-axis** | (x, −y) | (3, −2) |
+| reflect across the **y-axis** | (−x, y) | (−3, 2) |
+| reflect across the line **y = x** | (y, x) | (2, 3) |
+| reflect across the line **y = −x** | (−y, −x) | (−2, −3) |
+| rotate **90° counterclockwise** about the origin | (−y, x) | (−2, 3) |
+| rotate **90° clockwise** about the origin | (y, −x) | (2, −3) |
+| rotate **180°** about the origin | (−x, −y) | (−3, −2) |
+| translate **a** right and **b** up | (x + a, y + b) | |
+
+To **name** the move from a before-and-after pair, test the table on the point: swapping with no sign change is a
+reflection in y = x; swapping with one sign change is a quarter turn; changing the sign of only one coordinate is a
+reflection in an axis. A rotation keeps the distance from the origin, and a reflection keeps the distance from the mirror.
+
+---
+
+## 11. Collinear points
+
+Points on one line share **one slope**. To find a missing coordinate k, find the slope from the two known points,
+then apply it the right number of steps. `(1, 2)`, `(3, 8)`, `(5, k)`: the slope is 6/2 = 3, so one more run of 2 adds 6:
+k = 8 + 6 = **14**.
+
+> **The trap:** adding the slope once instead of once **per step**, and using the previous y by itself.
+
+---
+
 ## Before you move on
 
 1. Subtract in the **same order** top and bottom, or the slope's sign flips.
 2. Midpoint **averages**; slope and distance **subtract**.
-3. Distance is Pythagoras — look for a triple before you square anything.
+3. Distance is Pythagoras: look for a triple before you square anything.
 4. In `y = mx + b`, `m` multiplies x. `b` stands alone.
 5. x-intercept sets **y** to zero. Read which one was asked.
 6. Perpendicular = flip **and** negate; check that the two slopes multiply to −1.
+7. Missing corner of an axis-parallel rectangle: the x that is **alone** and the y that is **alone**.
+8. Parallelogram, rectangle, rhombus, square: **missing = the two neighbours added, minus the opposite corner**.
+9. Symmetric figures (isosceles triangle, isosceles trapezoid, kite): the missing point is a **mirror image**.
+10. Triangle type: compare **squared** sides. Centroid: **average**, divide by **3**.
+11. Perimeter uses **lengths**, not steps. Area: subtract coordinates; triangles and trapezoids get the **½**.
+12. Reflections and rotations are rules on (x, y): know the table.
+13. Collinear: one slope, applied **per step**.

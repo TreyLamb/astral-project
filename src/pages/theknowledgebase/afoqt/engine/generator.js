@@ -203,6 +203,9 @@ export function generateInstance(templateId, seed) {
     concepts: t.concepts ?? [],
     provenance: t.provenance ?? { kind: 'authored' },
     stem: raw.stem,
+    // Optional. The structural kind this instance drew (shape, hidden part, orientation...), e.g. 'rhombus:hide-C:tilted'.
+    // buildDrill uses it to spread a run across variants instead of drawing them at random; the concept audit counts it.
+    variant: raw.variant ?? null,
     choices: raw.choices,
     correctIndex: raw.correctIndex,
     explanation: raw.explanation ?? null,
@@ -259,6 +262,8 @@ export function buildDrill({ subtest, count, rng, band = null, filter = null, in
 
   const out = [];
   const asked = new Set();
+  // How many times each (template, variant) has been dealt this run. See the selection loop below.
+  const variantSeen = new Map();
   let item = 0;
   for (let i = 0; i < count; i++) {
     // A dealt entry may name the exact item to ask (see dealRounds). Everything else picks a
@@ -269,6 +274,8 @@ export function buildDrill({ subtest, count, rng, band = null, filter = null, in
       : weightFor ? weightedPick(pool, weightFor, rng) : pool[Math.floor(rng() * pool.length)];
     const wantItem = dealt?.item ?? null;
     let inst = null;
+    // The least-repeated acceptable draw so far, for a template that reports variants.
+    let pick = null, pickSeen = Infinity, looks = 0;
     // Two templates sharing a figure can land on the same part of it - a band-3 and a band-4
     // Table Reading item both picking cell (+9, -13) asks the identical question twice in one
     // run. Walk the item index on rather than shipping a visible repeat. Bounded, because a
@@ -316,9 +323,23 @@ export function buildDrill({ subtest, count, rng, band = null, filter = null, in
       // inside five minutes. Word Knowledge and Verbal Analogies hit the same thing on short
       // chapter gates. A non-sheet retry draws a fresh random seed each pass, so the loop
       // genuinely explores rather than spinning.
-      if (!inst || !asked.has(askedKey(inst, mySheet))) break;
+      if (!inst) break;
+      if (asked.has(askedKey(inst, mySheet))) continue; // a repeat: draw again
+      if (!inst.variant) { pick = inst; break; } // no variants reported: the first clean draw wins, as it always did
+      // VARIETY, not just uniqueness. "A hundred questions on vertices" must not be forty rectangles with new numbers:
+      // look at a few clean draws and keep the one whose variant has been dealt the fewest times this run. A variant
+      // not yet dealt is taken at once. Costs a handful of extra generateInstance calls per question.
+      const vSeen = variantSeen.get(`${t.id}|${inst.variant}`) ?? 0;
+      if (vSeen < pickSeen) { pick = inst; pickSeen = vSeen; }
+      if (vSeen === 0 || ++looks >= VARIANT_LOOKS) break;
     }
-    if (inst) { asked.add(askedKey(inst, mySheet)); out.push(inst); }
+    // When every draw was a repeat, fall back to the last one: a template with a small item space may repeat eventually.
+    inst = pick ?? inst;
+    if (inst) {
+      asked.add(askedKey(inst, mySheet));
+      if (inst.variant) { const k = `${inst.templateId}|${inst.variant}`; variantSeen.set(k, (variantSeen.get(k) ?? 0) + 1); }
+      out.push(inst);
+    }
   }
   return out;
 }
@@ -361,6 +382,8 @@ function askedKey(inst, mySheet) {
  * this up.
  */
 const DEDUP_TRIES = 16;
+/** Clean draws to compare when choosing the least-repeated variant. Small on purpose: the goal is spread, not a search. */
+const VARIANT_LOOKS = 8;
 
 /** Repeated shuffled passes over the pool, so nothing repeats until everything has appeared. */
 /**

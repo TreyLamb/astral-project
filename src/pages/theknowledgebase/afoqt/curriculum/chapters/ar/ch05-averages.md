@@ -110,6 +110,60 @@ a job up, never slow it down. That sanity check is free and eliminates most of t
 glance - any answer at or above the faster worker's solo time (3 hours here) is wrong before you
 compute anything.
 
+**More than two workers.** Same move, more terms: add every rate. Three workers taking 6, 12 and 4 hours:
+`1/6 + 1/12 + 1/4 = 2/12 + 1/12 + 3/12 = 6/12 = 1/2` of the job per hour, so **2 hours**. A common denominator
+makes the adding painless, and the answer must still beat the fastest worker alone (here 4 hours).
+
+**Finding one worker's solo time.** Subtract rates. Together two workers take 6 hours; the first alone takes 10:
+the second does `1/6 − 1/10 = 5/30 − 3/30 = 2/30 = 1/15`, so **15 hours**.
+
+**"Twice as fast as."** Count in shares. If A works twice as fast as B and together they take 4 hours: B does 1
+share an hour, A does 2, together 3. The job is `3 × 4 = 12` shares, so B alone takes **12** hours and A alone
+takes `12 ÷ 2 =` **6** hours. Check which one the question asked for: the two answers are both on the sheet.
+
+**Part of the job already done.** Work in fractions of the job. A (10 hours alone) works alone for 4 hours, then B
+(15 hours alone) joins. A has done `4/10`, so `6/10` is left. Together they do `1/10 + 1/15 = 1/6` per hour.
+Time `= (6/10) ÷ (1/6) =` **3.6** hours (try numbers that come out whole on the test; the method is the point).
+If a fraction of the job took some days, scale up: `3/5` of a job in 9 days means each `1/5` takes 3 days, so the
+remaining `2/5` takes **6** more days.
+
+---
+
+## 6. Crews: headcount × time is a fixed amount of work
+
+A job is a **number of worker-days** (or worker-hours, or machine-hours). More workers means fewer days, and
+the product stays put.
+
+> 6 workers finish a job in 10 days. That is `6 × 10 = 60` worker-days. With 4 workers: `60 ÷ 4 =` **15 days**.
+> To finish in 5 days you need `60 ÷ 5 =` **12 workers**, which is **6 more**.
+
+**The traps:** scaling the wrong way (`10 × 4/6`, more workers should mean fewer days, never the same direction),
+adding or subtracting the workers from the days, and answering the new crew size when the question asks for the
+**difference**.
+
+**The crew changes partway through.** Count the work done and the work left in worker-days. A crew of 8 can finish
+in 12 days (96 worker-days). After 4 days, 32 are done and 64 remain. If 2 workers leave, the crew is 6:
+`64 ÷ 6` (pick whole numbers on the test), and with 4 workers added the crew is 12: `64 ÷ 12`. The "8 days left"
+you would get by ignoring the change is always among the answer choices.
+
+**Machines and output.** Find the output of ONE machine in ONE hour, then scale both. 4 machines make 240 units
+in 6 hours: `240 ÷ (4 × 6) = 10` per machine-hour. 6 machines for 8 hours: `10 × 6 × 8 =` **480**. Scaling only
+the machines (`240 × 6/4 = 360`) or only the hours (`240 × 8/6 = 320`) is the standard wrong answer, because both changed.
+
+**Output rates add too.** A makes 40 an hour and B makes 60. Together 100 an hour, so 500 units take **5** hours.
+Averaging the two rates (50 an hour) gives the wrong time.
+
+---
+
+## 7. Fill and drain
+
+A pipe that fills and a drain that empties work **against** each other. Add the filling rates and **subtract**
+the draining rate. A pipe fills a tank in 6 hours and a drain empties it in 12: `1/6 − 1/12 = 1/12`, so
+**12 hours** to fill with both open. Two filling pipes and one drain: `1/a + 1/b − 1/c`, then invert.
+
+> **The trap:** treating the drain as another filler and adding. If the drain is faster than the pipe the tank
+> never fills, so a real item always has the pipe faster.
+
 ---
 
 ## Before you move on
@@ -122,3 +176,7 @@ compute anything.
 | Wins/losses, gains/deficits, or any signed total | Keep the sign through the whole calculation; losses subtract, wins add |
 | A blend of two prices aimed at a target | Balance the two DISTANCES from the target, not the two raw amounts |
 | Two workers/machines finishing one job together | Add their rates (1/time), then invert - never average the two times |
+| Three workers, a missing solo time, or "twice as fast as" | Add or subtract RATES; count shares for "times as fast" |
+| Crews: more workers, fewer days | Fixed work = workers x days; divide it by the new crew; a crew change mid-job uses worker-days left |
+| Machines and output | Output of ONE machine in ONE hour first, then scale BOTH machines and hours |
+| A pipe that fills while a drain empties | Subtract the drain's rate from the filling rate, then invert |

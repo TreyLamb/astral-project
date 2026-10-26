@@ -206,6 +206,11 @@ export default function DrillRunner() {
   // Fresh array/object on every render, same reason `bandKey` exists for `bandFilter` below.
   const typesKey = typePicks ? typePicks.map((p) => `${p.templateId}:${p.qty}`).join(',') : '';
 
+  // A custom "by TOPIC" drill (DrillConfig's topic builder): `?concepts=polygon-vertices,coordinate-area`. Scopes the
+  // run to the generators that test those concepts. A chapter scope, when present, wins over this.
+  const conceptsKey = params.get('concepts') ?? '';
+  const topicConcepts = conceptsKey ? conceptsKey.split(',').map((c) => c.trim()).filter(Boolean) : null;
+
   // Build once. A drill is a fixed queue; rebuilding on re-render would reshuffle underfoot.
   //
   // `progress` is read here but deliberately left out of the dependency list: it changes on
@@ -229,7 +234,7 @@ export default function DrillRunner() {
       count,
       rng,
       progress,
-      concepts: chapter ? chapter.concepts : null,
+      concepts: chapter ? chapter.concepts : topicConcepts,
       // A chapter gate fixes the bands; otherwise `?bands=1,2` may fix them, which is what the
       // speed drill uses. Without a caller for either, a drill spans every band the subtest has
       // and a "run the easy ones fast" session was impossible to build.
@@ -241,7 +246,7 @@ export default function DrillRunner() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subtest, count, chapter?.id, isGate, isExam, includeStretch, replayTemplateId, replaySeed,
-    bandKey, typesKey]);
+    bandKey, typesKey, conceptsKey]);
 
   // A 33x33 Table Reading grid needs about 950px; a question stem reads best at 760. So the
   // column widens only when the questions actually carry a figure, rather than making every
