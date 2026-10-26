@@ -722,6 +722,18 @@ courses + AFROTC is `G:\My Drive\SupplementalCourseDocs\_ChiefOfStaff\STATE.md` 
 readable on his phone); read it first and update it as facts arrive. A backup of the skill sits beside it. Added 2026-10-14 at Trey's
 request: *"I don't have to walk you through what i want from you."*
 
+🔒 **Scheduling rules, set 2026-10-25 — every agent that schedules for Trey follows these without being told** (full text: the skill's
+"STANDING SCHEDULING PRINCIPLES" and the top of STATE.md): **stay AHEAD of deadlines — start each item when it unlocks, NEVER plan a late
+submission** (Trey: *"to take care of assignments as SOON as they are available, not the day it closes or the day before … always on average AHEAD,
+not floating barely above water"*); 3-day method per paper (1 hr sources/skeleton/AI brief → 2-3 hr bulk draft → 30 min polish + submit); one ESMG
+discussion post/reply a day until the extra credit is earned; ~5 focused hr/day default (push weeks only when he says); ~2 hr/week of MICR 2060
+reading in its own blocks; name the course on every quiz; show the week as a calendar (`node scripts/planCalendar.mjs`, source
+`src/pages/fitnesstracker/studyPlan.js`). **CHEM study is not the quizzes:** quizzes are benchmarks; his real exams are ~3x harder and AFOQT-paced (~2 min/question);
+real study = the CURRENT chapter tuned to the national ACS exam. He views CHEM difficulty as three internal "bands" (1 = basics, 2 = professor quizzes, 3 = national exam);
+**never show or discuss "bands" in his course UI** — just build and plan to it. Agents share no memory: if he states a standing preference, write it into
+the skill + STATE.md + this file + the memory folder the same turn.
+⏱️ **Time tracking (Trey, 2026-10-26): log how long each assignment REALLY takes** — `_ChiefOfStaff/time-log.csv` + `timelog.mjs` (`import-canvas`, `summary` → `TIME_AVERAGES.md`). When he says "start X"/"done X", stamp the clock and log net minutes, planned minutes, focus and reason; **if he gives no reason or the actual is outside 0.7x-1.4x of planned, get curious and ask one specific question.** Size future blocks from the MEDIANS, not guesses.
+
 ---
 
 ## 🎨 webdesign.md is required reading before any layout work
@@ -930,7 +942,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
 | `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. `/EFTsh/uses` is the one-stop "what is this item used for" search (hideout/craft/quest/barter/armor) — see the barters + gear catalog note below. `/EFTsh/loops` finds the semi-infinite craft loops from data — see the craft-loops note below. |
 | `/TT` | TranscriptTool/TranscriptToolApp.jsx | **Transcript / GPA what-if calculator.** Deliberately NOT in `SITE_LINKS` — URL-only, at Trey's request, so it appears in neither the navbar dropdown nor Home. `TT` is still in `CANONICAL_SEGMENTS` so `/tt` redirects rather than 404s. See the transcript-parsing note below. |
-| `/AFROTC` | afrotc/AfrotcApp.jsx | **AFROTC document hub** — tabs for the QRC study packet (23 pages as images in `public/afrotc/qrc/`, source PDF beside it; a MARCH cross-reference page plus AFTTP 3-4 pages 64-76, 13 (QRC 7.1 only) and 51-58 — all of TCCC 19.1-19.14, MEDEVAC, weapon safety, 5-Cs/IED/UXO), the Det 855 handbook transcript (markdown), and links into TKB's AFROTC study tools. Add a document = one entry in `DOCS` in `AfrotcApp.jsx`. |
+| `/AFROTC` | afrotc/AfrotcApp.jsx | **AFROTC page — ALL AFROTC lives here, never under TKB (moved 2026-10-25).** Study tabs (`study/`): recitation, rank drill, knowledge cards, song & creed memorizer, airframe briefs; reference docs in `fundamentals/`. Old `/TKB/afoqt/afrotc` links redirect. **AFROTC document hub** — tabs for the QRC study packet (23 pages as images in `public/afrotc/qrc/`, source PDF beside it; a MARCH cross-reference page plus AFTTP 3-4 pages 64-76, 13 (QRC 7.1 only) and 51-58 — all of TCCC 19.1-19.14, MEDEVAC, weapon safety, 5-Cs/IED/UXO), the Det 855 handbook transcript (markdown), and links into TKB's AFROTC study tools. Add a document = one entry in `DOCS` in `AfrotcApp.jsx`. |
 | `/medaldex/*` | medaldex/MedalDexApp.jsx | |
 | `/stashmap/*` | stashmap/StashMapApp.jsx | |
 | `/antiquityquest/*` | antiquityquest/AntiquityQuestApp.jsx | |
@@ -1086,6 +1098,19 @@ Three shipped bugs (2026-07-21, FitnessTracker Goals/Meals) all trace back to th
 - **A toggle must do the thing it claims, in every mode it claims to affect** — not silently no-op unless some other unrelated mode/tab is also active. If a feature only works from one specific sub-state, that's a bug, not a shippable v1.
 - **"More detail at this zoom level" must actually change size/detail**, not just container height. If Week/Day views exist as more-zoomed-in alternatives to Month, their content (icons, text, chips) needs to visibly scale up too, or the zoom levels are cosmetic and pointless.
 - **A feature must be genuinely usable with zero prior data**, not just usable once history has accumulated. Don't gate a primary action (e.g. "accept and save") behind an auto-estimated value that silently stays null for a new user — always give a manual override.
+
+## 🧪 Question engines (AFOQT, course engines, every future test): read the skill FIRST
+
+Trey, 2026-10-25: *"The engine and the templates being bad: this is reoccurring. I've brought it up a dozen times now. I'm tired of
+agents building shallow flimsy templates. I should be able to say 'I want a 100 question test on ONLY this one thing' and get 100
+questions that never repeat and vary as much as possible, questions that would be seen on a real test, not garbage worded weird to
+make '1 more' unique question … a general comment for every single section of my AFOQT and future tests we build with engines."*
+
+**Before you create, extend, audit or report on ANY question generator, template, bank or drill, read
+`.claude/skills/question-engine-quality/SKILL.md`.** It is the standard: a generator is a data model with many variants and many
+kinds of question, never one sentence with new numbers; the acceptance test is `npm run afoqt:concept-audit -- --concept=<id> --n=100`
+(read the output); `npm run afoqt:audit-all` ranks every topic in every subtest. Live scoreboard:
+`src/pages/theknowledgebase/docs/afoqt/ENGINE-AUDIT.md`. This applies to AR, MK, AI, WK, VA, RC, PS, SJ, IC, BC, TR and the CHEM and other course engines alike.
 
 ## subagent spawning
 when using subagents use haiku more often for simple-er tasks ONLY. user does not trust haiku's work unless the tasks are very cut-and-dry and/or sonnet or higher agent will be verifying work.

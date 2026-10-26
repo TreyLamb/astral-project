@@ -41,7 +41,11 @@
     "eft:loops": "node scripts/reportEftCraftLoops.mjs",
     "eft:locks": "node scripts/buildEftLocks.mjs",
     "vercel:prune": "node scripts/pruneVercelDeployments.mjs",
-    "eft:space": "node scripts/fetchEftSpace.mjs"
+    "eft:space": "node scripts/fetchEftSpace.mjs",
+    "afoqt:concept-audit": "node scripts/afoqtConceptAudit.mjs",
+    "afoqt:audit-all": "node scripts/afoqtAuditAll.mjs",
+    "canvas:login": "node scripts/canvasAutoCapture.mjs --login",
+    "canvas:auto": "node scripts/canvasAutoCapture.mjs"
   },
   "dependencies": {
     "@mintplex-labs/piper-tts-web": "^1.0.5",

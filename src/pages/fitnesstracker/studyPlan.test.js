@@ -26,11 +26,12 @@ describe('study plan', () => {
     }
   });
 
-  it('keeps every day at or under 6.5 hours of work, and the planned long days are named', () => {
+  it('keeps every day at or under 7.5 hours of work, and the planned long days are named', () => {
+    // 2026-10-25: Trey lifted his 5 hr cap for the catch-up week ("I'll do more than 5 hours a day on most days").
     const hours = workHoursByDay();
-    for (const [day, h] of Object.entries(hours)) expect({ day, ok: h <= 6.5 }).toEqual({ day, ok: true });
+    for (const [day, h] of Object.entries(hours)) expect({ day, ok: h <= 7.5 }).toEqual({ day, ok: true });
     const over5 = Object.entries(hours).filter(([, h]) => h > 5).map(([d]) => d);
-    expect(over5).toEqual(['2026-10-25', '2026-10-26', '2026-10-27', '2026-10-28', '2026-10-30']);
+    expect(over5).toEqual(['2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29', '2026-10-30']);
   });
 
   it('puts the Air Force Song / Airman’s Creed slot on every weekday-evening plan day it was promised', () => {
@@ -38,10 +39,26 @@ describe('study plan', () => {
     for (const d of ['2026-10-25', '2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29']) expect(days.has(d)).toBe(true);
   });
 
-  it('schedules work for the three ODC prep blocks before the ORI on Wed 10/28 6 AM', () => {
+  it('schedules three ODC prep blocks (Sun, Mon, plus a Tuesday refresher: Trey asked for 3 x 30 min) before the ORI on Wed 10/28 6 AM', () => {
     const odc = PLAN.filter((e) => /^ODC prep/.test(e.title));
     expect(odc).toHaveLength(3);
     for (const e of odc) expect(`${e.date}T${e.start}` < '2026-10-28T06:00').toBe(true);
+  });
+
+  it('has one ESMG discussion post or reply every day Mon-Thu (extra credit needs 3+ separate days)', () => {
+    for (const d of ['2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29']) {
+      expect({ d, n: PLAN.filter((e) => e.date === d && /ESMG 3200 W3 discussion/.test(e.title)).length >= 1 }).toEqual({ d, n: true });
+    }
+  });
+
+  it('plans about 2 hours of MICR 2060 reading in its own blocks', () => {
+    const mins = PLAN.filter((e) => /^MICR 2060 reading/.test(e.title)).reduce((s, e) => s + minutesOf(e), 0);
+    expect(mins).toBeGreaterThanOrEqual(120);
+  });
+
+  it('keeps the chem real-study blocks separate from the quiz blocks', () => {
+    expect(PLAN.some((e) => /CHEM 1210 real study/.test(e.title))).toBe(true);
+    expect(PLAN.some((e) => /CHEM 1210 Quiz \d+ take/.test(e.title))).toBe(true);
   });
 
   it('overlay events use the calendar chip shape', () => {

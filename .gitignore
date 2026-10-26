@@ -73,3 +73,6 @@ src/pages/theknowledgebase/*.docx
 public/birds/
 public/rustioclone/
 public/rustpunkio/
+
+# Saved browser sessions for unattended captures (login cookies - treat as passwords)
+.auth/

@@ -1,0 +1,259 @@
+<title>Catch-Up Week Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a time-axis week planner in 30-minute rows. Day view fills the phone; week view scrolls inside its own box. */
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --line: #d8dde4;
+  --line-soft: #e8ebef;
+  --ink: #17202b;
+  --soft: #566170;
+  --accent: #0f6b80;
+  --accent-ink: #ffffff;
+  --warn: #b45309;
+  --work-bg: #d6f0e0;   --work-ink: #14532d;
+  --fixed-bg: #d9e8fb;  --fixed-ink: #123a6b;
+  --class-bg: #e6defa;  --class-ink: #3b2a78;
+  --travel-bg: #e4e6ea; --travel-ink: #3b424d;
+  --rest-bg: #f3e8d3;   --rest-ink: #5a4520;
+  --due-bg: #fbdcdc;    --due-ink: #7a1f1f;  --due-line: #c0392b;
+  --font-ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141a; --surface: #161d25; --line: #27313c; --line-soft: #1e2731;
+    --ink: #e7ecf2; --soft: #98a4b2; --accent: #6cc3dc; --accent-ink: #0b1a20; --warn: #f0a04b;
+    --work-bg: #12392a;   --work-ink: #a7e8c6;
+    --fixed-bg: #14315a;  --fixed-ink: #b7d3f7;
+    --class-bg: #2e2557;  --class-ink: #cfc4f5;
+    --travel-bg: #2a2f38; --travel-ink: #c3c9d2;
+    --rest-bg: #3a2f1c;   --rest-ink: #e6d3a8;
+    --due-bg: #4a1f1f;    --due-ink: #f5b8b8; --due-line: #e0685a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f141a; --surface: #161d25; --line: #27313c; --line-soft: #1e2731;
+  --ink: #e7ecf2; --soft: #98a4b2; --accent: #6cc3dc; --accent-ink: #0b1a20; --warn: #f0a04b;
+  --work-bg: #12392a;   --work-ink: #a7e8c6;
+  --fixed-bg: #14315a;  --fixed-ink: #b7d3f7;
+  --class-bg: #2e2557;  --class-ink: #cfc4f5;
+  --travel-bg: #2a2f38; --travel-ink: #c3c9d2;
+  --rest-bg: #3a2f1c;   --rest-ink: #e6d3a8;
+  --due-bg: #4a1f1f;    --due-ink: #f5b8b8; --due-line: #e0685a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.45 var(--font-ui); padding-inline: 16px; padding-block: 18px 40px; }
+.wrap { max-width: 1240px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
+h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { color: var(--soft); margin: 4px 0 0; max-width: 62ch; }
+.eyebrow { font: 500 0.75rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--soft); margin: 0 0 6px; }
+
+.load { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.load button { all: unset; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 8px 6px 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-align: center; }
+.load button:focus-visible, .tab:focus-visible, .seg button:focus-visible, .blk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.load .d { font: 500 0.7rem var(--font-mono); color: var(--soft); text-transform: uppercase; letter-spacing: 0.05em; }
+.load .h { font: 600 1.05rem var(--font-ui); font-variant-numeric: tabular-nums; }
+.load .bar { height: 5px; border-radius: 3px; background: var(--line-soft); overflow: hidden; }
+.load .bar i { display: block; height: 100%; background: var(--accent); }
+.load .heavy .bar i { background: var(--warn); }
+.load .heavy .h { color: var(--warn); }
+.load button[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+
+.controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: space-between; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { all: unset; cursor: pointer; padding: 7px 16px; font-weight: 600; font-size: 0.9rem; color: var(--soft); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 0.8rem; color: var(--soft); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+.k-work { background: var(--work-bg); color: var(--work-ink); }
+.k-fixed { background: var(--fixed-bg); color: var(--fixed-ink); }
+.k-class { background: var(--class-bg); color: var(--class-ink); }
+.k-travel { background: var(--travel-bg); color: var(--travel-ink); }
+.k-rest { background: var(--rest-bg); color: var(--rest-ink); }
+.k-due { background: var(--due-bg); color: var(--due-ink); }
+
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { all: unset; cursor: pointer; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: 0.88rem; font-weight: 500; }
+.tab[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+
+.detail { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-height: 4.2rem; }
+.detail b { font-size: 1rem; }
+.detail .meta { font: 400 0.8rem var(--font-mono); color: var(--soft); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.detail p { margin: 6px 0 0; }
+.detail .hint { color: var(--soft); margin: 0; }
+
+.board { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
+.grid { display: grid; min-width: 0; }
+.grid.day { grid-template-columns: 52px minmax(0, 1fr); }
+.grid.week { grid-template-columns: 44px repeat(7, minmax(104px, 1fr)); min-width: 820px; }
+.hdr { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 4; background: var(--surface); border-bottom: 1px solid var(--line); padding: 8px 6px; font-weight: 600; font-size: 0.85rem; text-align: center; }
+.hdr small { display: block; font: 400 0.72rem var(--font-mono); color: var(--soft); }
+.allday { grid-column: 1 / -1; padding: 6px 10px; font-size: 0.82rem; background: var(--rest-bg); color: var(--rest-ink); border-bottom: 1px solid var(--line); }
+.axis { position: relative; border-right: 1px solid var(--line); }
+.axis span { position: absolute; right: 6px; transform: translateY(-50%); font: 400 0.7rem var(--font-mono); color: var(--soft); font-variant-numeric: tabular-nums; }
+.col { position: relative; border-right: 1px solid var(--line-soft); }
+.col:last-child { border-right: 0; }
+.row-line { position: absolute; left: 0; right: 0; height: 0; border-top: 1px solid var(--line-soft); }
+.row-line.hour { border-top-color: var(--line); }
+.blk { all: unset; cursor: pointer; position: absolute; left: 3px; right: 3px; border-radius: 6px; padding: 3px 7px; overflow: hidden; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); display: block; }
+.blk:hover { filter: brightness(0.97); }
+.blk.sel { outline: 2px solid var(--accent); outline-offset: 1px; z-index: 3; }
+.blk .t { display: block; font-weight: 600; font-size: 0.82rem; line-height: 1.2; }
+.blk .m { display: block; font: 400 0.7rem var(--font-mono); opacity: 0.85; font-variant-numeric: tabular-nums; }
+.compact .blk { padding: 2px 4px; left: 2px; right: 2px; }
+.compact .blk .t { font-size: 0.7rem; line-height: 1.15; }
+.compact .blk .m { font-size: 0.62rem; }
+.dueline { position: absolute; left: 0; right: 0; height: 0; border-top: 2px dashed var(--due-line); z-index: 2; pointer-events: none; }
+.dueline span { position: absolute; right: 4px; top: -1px; transform: translateY(-100%); background: var(--due-bg); color: var(--due-ink); font: 600 0.68rem var(--font-mono); padding: 1px 6px; border-radius: 4px; max-width: 92%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note { color: var(--soft); font-size: 0.82rem; max-width: 70ch; }
+@media (max-width: 520px) { h1 { font-size: 1.35rem; } .load .h { font-size: 0.95rem; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Sun Oct 25 to Sat Oct 31</p>
+    <h1>Catch-up week</h1>
+    <p class="sub">Every block is on a 30-minute grid. Tap a block for its notes and its deadline. Work hours are focused work only, not classes, meals or travel.</p>
+  </header>
+
+  <section aria-label="Work hours per day">
+    <div class="load" id="load"></div>
+  </section>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="View">
+      <button type="button" id="vDay" aria-pressed="true">Day</button>
+      <button type="button" id="vWeek" aria-pressed="false">Week</button>
+    </div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="tabs" id="tabs" role="group" aria-label="Pick a day"></div>
+  <div class="detail" id="detail" aria-live="polite"><p class="hint">Tap a block to see what it is, how long it is, and what it is for.</p></div>
+  <div class="board"><div id="grid"></div></div>
+  <p class="note" id="foot"></p>
+</div>
+
+<script>
+const DATA = __DATA__;
+const KIND = { work: 'Work', fixed: 'Fixed', class: 'Class', travel: 'Travel', rest: 'Meal / rest', due: 'Deadline' };
+const START = 6 * 60, END = 23 * 60, STEP = 30;
+const ROWS = (END - START) / STEP;
+const days = [];
+DATA.forEach(function (e) { if (days.indexOf(e.date) < 0) days.push(e.date); });
+days.sort();
+const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+function dayInfo(d) { const dt = new Date(d + 'T12:00:00'); return { dow: DOW[dt.getDay()], num: dt.getDate() }; }
+function mins(s) { const p = s.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
+function clock(s) { const p = s.split(':'); const h = Number(p[0]); return (h % 12 || 12) + ':' + p[1] + (h < 12 ? ' AM' : ' PM'); }
+function dur(m) { return m % 60 === 0 ? m / 60 + ' h' : m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; }
+function workHours(d) { let m = 0; DATA.forEach(function (e) { if (e.date === d && e.kind === 'work' && e.start && e.end) m += mins(e.end) - mins(e.start); }); return m / 60; }
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+let view = window.matchMedia('(min-width: 900px)').matches ? 'week' : 'day';
+let cur = days[0];
+const today = new Date();
+const ts = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+if (days.indexOf(ts) >= 0) cur = ts;
+let sel = null;
+
+function renderLoad() {
+  const max = 8;
+  document.getElementById('load').innerHTML = days.map(function (d) {
+    const h = workHours(d), i = dayInfo(d);
+    return '<button type="button" data-d="' + d + '" aria-pressed="' + (d === cur) + '" class="' + (h > 5 ? 'heavy' : '') + '">' +
+      '<span class="d">' + i.dow + ' ' + i.num + '</span><span class="h">' + h.toFixed(1) + ' h</span>' +
+      '<span class="bar"><i style="width:' + Math.min(100, (h / max) * 100) + '%"></i></span></button>';
+  }).join('');
+}
+function renderLegend() {
+  document.getElementById('legend').innerHTML = ['work', 'fixed', 'class', 'travel', 'rest'].map(function (k) {
+    return '<span><i class="k-' + k + '"></i>' + KIND[k] + '</span>';
+  }).join('') + '<span><i style="border-style:dashed;border-color:var(--due-line)"></i>Deadline</span>';
+}
+function renderTabs() {
+  document.getElementById('tabs').style.display = view === 'day' ? 'flex' : 'none';
+  document.getElementById('tabs').innerHTML = days.map(function (d) {
+    const i = dayInfo(d);
+    return '<button type="button" class="tab" data-d="' + d + '" aria-pressed="' + (d === cur) + '">' + i.dow + ' ' + i.num + '</button>';
+  }).join('');
+}
+function axisHtml(rh) {
+  let s = '<div class="axis" style="height:' + ROWS * rh + 'px">';
+  for (let r = 0; r <= ROWS; r += 2) {
+    const m = START + r * STEP;
+    s += '<span style="top:' + r * rh + 'px">' + clock(String(Math.floor(m / 60)).padStart(2, '0') + ':00').replace(':00', '') + '</span>';
+  }
+  return s + '</div>';
+}
+function colHtml(d, rh) {
+  let s = '<div class="col" style="height:' + ROWS * rh + 'px">';
+  for (let r = 0; r <= ROWS; r++) s += '<div class="row-line' + (r % 2 === 0 ? ' hour' : '') + '" style="top:' + r * rh + 'px"></div>';
+  DATA.forEach(function (e, idx) {
+    if (e.date !== d || !e.start) return;
+    if (e.kind === 'due' || !e.end) {
+      const m = Math.min(mins(e.start), END);
+      s += '<div class="dueline" style="top:' + ((m - START) / STEP) * rh + 'px"><span>' + esc(e.title) + ' · ' + clock(e.start) + '</span></div>';
+      return;
+    }
+    const a = mins(e.start), b = mins(e.end);
+    const top = ((a - START) / STEP) * rh + 1, h = Math.max(((b - a) / STEP) * rh - 2, 14);
+    const meta = clock(e.start).replace(' ', '') + '–' + clock(e.end).replace(' ', '');
+    s += '<button type="button" class="blk k-' + e.kind + (sel === idx ? ' sel' : '') + '" data-i="' + idx + '" style="top:' + top + 'px;height:' + h + 'px">' +
+      '<span class="t">' + esc(e.title) + '</span>' + (h >= 34 ? '<span class="m">' + meta + '</span>' : '') + '</button>';
+  });
+  return s + '</div>';
+}
+function allDayHtml(d) {
+  return DATA.filter(function (e) { return e.date === d && !e.start; }).map(function (e) { return esc(e.title); }).join(' · ');
+}
+function renderGrid() {
+  const host = document.getElementById('grid');
+  if (view === 'day') {
+    const rh = 40, i = dayInfo(cur), ad = allDayHtml(cur);
+    host.innerHTML = '<div class="grid day">' +
+      '<div class="hdr" style="grid-column:1/-1">' + i.dow + ' Oct ' + i.num + '<small>' + workHours(cur).toFixed(1) + ' h of focused work</small></div>' +
+      (ad ? '<div class="allday">All day: ' + ad + '</div>' : '') + axisHtml(rh) + colHtml(cur, rh) + '</div>';
+  } else {
+    const rh = 26;
+    let head = '<div class="hdr"></div>', body = axisHtml(rh), ad = '';
+    days.forEach(function (d) {
+      const i = dayInfo(d);
+      head += '<div class="hdr">' + i.dow + ' ' + i.num + '<small>' + workHours(d).toFixed(1) + ' h</small></div>';
+      body += colHtml(d, rh);
+      const a = allDayHtml(d);
+      if (a) ad += '<div class="allday">' + i.dow + ' ' + i.num + ' (all day): ' + a + '</div>';
+    });
+    host.innerHTML = '<div class="grid week compact">' + head + ad + body + '</div>';
+  }
+}
+function renderDetail() {
+  const el = document.getElementById('detail');
+  if (sel === null) { el.innerHTML = '<p class="hint">Tap a block to see what it is, how long it is, and what it is for.</p>'; return; }
+  const e = DATA[sel];
+  el.innerHTML = '<b>' + esc(e.title) + '</b><div class="meta">' + dayInfo(e.date).dow + ' ' + dayInfo(e.date).num + ' · ' + clock(e.start) + ' to ' + clock(e.end) + ' · ' + dur(mins(e.end) - mins(e.start)) + ' · ' + KIND[e.kind] + (e.course ? ' · ' + esc(e.course) : '') + '</div>' + (e.note ? '<p>' + esc(e.note) + '</p>' : '');
+}
+function renderAll() {
+  renderLoad(); renderTabs(); renderGrid(); renderDetail();
+  document.getElementById('vDay').setAttribute('aria-pressed', String(view === 'day'));
+  document.getElementById('vWeek').setAttribute('aria-pressed', String(view === 'week'));
+}
+document.addEventListener('click', function (ev) {
+  const t = ev.target.closest('button');
+  if (!t) return;
+  if (t.id === 'vDay') { view = 'day'; renderAll(); return; }
+  if (t.id === 'vWeek') { view = 'week'; renderAll(); return; }
+  if (t.dataset.d) { cur = t.dataset.d; view = 'day'; sel = null; renderAll(); return; }
+  if (t.classList.contains('blk')) { sel = Number(t.dataset.i); cur = DATA[sel].date; renderGrid(); renderDetail(); }
+});
+document.getElementById('foot').textContent = 'Plan source: study plan data kept with your fitness tracker calendar. Times marked assumed in the notes are guesses until you confirm them.';
+renderLegend();
+renderAll();
+</script>
