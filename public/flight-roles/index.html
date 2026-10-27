@@ -88,6 +88,10 @@
   .cell:hover { filter:brightness(1.15); }
   .cell.assigned { border-color:var(--gold); box-shadow:0 0 0 2px var(--gold) inset; }
   .tw { font-weight:600; font-size:12px; }
+  .tw select { font-size:12px; font-weight:600; width:150px; }
+  .tw select.set { border-color:var(--gold); }
+  .fcn { display:block; font-weight:500; font-size:10.5px; color:var(--muted); }
+  td.lk { color:var(--fg); font-size:12px; }
   .dim { opacity:.55; }
   .note { color:var(--muted); font-size:12px; margin-top:10px; }
   .hb { margin-left:3px; padding:0 4px; font-size:10px; line-height:16px; color:var(--muted); }
@@ -110,7 +114,7 @@
 <header class="top">
   <div>
     <h1>Flight Roles Chart</h1>
-    <p class="sub">Click a coloured cell to assign that cadet to that role (click again to clear). Use the ▾ on any column header to sort or filter, like Excel. Changes save in this browser only; use “Copy share link” to hand the chart to someone else.</p>
+    <p class="sub">A rotation is one Flight Commander's two-week term; the FC and their officers stay the same for the whole rotation. Click a coloured cell, or use the “New rotation” picker on the right, to assign that cadet a role. Use the ▾ on a column header to sort or filter, like Excel. Changes save in this browser only; use “Copy share link” to hand the chart to someone else.</p>
   </div>
 </header>
 
@@ -128,12 +132,13 @@
   </label>
   <button id="sDir" title="Reverse sort">↑</button>
   <button id="bClearF" title="Reset every column filter and the search/checkbox filters">Clear all filters</button>
+  <label title="Levels and past rotations are locked so they can't be changed by accident"><input type="checkbox" id="fUnlock"> 🔒 Unlock levels &amp; past rotations</label>
   <span class="grow"></span>
   <span id="count" class="sub" style="margin:0"></span>
 </div>
 
 <div class="panel">
-  <h2>This week's slate</h2>
+  <h2>New rotation's slate</h2>
   <div class="slate" id="slate"></div>
   <div class="warnrow">
   <ul class="warn" id="warn"></ul>
@@ -143,10 +148,10 @@
       <h2>What the colours mean</h2>
       <div class="lg"><span class="chip s-new">new</span><div><b>Never held a role</b><span class="t">This cadet has never had any flight role. Best pick if you want to spread roles around.</span></div></div>
       <div class="lg"><span class="chip s-ok">ok</span><div><b>Held a different role</b><span class="t">They've had a role before, just not this one. Fine to assign.</span></div></div>
-      <div class="lg"><span class="chip s-rpt">rpt</span><div><b>Repeat from two weeks ago</b><span class="t">They held this exact role two weeks ago. Allowed, but a repeat.</span></div></div>
-      <div class="lg"><span class="chip s-blk">✕</span><div><b>Blocked</b><span class="t">They held this role last week, are the Flight Commander this week, or (for Deputy) were last week's Flight Commander.</span></div></div>
+      <div class="lg"><span class="chip s-rpt">rpt</span><div><b>Repeat from two rotations ago</b><span class="t">They held this exact role in the rotation before last. Allowed, but a repeat.</span></div></div>
+      <div class="lg"><span class="chip s-blk">✕</span><div><b>Blocked</b><span class="t">They held this role last rotation, are the Flight Commander for the new rotation, or (for Deputy) were last rotation's Flight Commander.</span></div></div>
       <div class="lg"><span class="chip s-na">—</span><div><b>Not eligible</b><span class="t">AS100 cadets can't hold the BCL-only roles (Deputy, Standardization, Academic, Drill &amp; Ceremony).</span></div></div>
-      <div class="lg"><span class="chip" style="background:var(--na);border:2px solid var(--gold)">★</span><div><b>Assigned this week</b><span class="t">Gold outline means this cadet is in that role on this week's slate.</span></div></div>
+      <div class="lg"><span class="chip" style="background:var(--na);border:2px solid var(--gold)">★</span><div><b>Assigned for the new rotation</b><span class="t">Gold outline means this cadet is in that role on the new rotation's slate.</span></div></div>
       <hr>
       <div class="lg"><span class="chip" style="background:var(--bg);color:var(--muted);border:1px solid var(--line)">▾</span><div><b>Column menu</b><span class="t">Sort or filter that column. A blue ▾ means a filter is on.</span></div></div>
     </div>
@@ -155,7 +160,7 @@
   <div class="btns">
     <button id="bCopy">Copy slate</button>
     <button id="bShare">Copy share link</button>
-    <button id="bRoll" title="Lock this week in: slate becomes Wk-1, Wk-1 becomes Wk-2, slate clears">Roll forward to next week</button>
+    <button id="bRoll" title="Lock this rotation in: the slate becomes “Last rotation”, the old last rotation becomes “Rotation before”, and the slate clears">Start next rotation</button>
     <button id="bUndo">Undo last roll</button>
     <button id="bAdd">Add cadet</button>
     <button id="bClear">Clear slate</button>
@@ -164,11 +169,11 @@
   </div>
   <p class="sub" style="margin:8px 0 0" id="rolled"></p>
   <details class="how" open>
-    <summary>📋 Weekly routine for the Flight Commander (start here)</summary>
+    <summary>📋 Rotation routine for the Flight Commander (start here)</summary>
     <ol>
-      <li>Pick yourself as Flight Commander at the top of the slate.</li>
-      <li>Fill the other seven roles. Green and blue cells are good picks; the warnings above tell you if a pick breaks a rule.</li>
-      <li>When the week's roles are final, press <b>Roll forward to next week</b>. This week's slate becomes Wk-1, the old Wk-1 becomes Wk-2, and the slate, Flight Commander and “Must” boxes clear.</li>
+      <li>At the start of your two-week rotation, pick yourself as Flight Commander at the top of the slate.</li>
+      <li>Fill the other seven roles. Green and blue cells are good picks; the warnings above tell you if a pick breaks a rule. Your officers stay the same for your whole rotation.</li>
+      <li>At the end of your rotation, when handing off, press <b>Start next rotation</b>. Your slate becomes “Last rotation”, the old last rotation becomes “Rotation before”, and the slate, Flight Commander and “Must” boxes clear for the next FC.</li>
       <li>Press <b>Copy share link</b> and send it to the next Flight Commander. The link carries the whole chart, so they open it exactly as you left it.</li>
     </ol>
   </details>
@@ -176,7 +181,7 @@
 
 <div class="wrap"><table id="grid"></table></div>
 
-<p class="note">Rules baked in: BCL-only roles are Deputy, Standardization, Academic and Drill &amp; Ceremony. Same role as last week is blocked, last week's Flight Commander can't be Deputy, and the Flight Commander holds no other role. “Must” is for any cadet your leadership says has to be assigned this week. Captain and POCs aren't listed.</p>
+<p class="note">Rules baked in: BCL-only roles are Deputy, Standardization, Academic and Drill &amp; Ceremony. Same role as last rotation is blocked, last rotation's Flight Commander can't be Deputy, and the Flight Commander holds no other role. “Must” is for any cadet your leadership says has to be assigned this rotation. Captain and POCs aren't listed.</p>
 
 <script>
 const DATA_VERSION = 1;
@@ -201,8 +206,10 @@ const LEVEL_LABEL = { '100':'AS100', 'BCL':'BCL' };
 
 /* Roster and history as of the roll-forward on 2026-10-13, after Lamb's final slate:
    Deputy Brooker, Standardization Burdick, Academic Scott, Drill & Ceremony Nelson (Josh),
-   PT Mason, Morale Garretson, Safety/Supply Klotthor. Wk-1 = that week, Wk-2 = the week before.
-   `had` = held a role earlier than Wk-2 (so "never held a role" stays true to the person). */
+   PT Mason, Morale Garretson, Safety/Supply Klotthor. A rotation is one FC's two-week term:
+   wk1 = the last rotation (Lamb's), wk2 = the one before (Thrift's). The field names predate the
+   rename and stay, since saved charts and share links carry them.
+   `had` = held a role earlier than wk2 (so "never held a role" stays true to the person). */
 function defaults() {
   const d = (name, level, wk1, wk2, had) => ({ name, level, wk1:wk1 || '', wk2:wk2 || '', must:false, had:!!had });
   return {
@@ -288,7 +295,7 @@ let S = initialState();
 function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) {} }
 save();
 
-let view = { q:'', role:'', never:false, free:false, sortKey:'orig', dir:1, excl:{} };
+let view = { q:'', role:'', never:false, free:false, sortKey:'orig', dir:1, excl:{}, unlocked:false };
 
 const esc = s => String(s).replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
 const byName = n => S.cadets.find(c => c.name === n);
@@ -314,11 +321,11 @@ const GLYPH = { new:'new', ok:'ok', rpt:'rpt', blk:'✕', na:'—' };
 const RANK  = { new:0, ok:1, rpt:2, blk:4, na:5 };
 
 function tip(c, r, st) {
-  if (c.name === S.fc) return c.name + ' is the Flight Commander this week';
+  if (c.name === S.fc) return c.name + ' is the Flight Commander for the new rotation';
   if (st === 'na')  return c.name + ' is ' + LEVEL_LABEL[c.level] + '; ' + r.label + ' is BCL-only';
   if (st === 'blk') return r.id === 'Deputy' && c.wk1 === 'Flight Commander' && c.wk1 !== r.id
-    ? c.name + ' was last week\'s Flight Commander and can\'t be Deputy' : c.name + ' held ' + r.label + ' last week';
-  if (st === 'rpt') return c.name + ' held ' + r.label + ' two weeks ago';
+    ? c.name + ' was last rotation\'s Flight Commander and can\'t be Deputy' : c.name + ' held ' + r.label + ' last rotation';
+  if (st === 'rpt') return c.name + ' held ' + r.label + ' two rotations ago';
   if (st === 'new') return c.name + ' has never held a role';
   return c.name + ' has held a different role, not ' + r.label;
 }
@@ -335,21 +342,21 @@ function setFC(name) {
 }
 
 /* ---------- columns, filtering, sorting ---------- */
-const STATUS_LABEL = { new:'New (never held any role)', ok:'OK (held a different role)', rpt:'Repeat (held it 2 wks ago)', blk:'Blocked', na:'Not eligible (AS100)' };
+const STATUS_LABEL = { new:'New (never held any role)', ok:'OK (held a different role)', rpt:'Repeat (held it 2 rotations ago)', blk:'Blocked', na:'Not eligible (AS100)' };
 const histShow = v => v ? SHORT[v] : '(blank)';
 const weekOf = c => c.name === S.fc ? 'fc' : (assignedRole(c.name) ? assignedRole(c.name).id : '');
 
 const COLS = [
   { key:'name',  label:'Cadet', kind:'text', val:c => c.name, show:v => v, sv:c => c.name.toLowerCase() },
   { key:'level', label:'Level', kind:'text', val:c => c.level, show:v => LEVEL_LABEL[v], order:LEVELS, sv:c => LEVELS.indexOf(c.level) },
-  { key:'wk1',   label:'Wk-1',  kind:'text', val:c => c.wk1 || '', show:histShow, order:HIST_ORDER, sv:c => HIST_ORDER.indexOf(c.wk1 || '') },
-  { key:'wk2',   label:'Wk-2',  kind:'text', val:c => c.wk2 || '', show:histShow, order:HIST_ORDER, sv:c => HIST_ORDER.indexOf(c.wk2 || '') },
+  { key:'wk1',   label:'Last rotation',   kind:'text', val:c => c.wk1 || '', show:histShow, order:HIST_ORDER, sv:c => HIST_ORDER.indexOf(c.wk1 || '') },
+  { key:'wk2',   label:'Rotation before', kind:'text', val:c => c.wk2 || '', show:histShow, order:HIST_ORDER, sv:c => HIST_ORDER.indexOf(c.wk2 || '') },
   { key:'held',  label:'Held',  kind:'num',  val:c => String(held(c)), show:v => v, order:['0','1','2'], sv:c => held(c) },
   { key:'must',  label:'Must',  kind:'text', val:c => c.must ? 'yes' : 'no', show:v => v === 'yes' ? 'Yes' : 'No', order:['yes','no'], sv:c => c.must ? 0 : 1 },
   ...ROLES.map(r => ({ key:'role:' + r.id, label:r.label, kind:'fit', val:c => cellState(c, r), show:v => STATUS_LABEL[v],
                        order:['new','ok','rpt','blk','na'], sv:c => RANK[cellState(c, r)] })),
-  { key:'week',  label:'This week', kind:'text', val:c => weekOf(c), show:v => v === 'fc' ? 'Flight Commander' : v ? ROLE_BY_ID[v].label : '(none)',
-    order:['fc', '', ...ROLES.map(r => r.id)], sv:c => { const w = weekOf(c); return w === 'fc' ? -1 : w ? ROLES.indexOf(ROLE_BY_ID[w]) : 99; } },
+  { key:'week',  label:'New rotation', kind:'text', noFilter:true, val:c => weekOf(c),
+    sv:c => { const w = weekOf(c); return w === 'fc' ? -1 : w ? ROLES.indexOf(ROLE_BY_ID[w]) : 99; } },
 ];
 const COL_BY_KEY = Object.fromEntries(COLS.map(c => [c.key, c]));
 
@@ -385,12 +392,21 @@ function activeFilterCount() {
 }
 
 /* ---------- rendering ---------- */
+/* each dropdown offers only cadets who can take that slot: AS100s never appear under a BCL-only role,
+   anyone already holding a different slot is left out, and a blocked cadet shows greyed with the reason */
 function renderSlate() {
-  const people = S.cadets.map(c => '<option value="' + esc(c.name) + '">' + esc(c.name) + '</option>').join('');
+  const people = (holder, r) => S.cadets
+    .filter(c => c.name === holder || (c.name !== S.fc && !assignedRole(c.name)))
+    .filter(c => !r || !(r.bcl && c.level === '100'))
+    .map(c => {
+      const blk = r && c.name !== holder && cellState(c, r) === 'blk';
+      return '<option value="' + esc(c.name) + '"' + (blk ? ' disabled' : '') + '>' + esc(c.name) +
+        (blk ? ' (blocked: ' + esc(tip(c, r, 'blk').replace(c.name + ' ', '')) + ')' : '') + '</option>';
+    }).join('');
   $('#slate').innerHTML =
-    '<label>GMC Flight Commander<select data-fc><option value="">— choose yourself —</option>' + people + '</select></label>' +
+    '<label>GMC Flight Commander<select data-fc><option value="">— choose yourself —</option>' + people(S.fc) + '</select></label>' +
     ROLES.map(r => '<label>' + esc(r.label) + (r.bcl ? ' (BCL only)' : '') +
-      '<select data-slate="' + r.id + '"><option value="">— empty —</option>' + people + '</select></label>').join('');
+      '<select data-slate="' + r.id + '"><option value="">— empty —</option>' + people(S.assign[r.id], r) + '</select></label>').join('');
   $('#slate [data-fc]').value = S.fc;
   for (const sel of document.querySelectorAll('[data-slate]')) sel.value = S.assign[sel.dataset.slate] || '';
 }
@@ -418,8 +434,26 @@ function arrow(key) { return view.sortKey === key ? (view.dir === 1 ? ' ▲' : '
 function hdr(key) {
   const col = COL_BY_KEY[key];
   const on = view.excl[key] && view.excl[key].size;
+  const fc = (key === 'wk1' || key === 'wk2') && S.cadets.find(c => c[key] === 'Flight Commander');
   return '<th data-col="' + key + '" class="' + (view.sortKey === key ? 'sorted' : '') + '"' + (key === 'name' ? ' style="text-align:left"' : '') + '>' +
-    esc(col.label) + arrow(key) + '<button class="hb' + (on ? ' on' : '') + '" data-col="' + key + '" title="Sort / filter ' + esc(col.label) + '">▾</button></th>';
+    esc(col.label) + arrow(key) +
+    (col.noFilter ? '' : '<button class="hb' + (on ? ' on' : '') + '" data-col="' + key + '" title="Sort / filter ' + esc(col.label) + '">▾</button>') +
+    (fc ? '<span class="fcn">FC: ' + esc(fc.name) + '</span>' : '') + '</th>';
+}
+
+/* the New rotation picker: taken roles drop out, AS100s never see BCL-only roles, blocked ones show but can't be picked */
+function weekOpts(c) {
+  const w = weekOf(c);
+  const opt = (v, label, dis) => '<option value="' + v + '"' + (w === v ? ' selected' : '') + (dis ? ' disabled' : '') + '>' + esc(label) + '</option>';
+  let o = opt('', '—');
+  if (!S.fc || S.fc === c.name) o += opt('fc', 'Flight Commander');
+  for (const r of ROLES) {
+    if (S.assign[r.id] && S.assign[r.id] !== c.name) continue;
+    if (r.bcl && c.level === '100') continue;
+    const blk = c.wk1 === r.id || (r.id === 'Deputy' && c.wk1 === 'Flight Commander');
+    o += opt(r.id, r.label + (blk ? ' (blocked)' : ''), blk && w !== r.id);
+  }
+  return o;
 }
 
 function renderGrid() {
@@ -436,10 +470,13 @@ function renderGrid() {
     const w = weekOf(c);
     h += '<tr data-name="' + esc(c.name) + '">' +
       '<td class="name">' + esc(c.name) + '<button class="rm" title="Remove ' + esc(c.name) + ' from the chart">×</button></td>' +
-      '<td><select data-f="level">' + lvlOpts(c.level) + '</select></td>' +
-      '<td><select data-f="wk1">' + histOpts(c.wk1) + '</select></td>' +
-      '<td><select data-f="wk2">' + histOpts(c.wk2) + '</select></td>' +
-      '<td title="Weeks held in the last two">' + held(c) + '</td>' +
+      (view.unlocked
+        ? '<td><select data-f="level">' + lvlOpts(c.level) + '</select></td>' +
+          '<td><select data-f="wk1">' + histOpts(c.wk1) + '</select></td>' +
+          '<td><select data-f="wk2">' + histOpts(c.wk2) + '</select></td>'
+        : '<td class="lk">' + LEVEL_LABEL[c.level] + '</td>' +
+          ['wk1', 'wk2'].map(k => '<td class="lk">' + (c[k] ? esc(SHORT[c[k]]) : '<span class="dim">—</span>') + '</td>').join('')) +
+      '<td title="Roles held in the last two rotations">' + held(c) + '</td>' +
       '<td><input type="checkbox" data-f="must"' + (c.must ? ' checked' : '') + '></td>';
     for (const r of ROLES) {
       const st = cellState(c, r);
@@ -447,7 +484,7 @@ function renderGrid() {
       h += '<td><span class="cell s-' + st + (isA ? ' assigned' : '') + '" data-role="' + r.id + '" title="' + esc(tip(c, r, st)) + '">' +
            (isA ? '★' : GLYPH[st]) + '</span></td>';
     }
-    h += '<td class="tw">' + (w === 'fc' ? 'Flight Commander' : w ? esc(ROLE_BY_ID[w].label) : '<span class="dim">—</span>') + '</td></tr>';
+    h += '<td class="tw"><select data-week' + (w ? ' class="set"' : '') + ' aria-label="New rotation role for ' + esc(c.name) + '">' + weekOpts(c) + '</select></td></tr>';
   }
   h += '</tbody>';
   $('#grid').innerHTML = h;
@@ -619,7 +656,15 @@ function rollForward() {
       save(); renderAll();
     }
   });
+  $('#fUnlock').addEventListener('change', e => { view.unlocked = e.target.checked; renderGrid(); });
   $('#grid').addEventListener('change', e => {
+    if (e.target.dataset.week !== undefined) {
+      const name = e.target.closest('tr').dataset.name, v = e.target.value;
+      if (S.fc === name) S.fc = '';
+      for (const r of ROLES) if (S.assign[r.id] === name) delete S.assign[r.id];
+      if (v === 'fc') setFC(name); else if (v) setAssign(v, name);
+      save(); renderAll(); return;
+    }
     const f = e.target.dataset.f;
     if (!f) return;
     const c = byName(e.target.closest('tr').dataset.name);
@@ -650,8 +695,8 @@ function rollForward() {
     copy(url, 'Share link copied (' + url.length + ' characters).');
   });
   $('#bRoll').addEventListener('click', () => {
-    if (!confirm('Roll forward to next week?\n\nThis week\'s slate becomes Wk-1, the old Wk-1 becomes Wk-2, and the slate, Flight Commander and "Must" boxes clear.\n\nYou can undo it once with "Undo last roll".')) return;
-    rollForward(); save(); renderAll(); flash('Rolled forward.');
+    if (!confirm('Start the next rotation?\n\nDo this when handing off to the next Flight Commander. This slate becomes "Last rotation", the old last rotation becomes "Rotation before", and the slate, Flight Commander and "Must" boxes clear.\n\nYou can undo it once with "Undo last roll".')) return;
+    rollForward(); save(); renderAll(); flash('Next rotation started.');
   });
   $('#bUndo').addEventListener('click', () => {
     const d = S.prev ? sanitize(JSON.parse(S.prev)) : null;
