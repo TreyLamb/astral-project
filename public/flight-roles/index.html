@@ -295,7 +295,12 @@ let S = initialState();
 function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) {} }
 save();
 
-let view = { q:'', role:'', never:false, free:false, sortKey:'orig', dir:1, excl:{}, unlocked:false };
+const SORT_STORE = 'flightRoles.sort';
+let view = { q:'', role:'', never:false, free:false, sortKey:'level', dir:-1, excl:{}, unlocked:false };
+try {
+  const s = JSON.parse(localStorage.getItem(SORT_STORE) || 'null');
+  if (s && typeof s.key === 'string' && (s.dir === 1 || s.dir === -1)) { view.sortKey = s.key; view.dir = s.dir; }
+} catch (e) {}
 
 const esc = s => String(s).replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
 const byName = n => S.cadets.find(c => c.name === n);
@@ -412,19 +417,12 @@ function renderSlate() {
 }
 
 function renderWarn() {
+  /* only "held this role last rotation" breaks are listed; everything else is prevented by the dropdowns */
   const out = [];
-  let full = !!S.fc;
   for (const r of ROLES) {
-    const n = S.assign[r.id];
-    if (!n) { full = false; continue; }
-    const c = byName(n);
-    if (!c) continue;
-    const st = cellState(c, r);
-    if (st === 'na' || st === 'blk') out.push('<li class="bad">' + esc(tip(c, r, st)) + '.</li>');
-    else if (st === 'rpt') out.push('<li class="soft">' + esc(tip(c, r, st)) + ' — legal, but a repeat.</li>');
+    const c = byName(S.assign[r.id]);
+    if (c && cellState(c, r) === 'blk') out.push('<li class="bad">' + esc(tip(c, r, 'blk')) + '.</li>');
   }
-  for (const c of S.cadets) if (c.must && !assignedRole(c.name) && c.name !== S.fc) out.push('<li class="bad">' + esc(c.name) + ' must be assigned a position and isn\'t.</li>');
-  if (!out.length && full) out.push('<li class="good">Slate is full and every pick passes the rules.</li>');
   $('#warn').innerHTML = out.join('');
   $('#rolled').textContent = S.rolledOn ? 'History last rolled forward on ' + S.rolledOn + '.' : '';
   $('#bUndo').disabled = !S.prev;
@@ -547,7 +545,11 @@ function renderList() {
     shown.map(v => '<label class="mi"><input type="checkbox" data-v="' + esc(v) + '"' + (ex.has(v) ? '' : ' checked') + '> ' +
       esc(col.show(v)) + '<span class="mc">' + count(v) + '</span></label>').join('');
 }
-function syncSort() { $('#sKey').value = view.sortKey; $('#sDir').textContent = view.dir === 1 ? '↑' : '↓'; }
+function syncSort() {
+  if (view.sortKey !== 'orig' && !COL_BY_KEY[view.sortKey]) { view.sortKey = 'level'; view.dir = -1; }
+  $('#sKey').value = view.sortKey; $('#sDir').textContent = view.dir === 1 ? '↑' : '↓';
+  try { localStorage.setItem(SORT_STORE, JSON.stringify({ key:view.sortKey, dir:view.dir })); } catch (e) {}
+}
 
 menu.addEventListener('click', e => {
   const act = e.target.closest('[data-act]');
@@ -648,7 +650,7 @@ function rollForward() {
       if (view.sortKey === k) view.dir *= -1; else { view.sortKey = k; view.dir = 1; }
       syncSort(); renderGrid(); return;
     }
-    const cell = e.target.closest('.cell');
+    const cell = e.target.closest('.cell.s-na') ? null : e.target.closest('.cell');
     if (cell) {
       const name = cell.closest('tr').dataset.name, role = cell.dataset.role;
       setAssign(role, S.assign[role] === name ? '' : name);
