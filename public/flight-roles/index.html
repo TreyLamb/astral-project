@@ -149,7 +149,7 @@
       <div class="lg"><span class="chip s-new">new</span><div><b>Never held a role</b><span class="t">This cadet has never had any flight role. Best pick if you want to spread roles around.</span></div></div>
       <div class="lg"><span class="chip s-ok">ok</span><div><b>Held a different role</b><span class="t">They've had a role before, just not this one. Fine to assign.</span></div></div>
       <div class="lg"><span class="chip s-rpt">rpt</span><div><b>Repeat from two rotations ago</b><span class="t">They held this exact role in the rotation before last. Allowed, but a repeat.</span></div></div>
-      <div class="lg"><span class="chip s-blk">✕</span><div><b>Blocked</b><span class="t">They held this role last rotation, are the Flight Commander for the new rotation, or (for Deputy) were last rotation's Flight Commander.</span></div></div>
+      <div class="lg"><span class="chip s-blk">✕</span><div><b>Blocked</b><span class="t">They held this role last rotation, are the Flight Commander for the new rotation, or (for Deputy) were last rotation's Flight Commander.</span><span class="t" style="display:block;margin-top:4px;font-style:italic">(This is not a hard rule. If you really want someone to repeat a role, I think it's allowed for general roles. -C/ Lamb)</span></div></div>
       <div class="lg"><span class="chip s-na">—</span><div><b>Not eligible</b><span class="t">AS100 cadets can't hold the BCL-only roles (Deputy, Standardization, Academic, Drill &amp; Ceremony).</span></div></div>
       <div class="lg"><span class="chip" style="background:var(--na);border:2px solid var(--gold)">★</span><div><b>Assigned for the new rotation</b><span class="t">Gold outline means this cadet is in that role on the new rotation's slate.</span></div></div>
       <hr>
@@ -398,14 +398,15 @@ function activeFilterCount() {
 
 /* ---------- rendering ---------- */
 /* each dropdown offers only cadets who can take that slot: AS100s never appear under a BCL-only role,
-   anyone already holding a different slot is left out, and a blocked cadet shows greyed with the reason */
+   anyone already holding a different slot is left out, and a blocked cadet shows with the reason -
+   greyed out on BCL-only roles, still pickable on general ones (repeats there are a judgement call) */
 function renderSlate() {
   const people = (holder, r) => S.cadets
     .filter(c => c.name === holder || (c.name !== S.fc && !assignedRole(c.name)))
     .filter(c => !r || !(r.bcl && c.level === '100'))
     .map(c => {
       const blk = r && c.name !== holder && cellState(c, r) === 'blk';
-      return '<option value="' + esc(c.name) + '"' + (blk ? ' disabled' : '') + '>' + esc(c.name) +
+      return '<option value="' + esc(c.name) + '"' + (blk && r.bcl ? ' disabled' : '') + '>' + esc(c.name) +
         (blk ? ' (blocked: ' + esc(tip(c, r, 'blk').replace(c.name + ' ', '')) + ')' : '') + '</option>';
     }).join('');
   $('#slate').innerHTML =
@@ -449,7 +450,7 @@ function weekOpts(c) {
     if (S.assign[r.id] && S.assign[r.id] !== c.name) continue;
     if (r.bcl && c.level === '100') continue;
     const blk = c.wk1 === r.id || (r.id === 'Deputy' && c.wk1 === 'Flight Commander');
-    o += opt(r.id, r.label + (blk ? ' (blocked)' : ''), blk && w !== r.id);
+    o += opt(r.id, r.label + (blk ? ' (blocked)' : ''), blk && r.bcl && w !== r.id);
   }
   return o;
 }
