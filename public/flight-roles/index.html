@@ -53,13 +53,25 @@
   .slate { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:6px 12px; }
   .slate label { display:flex; flex-direction:column; gap:2px; font-size:12px; color:var(--muted); }
   .slate select { width:100%; }
+  .warnrow { display:flex; gap:14px; align-items:flex-start; margin-top:8px; }
+  .warnrow .warn { flex:1; min-width:0; margin:0; }
+  #lgBtn { background:var(--accent); color:#fff; border:2px solid var(--accent); border-radius:8px;
+           padding:9px 16px; font-size:15px; font-weight:700; box-shadow:0 2px 10px rgba(43,95,217,.45); }
+  #lgBtn:hover { filter:brightness(1.12); }
+  /* pulses until the visitor has opened it once, so a first-timer's eye lands on it */
+  #lgBtn.attn { animation:lgPulse 1.8s ease-in-out infinite; }
+  @keyframes lgPulse { 0%,100% { box-shadow:0 2px 10px rgba(43,95,217,.45), 0 0 0 0 rgba(43,95,217,.55); }
+                       50% { box-shadow:0 2px 10px rgba(43,95,217,.45), 0 0 0 8px rgba(43,95,217,0); } }
+  @media (prefers-reduced-motion: reduce) { #lgBtn.attn { animation:none; } }
   .warn { margin:8px 0 0; padding:0; list-style:none; font-size:12.5px; }
   .warn li { padding:2px 0; }
   .warn .bad { color:var(--blk); } .warn .soft { color:#a77b00; } .warn .good { color:var(--new); }
   .btns { margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-  .how { margin-top:8px; font-size:12.5px; color:var(--muted); }
-  .how summary { cursor:pointer; color:var(--fg); }
-  .how ol { margin:6px 0 0; padding-left:20px; }
+  .how { margin-top:10px; font-size:13px; color:var(--fg); border:2px solid var(--gold); border-radius:8px;
+         background:rgba(255,191,31,.12); }
+  .how summary { cursor:pointer; padding:9px 12px; font-size:15px; font-weight:700; }
+  .how summary:hover { background:rgba(255,191,31,.2); border-radius:6px; }
+  .how ol { margin:0; padding:0 14px 10px 34px; line-height:1.55; }
   .wrap { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:8px; }
   table { border-collapse:collapse; width:100%; }
   col.l { width:1%; }
@@ -100,20 +112,6 @@
     <h1>Flight Roles Chart</h1>
     <p class="sub">Click a coloured cell to assign that cadet to that role (click again to clear). Use the ▾ on any column header to sort or filter, like Excel. Changes save in this browser only; use “Copy share link” to hand the chart to someone else.</p>
   </div>
-  <div class="legend-wrap">
-    <button id="lgBtn" aria-expanded="false" aria-controls="lgPanel">Legend ▾</button>
-    <div id="lgPanel" hidden>
-      <h2>What the colours mean</h2>
-      <div class="lg"><span class="chip s-new">new</span><div><b>Never held a role</b><span class="t">This cadet has never had any flight role. Best pick if you want to spread roles around.</span></div></div>
-      <div class="lg"><span class="chip s-ok">ok</span><div><b>Held a different role</b><span class="t">They've had a role before, just not this one. Fine to assign.</span></div></div>
-      <div class="lg"><span class="chip s-rpt">rpt</span><div><b>Repeat from two weeks ago</b><span class="t">They held this exact role two weeks ago. Allowed, but a repeat.</span></div></div>
-      <div class="lg"><span class="chip s-blk">✕</span><div><b>Blocked</b><span class="t">They held this role last week, are the Flight Commander this week, or (for Deputy) were last week's Flight Commander.</span></div></div>
-      <div class="lg"><span class="chip s-na">—</span><div><b>Not eligible</b><span class="t">AS100 cadets can't hold the BCL-only roles (Deputy, Standardization, Academic, Drill &amp; Ceremony).</span></div></div>
-      <div class="lg"><span class="chip" style="background:var(--na);border:2px solid var(--gold)">★</span><div><b>Assigned this week</b><span class="t">Gold outline means this cadet is in that role on this week's slate.</span></div></div>
-      <hr>
-      <div class="lg"><span class="chip" style="background:var(--bg);color:var(--muted);border:1px solid var(--line)">▾</span><div><b>Column menu</b><span class="t">Sort or filter that column. A blue ▾ means a filter is on.</span></div></div>
-    </div>
-  </div>
 </header>
 
 <div class="banner" id="banner" hidden><span id="bannerText"></span><span class="grow"></span><button id="bannerX">Dismiss</button></div>
@@ -137,7 +135,23 @@
 <div class="panel">
   <h2>This week's slate</h2>
   <div class="slate" id="slate"></div>
+  <div class="warnrow">
   <ul class="warn" id="warn"></ul>
+  <div class="legend-wrap">
+    <button id="lgBtn" class="attn" aria-expanded="false" aria-controls="lgPanel">🎨 Colour legend ▾</button>
+    <div id="lgPanel" hidden>
+      <h2>What the colours mean</h2>
+      <div class="lg"><span class="chip s-new">new</span><div><b>Never held a role</b><span class="t">This cadet has never had any flight role. Best pick if you want to spread roles around.</span></div></div>
+      <div class="lg"><span class="chip s-ok">ok</span><div><b>Held a different role</b><span class="t">They've had a role before, just not this one. Fine to assign.</span></div></div>
+      <div class="lg"><span class="chip s-rpt">rpt</span><div><b>Repeat from two weeks ago</b><span class="t">They held this exact role two weeks ago. Allowed, but a repeat.</span></div></div>
+      <div class="lg"><span class="chip s-blk">✕</span><div><b>Blocked</b><span class="t">They held this role last week, are the Flight Commander this week, or (for Deputy) were last week's Flight Commander.</span></div></div>
+      <div class="lg"><span class="chip s-na">—</span><div><b>Not eligible</b><span class="t">AS100 cadets can't hold the BCL-only roles (Deputy, Standardization, Academic, Drill &amp; Ceremony).</span></div></div>
+      <div class="lg"><span class="chip" style="background:var(--na);border:2px solid var(--gold)">★</span><div><b>Assigned this week</b><span class="t">Gold outline means this cadet is in that role on this week's slate.</span></div></div>
+      <hr>
+      <div class="lg"><span class="chip" style="background:var(--bg);color:var(--muted);border:1px solid var(--line)">▾</span><div><b>Column menu</b><span class="t">Sort or filter that column. A blue ▾ means a filter is on.</span></div></div>
+    </div>
+  </div>
+  </div>
   <div class="btns">
     <button id="bCopy">Copy slate</button>
     <button id="bShare">Copy share link</button>
@@ -150,7 +164,7 @@
   </div>
   <p class="sub" style="margin:8px 0 0" id="rolled"></p>
   <details class="how">
-    <summary>Weekly routine for the Flight Commander</summary>
+    <summary>📋 Weekly routine for the Flight Commander (start here)</summary>
     <ol>
       <li>Pick yourself as Flight Commander at the top of the slate.</li>
       <li>Fill the other seven roles. Green and blue cells are good picks; the warnings above tell you if a pick breaks a rule.</li>
@@ -533,7 +547,11 @@ window.addEventListener('resize', closeMenu);
 function setLegend(open) {
   $('#lgPanel').hidden = !open;
   $('#lgBtn').setAttribute('aria-expanded', String(open));
-  $('#lgBtn').textContent = open ? 'Legend ▴' : 'Legend ▾';
+  $('#lgBtn').textContent = open ? '🎨 Colour legend ▴' : '🎨 Colour legend ▾';
+  if (open) {
+    $('#lgBtn').classList.remove('attn');
+    try { localStorage.setItem('flightRoles.legendSeen', '1'); } catch (e) {}
+  }
 }
 
 /* ---------- weekly actions ---------- */
@@ -552,6 +570,7 @@ function rollForward() {
   $('#fRole').innerHTML += ROLES.map(r => '<option value="' + r.id + '">' + esc(r.label) + '</option>').join('');
   $('#sKey').innerHTML = '<option value="orig">Original order</option>' + COLS.map(c => '<option value="' + c.key + '">' + esc(c.label) + '</option>').join('');
 
+  try { if (localStorage.getItem('flightRoles.legendSeen')) $('#lgBtn').classList.remove('attn'); } catch (e) {}
   $('#lgBtn').addEventListener('click', () => setLegend($('#lgPanel').hidden));
   $('#bannerX').addEventListener('click', () => { notice = ''; renderBanner(); });
 
