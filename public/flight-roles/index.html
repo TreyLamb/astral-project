@@ -397,10 +397,10 @@ function renderSlate() {
 
 function renderWarn() {
   const out = [];
-  if (!S.fc) out.push('<li class="bad">Pick the Flight Commander (you) at the top of the slate.</li>');
+  let full = !!S.fc;
   for (const r of ROLES) {
     const n = S.assign[r.id];
-    if (!n) { out.push('<li class="bad">' + esc(r.label) + ' is empty.</li>'); continue; }
+    if (!n) { full = false; continue; }
     const c = byName(n);
     if (!c) continue;
     const st = cellState(c, r);
@@ -408,7 +408,7 @@ function renderWarn() {
     else if (st === 'rpt') out.push('<li class="soft">' + esc(tip(c, r, st)) + ' — legal, but a repeat.</li>');
   }
   for (const c of S.cadets) if (c.must && !assignedRole(c.name) && c.name !== S.fc) out.push('<li class="bad">' + esc(c.name) + ' must be assigned a position and isn\'t.</li>');
-  if (!out.length) out.push('<li class="good">Slate is full and every pick passes the rules.</li>');
+  if (!out.length && full) out.push('<li class="good">Slate is full and every pick passes the rules.</li>');
   $('#warn').innerHTML = out.join('');
   $('#rolled').textContent = S.rolledOn ? 'History last rolled forward on ' + S.rolledOn + '.' : '';
   $('#bUndo').disabled = !S.prev;
