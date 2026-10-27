@@ -96,8 +96,8 @@ export const SECTIONS = [
   // acs: null is meaningful - it tells the ACS track to skip it and the course track to keep it.
   { section: '5-2', title: 'Redox Reactions', acs: null, concepts: ['oxidation-number-rules', 'oxidation-reduction-definitions', 'oxidizing-reducing-agents'] },
   { section: '5-3', title: 'Energy Basics', acs: 'chem1-06-heat-enthalpy', concepts: ['first-law-thermodynamics', 'heat-mass-temperature-relationship', 'specific-heat-definition'] },
-  { section: '5-4', title: 'Calorimetry', acs: 'chem1-06-heat-enthalpy', concepts: ['bomb-calorimetry'] },
-  { section: '5-5', title: 'Enthalpy', acs: 'chem1-06-heat-enthalpy', concepts: ['energy-per-mole-reaction'] },
+  { section: '5-4', title: 'Calorimetry', acs: 'chem1-06-heat-enthalpy', concepts: ['bomb-calorimetry', 'thermal-equilibrium-heat-transfer', 'coffee-cup-calorimetry'] },
+  { section: '5-5', title: 'Enthalpy', acs: 'chem1-06-heat-enthalpy', concepts: ['energy-per-mole-reaction', 'thermochemical-stoichiometry'] },
   { section: '5-6', title: "Hess's Law and Heat of Formation", acs: 'chem1-06-heat-enthalpy', concepts: ['hess-law', 'enthalpy-of-formation'] },
 
   { section: '6-2', title: 'Electromagnetic Energy', acs: 'chem1-02-electronic-structure', concepts: ['rydberg-formula-energy-levels', 'photon-energy-wavelength-relationship', 'absorption-vs-emission'] },
@@ -154,7 +154,7 @@ export const EXAMS = [
 //
 // Bump this as the term moves. Everything scoped by it follows automatically:
 // Quick Review's default and its "not covered yet" labels both read from here.
-export const STUDIED_THROUGH_CHAPTER = 4; // 2026-10-06: end of ch 4, Exam 2 is 2026-10-07
+export const STUDIED_THROUGH_CHAPTER = 6; // 2026-10-27: Quizzes 18-20 cover ch 6, Exam 3 (ch 1-6) is 2026-11-02
 
 /** The exam whose scope matches how far the class has got — Quick Review's default. */
 export const currentExamId = () =>

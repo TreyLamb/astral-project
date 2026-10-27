@@ -769,6 +769,13 @@ questions** and paced like the AFOQT: **about 2 minutes per question**, some fas
 building the question engine; they are not the real study.** The bulk of his study should come from the CURRENT chapter's topics **tuned to the national test**
 (Band 3), less to the professor's quizzes. Build drills, pacing and the exam tool to that. Details: `chem/PLAN.md` top, and the skill's `profile.md`.
 
+🔴 **THE NATIONAL EXAM IS THE BAR FOR EVERY CHAPTER, not just the final (Trey, 2026-10-27, standing).** Verbatim: *"I want my questions to
+lean/mirror more closely what the national test looks like. I think my professor is teaching too simply in class and then testing SUPER hard and
+i think he's basing his questions from the national test. so that is my new bar. regardless of how 'easy' my professors quizzes come out, we will
+use them as a base-standard but not the bar to meet."* So every chapter bank needs ACS-level (band 4-5) templates, not just quiz-level ones.
+The build ORDER is unchanged (textbook → instructor → ACS, in `theknowledgebase/CLAUDE.md`): that rule decides which skills exist; this one sets
+how hard they are asked. Exams are cumulative. First pass: `chem/engine/templates/acs-exam3-heat.js` + `acs-exam3-stoich.js`.
+
 **Two audiences, and they are not the same test.** The ACS standardized final is *debatably
 harder* than the instructor's own questions and is **>50% of the grade**. Every chapter guide
 must serve both:

@@ -18,6 +18,11 @@ export const COURSEWORK_PATCHES = [
     source: 'Trey, 2026-10-06 ("The exam is tomorrow"); class meets 1:00 PM',
   },
   {
+    match: { course: 'CHEM 1210', title: 'Exam 3' },
+    set: { due: '2026-11-02', dueTime: '1:00 PM', kind: 'exam', note: 'Ch 1-6, cumulative. In class.' },
+    source: 'Trey, 2026-10-26 (Canvas announcement 10-22 confirms the date); coverage from the syllabus',
+  },
+  {
     match: { course: 'CHEM 1210', title: 'Final Exam' },
     set: { due: '2026-12-07', dueTime: '1:00 PM', kind: 'exam', note: 'ACS standardized, comprehensive, no makeup.' },
     source: 'CHEM 1210 syllabus (data/syllabi.json)',

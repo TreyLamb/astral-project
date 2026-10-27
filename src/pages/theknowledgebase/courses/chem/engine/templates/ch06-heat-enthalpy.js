@@ -187,6 +187,7 @@ registerChemTemplate({
           { value: fmt(wrongFlipW), error: 'flipped-work-sign', why: 'used the wrong sign convention for w — work done ON the system is positive, work done BY the system is negative' },
           { value: fmt(wrongFlipQ), error: 'flipped-heat-sign', why: 'used the wrong sign convention for q — heat absorbed by the system is positive, heat released is negative' },
           { value: fmt(wrongNoWork), error: 'forgot-work-term', why: 'reported q alone and left the work term out of ΔE = q + w entirely' },
+          { value: fmt(-dE), error: 'flipped-both-signs', why: 'used the opposite sign convention for both q and w' },
         ],
       ),
       explanation: `System ${heatDir === 'absorbs' ? 'absorbs' : 'releases'} heat, so q = ${fmt(q)}. ${workClause === 'system-does-work' ? 'The system does work on the surroundings, so w is negative' : 'The surroundings do work on the system, so w is positive'}: w = ${fmt(w)}. ΔE = q + w = ${fmt(q)} + (${fmt(w)}) = ${fmt(dE)}.`,
@@ -214,7 +215,9 @@ registerChemTemplate({
       { name: 'carbon (graphite)', molar: 12.0 },
     ];
     const s = h.pick(SUBSTANCES);
-    const mass = h.int(5, 60); // g
+    let mass = h.int(5, 60); // g
+    // A sample of exactly one mole makes "divided by grams" equal "divided by moles".
+    if (Math.round(s.molar) === mass) mass += 3;
     const heatKJ = h.int(80, 900); // kJ released, total
     const moles = mass / s.molar;
     const perMole = heatKJ / moles;
@@ -227,6 +230,7 @@ registerChemTemplate({
           { value: `${(heatKJ / mass).toFixed(1)} kJ/mol`, error: 'used-mass-not-moles', why: 'divided the heat by grams instead of first converting the mass to moles' },
           { value: `${(heatKJ / (mass * s.molar)).toFixed(1)} kJ/mol`, error: 'inverted-molar-mass-use', why: 'multiplied by molar mass instead of dividing by it, inverting the mole calculation' },
           { value: `${(heatKJ * moles).toFixed(1)} kJ/mol`, error: 'multiplied-instead-of-divided', why: 'multiplied the total heat by the number of moles instead of dividing by it' },
+          { value: `${heatKJ.toFixed(1)} kJ/mol`, error: 'reported-total-heat', why: 'reported the total heat as if it were per mole, skipping the mole calculation' },
         ],
       ),
       explanation: `Convert mass to moles first: ${mass} g ÷ ${s.molar.toFixed(1)} g/mol = ${moles.toFixed(3)} mol. Then energy per mole = ${heatKJ} kJ ÷ ${moles.toFixed(3)} mol = ${perMole.toFixed(1)} kJ/mol.`,
@@ -290,9 +294,11 @@ registerChemTemplate({
       { name: 'sulfur dioxide', eq: 'S(s) + O₂(g) → SO₂(g)', dH: -296.8 },
     ];
     const f = h.pick(FORMATION);
-    const n = h.int(1, 3);
-    let reversed = rng() < 0.5;
-    if (n === 1 && !reversed) reversed = true; // never ask a no-op question
+    // n >= 2 always (2026-10-27): with n = 1 the "forgot to scale" and "no manipulation" errors are
+    // the same number as the answer or as each other, and two-thirds of instances shipped with 3
+    // options. Reversal on its own is asked by chem1-acs-06-thermochem-statements.
+    const n = h.int(2, 3);
+    const reversed = rng() < 0.5;
 
     const shownDH = f.dH;
     const targetDH = shownDH * n * (reversed ? -1 : 1);
@@ -318,6 +324,8 @@ registerChemTemplate({
           { value: `${forgotFlip.toFixed(1)} kJ`, error: 'forgot-sign-flip-on-reverse', why: 'scaled the value correctly but forgot that reversing a reaction flips the sign of ΔH' },
           { value: `${forgotScale.toFixed(1)} kJ`, error: 'forgot-to-scale', why: 'handled the sign correctly but forgot to scale ΔH by the same factor used to scale the reaction\'s coefficients' },
           { value: `${noManipulation.toFixed(1)} kJ`, error: 'no-manipulation-applied', why: 'used the formation reaction\'s ΔH unchanged, without reversing or scaling it to match the reaction asked about' },
+          { value: `${(-targetDH).toFixed(1)} kJ`, error: 'wrong-sign-decision', why: reversed ? 'scaled correctly but kept the original sign; reversing flips it' : 'flipped the sign even though the reaction was not reversed' },
+          { value: `${(targetDH / (n * n)).toFixed(1)} kJ`, error: 'divided-instead-of-multiplied', why: `divided ΔH by ${n} instead of multiplying it by ${n}` },
         ],
       ),
       explanation: `ΔH scales with the reaction's coefficients and flips sign when the reaction is reversed. Starting from ΔH = ${shownDH.toFixed(1)} kJ: ${n > 1 ? `scale by ${n} → ${(shownDH * n).toFixed(1)} kJ; ` : ''}${reversed ? `reverse the reaction → flip the sign → ${targetDH.toFixed(1)} kJ.` : `no reversal is needed here, so ΔH stays ${targetDH.toFixed(1)} kJ.`}`,
@@ -390,6 +398,8 @@ registerChemTemplate({
           { value: `${forgotReversal.toFixed(1)} kJ`, error: 'forgot-to-reverse', why: "added every given reaction's ΔH in the direction it was printed, without reversing the one(s) needed to cancel the intermediate species" },
           { value: `${forgotScaling.toFixed(1)} kJ`, error: 'forgot-to-scale', why: "reversed the correct reaction(s) but forgot to multiply a reaction's ΔH by the same factor used to scale its coefficients" },
           { value: `${flippedFinal.toFixed(1)} kJ`, error: 'flipped-final-sign', why: 'combined the reactions correctly but flipped the sign of the final answer' },
+          { value: `${(set.given[0].dH * set.given[0].coeff).toFixed(1)} kJ`, error: 'used-only-first-reaction', why: 'stopped after the first given reaction instead of combining all of them' },
+          { value: `${(-forgotReversal).toFixed(1)} kJ`, error: 'reversed-everything', why: 'reversed every given reaction instead of only the one(s) whose species sit on the wrong side' },
         ],
       ),
       explanation: `Combine the given reactions so every intermediate cancels and the sum equals the target equation: ${set.given.map(describe).join('; ')}. Sum: ${set.given.map((g) => (g.dH * g.coeff).toFixed(1)).join(' + ')} = ${correct.toFixed(1)} kJ.`,

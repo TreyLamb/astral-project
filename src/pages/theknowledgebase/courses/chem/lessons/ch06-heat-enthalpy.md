@@ -61,6 +61,49 @@ water bath's temperature is, from the *reaction's* point of view, always releasi
 (exothermic, negative q), even though the number you calculate for the calorimeter itself is
 positive.
 
+## Two objects reach the same temperature: q_hot + q_cold = 0
+
+Drop a hot piece of metal into cooler water and heat flows until both sit at **one** final
+temperature. If nothing escapes to the surroundings, every joule the metal loses the water gains:
+
+**q_metal + q_water = 0**, so **m_metal · c_metal · (T_f − T_metal) = −m_water · c_water · (T_f − T_water)**
+
+Three things go wrong here, and the exam is built around them:
+
+1. **ΔT is (final − initial) for EACH object separately.** The metal's ΔT is negative (it cools),
+   the water's is positive. There is no shared ΔT.
+2. **Each object keeps its own specific heat.** Water is 4.184 J/(g·°C); a metal is often ten times
+   smaller. That is why a big temperature drop in the metal makes only a small rise in the water,
+   and why the final temperature sits much closer to the water's starting temperature than the
+   simple average.
+3. **mL of water becomes grams with density 1.00 g/mL.** Then you can solve the same equation for
+   whatever is unknown: the final temperature, the metal's starting temperature, or the metal's
+   specific heat (and from that, which metal it is).
+
+## Coffee-cup calorimetry (constant pressure)
+
+A coffee-cup calorimeter is an insulated cup open to the air, so it runs at **constant pressure**
+and the heat it measures is **ΔH**. The reaction happens *in* the water, so:
+
+- **q_solution = (total mass of solution) × 4.184 × ΔT.** Mix 50.0 mL with 50.0 mL and the mass is
+  **100.0 g**, not 50.0 g. Dilute solutions are treated as having water's density and specific heat.
+- **q_rxn = −q_solution.** The solution warms up, so the reaction released heat (exothermic).
+- **ΔH per mole = q_rxn ÷ moles that actually reacted**, and that is the **limiting** reactant's moles
+  (times its coefficient ratio). For a strong acid + strong base, the answer is always close to
+  **−56 kJ per mole of water formed**, which makes a good sanity check.
+
+## Thermochemical stoichiometry: ΔH belongs to the equation as written
+
+A thermochemical equation's ΔH is for the **moles in the coefficients**. In
+2 H₂(g) + O₂(g) → 2 H₂O(l), ΔH = −571.6 kJ, that is −571.6 kJ per **2 mol** of H₂, per **1 mol** of
+O₂, or per **2 mol** of H₂O. To find the heat for a real sample:
+
+**grams → moles → (moles ÷ coefficient) → × ΔH**
+
+The usual mistake is multiplying ΔH by the moles of a substance whose coefficient is not 1. When
+two reactant amounts are given, find the **limiting reactant** first. The heat depends only on how
+much reaction actually happens.
+
 ## Enthalpy of formation, and the two rules for manipulating ΔH
 
 The standard enthalpy of formation (ΔH°f) is the enthalpy change for forming **1 mole** of a

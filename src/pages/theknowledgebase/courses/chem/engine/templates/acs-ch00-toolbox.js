@@ -55,7 +55,7 @@ const DENSITIES = [
 registerChemTemplate({
   id: 'chem1-acs-00-density-unit-chain',
   chapterId: CH,
-  section: null,
+  section: '1-7',
   band: 4,
   name: 'Density converted between g/cm³ and kg/m³',
   concepts: ['density', 'unit-conversions'],
@@ -82,7 +82,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-00-volume-from-density',
   chapterId: CH,
-  section: null,
+  section: '1-7',
   band: 5,
   name: 'Volume of a given mass, across three unit changes',
   concepts: ['density', 'unit-conversions'],
@@ -126,7 +126,7 @@ const FLOWS = [
 registerChemTemplate({
   id: 'chem1-acs-00-flow-rate-chain',
   chapterId: CH,
-  section: null,
+  section: '1-7',
   band: 5,
   name: 'Dimensional analysis across time and volume units',
   concepts: ['unit-conversions'],
@@ -163,7 +163,7 @@ const LAB_ROWS = [
 registerChemTemplate({
   id: 'chem1-acs-00-lab-density-sigfigs',
   chapterId: CH,
-  section: null,
+  section: '1-6',
   band: 5,
   name: 'Density from lab data, reported to the right precision',
   concepts: ['density', 'significant-figures'],
@@ -209,7 +209,7 @@ const ADD_ROWS = [
 registerChemTemplate({
   id: 'chem1-acs-00-sigfig-addition-rule',
   chapterId: CH,
-  section: null,
+  section: '1-6',
   band: 4,
   name: 'Addition uses decimal places, not significant figures',
   concepts: ['significant-figures'],
@@ -274,7 +274,7 @@ const MIXED_ROWS = [
 registerChemTemplate({
   id: 'chem1-acs-00-sigfig-mixed-operations',
   chapterId: CH,
-  section: null,
+  section: '1-6',
   band: 5,
   name: 'Two precision rules in one calculation',
   concepts: ['significant-figures'],
@@ -312,7 +312,7 @@ const SCI_ROWS = [
 registerChemTemplate({
   id: 'chem1-acs-00-sci-notation-arithmetic',
   chapterId: CH,
-  section: null,
+  section: '1-6',
   band: 4,
   name: 'Scientific notation arithmetic, normalized and rounded',
   concepts: ['scientific-notation', 'significant-figures'],
@@ -352,7 +352,7 @@ const NAME_TO_FORMULA = [
 registerChemTemplate({
   id: 'chem1-acs-00-formula-from-name',
   chapterId: CH,
-  section: null,
+  section: '2-7',
   band: 4,
   name: 'Formula from a name with a variable-charge metal or polyatomic ion',
   concepts: ['nomenclature-ionic-covalent'],
@@ -387,7 +387,7 @@ const FORMULA_TO_NAME = [
 registerChemTemplate({
   id: 'chem1-acs-00-name-from-formula',
   chapterId: CH,
-  section: null,
+  section: '2-7',
   band: 4,
   name: 'Naming a formula, choosing between ionic and covalent conventions',
   concepts: ['nomenclature-ionic-covalent'],
@@ -454,7 +454,7 @@ const CLASSIFY_ROWS = [
 registerChemTemplate({
   id: 'chem1-acs-00-classify-from-evidence',
   chapterId: CH,
-  section: null,
+  section: '1-3',
   band: 4,
   name: 'Classifying matter from experimental evidence',
   concepts: ['classification-of-matter'],
@@ -495,7 +495,7 @@ const CHEMICAL = [
 registerChemTemplate({
   id: 'chem1-acs-00-physical-vs-chemical-subtle',
   chapterId: CH,
-  section: null,
+  section: '1-4',
   band: 4,
   name: 'Telling a chemical change from a physical one that looks like it',
   concepts: ['properties-representations-of-matter'],

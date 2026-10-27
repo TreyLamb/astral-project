@@ -5,6 +5,19 @@ Band 2; **Band 2 = the professor's quizzes; Band 3 = the national (ACS) exam lev
 some fast logic, some heavy math). **Quizzes are benchmarks that feed this question engine; they are not the real study.** His real chem study = the CURRENT
 chapter's topics tuned to the national test, timed. When extending banks, drills or the exam tool, target Band 3 content and pacing, and keep Band 2 coverage honest to the quizzes.
 
+**2026-10-27, Exam 3 (Mon 11-2, ch 1-6 cumulative) bank build.** Trey: heat math is the weak spot, ch 3-4 needs heavy review, ch 6 is
+easy, and the national (ACS) exam is now the bar for every chapter (AGENT-PROMPT §9). Done: (1) wired `acs-ch00/01/03-*.js` into the barrel:
+33 ACS-level templates had been committed in an unrelated AFOQT commit (73c1643) and NEVER imported, so no exam or gate could draw one;
+sections assigned by `chem:tag-sections`, 8 ambiguous ones decided by hand. (2) `acs-exam3-heat.js`: 11 band-4/5 templates (metal-into-water
+final T / initial T / specific heat, coffee-cup neutralization, bomb with water + bomb, thermochemical stoichiometry incl. limiting reactant,
+ΔH°rxn from ΔH°f, ΔH°f back-solve, Hess from combustion data, reading a thermochemical equation), skill list from AcademiQ §5-3..5-6 worked
+examples. New concepts `thermal-equilibrium-heat-transfer`, `coffee-cup-calorimetry` (5-4), `thermochemical-stoichiometry` (5-5), plus lesson
+sections. (3) `acs-exam3-stoich.js`: 5 band-4/5 ch 3-4 templates. (4) `STUDIED_THROUGH_CHAPTER` 4 → 6. (5) selftest now FAILS a question
+with fewer than 4 choices: `h.choices` silently drops duplicate distractors, and a 3-option item passed 8000 samples before. That surfaced 23
+pre-existing templates that sometimes ship 3 options; they are on a dated `KNOWN_SHORT` ratchet list in `selftest.mjs` (19 more are 3-way by
+design and allowed). Exam 3 pool: 223 templates, 49 ACS-level (was 0 ACS-level in ch 3-6). **Still thin at ACS level:** 5-3, 4-2, 4-3, 3-4
+(one), all of ch 6 (Trey says ch 6 is easy, so deliberately last), 5-2 redox (course-only, no ACS equivalent).
+
 Built 2026-08-28 at Trey's request: "Build a curriculum based on chem 1 for now, and then build
 the repeatable quizzes for each curriculum, and then the base for the mass-review mass-study
 version of tests." Mirrors AFOQT's proven gate → lesson → drill → mastery pattern (see

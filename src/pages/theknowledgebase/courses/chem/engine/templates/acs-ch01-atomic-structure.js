@@ -63,7 +63,7 @@ const TWO_ISO_AVG_POOL = [
 registerChemTemplate({
   id: 'chem1-acs-01-weighted-average-backward',
   chapterId: CH,
-  section: null,
+  section: '2-3',
   band: 4,
   name: 'Isotope abundance solved backward from the average atomic mass',
   concepts: ['relative-abundance-weighted-average'],
@@ -141,7 +141,7 @@ const THREE_ISOTOPE_POOL = [
 registerChemTemplate({
   id: 'chem1-acs-01-mass-spectrum-normalize',
   chapterId: CH,
-  section: null,
+  section: '2-3',
   band: 4,
   name: 'Average atomic mass from relative mass-spectrum peak intensities',
   concepts: ['relative-abundance-weighted-average'],
@@ -225,7 +225,7 @@ const ELECTRON_FAMILIES = [
 registerChemTemplate({
   id: 'chem1-acs-01-isoelectronic-series',
   chapterId: CH,
-  section: null,
+  section: '2-3',
   band: 5,
   name: 'Identifying an isoelectronic species',
   concepts: ['ion-charge-electrons-protons'],
@@ -308,7 +308,7 @@ const UNKNOWN_ELEMENT_POOL = [
 registerChemTemplate({
   id: 'chem1-acs-01-unknown-element-from-particles',
   chapterId: CH,
-  section: null,
+  section: '2-2',
   band: 4,
   name: 'Identifying an unknown element from mass number and neutron count',
   concepts: ['atomic-number-vs-mass-number'],
@@ -362,7 +362,7 @@ const SYNTH_ANIONS = [
 registerChemTemplate({
   id: 'chem1-acs-01-ion-to-ionic-formula',
   chapterId: CH,
-  section: null,
+  section: '2-6',
   band: 5,
   name: 'Identify the element from electrons + charge, then write its polyatomic formula',
   concepts: ['ion-charge-electrons-protons', 'predicting-ionic-formulas'],
@@ -406,7 +406,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-01-missing-isotope-abundance',
   chapterId: CH,
-  section: null,
+  section: '2-3',
   band: 4,
   name: 'Average atomic mass with one isotope abundance omitted',
   concepts: ['relative-abundance-weighted-average'],
@@ -465,7 +465,7 @@ const MULTI_CHARGE_ANIONS = [
 registerChemTemplate({
   id: 'chem1-acs-01-transition-metal-formula',
   chapterId: CH,
-  section: null,
+  section: '2-6',
   band: 4,
   name: 'Ionic formula from a Roman-numeral transition-metal name',
   concepts: ['predicting-ionic-formulas'],
@@ -530,7 +530,7 @@ const POLYATOMIC_ANIONS_8 = [
 registerChemTemplate({
   id: 'chem1-acs-01-polyatomic-ionic-formula',
   chapterId: CH,
-  section: null,
+  section: '2-6',
   band: 4,
   name: 'Predicting a neutral ionic formula with a polyatomic anion',
   concepts: ['predicting-ionic-formulas'],
@@ -593,7 +593,7 @@ const ELEMENTAL_FORM_FALSE = [
 registerChemTemplate({
   id: 'chem1-acs-01-elemental-form-true-statement',
   chapterId: CH,
-  section: null,
+  section: '2-5',
   band: 4,
   name: 'True statement about elemental molecular forms',
   concepts: ['periodic-table-groups-diatomics'],
@@ -631,7 +631,7 @@ const BOND_NONMETALS = [
 registerChemTemplate({
   id: 'chem1-acs-01-bonding-type-classification',
   chapterId: CH,
-  section: null,
+  section: '2-5',
   band: 5,
   name: 'Predicting primarily ionic bonding from element classification',
   concepts: ['element-classification-periodic-table'],
@@ -668,7 +668,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-01-abundance-from-particle-counts',
   chapterId: CH,
-  section: null,
+  section: '2-3',
   band: 5,
   name: 'Isotope abundance from proton/neutron counts and average atomic mass',
   concepts: ['atomic-number-vs-mass-number', 'relative-abundance-weighted-average'],

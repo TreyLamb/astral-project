@@ -31,3 +31,14 @@ import './academiq-ch03-ch04.js';
 // His REAL Ch 1-2 items (graded AcademiQ quizzes, the professor's review sheet, the book's Ch 2
 // exercises), recovered from an unpushed 2026-09-08 session. See that file's header.
 import './real-items-ch01-ch02.js';
+
+// ACS-level (bands 4-5) companions for toolbox, atomic structure and the mole. Written 2026-09 but
+// never imported until 2026-10-27, so Exam prep and the ACS gate could not draw a single one.
+import './acs-ch00-toolbox.js';
+import './acs-ch01-atomic-structure.js';
+import './acs-ch03-mole-calculations.js';
+
+// Exam 3 (ch 1-6, cumulative), 2026-10-27: ACS-level heat math (his named weak spot) and ACS-level
+// ch 3-4 review. The national exam is the bar; his professor's quizzes are the floor.
+import './acs-exam3-heat.js';
+import './acs-exam3-stoich.js';

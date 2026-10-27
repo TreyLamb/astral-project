@@ -178,6 +178,11 @@ export const CHEM_CHAPTERS = [
       'bomb-calorimetry',
       'enthalpy-of-formation',
       'hess-law',
+      // Added 2026-10-27 for Exam 3 from AcademiQ §5-3..5-5 worked examples, which teach all three
+      // and which nothing in the bank could ask.
+      'thermal-equilibrium-heat-transfer',
+      'coffee-cup-calorimetry',
+      'thermochemical-stoichiometry',
     ],
   },
   {

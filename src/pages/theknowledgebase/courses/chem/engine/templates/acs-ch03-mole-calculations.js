@@ -82,7 +82,7 @@ function pickTargetWithSubscript(h, parts) {
 registerChemTemplate({
   id: 'chem1-acs-03-mass-to-moles-unit-trap',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 4,
   name: 'Grams to moles with a hidden unit conversion',
   concepts: ['mass-to-moles-conversion'],
@@ -135,7 +135,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-03-percent-composition-element',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 4,
   name: 'Percent composition of one element in a formula',
   concepts: ['molar-mass-calculation'],
@@ -187,7 +187,7 @@ const WATER_MASS = 2 * ELEMENTS.H.mass + ELEMENTS.O.mass; // 18.016 g/mol, shown
 registerChemTemplate({
   id: 'chem1-acs-03-hydrate-percent-water',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 4,
   name: 'Percent by mass of water in a hydrate',
   concepts: ['molar-mass-calculation'],
@@ -219,7 +219,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-03-atoms-to-moles-compound',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 4,
   name: 'Moles of compound from an atom count of one element',
   concepts: ['avogadros-number', 'mole-ratios-from-formula'],
@@ -273,7 +273,7 @@ function altMultipliers(n) {
 registerChemTemplate({
   id: 'chem1-acs-03-molecular-formula-from-empirical',
   chapterId: CH,
-  section: null,
+  section: '3-3',
   band: 4,
   name: 'Molecular formula from empirical formula and molar mass',
   concepts: ['molar-mass-calculation', 'empirical-formula-atomic-ratios'],
@@ -303,7 +303,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-03-particles-to-mass',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 4,
   name: 'Mass of a sample from a particle count',
   concepts: ['avogadros-number', 'moles-to-mass-conversion'],
@@ -336,7 +336,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-03-target-mass-for-atom-count',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 4,
   name: 'Mass of compound needed for a target number of atoms',
   concepts: ['mole-ratios-from-formula', 'moles-to-mass-conversion'],
@@ -433,7 +433,7 @@ const EF_POOL = COMPOUNDS.filter((c) => ['Fe₂O₃', 'CaCO₃', 'MgCl₂', 'Na�
 registerChemTemplate({
   id: 'chem1-acs-03-empirical-formula-mass-percent',
   chapterId: CH,
-  section: null,
+  section: '3-3',
   band: 5,
   name: 'Empirical formula from mass percent composition',
   concepts: ['empirical-formula-atomic-ratios', 'mass-to-moles-conversion'],
@@ -467,7 +467,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-03-atoms-of-element-in-sample',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 5,
   name: 'Atoms of one element in a mass sample',
   concepts: ['mass-to-moles-conversion', 'mole-ratios-from-formula', 'avogadros-number'],
@@ -515,7 +515,7 @@ registerChemTemplate({
 registerChemTemplate({
   id: 'chem1-acs-03-mass-of-element-in-sample',
   chapterId: CH,
-  section: null,
+  section: '3-2',
   band: 5,
   name: 'Mass of one element present in a compound sample',
   concepts: ['mass-to-moles-conversion', 'mole-ratios-from-formula', 'moles-to-mass-conversion'],
@@ -558,7 +558,7 @@ const EMPIRICAL_TO_MOLECULAR = [
 registerChemTemplate({
   id: 'chem1-acs-03-empirical-then-molecular',
   chapterId: CH,
-  section: null,
+  section: '3-3',
   band: 5,
   name: 'Molecular formula from mass percent and molar mass',
   concepts: ['empirical-formula-atomic-ratios', 'molar-mass-calculation'],
