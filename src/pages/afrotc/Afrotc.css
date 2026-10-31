@@ -132,6 +132,10 @@
 @media (max-width: 600px) {
   .arc-main { padding: 8px 6px 32px; }
   .arc-site-home { border-right: 0; padding-right: 0; }
+  /* The bar is sticky; wrapped, fourteen tabs stacked seven rows deep and covered half a phone screen. One swipeable row instead. */
+  .arc-tabs { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; width: 100%; padding-bottom: 2px; }
+  .arc-tabs::-webkit-scrollbar { display: none; }
+  .arc-tabs button { flex: 0 0 auto; white-space: nowrap; }
 }
 
 .arc-ledger { margin-top: 18px; padding: 16px 18px; background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 12px; }

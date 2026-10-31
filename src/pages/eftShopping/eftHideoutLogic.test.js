@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import snapshot from './data/hideoutSnapshot.json';
 import {
   stationKey, maxLevelOf, currentLevelOf, targetLevelOf,
-  pendingLevels, buildShoppingList, filterRows, groupRows,
+  pendingLevels, buildShoppingList, filterRows, groupRows, sortShoppingRows,
   levelRequirements, upgradeCandidates, suggestedBuildOrder, stationProgress,
   unitCost, traderBeatsFlea, isCurrency, itemReqsOf, CURRENCY_IDS,
   itemNeeds, searchItemNeeds, rarityRank, compareRarity,
@@ -180,6 +180,49 @@ describe('filterRows / groupRows', () => {
 
   it('grouping by item yields a single group', () => {
     expect(groupRows(rows, 'item')).toHaveLength(1);
+  });
+});
+
+describe('sortShoppingRows', () => {
+  const targets = Object.fromEntries(stations.map((s) => [stationKey(s), maxLevelOf(s)]));
+  const pending = pendingLevels(stations, { ...base, targets, scope: 'all' });
+  const { rows } = buildShoppingList(pending, items, {});
+
+  it('tags every row with the lowest station level that wants it', () => {
+    for (const r of rows) expect(r.minLevel).toBe(Math.min(...r.sources.map((s) => s.level)));
+  });
+
+  it('defaults to lowest level first, ranking a multi-level item by its earliest level', () => {
+    const sorted = sortShoppingRows(rows);
+    const lv = sorted.map((r) => r.minLevel);
+    expect(lv).toEqual([...lv].sort((a, b) => a - b));
+    expect(lv[0]).toBe(1);
+    const spread = rows.find((r) => new Set(r.sources.map((s) => s.level)).size > 1);
+    expect(spread).toBeTruthy();
+    const firstAbove = sorted.findIndex((r) => r.minLevel > spread.minLevel);
+    expect(sorted.indexOf(spread)).toBeLessThan(firstAbove === -1 ? Infinity : firstAbove);
+  });
+
+  it('sinks what you already have whatever the sort', () => {
+    const level1 = rows.find((r) => r.minLevel === 1);
+    const netted = buildShoppingList(pending, items, { [level1.itemId]: level1.needed }).rows;
+    for (const sort of ['level', 'rare', 'common', 'cost', 'name']) {
+      const sorted = sortShoppingRows(netted, sort);
+      expect(sorted.at(-1).done, sort).toBe(true);
+      expect(sorted.findIndex((r) => r.done)).toBe(sorted.length - 1);
+    }
+  });
+
+  it('inside a station group, ranks by that station\'s own level', () => {
+    for (const [, groupItems] of groupRows(rows, 'station')) {
+      const lv = sortShoppingRows(groupItems).map((r) => r.contextLevel);
+      expect(lv).toEqual([...lv].sort((a, b) => a - b));
+    }
+  });
+
+  it('falls back to level for an unknown sort key', () => {
+    expect(sortShoppingRows(rows, 'nonsense').map((r) => r.itemId))
+      .toEqual(sortShoppingRows(rows, 'level').map((r) => r.itemId));
   });
 });
 

@@ -91,7 +91,7 @@ perishable. Re-check the starred ones before reciting.**
 
 **Service chain, top to bottom**
 1. President of the United States: Donald J. Trump
-2. Secretary of Defense: the Honorable Pete Hegseth
+2. Secretary of Defense: the Honorable Pete Hegseth (the det's 28 Oct 2026 knowledge list writes "Secretary of War: The Honorable Peter B. Hegseth")
 3. Secretary of the Air Force: the Honorable Dr. Troy E. Meink
 4. Under Secretary of the Air Force: the Honorable Matthew L. Lohmeier
 5. Chief of Staff of the Air Force (CSAF): General Kenneth S. Wilsbach ★ (sworn in 3 Nov 2025)
@@ -114,8 +114,9 @@ your book or cadre use them, say so and note the statutory name.
 2. Commander, Air Force Accessions Center / Air Force Recruiting Service: Maj Gen Jeffrey W. Nelson ★
 3. Commander, Jeanne M. Holm Center for Officer Accessions and Citizen Development: Brig Gen Christopher T. Lay ★ (since 18 Aug 2026)
 4. Commander, Headquarters AFROTC: Col Michael G. Fleming ★ (since 29 Jun 2026)
-5. Detachment Commander (Det/CC): Col Trig Randall (he issued the Det 855 attendance memo in the OPLAN; confirm he is the current Det/CC)
-6. Operations Flight Commander (OFC): the first active-duty officer above the cadet wing
+5. Northwest Region Director: Col Sandra Coble (from the det's 28 Oct 2026 knowledge list, not the printed handbook; no public source names her yet)
+6. Detachment Commander (Det/CC): Col Trig Randall (he issued the Det 855 attendance memo in the OPLAN; confirm he is the current Det/CC)
+7. Operations Flight Commander (OFC): the first active-duty officer above the cadet wing
 
 ⚠️ **The Holm Center is no longer under Air University.** Since 8 Oct 2024 it reports through Air
 Force Recruiting Service and the Air Force Accessions Center. Older material still teaches

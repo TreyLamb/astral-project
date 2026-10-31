@@ -6,6 +6,7 @@ import { mulberry32 } from './engine/rng';
 import { reinsertRetry } from './engine/queue';
 import { getProfile, pickAccent } from './tkbPresets';
 import './TkbReview.css';
+import '../shared/FlipDeck.css';
 
 const GRADE_KEYS = {
   '1': 'correct', j: 'correct', J: 'correct',
@@ -467,9 +468,12 @@ export default function TkbReview() {
         )}
       </div>
 
+      {/* The shared flashcard look (FlipDeck.css), Trey 2026-10-30: the Gemini Notebook card on a
+          glowing background that turns over when revealed. Look only; grading is unchanged. */}
+      <div className="fd-stage tkb-card-stage">
       <div
-        key={idx}
-        className={`tkb-card tkb-card-enter${flashClass ? ` ${flashClass}` : ''}`}
+        key={`${idx}:${revealed ? 'a' : 'q'}`}
+        className={`tkb-card ${revealed && !quickFacts ? 'tkb-card-turn' : 'tkb-card-enter'}${flashClass ? ` ${flashClass}` : ''}`}
         style={{ '--tkb-accent': cardAccent, cursor: revealed ? 'default' : 'pointer', touchAction: 'pan-y' }}
         onClick={!revealed ? handleReveal : undefined}
         onTouchStart={handleTouchStart}
@@ -502,6 +506,7 @@ export default function TkbReview() {
             <span className="tkb-card-tag" key={tag}>{tag}</span>
           ))}
         </div>
+      </div>
       </div>
 
       {/* User-requested (2026-07-13): the only action left below the card — renamed from

@@ -4,7 +4,7 @@ import { PLAN, workHoursByDay, planOverlayByDate, clock, minutesOf } from './stu
 describe('study plan', () => {
   it('every timed entry has a valid, ordered time range on a real day', () => {
     for (const e of PLAN) {
-      expect(e.date).toMatch(/^2026-10-\d\d$/);
+      expect(e.date).toMatch(/^2026-1[01]-\d\d$/);
       if (e.start) {
         expect(e.start).toMatch(/^\d\d:\d\d$/);
         if (e.end) expect(minutesOf(e)).toBeGreaterThan(0);
@@ -26,17 +26,19 @@ describe('study plan', () => {
     }
   });
 
-  it('keeps every day at or under 7.5 hours of work, and the planned long days are named', () => {
-    // 2026-10-25: Trey lifted his 5 hr cap for the catch-up week ("I'll do more than 5 hours a day on most days").
+  it('keeps every day at or under 9 hours, and only the 10-26 to 11-02 push week runs past 7.5', () => {
+    // 2026-10-25: Trey lifted his 5 hr cap for the catch-up week. 2026-10-27: "I will put in extra time this week".
     const hours = workHoursByDay();
-    for (const [day, h] of Object.entries(hours)) expect({ day, ok: h <= 7.5 }).toEqual({ day, ok: true });
-    const over5 = Object.entries(hours).filter(([, h]) => h > 5).map(([d]) => d);
-    expect(over5).toEqual(['2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29', '2026-10-30']);
+    for (const [day, h] of Object.entries(hours)) expect({ day, ok: h <= 9 }).toEqual({ day, ok: true });
+    const over75 = Object.entries(hours).filter(([, h]) => h > 7.5).map(([d]) => d);
+    for (const d of over75) expect({ d, inPushWeek: d >= '2026-10-26' && d <= '2026-11-02' }).toEqual({ d, inPushWeek: true });
   });
 
   it('puts the Air Force Song / Airman’s Creed slot on every weekday-evening plan day it was promised', () => {
-    const days = new Set(PLAN.filter((e) => /Song/.test(e.title)).map((e) => e.date));
-    for (const d of ['2026-10-25', '2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29']) expect(days.has(d)).toBe(true);
+    // 2026-10-28: the Song/Creed slot became the daily 30-min Warrior Knowledge block (it covers Song/Creed).
+    const days = new Set(PLAN.filter((e) => /Song|Warrior Knowledge/.test(e.title)).map((e) => e.date));
+    // Wed 10-28 / Thu 10-29 have none on purpose: Trey, 10-28, Warrior Knowledge waits until Friday night this week.
+    for (const d of ['2026-10-25', '2026-10-26', '2026-10-27', '2026-10-30']) expect(days.has(d)).toBe(true);
   });
 
   it('schedules three ODC prep blocks (Sun, Mon, plus a Tuesday refresher: Trey asked for 3 x 30 min) before the ORI on Wed 10/28 6 AM', () => {
@@ -46,7 +48,8 @@ describe('study plan', () => {
   });
 
   it('has one ESMG discussion post or reply every day Mon-Thu (extra credit needs 3+ separate days)', () => {
-    for (const d of ['2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29']) {
+    // Trey posted + replied Mon, replied Tue (both required replies done). Reply #3 dropped 10-28: no room Wed/Thu.
+    for (const d of ['2026-10-26', '2026-10-27']) {
       expect({ d, n: PLAN.filter((e) => e.date === d && /ESMG 3200 W3 discussion/.test(e.title)).length >= 1 }).toEqual({ d, n: true });
     }
   });
@@ -57,7 +60,7 @@ describe('study plan', () => {
   });
 
   it('keeps the chem real-study blocks separate from the quiz blocks', () => {
-    expect(PLAN.some((e) => /CHEM 1210 real study/.test(e.title))).toBe(true);
+    expect(PLAN.some((e) => /CHEM 1210 (real study|Exam 3 prep)/.test(e.title))).toBe(true);
     expect(PLAN.some((e) => /CHEM 1210 Quiz \d+ take/.test(e.title))).toBe(true);
   });
 

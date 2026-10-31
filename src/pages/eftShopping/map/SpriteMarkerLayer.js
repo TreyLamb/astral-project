@@ -344,6 +344,29 @@ export const SpriteMarkerLayer = L.Layer.extend({
       }
     }
 
+    // --- pinned markers: a ring on the point itself -----------------------
+    // Pinned means "keep this on the map even with its category switched off",
+    // so it has to read at a glance as chosen, not merely as another pin. The
+    // ring sits on the coordinate (the pin tip, or the dot) and is drawn over
+    // every icon, dark casing under a gold stroke like the lock callouts.
+    for (const item of this._items) {
+      if (!item.pinned) continue;
+      const pt = map.latLngToContainerPoint(item.point);
+      if (pt.x < -pad || pt.y < -pad || pt.x > size.x + pad || pt.y > size.y + pad) continue;
+      const r = 9 * scale;
+      ctx.globalAlpha = 1;
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = 'rgba(13, 13, 11, 0.85)';
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#ffc046';
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
     // --- text labels, on top of every pin --------------------------------
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

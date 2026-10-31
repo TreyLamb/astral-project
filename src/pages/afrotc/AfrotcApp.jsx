@@ -7,6 +7,7 @@ import { RotcStoreProvider } from './study/rotcStore';
 import RecitationSheet from './study/RecitationSheet';
 import RankDrill from './study/RankDrill';
 import KnowledgeCards from './study/KnowledgeCards';
+import KnowledgeList from './study/KnowledgeList';
 import SongMemorizer from './study/SongMemorizer';
 import AirframeBriefs from './study/AirframeBriefs';
 import './study/study.css';
@@ -70,6 +71,8 @@ const DOCS = [
     slug: 'ori', label: 'ORI Procedures', kind: 'pages', pageList: ORI_PAGES, imgDir: '/afrotc/ori', noun: 'section',
     blurb: 'Open Ranks Inspection procedures for the flight commander, dated 10 July 2025, citing DAFPAM 34-1203 (13 Sep 2022): falling in, sizing, counting off, opening the ranks, the inspection itself, the debrief and closing the ranks. 7 pages.',
     pdf: '/afrotc/ORI_Procedures.pdf',
+    // public/flight-drill is a static tool (no React), so it is a plain link, not a <Link>.
+    practice: { href: '/flight-drill/index.html', label: 'Practice it in the Drill Sim' },
   },
   {
     slug: 'brief14n', label: '14N Brief', kind: 'slides', slides: brief14n, dir: '/afrotc/briefs/14n', claims: brief14nClaims,
@@ -96,6 +99,10 @@ const DOCS = [
   {
     slug: 'sheet', label: 'Recitation', kind: 'study', view: 'sheet',
     blurb: 'The graded recitation: chain of command, cadet grades, customs and drill, with a way to check yourself.',
+  },
+  {
+    slug: 'list', label: 'Knowledge list', kind: 'study', view: 'list',
+    blurb: 'The 28 Oct 2026 knowledge list, item for item: chain of command, birthdays, Honor Code, enlisted tiers, officer and Navy ranks, the Creed, Core Values, songs, basic responses and MAJCOMs. Cover-the-answer sheet, cards, or recite in order.',
   },
   {
     slug: 'drill', label: 'Rank drill', kind: 'study', view: 'drill',
@@ -161,6 +168,7 @@ function PagesDoc({ doc, zoomDef, zoom, setZoom }) {
         <p className="arc-blurb">{doc.blurb}</p>
         <div className="arc-tools">
           <ZoomBar zoom={zoom} setZoom={setZoom} />
+          {doc.practice && <a className="arc-btn" href={doc.practice.href}>{doc.practice.label}</a>}
           <a className="arc-btn" href={doc.pdf} target="_blank" rel="noreferrer">Open / download PDF</a>
         </div>
       </div>
@@ -395,6 +403,7 @@ function StudyDoc({ doc, go }) {
       {doc.view === 'sheet' && <RecitationSheet onGoToDrill={() => go('drill')} />}
       {doc.view === 'drill' && <RankDrill />}
       {doc.view === 'cards' && <KnowledgeCards />}
+      {doc.view === 'list' && <KnowledgeList onGoTo={go} />}
       {doc.view === 'song' && <SongMemorizer />}
       {doc.view === 'briefs' && <AirframeBriefs />}
     </div>
@@ -410,6 +419,11 @@ export default function AfrotcApp() {
   useEffect(() => {
     try { localStorage.setItem(ZOOM_KEY, zoom); } catch { /* storage blocked */ }
   }, [zoom]);
+
+  // On a phone the tabs are one swipeable row, so the open one can sit off-screen.
+  useEffect(() => {
+    document.querySelector('.arc-tabs button.on')?.scrollIntoView({ block: 'nearest', inline: 'center' });
+  }, [doc.slug]);
 
   const go = (slug) => { setParams(slug === DOCS[0].slug ? {} : { doc: slug }); window.scrollTo({ top: 0 }); };
 

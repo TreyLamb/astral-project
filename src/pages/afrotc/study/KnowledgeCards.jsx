@@ -1,16 +1,16 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useRotc } from './rotcContext';
 import { SUBJECTS, SUBJECT_IDS, CARDS, PRESETS, cardsFor, bySubject } from './cardData';
 import { addCardFlag, removeCardFlag, isCardFlagged } from './rotcData';
+import FlipDeck from '../../shared/FlipDeck';
 
 /**
  * AFROTC knowledge-card drill: mission/values, creeds/oaths/songs, real AF/Space Force officer
  * and enlisted ranks, customs & greetings, org structure, and acronyms.
  *
- * Plain flip-through, like a physical flashcard deck: front shows the prompt, "Show answer"
- * reveals the back, "Next" moves on. No self-grading (Trey removed the Got it/Missed it step,
- * 2026-09-25 - not something he asked for) - flagging a card (see toggleFlag below) is the only
- * "come back to this" mechanism, and it's a deliberate marker, not a graded miss.
+ * Drawn by the shared FlipDeck (2026-10-30, Trey: the Gemini Notebook layout - a card that flips
+ * over a glowing background, with back / ✗ / ✓ / next under it). The ✗/✓ tally is a session count
+ * only and is never stored; flagging a card is still the only "come back to this" mechanism.
  *
  * Same settings/selection pattern as RankDrill.jsx (subject checkboxes, presets, persisted
  * selection) but under its own settings key - `settings.afrotcCards` - so it doesn't collide with
@@ -18,6 +18,9 @@ import { addCardFlag, removeCardFlag, isCardFlagged } from './rotcData';
  */
 
 const DEFAULTS = { subjects: SUBJECT_IDS };
+// Subjects that existed before `known` was saved. Anything newer is switched ON for a saved
+// selection that has never seen it, so a new subject turns up instead of hiding behind settings.
+const LEGACY_IDS = ['mission-values', 'mottos-creeds', 'ranks-officer', 'ranks-enlisted', 'customs', 'org', 'admin', 'acronyms'];
 
 const shuffle = (a) => {
   const out = a.slice();
@@ -34,15 +37,17 @@ export default function KnowledgeCards() {
   const saved = useMemo(() => progress?.settings?.afrotcCards ?? {}, [progress]);
   const cfg = useMemo(() => ({ ...DEFAULTS, ...saved }), [saved]);
   const setCfg = useCallback(
-    (patch) => updateSettings({ afrotcCards: { ...DEFAULTS, ...saved, ...patch } }),
+    (patch) => updateSettings({ afrotcCards: { ...DEFAULTS, ...saved, ...patch, known: SUBJECT_IDS } }),
     [updateSettings, saved],
   );
 
   // Same "don't let a stale or empty selection produce an undrawable deck" guard as RankDrill.
   const selected = useMemo(() => {
-    const ids = (cfg.subjects ?? []).filter((id) => SUBJECT_IDS.includes(id));
+    const known = cfg.known ?? LEGACY_IDS;
+    const fresh = SUBJECT_IDS.filter((id) => !known.includes(id));
+    const ids = SUBJECT_IDS.filter((id) => (cfg.subjects ?? []).includes(id) || fresh.includes(id));
     return ids.length >= 1 ? ids : SUBJECT_IDS;
-  }, [cfg.subjects]);
+  }, [cfg.subjects, cfg.known]);
 
   const [showSettings, setShowSettings] = useState(false);
   const [flaggedOnly, setFlaggedOnly] = useState(false);
@@ -143,124 +148,30 @@ export default function KnowledgeCards() {
   );
 }
 
-function makeRun(deck) {
-  const queue = shuffle(deck);
-  return { queue, i: 0, revealed: false, done: false };
-}
-
 function DrillRun({ deck }) {
   const { progress, mutate } = useRotc();
-  const [run, setRun] = useState(() => makeRun(deck));
-  const cur = run.done ? null : run.queue[run.i];
+  const [order, setOrder] = useState(() => shuffle(deck));
+  const [round, setRound] = useState(0);
+  const cards = useMemo(() => order.map((c) => ({ ...c, label: bySubject(c.subject)?.label })), [order]);
 
-  const restart = useCallback(() => setRun(makeRun(deck)), [deck]);
-
-  const toggleFlag = useCallback(() => {
-    if (!cur) return;
+  const toggleFlag = useCallback((card) => {
     mutate((p) =>
-      isCardFlagged(p, cur.id)
-        ? removeCardFlag(p, cur.id)
-        : addCardFlag(p, { id: cur.id, subject: cur.subject, front: cur.front }),
+      isCardFlagged(p, card.id)
+        ? removeCardFlag(p, card.id)
+        : addCardFlag(p, { id: card.id, subject: card.subject, front: card.front }),
     );
-  }, [cur, mutate]);
+  }, [mutate]);
 
-  const reveal = useCallback(() => setRun((s) => ({ ...s, revealed: true })), []);
-
-  const next = useCallback(() => {
-    setRun((s) => {
-      const i = s.i + 1;
-      if (i < s.queue.length) return { ...s, i, revealed: false };
-      return { ...s, done: true };
-    });
-  }, []);
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if ((e.key === ' ' || e.key === 'Enter') && e.target.closest?.('button')) return;
-      const tag = document.activeElement?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-      if (e.key === 'r' || e.key === 'R') { restart(); return; }
-      if (run.done) return;
-      if (e.key === 'f' || e.key === 'F') { e.preventDefault(); toggleFlag(); return; }
-
-      if (e.key === ' ' || e.key === 'Enter') {
-        e.preventDefault();
-        run.revealed ? next() : reveal();
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [run, reveal, next, restart, toggleFlag]);
-
-  if (!deck.length) {
-    return (
-      <p className="arc-s-note">
-        No cards match the current filters. Try turning off "Flagged only" or selecting another
-        subject.
-      </p>
-    );
-  }
+  const reshuffle = useCallback(() => { setOrder(shuffle(deck)); setRound((r) => r + 1); }, [deck]);
 
   return (
-    <>
-      <div className="arc-s-prog">
-        <i style={{ width: run.done ? '100%' : `${(run.i / run.queue.length) * 100}%` }} />
-      </div>
-      <div className="arc-s-prog-txt">
-        <span>{run.done ? 'Deck complete' : `Card ${run.i + 1} of ${run.queue.length}`}</span>
-        <span>{run.done ? '' : bySubject(cur.subject)?.label}</span>
-      </div>
-
-      {run.done ? (
-        <Done deck={deck} onAgain={restart} />
-      ) : (
-        <div className="arc-s-stage">
-          <p className="arc-s-prompt">{bySubject(cur.subject)?.label}</p>
-          <div className="arc-s-kc-card">
-            <button
-              type="button"
-              className={'arc-s-flag-btn' + (isCardFlagged(progress, cur.id) ? ' on' : '')}
-              onClick={toggleFlag}
-              aria-pressed={isCardFlagged(progress, cur.id)}
-              title={isCardFlagged(progress, cur.id) ? 'Remove flag (F)' : 'Flag this card (F)'}
-            >
-              ⚑
-            </button>
-            <p className="arc-s-kc-front">{cur.front}</p>
-            {run.revealed && (
-              <>
-                <hr className="arc-s-kc-rule" />
-                <p className="arc-s-kc-back">{cur.back}</p>
-                {cur.note && <p className="arc-s-note arc-s-kc-note">{cur.note}</p>}
-              </>
-            )}
-          </div>
-
-          <div className="arc-s-actions">
-            {!run.revealed ? (
-              <button className="arc-s-btn arc-s-primary" onClick={reveal}>Show answer <kbd>Space</kbd></button>
-            ) : (
-              <button className="arc-s-btn arc-s-primary" onClick={next}>Next <kbd>Space</kbd></button>
-            )}
-          </div>
-        </div>
-      )}
-
-      <p className="arc-s-note arc-s-help">
-        <kbd>Space</kbd> reveal, then next · <kbd>F</kbd> flag · <kbd>R</kbd> reshuffle.
-      </p>
-    </>
-  );
-}
-
-function Done({ deck, onAgain }) {
-  return (
-    <div className="arc-s-stage arc-s-done">
-      <h3>Deck complete</h3>
-      <p className="arc-s-note">Went through all {deck.length} card{deck.length === 1 ? '' : 's'}.</p>
-      <div className="arc-s-actions">
-        <button className="arc-s-btn arc-s-primary" onClick={onAgain}>Run again <kbd>R</kbd></button>
-      </div>
-    </div>
+    <FlipDeck
+      key={round}
+      cards={cards}
+      isFlagged={(id) => isCardFlagged(progress, id)}
+      onToggleFlag={toggleFlag}
+      onReshuffle={reshuffle}
+      emptyText='No cards match the current filters. Try turning off "Flagged only" or selecting another subject.'
+    />
   );
 }

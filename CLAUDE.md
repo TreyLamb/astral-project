@@ -726,13 +726,14 @@ request: *"I don't have to walk you through what i want from you."*
 "STANDING SCHEDULING PRINCIPLES" and the top of STATE.md): **stay AHEAD of deadlines — start each item when it unlocks, NEVER plan a late
 submission** (Trey: *"to take care of assignments as SOON as they are available, not the day it closes or the day before … always on average AHEAD,
 not floating barely above water"*); 3-day method per paper (1 hr sources/skeleton/AI brief → 2-3 hr bulk draft → 30 min polish + submit); one ESMG
-discussion post/reply a day until the extra credit is earned; ~5 focused hr/day default (push weeks only when he says); ~2 hr/week of MICR 2060
+discussion post/reply a day until the extra credit is earned; **MICR 2060 AIWPs submitted the DAY THEY OPEN** (agent drafts, Trey reviews + submits); ~5 focused hr/day default (push weeks only when he says); ~2 hr/week of MICR 2060
 reading in its own blocks; name the course on every quiz; show the week as a calendar (`node scripts/planCalendar.mjs`, source
 `src/pages/fitnesstracker/studyPlan.js`). **CHEM study is not the quizzes:** quizzes are benchmarks; his real exams are ~3x harder and AFOQT-paced (~2 min/question);
 real study = the CURRENT chapter tuned to the national ACS exam. He views CHEM difficulty as three internal "bands" (1 = basics, 2 = professor quizzes, 3 = national exam);
 **never show or discuss "bands" in his course UI** — just build and plan to it. Agents share no memory: if he states a standing preference, write it into
 the skill + STATE.md + this file + the memory folder the same turn.
 ⏱️ **Time tracking (Trey, 2026-10-26): log how long each assignment REALLY takes** — `_ChiefOfStaff/time-log.csv` + `timelog.mjs` (`import-canvas`, `summary` → `TIME_AVERAGES.md`). When he says "start X"/"done X", stamp the clock and log net minutes, planned minutes, focus and reason; **if he gives no reason or the actual is outside 0.7x-1.4x of planned, get curious and ask one specific question.** Size future blocks from the MEDIANS, not guesses.
+🪖 **Daily (Trey, 2026-10-28): 30 min of Warrior Knowledge review** (roster names/faces/ranks, insignia, cards, Song and Creed; can be split into 5-minute pieces) goes in every daily plan, and the agent reminds him and calls it out when missed. **Every "do today" list accounts for the next 2-3 days**: pull work forward when later days can't hold it, and say why.
 
 ---
 
@@ -835,7 +836,20 @@ Steps 4 and 5 have collapsed into step 5 — the navbar no longer has hand-writt
 ## Adding a standalone tool (public/ — no React)
 - Drop folder in `public/` → accessible at `/folder-name/index.html`
 - In Navbar use plain `<a href="/folder-name/index.html">` NOT `<Link>` — Link will break it
-- Current public/ tools: `chinese-idioms/` (standalone page), `lexicon/` (data + node scripts only)
+- Current public/ tools: `chinese-idioms/` (standalone page), `lexicon/` (data + node scripts only), `flight-drill/` (below)
+- **`flight-drill/` — the Flight Drill Sim** (added 2026-10-28; linked from `/AFROTC` → ORI Procedures). Classic
+  `<script>`s, no modules or build, **so it also runs by double-clicking `index.html`** — keep it that way (a
+  `type="module"` script fails over `file://`). `engine.js` (geometry, counts, maneuvers) and `commands.js` (catalog:
+  each command's validity rule, foot, description, ¶ source) and `scripts.js` (Det 855 ORI + AFJROTC 30-step) are pure;
+  `ui.js` draws. `src/pages/afrotc/flightDrill.test.js` loads the same files through `node:vm` and pins the drill
+  geometry to the manual — change a movement, run it. Sources: DAFPAM 34-1203 / AFMAN 36-2203 ch. 3-4 (¶ numbers are
+  AFMAN's), `public/afrotc/ori/` (the Det ORI doc), AFJROTC Drill Pamphlet (Aug 2022). Distances: 24" pace, 40"
+  center-to-center interval and distance, 64" between opened ranks, 22" close interval. The Det doc's "even number of
+  ranks (rows)" centering rule is read as the number of cadets *across* an element — the only reading under which its own
+  Figure 4.1 comes out centered on a person.
+- ⚠️ **Windows resolves imports case-insensitively.** `KnowledgeList.jsx` beside `knowledgeList.js` made
+  `import './KnowledgeList'` resolve to the data file and broke `vite build` locally (it would have passed on Vercel's
+  Linux). Never give two files in one folder names that differ only by case.
 - **LOCAL-ONLY public/ tools (gitignored, NOT deployed):** `birds/`, `rustioclone/`, `rustpunkio/`.
   Untracked 2026-09-14 to cut Vercel Deployment Storage — 28.45 MB of source plus ~28 MB of build
   output, since Vite copies `public/` into `dist/` verbatim. They still run under `npm run dev`
@@ -985,6 +999,7 @@ lists again; they drifted before.
 | `src/data/qaSkillsTracker.json` | Data for QA Tracker. Skills are `item.tool` inside `cat.items[]`. |
 | `src/data/toolsToAdd.txt` | Scratch pad for skills to add to QA tracker later. Not used by app. |
 | `src/pages/mymdb/mymdbStorage.js` | Reference for localStorage data layer pattern |
+| `src/pages/shared/FlipDeck.jsx` | **Every flashcard deck uses this** (Trey, 2026-10-30: the Gemini Notebook card, dark card on a glowing background that flips, back / ✗ / ✓ / next). AFROTC Knowledge cards, Knowledge list cards, Rank drill flashcards use it outright; AFOQT word cards and the original TKB review only take its look (`FlipDeck.css` + a turn animation) because their controls were specified separately. A new deck uses FlipDeck, never its own card. |
 | `public/lexicon/words.json` | Word list for Lexicon page |
 | `vercel.json` | SPA rewrite rule — don't remove or all deep links break on Vercel |
 

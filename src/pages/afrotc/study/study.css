@@ -151,6 +151,9 @@
 .arc-s-ladder li.changed { border-left: 3px solid var(--arc-s-wrong); padding-left: 1.9rem; }
 .arc-s-ladder li.changed::before { left: .35rem; }
 .arc-s-ladder li.you .name { color: var(--arc-accent); }
+/* On the det's list but not a link in the chain (the CJCS): shown in place, not numbered. */
+.arc-s-ladder li.advisor { counter-increment: none; opacity: .8; }
+.arc-s-ladder li.advisor::before { content: '\2013'; }
 
 /* --- tables --- */
 .arc-s-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--arc-border); border-radius: 8px; }
@@ -297,6 +300,45 @@
 .arc-s-flag-btn:hover { opacity: 1; transform: scale(1.1); }
 .arc-s-flag-btn.on { color: var(--arc-s-gold); opacity: 1; }
 
+/* ══════════════ knowledge list review ══════════════ */
+.arc-s-kl-opt { display: inline-flex; align-items: center; gap: .4rem; font-size: .95rem; color: var(--arc-muted); cursor: pointer; }
+.arc-s-kl-opt input { accent-color: var(--arc-accent); }
+.arc-s-kl-chips { display: flex; gap: .35rem; flex-wrap: wrap; align-items: center; }
+.arc-s-kl-lbl { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--arc-muted); margin-right: .2rem; }
+.arc-s-kl-chips button {
+  font: inherit; font-size: .9rem; padding: .3rem .65rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--arc-border); background: var(--arc-panel-2); color: var(--arc-muted);
+}
+.arc-s-kl-chips button.on { border-color: var(--arc-accent); color: var(--arc-text); box-shadow: inset 0 0 0 1px var(--arc-accent); }
+
+.arc-s-kl-table { font-size: 1.02rem; }
+.arc-s-scroll .arc-s-kl-table th[scope='row'] { font-weight: 600; width: 38%; vertical-align: top; }
+.arc-s-kl-table tr.changed th[scope='row'] { box-shadow: inset 3px 0 0 var(--arc-s-wrong); }
+.arc-s-kl-dash { color: var(--arc-muted); }
+
+/* An answer is a button so a tap uncovers it; covered, it keeps a fixed footprint so rows don't jump. */
+.arc-s-kl-ans {
+  font: inherit; text-align: left; cursor: pointer; padding: .15rem .45rem; margin: -.15rem -.45rem;
+  border: 1px dashed transparent; border-radius: 6px; background: none; color: var(--arc-text); line-height: 1.45;
+}
+.arc-s-kl-ans:not(.on) { border-color: var(--arc-border); background: var(--arc-bg); }
+.arc-s-kl-ans:hover { border-color: var(--arc-accent); }
+.arc-s-kl-cover { color: var(--arc-muted); font-size: .9rem; letter-spacing: .03em; }
+.arc-s-kl-note { display: block; margin-top: .3rem; font-size: .9rem; line-height: 1.45; color: var(--arc-muted); }
+.arc-s-kl-note.flag { color: var(--arc-s-wrong); }
+
+.arc-s-kl-lines { margin: .2rem 0; padding-left: 1.6rem; display: flex; flex-direction: column; gap: .3rem; font-size: 1.05rem; }
+
+.arc-s-kl-stage { align-items: stretch; }
+.arc-s-kl-stage .arc-s-prompt { text-align: center; }
+.arc-s-kl-stage .arc-s-actions { justify-content: center; flex-wrap: wrap; }
+.arc-s-kl-seq { margin: 0 auto; padding-left: 1.8rem; width: 100%; max-width: 62ch; display: flex; flex-direction: column; gap: .35rem; }
+.arc-s-kl-seq li { font-size: 1.1rem; line-height: 1.45; }
+.arc-s-kl-seq-k { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--arc-muted); }
+.arc-s-kl-seq-v { font-weight: 600; }
+.arc-s-kl-next { outline: 2px dashed var(--arc-accent); outline-offset: .3rem; border-radius: 4px; margin: .3rem 0; }
+.arc-s-kl-next .arc-s-kl-seq-v { color: var(--arc-muted); }
+
 /* ══════════════ song memorizer ══════════════ */
 .arc-s-song { display: flex; flex-direction: column; gap: .7rem; }
 .arc-s-song-pick, .arc-s-song-chips { display: flex; gap: .4rem; flex-wrap: wrap; align-items: center; }
@@ -379,3 +421,6 @@
 .arc-s-listen-crop { overflow: auto; max-height: 28rem; margin-top: .5rem; border: 1px solid var(--arc-border); border-radius: 6px; background: #fff; }
 .arc-s-listen-crop-sizer { position: relative; overflow: hidden; }
 .arc-s-listen-crop-sizer iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; pointer-events: none; }
+
+/* Rank insignia on the shared flip card (FlipDeck): sit centred on the dark face. */
+.arc-s-fd-plates { display: flex; justify-content: center; }

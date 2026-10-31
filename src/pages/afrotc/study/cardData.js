@@ -8,9 +8,8 @@
 // sections cover exactly this. Cross-checked against RecitationSheet.jsx where the two overlap so
 // nothing here contradicts what that page already verified and dated.
 //
-// Deliberately NOT included: chain-of-command leadership NAMES (SecAF, CSAF, etc.) - those are
-// perishable and RecitationSheet.jsx already tracks them with "changed" flags and an "ask your
-// cadre" list. Duplicating names here would just be a second place for them to go stale.
+// Chain-of-command NAMES live in their own subject, built by chainDeck.js from the knowledge
+// list's rows (2026-10-30, Trey asked for the deck), so the names still have one source to update.
 //
 // The 'admin' subject (added 2026-09-25) exists because Trey's actual Weekly Warrior Knowledge
 // Quizzes (Det 855, BYU/UVU) test graded administrative/reporting/uniform-wear policy that the
@@ -30,7 +29,10 @@
 // down anywhere for Det 855 or Det 432). If Trey gets the real wording/answer from cadre or a
 // syllabus, add both as real cards - don't backfill a guess.
 
+import { CHAIN_CARDS } from './chainDeck';
+
 export const SUBJECTS = [
+  { id: 'chain', label: 'Chain of Command', hint: 'Every name on the list, asked twice: once in text, once with the official portrait' },
   { id: 'mission-values', label: 'Mission & Core Values', hint: 'AF + Space Force mission, vision, core functions, core values' },
   { id: 'mottos-creeds', label: 'Creeds, Oaths & Songs', hint: "Airman's Creed, oaths, Honor Code, Code of Conduct, both service songs" },
   { id: 'ranks-officer', label: 'Officer Ranks', hint: 'O-1 through O-10, gold/silver, joint-service traps' },
@@ -52,6 +54,12 @@ export const SUBJECT_IDS = SUBJECTS.map((s) => s.id);
 // one that was asked for - the complement is one line of code and means the split goes both ways.
 export const PRESETS = [
   {
+    id: 'chain-only',
+    label: 'Chain of Command',
+    hint: 'Only the chain-of-command deck: each name in text and with its portrait.',
+    subjects: ['chain'],
+  },
+  {
     id: 'core-knowledge',
     label: 'Mottos, Values & Ranks',
     hint: 'Pure recite-it material: mission/values, creeds/oaths/songs, both rank structures. No customs, org, admin, or acronyms.',
@@ -65,6 +73,8 @@ export const PRESETS = [
   },
 ];
 
+// Ids are positional and flags are keyed by id, so new cards go at the END of CARDS, never in the
+// middle: inserting one renumbers every later card and moves the cadet's flags onto other cards.
 let n = 0;
 const card = (subject, front, back, note) => ({ id: `${subject}-${++n}`, subject, front, back, note });
 
@@ -87,7 +97,7 @@ export const CARDS = [
   card('mission-values', 'Space Force Core Value: "Commitment…To Mastery" means', 'Mastering yourself, your profession, and your domain.'),
   card('mission-values', 'Space Force Core Value: "Courage…To Be Bold" means', 'Standing up for what’s right; biased toward action; accepting risk when necessary.'),
   card('mission-values', 'What are Space Force members called?', 'Guardians.'),
-  card('mission-values', 'The Air Force Honor Code, verbatim', 'We will not lie, steal, or cheat, nor tolerate among us anyone who does.'),
+  card('mission-values', 'The Cadet Honor Code, verbatim', 'We will not lie, steal, or cheat, nor tolerate among us anyone who does.'),
 
   // ── Creeds, Oaths & Songs ───────────────────────────────────────────────
   card('mottos-creeds', "Airman's Creed — opening two lines", 'I am an American Airman. I am a warrior.'),
@@ -198,8 +208,8 @@ export const CARDS = [
   card('org', 'The two ways MAJCOMs are organized', 'By mission (e.g., Global Strike Command) or by region outside the continental U.S. (e.g., Pacific Air Forces).'),
   card('org', 'Institutional vs. Service Component MAJCOMs — the difference', 'Institutional MAJCOMs organize, train, and equip Airmen (e.g., AETC, ACC). Service Component MAJCOMs prepare Airmen to fight in a combatant command’s area of responsibility (e.g., AFSOC, AMC).'),
   card('org', 'Space Force organizational echelons, smallest to largest', 'Squadron → Delta → Field Command → Headquarters.'),
-  card('org', 'The Space Force’s three Field Commands', 'Space Operations Command (SpOC), Space Systems Command (SSC), Space Training and Readiness Command (STARCOM).'),
-  card('org', 'What does Space Operations Command (SpOC) do?', 'Generates, presents, and sustains space warfighting capability for Combatant Commanders.'),
+  card('org', 'The Space Force’s three Field Commands', 'Combat Forces Command (CFC), Space Systems Command (SSC), Space Training and Readiness Command (STARCOM).', 'CFC was Space Operations Command (SpOC) until it was renamed on 3 Nov 2025; many study guides still say SpOC.'),
+  card('org', 'What does Combat Forces Command (CFC) do?', 'Generates, presents, and sustains space warfighting capability for Combatant Commanders.', 'Formerly Space Operations Command (SpOC), renamed 3 Nov 2025.'),
   card('org', 'What does Space Systems Command (SSC) do?', 'Develops, acquires, equips, fields, and sustains space capabilities.'),
   card('org', 'What does Space Training and Readiness Command (STARCOM) do?', 'Increases Guardians’ readiness through education, training, doctrine, and test.'),
   card('org', 'Who leads the Space Force at the headquarters level?', 'The Chief of Space Operations — a four-star general who reports to the Secretary of the Air Force.'),
@@ -241,6 +251,16 @@ export const CARDS = [
   card('acronyms', 'SA', 'Situational Awareness'),
   card('acronyms', 'USSF', 'United States Space Force'),
   card('acronyms', 'MAJCOM', 'Major Command'),
+
+  // ── Added 2026-10-28 from the det's knowledge list (the Knowledge list tab drills all of it) ──
+  card('mission-values', 'Air Force birthday', '18 September 1947 — a separate service under the National Security Act of 1947.'),
+  card('mission-values', 'Space Force birthday', '20 December 2019 — created when the FY2020 National Defense Authorization Act was signed.'),
+  card('ranks-enlisted', 'Airmen, NCOs and SNCOs — which pay grades?', 'Airmen = E-1 to E-4 · NCOs = E-5 and E-6 · SNCOs = E-7 to E-9.'),
+  card('ranks-officer', 'Company grade vs. field grade officers (CGOs / FGOs)', 'CGOs = O-1 to O-3 (2d Lt, 1st Lt, Capt) · FGOs = O-4 to O-6 (Maj, Lt Col, Col).'),
+  card('ranks-officer', 'The Navy’s "special" five-star rank above Admiral (O-10)', 'Fleet Admiral (FADM) — wartime only, not held since World War II.', 'Army equivalent: General of the Army. Air Force: General of the Air Force, held only by Hap Arnold.'),
+  card('org', 'The nine Air Force MAJCOMs and their headquarters', 'ACC — JB Langley-Eustis, VA · AETC — JBSA-Randolph, TX · AFGSC — Barksdale AFB, LA · AFMC — Wright-Patterson AFB, OH · AFRC — Robins AFB, GA · AFSOC — Hurlburt Field, FL · AMC — Scott AFB, IL · PACAF — JB Pearl Harbor-Hickam, HI · USAFE-AFAFRICA — Ramstein AB, Germany'),
+  card('org', 'Which MAJCOM is the only one headquartered outside the U.S.?', 'USAFE-AFAFRICA — Ramstein Air Base, Germany.'),
+  ...CHAIN_CARDS,
 ];
 
 export const cardsFor = (subjectIds) => CARDS.filter((c) => subjectIds.includes(c.subject));

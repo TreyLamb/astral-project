@@ -17,6 +17,12 @@
  * a list of genuine conflicts, not padding.
  */
 
+import cadetWing from '../docs/cadetWing.json';
+
+// Local cadet billets come from the OPLAN data the Cadet Wing Who's Who tab renders, so there is one copy to keep current.
+const WING = Object.fromEntries(cadetWing.people.map((p) => [p.symbol, p]));
+const wingName = (sym) => (WING[sym] ? `${WING[sym].rank} ${WING[sym].name.replace(/,.*$/, '')}` : 'check the Who’s Who tab');
+
 function Call({ kind, tag, children }) {
   return (
     <div className={`arc-s-call ${kind}`}>
@@ -133,8 +139,9 @@ export default function RecitationSheet({ onGoToDrill }) {
             <h4>National / DAF</h4>
             <ol className="arc-s-ladder">
               <li><span className="role">President of the United States</span><span className="name">Donald J. Trump</span></li>
-              <li><span className="role">Secretary of Defense</span><span className="name">The Hon. Pete Hegseth</span></li>
+              <li><span className="role">Secretary of War <em>(statutory: Secretary of Defense)</em></span><span className="name">The Hon. Peter B. Hegseth</span></li>
               <li><span className="role">Secretary of the Air Force</span><span className="name">The Hon. Dr. Troy E. Meink</span></li>
+              <li className="advisor"><span className="role">Chairman of the Joint Chiefs <em>· on your det&rsquo;s list, but an advisor, not a rung</em></span><span className="name">Gen. Dan Caine</span></li>
               <li><span className="role">Under Secretary of the Air Force</span><span className="name">The Hon. Matthew L. Lohmeier</span></li>
               <li className="changed"><span className="role">Chief of Staff of the Air Force</span><span className="name">Gen. Kenneth S. Wilsbach</span></li>
               <li className="changed"><span className="role">Chief Master Sgt of the Air Force</span><span className="name">CMSAF David R. Wolfe</span></li>
@@ -153,11 +160,12 @@ export default function RecitationSheet({ onGoToDrill }) {
               <li><span className="role">Cdr, AF Accessions Center / AFRS</span><span className="name">Maj Gen Jeffrey W. Nelson</span></li>
               <li className="changed"><span className="role">Commander, Holm Center</span><span className="name">Brig Gen Christopher T. Lay</span></li>
               <li className="changed"><span className="role">Commander, HQ AFROTC</span><span className="name">Col Michael G. Fleming</span></li>
-              <li><span className="role">Detachment Commander (Det/CC)</span><span className="name"><em>fill in from your det</em></span></li>
-              <li><span className="role">Operations Flight Commander</span><span className="name">Maj Smith <em>· per your routing sheet</em></span></li>
-              <li><span className="role">Cadet Wing Commander</span><span className="name">C/Col Laird <em>· verify, dated Mar 2026</em></span></li>
-              <li><span className="role">Cadet Squadron Commander</span><span className="name">C/Maj Bushman <em>· verify</em></span></li>
-              <li><span className="role">Cadet Flight Commander</span><span className="name">C/Capt Hanna <em>· verify</em></span></li>
+              <li><span className="role">Northwest Region Director</span><span className="name">Col Sandra Coble <em>· per your det&rsquo;s knowledge list, 28 Oct 2026</em></span></li>
+              <li><span className="role">Detachment Commander (Det/CC)</span><span className="name">Col Trig Randall <em>· named in the Fall 2026 OPLAN; confirm</em></span></li>
+              <li><span className="role">Operations Flight Commander</span><span className="name">Capt Lucas Parker <em>· Fall 2026 OPLAN</em></span></li>
+              <li><span className="role">Cadet Wing Commander</span><span className="name">{wingName('CW/CC')} <em>· Fall 2026 OPLAN</em></span></li>
+              <li><span className="role">Cadet Squadron Commander (Yankee)</span><span className="name">{wingName('Y SQ/CC')}</span></li>
+              <li><span className="role">Cadet Flight Commander (Charlie)</span><span className="name">{wingName('C FLT/CC')}</span></li>
               <li className="you"><span className="role">The individual cadet</span><span className="name">You</span></li>
             </ol>
           </div>
@@ -186,19 +194,18 @@ export default function RecitationSheet({ onGoToDrill }) {
           </p>
           <h5>&ldquo;Is it the Department of War now?&rdquo;</h5>
           <p>
-            Say <strong>&ldquo;Secretary of Defense.&rdquo;</strong> Executive Order 14347 (5 Sep 2025)
-            authorized &ldquo;Department of War&rdquo; and &ldquo;Secretary of War&rdquo; as
-            <strong> secondary titles only</strong>. The FY2026 NDAA did not codify it. Safe full
-            answer: <em>&ldquo;Secretary of Defense — the Honorable Pete Hegseth. &lsquo;Department of
-            War&rsquo; is a secondary title authorized by executive order; the statutory name is
-            still the Department of Defense.&rdquo;</em>
+            Your det&rsquo;s knowledge list (28 Oct 2026) says <strong>&ldquo;Secretary of War: The
+            Honorable Peter B. Hegseth&rdquo;</strong>, so recite it that way. Know the background in
+            case it is asked: Executive Order 14347 (5 Sep 2025) authorized &ldquo;Department of
+            War&rdquo; and &ldquo;Secretary of War&rdquo; as <strong>secondary titles</strong>, and the
+            FY2026 NDAA did not codify them, so the statutory name is still the Department of Defense.
           </p>
           <h5>&ldquo;Which region does your detachment report through?&rdquo;</h5>
           <p className="last">
-            <strong>Ask your cadre — don&rsquo;t guess.</strong> AFROTC historically used four
-            geographic regions, but every public source describing them is years old and the
-            echelon could not be confirmed as still active. Do not assert a region unless cadre
-            confirms it.
+            <strong>The Northwest Region.</strong> Your det&rsquo;s knowledge list names its director,
+            <strong> Col Sandra Coble</strong>. Every public source on the region echelon is years old,
+            which is why this sheet used to say &ldquo;ask your cadre&rdquo;; cadre has now answered it.
+            No public page names Col Coble yet, so her name rests on that list.
           </p>
         </div>
       </Sec>
@@ -778,9 +785,9 @@ export default function RecitationSheet({ onGoToDrill }) {
             <tbody>
               <tr><td><strong>Do we salute during the Pledge of Allegiance?</strong></td><td>Federal statute says yes; many ROTC guides say attention-only. Genuinely conflicting.</td></tr>
               <tr><td><strong>Which chain do you want — AU or AFAC above the Holm Center?</strong></td><td>The reassignment is real and dated Oct 2024, but most course material still teaches Air University.</td></tr>
-              <tr><td><strong>Current AY 2026–27 cadet wing billets</strong></td><td>Your routing sheet is dated March 2026. Billets rotate at least annually.</td></tr>
-              <tr><td><strong>Who is our Det/CC?</strong></td><td>Not on the routing sheet — an OPORD stops at the Operations Flight Commander.</td></tr>
-              <tr><td><strong>Do we report through an AFROTC region?</strong></td><td>Every public source on the region echelon is pre-2020. Could not confirm it still exists.</td></tr>
+              <tr><td><strong>Current AY 2026–27 cadet wing billets</strong></td><td><strong>Answered:</strong> the Fall 2026 OPLAN (20 Aug 2026) lists them; see the Cadet Wing Who&rsquo;s Who tab. Billets still rotate.</td></tr>
+              <tr><td><strong>Who is our Det/CC?</strong></td><td><strong>Mostly answered:</strong> the Fall 2026 OPLAN shows Col Trig Randall issuing the attendance memo. Confirm he is still Det/CC.</td></tr>
+              <tr><td><strong>Do we report through an AFROTC region?</strong></td><td><strong>Answered:</strong> yes, the Northwest Region; the det&rsquo;s 28 Oct 2026 knowledge list names Col Sandra Coble as director.</td></tr>
               <tr><td><strong>Does 7.2 include marching, or is that 7.3?</strong></td><td>The current curriculum scopes 7.2 to stationary movements only; marching is 7.3.</td></tr>
             </tbody>
           </table>

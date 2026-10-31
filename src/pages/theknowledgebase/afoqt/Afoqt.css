@@ -1221,3 +1221,17 @@
   .afq-hub-head { flex-direction: column; align-items: stretch; }
   .afq-hub-go { width: 100%; }
 }
+
+/* Word cards on the shared flashcard look (FlipDeck.css), 2026-10-30. The card is dark in every
+   theme, so the --tkb-* tokens are re-pointed inside it rather than every rule above restyled. */
+.afq-cards-stage { padding: .5rem 0 .75rem; }
+.afq-cards-stage .afq-card {
+  --tkb-surface: #2f3033; --tkb-ink: #f3f4f6; --tkb-ink-soft: #a7abb3;
+  --tkb-border: rgba(255, 255, 255, .14); --tkb-canvas: rgba(255, 255, 255, .06); --tkb-accent: #a5b4fc;
+  max-width: 560px; border-radius: 26px; border: 0;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+}
+.afq-cards-stage .afq-card:hover { border: 0; }
+.afq-card-turn { animation: afq-turn .42s cubic-bezier(.3, .7, .3, 1); transform-origin: center; }
+@keyframes afq-turn { from { transform: perspective(1400px) rotateY(-90deg); opacity: .4; } to { transform: perspective(1400px) rotateY(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .afq-card-turn { animation: none; } }

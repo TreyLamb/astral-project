@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
 import { useEft } from '../eftContext';
 import {
-  stationKey, pendingLevels, buildShoppingList, filterRows, groupRows, traderBeatsFlea, compareRarity,
+  stationKey, pendingLevels, buildShoppingList, filterRows, groupRows, traderBeatsFlea, sortShoppingRows,
 } from '../eftHideoutLogic';
 import { Seg, Panel, Counter, ItemCell, useItemDetail, fmtRub, fmtShort } from '../EftBits';
 import { itemIcon } from '../eftApi';
@@ -34,6 +34,16 @@ const MODES = [
   { value: 'order', label: 'Build order', title: 'What to build next, and in what order' },
 ];
 
+// Lowest level first is the default: a level-1 station gates more of the wipe
+// than a level-3 one, so its items are the ones worth grabbing soonest.
+const SORTS = [
+  { value: 'level', label: 'Lowest level first', title: 'What the lowest station level wants comes first' },
+  { value: 'rare', label: 'Rare → common', title: 'Violet-background, high-value items first (no real spawn-rate data)' },
+  { value: 'common', label: 'Common → rare' },
+  { value: 'cost', label: 'Most to spend first' },
+  { value: 'name', label: 'A → Z' },
+];
+
 const SIZES = [
   { value: 'sm', label: 'S' },
   { value: 'md', label: 'M' },
@@ -51,6 +61,7 @@ export default function ShoppingListView() {
 
   const mode = prefs.listMode || 'mine';
   const size = prefs.tileSize || 'md';
+  const sort = prefs.listSort || 'level';
 
   const pending = useMemo(
     () => pendingLevels(stations, {
@@ -74,21 +85,14 @@ export default function ShoppingListView() {
     [rows, prefs.search, prefs.hideOwned, prefs.showFirOnly, stationFilter],
   );
 
-  const groups = useMemo(() => groupRows(filtered, prefs.groupBy), [filtered, prefs.groupBy]);
-
-  const rarityDir = prefs.raritySort === 'common' ? -1 : 1;
-
-  // In the grid, what you still owe comes first and anything already covered
-  // sinks — the opposite of alphabetical, which buries the thing you need.
-  // Within that, rarity (flippable rare→common / common→rare) is the ranking
-  // that actually matters when you're standing over a loot pile deciding what
-  // to grab first.
-  const tiles = useMemo(
-    () => [...filtered].sort((a, b) => Number(a.done) - Number(b.done)
-      || compareRarity(a.item, b.item, rarityDir)
-      || a.name.localeCompare(b.name)),
-    [filtered, rarityDir],
+  // Sorted per group, after grouping: a station group ranks by that station's
+  // own level, not the item's earliest level anywhere.
+  const groups = useMemo(
+    () => groupRows(filtered, prefs.groupBy).map(([title, list]) => [title, sortShoppingRows(list, sort)]),
+    [filtered, prefs.groupBy, sort],
   );
+
+  const tiles = useMemo(() => sortShoppingRows(filtered, sort), [filtered, sort]);
 
   const setHave = (itemId, n) =>
     update('inventory', (prev) => {
@@ -154,19 +158,13 @@ export default function ShoppingListView() {
           ]}
         />
 
-        {mode === 'mine' || mode === 'grid' ? (
-          <Seg
-            value={prefs.raritySort}
-            onChange={(v) => setPref('raritySort', v)}
-            options={[
-              {
-                value: 'rare',
-                label: 'Rare → Common',
-                title: 'Violet-background, high-value items first (no real spawn-rate data — see note)',
-              },
-              { value: 'common', label: 'Common → Rare', title: 'Flip it' },
-            ]}
-          />
+        {mode !== 'order' ? (
+          <label className="eft-listbar-sort" title={SORTS.find((o) => o.value === sort)?.title}>
+            <span className="eft-label">Sort</span>
+            <select className="eft-select" value={sort} onChange={(e) => setPref('listSort', e.target.value)}>
+              {SORTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          </label>
         ) : null}
 
         {mode === 'grid' ? (
@@ -198,7 +196,7 @@ export default function ShoppingListView() {
       {mode === 'mine' ? (
         <>
           <MyListPanels />
-          <HideoutList rows={rows} setHave={setHave} openItem={openItem} rarityDir={rarityDir} />
+          <HideoutList rows={rows} setHave={setHave} openItem={openItem} sort={sort} />
         </>
       ) : null}
 
@@ -469,15 +467,21 @@ function Row({ row, setHave, openItem }) {
  * the tooltip. The common case reads at a glance and the messy case never
  * takes more than one chip's worth of room.
  */
-function HideoutList({ rows, setHave, openItem, rarityDir }) {
+function HideoutList({ rows, setHave, openItem, sort }) {
   const [openOnly, setOpenOnly] = useState(true);
 
-  const shown = useMemo(() => {
-    const list = openOnly ? rows.filter((r) => !r.done) : rows;
-    return [...list].sort((a, b) => Number(a.done) - Number(b.done)
-      || compareRarity(a.item, b.item, rarityDir)
-      || a.name.localeCompare(b.name));
-  }, [rows, openOnly, rarityDir]);
+  const shown = useMemo(
+    () => sortShoppingRows(openOnly ? rows.filter((r) => !r.done) : rows, sort),
+    [rows, openOnly, sort],
+  );
+
+  // Sorted by level, the list breaks into "Level 1 / Level 2 / …" runs so the
+  // order reads at a glance — the For column, the only other place a level
+  // shows, is hidden on a phone.
+  const sectionOf = (row) => {
+    if (sort !== 'level') return null;
+    return row.done ? 'Already have' : `Level ${row.minLevel}`;
+  };
 
   return (
     <section className="eft-panel eft-hideoutlist">
@@ -506,36 +510,45 @@ function HideoutList({ rows, setHave, openItem, rarityDir }) {
               <span className="eft-lrow-count">Have</span>
               <span className="eft-hrow-for">For</span>
             </li>
-            {shown.map((row) => {
+            {shown.map((row, i) => {
               const stations = [...new Set(row.sources.map((s) => s.stationName))];
+              const lvls = [...new Set(row.sources.map((s) => s.level))].sort((a, b) => a - b);
+              const where = row.sources.map((s) => `${s.stationName} level ${s.level} — ${s.count}`).join('\n');
+              const section = sectionOf(row);
+              const heading = section && section !== (i ? sectionOf(shown[i - 1]) : null);
               return (
-                <li key={row.itemId} className={`eft-hrow${row.done ? ' eft-is-done' : ''}`}>
-                  <div className="eft-lrow-item">
-                    <img className="eft-lrow-icon" src={itemIcon(row.itemId)} alt="" loading="lazy"
-                      onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
-                    <button type="button" className="eft-hrow-name" title={row.name}
-                      onClick={row.item ? () => openItem(row.item) : undefined}>
-                      {row.name}
-                    </button>
-                    {row.fir ? <span className="eft-chip eft-is-fir">FIR</span> : null}
-                  </div>
+                <Fragment key={row.itemId}>
+                  {heading ? <li className="eft-hrow-sect">{section}</li> : null}
+                  <li className={`eft-hrow${row.done ? ' eft-is-done' : ''}`}>
+                    <div className="eft-lrow-item">
+                      <img className="eft-lrow-icon" src={itemIcon(row.itemId)} alt="" loading="lazy"
+                        onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} />
+                      <button type="button" className="eft-hrow-name" title={row.name}
+                        onClick={row.item ? () => openItem(row.item) : undefined}>
+                        {row.name}
+                      </button>
+                      {row.fir ? <span className="eft-chip eft-is-fir">FIR</span> : null}
+                    </div>
 
-                  <span className="eft-hrow-need">{row.needed}</span>
+                    <span className="eft-hrow-need">{row.needed}</span>
 
-                  <div className="eft-lrow-count">
-                    <Counter value={row.have} max={row.needed * 4} onChange={(n) => setHave(row.itemId, n)} />
-                  </div>
+                    <div className="eft-lrow-count">
+                      <Counter value={row.have} max={row.needed * 4} onChange={(n) => setHave(row.itemId, n)} />
+                    </div>
 
-                  <span className="eft-hrow-for">
-                    {stations.length === 1 ? (
-                      <span className="eft-chip">{stations[0]}</span>
-                    ) : (
-                      <span className="eft-chip" title={row.sources.map((s) => `${s.stationName} level ${s.level} — ${s.count}`).join('\n')}>
-                        {stations.length} stations
-                      </span>
-                    )}
-                  </span>
-                </li>
+                    <span className="eft-hrow-for">
+                      {stations.length === 1 ? (
+                        <span className="eft-chip" title={where}>
+                          <span className="eft-hrow-station">{stations[0]}</span>{lvls.join('/')}
+                        </span>
+                      ) : (
+                        <span className="eft-chip" title={where}>
+                          {stations.length} stations · from {lvls[0]}
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                </Fragment>
               );
             })}
           </ul>

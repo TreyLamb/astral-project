@@ -38,6 +38,11 @@ export const COURSEWORK_PATCHES = [
     source: 'Trey, 2026-10-14',
   },
   {
+    match: { course: 'CHEM 1210', title: 'Exam 3' },
+    set: { due: '2026-11-02', dueTime: '1:00 PM', kind: 'exam', note: 'Moved back to Mon Nov 2 (instructor announcement 10-22). In class; coverage not announced.' },
+    source: 'Trey, 2026-10-26; Canvas announcement 2026-10-22 "Exam 3 will be moved back to Monday Nov 2"',
+  },
+  {
     match: { course: 'CHEM 1210', title: 'Exam 1' },
     set: { kind: 'exam', note: 'Ch 1-2. Scored 76/100.' },
     source: 'Canvas capture 2026-09-18 (score)',
@@ -118,6 +123,21 @@ export const COURSEWORK_EXTRA = [
   { course: 'AFROTC', id: 'manual:rotc-full-day-thu', title: 'ROTC full-day event + dinner ~5 PM', kind: 'event', status: 'todo', due: '2026-10-22', dueTime: '5:00 PM', note: 'Full-day event; the dinner he thought was Friday is Thursday ~5 PM. Detail still unknown.', source: 'Trey, 2026-10-14 and 2026-10-19' },
   { course: 'AFROTC', id: 'manual:med-exam-fri', title: 'ROTC medical appointment (1 of 2, moved from Tue 10 AM)', kind: 'event', status: 'todo', due: '2026-10-23', dueTime: '9:00 AM', note: 'Medical exam. Length unknown.', source: 'Trey, 2026-10-19' },
   { course: 'AFROTC', id: 'manual:flight-meeting-wed', title: 'Charlie Flight meeting', kind: 'event', status: 'todo', due: '2026-10-21', dueTime: '5:00 PM', note: 'Trey presides as flight commander. Length and place unknown. His Teams post said it must happen before LLab this week.', source: 'Trey, 2026-10-21' },
+  { course: 'AFROTC', id: 'manual:holy-war-run-1106', title: 'Holy War football run (3-5 miles)', kind: 'event', status: 'todo', due: '2026-11-06', dueTime: '6:00 AM', note: 'About 6-10 AM. Start point, uniform and exact times not given yet.', source: 'Trey, 2026-10-28' },
+  { course: 'AFROTC', id: 'manual:llab-career-day-1029', title: 'LLAB: Career Day (Wilk Center, Garden Court)', kind: 'event', status: 'todo', due: '2026-10-29', dueTime: '11:00 AM', note: 'Uniform: Duty.', source: 'OPLAN-F26 LLAB schedule' },
+  ...[
+    ['odc-1104', '2026-11-04', 'ODC: GLPs', 'Duty'], ['odc-1111', '2026-11-11', 'ODC: Morale PT', 'PTG'],
+    ['odc-1118', '2026-11-18', 'ODC: Impromptu Briefings', 'Duty'], ['odc-1202', '2026-12-02', 'ODC: Squadron GLP/Wargame', 'see OPORD'],
+  ].map(([id, due, title, uod]) => ({ course: 'AFROTC', id: `manual:${id}`, title, kind: 'event', status: 'todo', due, dueTime: '6:00 AM', note: `UOD: ${uod}. BYU Wells Building unless announced.`, source: 'OPLAN-F26 ODC schedule' })),
+  ...[
+    ['llab-1112', '2026-11-12', 'LLAB: Introduction to GLP', 'Duty', 'Crabtree Building, Room 214'],
+    ['llab-1119', '2026-11-19', 'LLAB: ORI I (Open Ranks Inspection)', 'Service Dress', 'BYU Conference Center, CONF 2258-2260'],
+    ['llab-1203', '2026-12-03', 'LLAB: Change of Command & Awards Ceremony', 'Service Dress', 'Crabtree Building, Room 214'],
+  ].map(([id, due, title, uod, where]) => ({ course: 'AFROTC', id: `manual:${id}`, title, kind: 'event', status: 'todo', due, dueTime: '11:00 AM', note: `UOD: ${uod}. ${where}.`, source: 'OPLAN-F26 LLAB schedule' })),
+  { course: 'AFROTC', id: 'manual:pr-practice-1102', title: 'Presidential Review practice at the Det (UOD: PTGs)', kind: 'event', status: 'todo', due: '2026-11-02', dueTime: '6:00 AM', note: 'PFRA takers do HWtR after. No Service Dress? Check out a Happy Jacket right after.', source: 'Cadre message pasted by Trey, 2026-10-28' },
+  { course: 'AFROTC', id: 'manual:pfra-1103', title: 'PFRA (only for cadets taking it this week; otherwise no PT)', kind: 'event', status: 'todo', due: '2026-11-03', note: 'Confirm whether Trey is taking it.', source: 'Cadre message pasted by Trey, 2026-10-28' },
+  { course: 'AFROTC', id: 'manual:pr-rehearsal-1105', title: 'Presidential Review dress rehearsal with Army ROTC (Service Dress)', kind: 'event', status: 'todo', due: '2026-11-05', dueTime: '6:00 AM', note: 'At the Det.', source: 'Cadre message pasted by Trey, 2026-10-28' },
+  { course: 'AFROTC', id: 'manual:llab-presidential-review-1105', title: 'PRESIDENTIAL REVIEW: form up 0915 at the Det, ceremony 1000 (Brigham Square), reception 1100 Wilk Garden Court, then Army leadership-series LLAB', kind: 'event', status: 'todo', due: '2026-11-05', dueTime: '9:15 AM', note: 'Service Dress. Excusal memos available for leaving class early.', source: 'Cadre message pasted by Trey, 2026-10-28; OPLAN-F26' },
   { course: 'AFROTC', id: 'manual:retreat-1027', title: 'RETREAT (be there early)', kind: 'event', status: 'todo', due: '2026-10-27', dueTime: '5:30 PM', note: 'Trey will forget: be there early.', source: 'Trey, 2026-10-22' },
   { course: 'AFROTC', id: 'manual:retreat-1117', title: 'RETREAT (time not given)', kind: 'event', status: 'todo', due: '2026-11-17', note: 'Confirm the time.', source: 'Trey, 2026-10-22' },
   { course: 'AFROTC', id: 'manual:stadium-cleanup-1031', title: 'Stadium cleanup after the BYU game', kind: 'event', status: 'todo', due: '2026-10-31', note: 'Game and cleanup times not given; confirm.', source: 'Trey, 2026-10-22' },

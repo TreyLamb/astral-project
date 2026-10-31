@@ -282,12 +282,8 @@
         }
        ],
        "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "gd T cells are cytotoxic to infected cells. DCs, B cells and ab Th cells are not killers (Th cells secrete cytokines). Table 10.1C does not list a killer T cell for fungi, so this is by elimination.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "D"
-       ]
+       "answerSource": "graded",
+       "answerRationale": "gd T cells are cytotoxic to infected cells. DCs, B cells and ab Th cells are not killers (Th cells secrete cytokines). Table 10.1C does not list a killer T cell for fungi, so this is by elimination. Confirmed by your graded OLQ 10 (18.5/20, 10-28), Q32: you picked this and it scored."
       },
       {
        "id": "ch10-q11",
@@ -313,7 +309,7 @@
        ],
        "answer": "B",
        "answerSource": "derived",
-       "answerRationale": "Th cells secrete cytokines that activate phagocytes to kill fungi (Table 10.1C), and HIV-1 depletes Th cells."
+       "answerRationale": "Th cells secrete cytokines that activate phagocytes to kill fungi (Table 10.1C), and HIV-1 depletes Th cells. The note in the stem is the hint: HIV-1 kills CD4-positive cells, and Th cells are the CD4 cells. Graded OLQ 10 retake (10-28): TC was marked WRONG."
       }
      ]
     },
@@ -536,11 +532,7 @@
        ],
        "answer": "C",
        "answerSource": "derived",
-       "answerRationale": "Genetics, the hygiene hypothesis and a Th-2 bias all raise the odds of atopy; diet change is the one the chapter does not link.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "B"
-       ]
+       "answerRationale": "Genetics, the hygiene hypothesis and a Th-2 bias all raise the odds of atopy; diet change is the one the chapter does not link. Graded OLQ 10 (10-28): B (hygiene) was marked WRONG, so B is ruled out."
       },
       {
        "id": "ch10-q20",
@@ -621,12 +613,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Table 10.3: ingestion causes hives but can lead to systemic anaphylaxis. Skin, eye and inhalation stay local; injection into the blood is systemic.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "E"
-       ]
+       "answerSource": "graded",
+       "answerRationale": "Table 10.3: ingestion causes hives but can lead to systemic anaphylaxis. Skin, eye and inhalation stay local; injection into the blood is systemic. Confirmed by your graded OLQ 10 (18.5/20, 10-28), Q9: you picked this and it scored."
       },
       {
        "id": "ch10-q23",
@@ -712,12 +700,8 @@
         }
        ],
        "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "Type II = IgG/IgM with MAC, ADCC by macrophages, neutrophils and NK cells, and anaphylatoxins (which also trigger degranulation). Eosinophil/basophil ADCC belongs to IgE-coated worms.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "D"
-       ]
+       "answerSource": "graded",
+       "answerRationale": "Type II = IgG/IgM with MAC, ADCC by macrophages, neutrophils and NK cells, and anaphylatoxins (which also trigger degranulation). Eosinophil/basophil ADCC belongs to IgE-coated worms. Confirmed by your graded OLQ 10 (18.5/20, 10-28), Q35: you picked this and it scored."
       },
       {
        "id": "ch10-q26",
@@ -917,13 +901,9 @@
          "text": "The diameter of the induration is 1.1 cm, the subject is HIV-negative but has been exposed to TB patients."
         }
        ],
-       "answer": "A",
+       "answer": "B",
        "answerSource": "derived",
-       "answerRationale": "Cut-offs in the chapter: >1.5 cm no exposure, >1.0 cm exposed, >0.5 cm HIV-positive. A (0.4 cm) and B (1.3 cm) are BOTH below their cut-off; C and D are positive.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "B"
-       ]
+       "answerRationale": "Cut-offs in the chapter: >1.5 cm no exposure, >1.0 cm exposed, >0.5 cm HIV-positive. C and D are positive. Graded OLQ 10 (10-28): A (0.4 cm HIV-positive) was marked WRONG, so the key wants B (1.3 cm, never exposed), even though A also sits under its cut-off."
       },
       {
        "id": "ch10-q34",
@@ -1190,12 +1170,8 @@
         }
        ],
        "answer": "E",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: serum sickness (it says TYPE III, not type II as option A is printed), anaphylaxis, graft-versus-host disease and virus contamination are all listed risks. \"Any of these\" is the only way one answer fits.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "C"
-       ]
+       "answerSource": "graded",
+       "answerRationale": "Chapter: serum sickness (it says TYPE III, not type II as option A is printed), anaphylaxis, graft-versus-host disease and virus contamination are all listed risks. \"Any of these\" is the only way one answer fits. Confirmed by your graded OLQ 10 (18.5/20, 10-28), Q23: you picked this and it scored."
       }
      ]
     },
@@ -1281,12 +1257,8 @@
         }
        ],
        "answer": "E",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: toxoids are whole cross-linked proteins and are \"ideal\"; subunit vaccines are short peptides and \"antigenically poor\". The likeliest reason is uptake by DCs. Option D is also true as a fact but describes how they are made.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "D"
-       ]
+       "answerSource": "graded",
+       "answerRationale": "Chapter: toxoids are whole cross-linked proteins and are \"ideal\"; subunit vaccines are short peptides and \"antigenically poor\". The likeliest reason is uptake by DCs. Option D is also true as a fact but describes how they are made. Confirmed by your graded OLQ 10 (18.5/20, 10-28), Q4: you picked this and it scored."
       },
       {
        "id": "ch10-q46",
@@ -1541,12 +1513,12 @@
          "text": "synthetic antibodies"
         }
        ],
-       "answer": "B",
+       "answer": "C",
        "answerSource": "derived",
-       "answerRationale": "Immunological detection of an antigen uses antibody raised in vaccinated animals (immune serum). The wording is muddled, because the chapter defines \"serological\" as using antigens to find antibody.",
+       "answerRationale": "Graded OLQ 10 (10-28): B (serum of vaccinated animals) was marked WRONG on attempt 1, and A (B-cell tumor culture fluid) was marked WRONG on the retake. Only C and D are left. The chapter defines serological methods as using antigens to detect antibodies in the patient's body, which points to C (patient serum). Synthetic antibodies (D) are never mentioned in the chapter text; the phrase shows up only as this option.",
        "confidence": "unsure",
        "likelyOptions": [
-        "A"
+        "D"
        ]
       },
       {

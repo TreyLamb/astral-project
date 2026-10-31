@@ -207,6 +207,10 @@ export default function MapView() {
   const [activeFloor, setActiveFloor] = useState(null);
   const [visibleCats, setVisibleCats] = useState(() => new Set());
   const [found, setFound] = useState({});
+  // { [markerId]: true } — pins held on the map whatever the category filters say.
+  const [pinned, setPinned] = useState({});
+  // { x, y, marker } while a marker's right-click menu is open.
+  const [markerMenu, setMarkerMenu] = useState(null);
   // marker id -> lockIndex record, for the map currently open.
   const [locks, setLocks] = useState(null);
   // The user's own pins, and the one being placed right now. The list itself
@@ -333,6 +337,8 @@ export default function MapView() {
       setVisibleCats(defaultVisibleFromPresets(resolvedPresets, d.categories));
 
       setFound(MapStore.getFound(mapKey));
+      setPinned(MapStore.getPinned(mapKey));
+      setMarkerMenu(null);
       setCalibrationState(MapStore.getCalibration(mapKey) || autoFit(d.markers, mapConfig.bounds));
       setBase(d.tiles?.url ? 'tiles' : 'svg');
       setLoading(false);
@@ -504,10 +510,26 @@ export default function MapView() {
     route: routeFilter,
   }), [visibleCats, draw.zones, routeFilter]);
 
-  const { visible: shownMarkers, hidden } = useMemo(
+  const { visible: filteredMarkers, hidden } = useMemo(
     () => resolveMarkers(placed, resolverOpts),
     [placed, resolverOpts],
   );
+
+  // Pins skip every filter — category, zone, route and the text search — which is
+  // the whole point of one. They still honour "show found", so a pin you have
+  // ticked off goes away with the rest of the done markers.
+  const shownMarkers = useMemo(() => {
+    if (!data || !Object.keys(pinned).length) return filteredMarkers;
+    const shown = new Set(filteredMarkers.map((m) => m.id));
+    const extra = [];
+    for (const m of data.markers) {
+      if (!pinned[m.id] || shown.has(m.id)) continue;
+      if (!prefs.showFound && found[m.id]) continue;
+      const pt = toPoint(m);
+      if (pt) extra.push({ ...m, y: pt[0], x: pt[1] });
+    }
+    return extra.length ? [...filteredMarkers, ...extra] : filteredMarkers;
+  }, [data, filteredMarkers, pinned, found, prefs.showFound, toPoint]);
 
   const manifest = useMemo(
     () => (routeFilter
@@ -597,6 +619,32 @@ export default function MapView() {
   // --- calibration --------------------------------------------------------
   // Two clicks per landmark: pick a marker whose real position you recognise,
   // then click where it actually belongs on the image.
+  const togglePin = (marker) => {
+    setPinned((prev) => {
+      const next = { ...prev };
+      if (next[marker.id]) delete next[marker.id];
+      else next[marker.id] = true;
+      MapStore.setPinned(mapKey, next);
+      return next;
+    });
+  };
+
+  // Every marker of one category that is on the map right now. Load "Quest
+  // Item", pin the lot, switch the category off, and they stay.
+  const pinCategory = (catId) => {
+    setPinned((prev) => {
+      const next = { ...prev };
+      for (const m of shownMarkers) if (m.cat === catId) next[m.id] = true;
+      MapStore.setPinned(mapKey, next);
+      return next;
+    });
+  };
+
+  const clearPins = () => {
+    setPinned({});
+    MapStore.setPinned(mapKey, {});
+  };
+
   const handleMarkerClick = (marker) => {
     if (calMode) { setPendingMarker(marker); return; }
     toggleFound(marker);
@@ -642,16 +690,16 @@ export default function MapView() {
   // The context menu closes on the next click anywhere, or on Escape — a menu
   // you cannot dismiss without picking something is worse than no menu.
   useEffect(() => {
-    if (!ctxMenu) return undefined;
-    const close = () => setCtxMenu(null);
-    const key = (e) => { if (e.key === 'Escape') setCtxMenu(null); };
+    if (!ctxMenu && !markerMenu) return undefined;
+    const close = () => { setCtxMenu(null); setMarkerMenu(null); };
+    const key = (e) => { if (e.key === 'Escape') close(); };
     window.addEventListener('click', close);
     window.addEventListener('keydown', key);
     return () => {
       window.removeEventListener('click', close);
       window.removeEventListener('keydown', key);
     };
-  }, [ctxMenu]);
+  }, [ctxMenu, markerMenu]);
 
   // A drag that starts on a route handle must move the handle, so panning is
   // suspended while one is under the cursor.
@@ -843,6 +891,7 @@ export default function MapView() {
             toPoint={null}
             activeFloor={activeFloor}
             found={found}
+            pinned={pinned}
             locks={locks}
             markerSize={prefs.markerSize}
             detailZoom={prefs.detailZoom}
@@ -854,6 +903,13 @@ export default function MapView() {
             draftWaypoint={draft}
             onDraftMove={({ lat, lng }) => setDraft((d) => (d ? { ...d, lat, lng } : d))}
             onMarkerClick={handleMarkerClick}
+            onMarkerRightClick={(marker, ev) => {
+              // Mid-calibration a right-click is not a menu gesture.
+              if (calMode) return;
+              const box = ev?.currentTarget?.getBoundingClientRect?.();
+              setCtxMenu(null);
+              setMarkerMenu({ x: ev?.clientX ?? box?.left ?? 0, y: ev?.clientY ?? box?.top ?? 0, marker });
+            }}
             onMapClick={onMapClick}
             onMapMove={onMapMove}
             onMapDown={onMapDown}
@@ -1033,6 +1089,16 @@ export default function MapView() {
                 onChange={(e) => setPrefs({ showFound: e.target.checked })} />
               Show found markers
             </label>
+            <div className="eft-note" title="Right-click any marker to pin it. Pins stay on the map when their category is switched off.">
+              {Object.keys(pinned).length
+                ? `${Object.keys(pinned).length} pinned on ${mapConfig.name}`
+                : 'Right-click a marker to pin it'}
+              {Object.keys(pinned).length ? (
+                <button type="button" className="eft-btn eft-btn-sm" style={{ marginLeft: 8 }} onClick={clearPins}>
+                  Clear pins
+                </button>
+              ) : null}
+            </div>
             <label className="eft-checkline">
               <input type="checkbox" checked={prefs.showStats}
                 onChange={(e) => setPrefs({ showStats: e.target.checked })} />
@@ -1099,6 +1165,60 @@ export default function MapView() {
       ) : null}
 
       {hint ? <div className="eft-map-hint">{hint}</div> : null}
+
+      {markerMenu ? (() => {
+        const mk = markerMenu.marker;
+        const cat = (data?.categories || []).find((c) => c.id === mk.cat);
+        const isPinned = !!pinned[mk.id];
+        const sameCat = shownMarkers.filter((m) => m.cat === mk.cat);
+        const unpinnedSame = sameCat.filter((m) => !pinned[m.id]).length;
+        const pinCount = Object.keys(pinned).length;
+        return (
+          <div
+            className="eft-ctxmenu"
+            style={{ left: markerMenu.x, top: markerMenu.y }}
+            onClick={(e) => e.stopPropagation()}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <div className="eft-ctxmenu-head">
+              {cat ? <CatIcon icon={cat.icon} color={cat.color} /> : null}
+              <span className="eft-line-text">{mk.title || cat?.title}</span>
+            </div>
+            <button
+              type="button"
+              className="eft-ctxmenu-item"
+              onClick={() => { togglePin(mk); setMarkerMenu(null); }}
+            >
+              {isPinned ? 'Unpin from map' : 'Pin to map — keep when filter is off'}
+            </button>
+            {cat && unpinnedSame > 1 ? (
+              <button
+                type="button"
+                className="eft-ctxmenu-item"
+                onClick={() => { pinCategory(mk.cat); setMarkerMenu(null); }}
+              >
+                Pin all {unpinnedSame} shown “{cat.title}”
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="eft-ctxmenu-item"
+              onClick={() => { toggleFound(mk); setMarkerMenu(null); }}
+            >
+              {found[mk.id] ? 'Mark not found' : 'Mark found'}
+            </button>
+            {pinCount ? (
+              <button
+                type="button"
+                className="eft-ctxmenu-item"
+                onClick={() => { clearPins(); setMarkerMenu(null); }}
+              >
+                Clear all {pinCount} pin{pinCount === 1 ? '' : 's'} on {mapConfig.name}
+              </button>
+            ) : null}
+          </div>
+        );
+      })() : null}
 
       {ctxMenu ? (
         <div

@@ -289,6 +289,8 @@ confidence.
 
 ### FLAG 8 — LOW: AFROTC region echelon unconfirmed
 See "Regional level" above. Could not confirm whether the four AFROTC regions are still active. Ask cadre.
+**Answered 28 Oct 2026 by cadre:** the det's knowledge list names the **Northwest Region Director, Col Sandra
+Coble**. A web search that day still found no public page naming her, so the name rests on that list.
 
 ### FLAG 9 — INFORMATIONAL: The AETC → "Airman Development Command" rename did NOT happen
 In February 2024 the Air Force announced it would redesignate AETC as **Airman Development Command (ADC)**,

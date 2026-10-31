@@ -41,7 +41,7 @@ function matchesView(view, { progress, cand, off }) {
  */
 function StationFilter({
   stations, rows, hidden, setHidden, view, setView, onIncludeAll, onExcludeAll, includedCount,
-  onResetAll,
+  onResetAll, onMinimizeAll, onExpandAll,
 }) {
   const [open, setOpen] = useState(false);
   // 0 = idle, 1 = armed, 2 = asking for the second confirmation. Wiping every
@@ -132,7 +132,17 @@ function StationFilter({
 
           <div className="eft-filter-section">
             <div className="eft-filter-head">
-              <div className="eft-label">Shopping list — {includedCount} of {stations.length} counted</div>
+              <div className="eft-label">Cards</div>
+            </div>
+            <div className="eft-filter-bulk">
+              <button type="button" className="eft-btn eft-btn-sm" onClick={onMinimizeAll}>Minimise all</button>
+              <button type="button" className="eft-btn eft-btn-sm" onClick={onExpandAll}>Expand all</button>
+            </div>
+          </div>
+
+          <div className="eft-filter-section">
+            <div className="eft-filter-head">
+              <div className="eft-label">Shopping list —{includedCount} of {stations.length} counted</div>
             </div>
             <div className="eft-filter-bulk">
               <button type="button" className="eft-btn eft-btn-sm" onClick={onIncludeAll}>Include all</button>
@@ -413,7 +423,7 @@ function ItemSearch({
  * old Stash tab went: counting what you own only ever made sense next to the
  * station that wants it, not on a separate screen you had to go and find.
  */
-function StationItems({ station, current, target, items, inventory, setHave }) {
+function StationItems({ station, current, target, items, inventory, setHave, hideDone }) {
   // Open by default. What a station still needs is the actual content of the
   // card — hiding it behind a toggle meant 27 clicks to answer "what am I
   // short of?". The toggle stays so a card you are done thinking about can be
@@ -439,6 +449,19 @@ function StationItems({ station, current, target, items, inventory, setHave }) {
 
   const short = rows.filter((r) => (inventory[r.itemId] ?? 0) < r.need).length;
 
+  // Everything on this card is collected and the page is hiding collected
+  // rows: an empty list with a toggle to open it would look like a bug, so say
+  // why it is empty instead.
+  if (hideDone && short === 0) {
+    return (
+      <div className="eft-station-items">
+        <div className="eft-station-alldone">✓ All {rows.length} item{rows.length === 1 ? '' : 's'} collected</div>
+      </div>
+    );
+  }
+
+  const shownRows = hideDone ? rows.filter((r) => (inventory[r.itemId] ?? 0) < r.need) : rows;
+
   // The list is the body of the card and the fold control is its footer, so a
   // card reads as a nameplate over a bill of materials rather than as a tile
   // with a disclosure widget stuck on it.
@@ -446,7 +469,7 @@ function StationItems({ station, current, target, items, inventory, setHave }) {
     <div className="eft-station-items">
       {open ? (
         <ul className="eft-station-itemlist">
-          {rows.map((r) => {
+          {shownRows.map((r) => {
             const have = Number(inventory[r.itemId] ?? 0);
             return (
               <li key={r.itemId} className={have >= r.need ? 'eft-is-done' : ''}>
@@ -472,7 +495,9 @@ function StationItems({ station, current, target, items, inventory, setHave }) {
       <button type="button" className="eft-station-itemstoggle" onClick={() => setOpen((o) => !o)}>
         {open
           ? '− Hide items'
-          : `+ Show ${rows.length} item${rows.length === 1 ? '' : 's'} (${rows.length - short} ready)`}
+          : hideDone
+            ? `+ Show ${short} item${short === 1 ? '' : 's'} still needed`
+            : `+ Show ${rows.length} item${rows.length === 1 ? '' : 's'} (${rows.length - short} ready)`}
       </button>
     </div>
   );
@@ -501,6 +526,8 @@ export default function HideoutView() {
   // every render and re-run the row derivation below for nothing.
   const hidden = useMemo(() => prefs.hiddenStations || [], [prefs.hiddenStations]);
   const view = prefs.stationView || 'all';
+  const minimized = useMemo(() => prefs.minimizedStations || [], [prefs.minimizedStations]);
+  const hideDone = !!prefs.hideDoneItems;
 
   // Completed stations that the user has re-opened by hand. Deliberately not
   // persisted: the point of the minimised strip is that a finished station
@@ -521,9 +548,29 @@ export default function HideoutView() {
       current: currentLevelOf(station, levels),
       target: targetLevelOf(station, targets, levels),
       max: maxLevelOf(station),
+      // Parked by hand, or finished and not re-opened. Either way it is a
+      // one-line strip at the bottom of the grid.
+      mini: minimized.includes(key) || (progress.maxed && !expanded.includes(key)),
       visible: !hidden.includes(key) && matchesView(view, { progress, cand, off }),
     };
-  }), [stations, levels, targets, inventory, disabled, candidateByKey, hidden, view]);
+  }), [stations, levels, targets, inventory, disabled, candidateByKey, hidden, view, minimized, expanded]);
+
+  const minimize = (key) => {
+    setExpanded((e) => e.filter((k) => k !== key));
+    if (!minimized.includes(key)) setPref('minimizedStations', [...minimized, key]);
+  };
+  const expand = (key) => {
+    setExpanded((e) => (e.includes(key) ? e : [...e, key]));
+    if (minimized.includes(key)) setPref('minimizedStations', minimized.filter((k) => k !== key));
+  };
+  const minimizeAll = () => {
+    setExpanded([]);
+    setPref('minimizedStations', stations.map(stationKey));
+  };
+  const expandAll = () => {
+    setExpanded(stations.map(stationKey));
+    setPref('minimizedStations', []);
+  };
 
   const setLevel = (key, level) => update('levels', (prev) => ({ ...prev, [key]: level }));
 
@@ -562,7 +609,7 @@ export default function HideoutView() {
   // want to see it, glance at its progress, and raise the target later.
   const visible = rows
     .filter((r) => r.visible)
-    .sort((a, b) => Number(a.progress.maxed) - Number(b.progress.maxed));
+    .sort((a, b) => Number(a.mini) - Number(b.mini));
 
 
   return (
@@ -594,6 +641,8 @@ export default function HideoutView() {
               includedCount={stations.length - disabled.length}
               onIncludeAll={() => update('disabled', [])}
               onExcludeAll={() => update('disabled', stations.map(stationKey))}
+              onMinimizeAll={minimizeAll}
+              onExpandAll={expandAll}
               onResetAll={() => { resetAll(); reloadStore(); showToast('Everything reset.'); }}
             />
             {prefs.soloStation ? (
@@ -617,6 +666,14 @@ export default function HideoutView() {
               ]}
             />
           </div>
+          <label className="eft-checkline" title="Drop item rows you already have enough of (1/1, 10/10…) from every station card">
+            <input
+              type="checkbox"
+              checked={hideDone}
+              onChange={(e) => setPref('hideDoneItems', e.target.checked)}
+            />
+            Hide completed items
+          </label>
           <div className="eft-note">
             {prefs.soloStation
               ? 'Soloed to one station — only that station counts toward the list.'
@@ -626,20 +683,27 @@ export default function HideoutView() {
       </Panel>
 
       <div className="eft-station-grid">
-        {visible.map(({ key, station, progress, cand, off, current, target, max }) => {
+        {visible.map(({ key, station, progress, cand, off, current, target, max, mini }) => {
           const solo = prefs.soloStation === key;
 
-          // Maxed: one line, at the bottom, until the level changes. Still
-          // fully operable — the level picker is right there, so undoing a
-          // mistaken level is one click and does not need un-minimising first.
-          // Reaching a lower target does NOT minimise the card — only nothing
-          // left to build at all does.
-          if (progress.maxed && !expanded.includes(key)) {
+          // Mini: one line, at the bottom. Either finished (maxed, until the
+          // level changes) or parked by hand. Still fully operable — the level
+          // picker is right there, so undoing a mistaken level is one click and
+          // does not need un-minimising first. Reaching a lower target does NOT
+          // minimise the card — only nothing left to build, or you, does.
+          if (mini) {
             return (
-              <div key={key} className="eft-station eft-is-complete eft-is-mini">
-                <span className="eft-station-minicheck">✓</span>
+              <div
+                key={key}
+                className={`eft-station eft-is-mini${progress.maxed ? ' eft-is-complete' : ''}${off && !solo ? ' eft-is-off' : ''}`}
+              >
+                <span className="eft-station-minicheck">{progress.maxed ? '✓' : '▸'}</span>
                 <Link to={`/EFTsh/station/${key}`} className="eft-station-name">{station.name}</Link>
-                <span className="eft-chip eft-is-met">{current}/{max}</span>
+                <span className={`eft-chip${progress.maxed ? ' eft-is-met' : ''}`}>
+                  {progress.maxed ? `${current}/${max}` : `${current} → ${target}`}
+                </span>
+                {!progress.maxed && cand?.ready ? <span className="eft-chip eft-is-met">Ready to build</span> : null}
+                {off ? <span className="eft-chip">excluded</span> : null}
                 <div className="eft-levelpick eft-is-mini">
                   {Array.from({ length: max + 1 }, (_, n) => (
                     <button
@@ -657,7 +721,7 @@ export default function HideoutView() {
                   type="button"
                   className="eft-iconbtn"
                   title="Expand this station"
-                  onClick={() => setExpanded((e) => [...e, key])}
+                  onClick={() => expand(key)}
                 >
                   ▾
                 </button>
@@ -687,16 +751,14 @@ export default function HideoutView() {
                   {station.name}
                 </Link>
                 <div className="eft-station-tools">
-                  {progress.maxed ? (
-                    <button
-                      type="button"
-                      className="eft-iconbtn"
-                      title="Minimise this finished station"
-                      onClick={() => setExpanded((e) => e.filter((k) => k !== key))}
-                    >
-                      ▴
-                    </button>
-                  ) : null}
+                  <button
+                    type="button"
+                    className="eft-iconbtn"
+                    title="Minimise to a strip at the bottom"
+                    onClick={() => minimize(key)}
+                  >
+                    ▴
+                  </button>
                   <button
                     type="button"
                     className="eft-iconbtn"
@@ -774,6 +836,7 @@ export default function HideoutView() {
                 items={items}
                 inventory={inventory}
                 setHave={setHave}
+                hideDone={hideDone}
               />
             </div>
           );

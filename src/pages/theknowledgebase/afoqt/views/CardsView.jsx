@@ -4,6 +4,7 @@ import { useAfoqt } from '../AfoqtApp';
 import { allWords } from '../engine/words';
 import { todayStr } from '../afoqtStorage';
 import { TEST_LEVEL_BAND } from '../engine/afoqtSpec';
+import '../../../shared/FlipDeck.css';
 import {
   WORDS_PER_DAY, NEW_PASSES, WINDOW_DAYS,
   introduceDay, addMore, removeRecent, buildSession, allDeck, introducedIds, idsForDay, remainingCount,
@@ -238,8 +239,14 @@ export default function CardsView() {
         <>
           {/* The card itself is the whole control. On every other deck it flips (recall check,
               then a separate Next). On the bank deck it IS Next - one tap, move on. */}
+          {/* The shared flashcard look (FlipDeck.css, Trey 2026-10-30: the Gemini Notebook card on a
+              glowing background). Only the look and the turn: the controls stay exactly as he
+              specified them, which is why this is not a FlipDeck. Re-keying on the face replays
+              the turn every time the card flips. */}
+          <div className="fd-stage afq-cards-stage">
           <button
-            className={'afq-card' + (revealed ? ' afq-card-open' : '')}
+            key={cardKey + (revealed ? ':b' : ':f')}
+            className={'afq-card afq-card-turn' + (revealed ? ' afq-card-open' : '')}
             onClick={() => (isBankDeck ? go(1) : setShown((v) => !v))}
           >
             <span className="afq-card-word">{word.word.toUpperCase()}</span>
@@ -290,6 +297,7 @@ export default function CardsView() {
               </span>
             </span>
           </button>
+          </div>
 
           {!isBankDeck && (
             <div className="afq-cards-nav">
