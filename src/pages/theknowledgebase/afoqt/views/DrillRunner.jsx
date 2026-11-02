@@ -433,9 +433,9 @@ export default function DrillRunner() {
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (done) return;
-      const q = questions[current];
-      const i = LETTERS.indexOf(e.key.toUpperCase());
-      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); return; }
+      // No letter hotkeys for answers, and never act on a chord (Trey, 2026-11-02: Ctrl+C answered
+      // the question). Answers are tap/click only.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       // R for repeat - outside A-E, so it costs nothing, and it is the one voice control worth a
       // key: re-reading a question you half-heard is the most common thing you want. Gated on
       // voice being on, because a browser refuses to speak before the toggle's user gesture and a

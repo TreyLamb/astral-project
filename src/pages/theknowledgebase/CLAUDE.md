@@ -214,6 +214,21 @@ eleven job choices are scored on. MK, AR, TR and BC are open and cannot run out;
 
 ---
 
+## 🔴 Every quiz/test REUSES the repo's runner pattern. Never build one from scratch.
+
+Trey, 2026-11-02, the morning of CHEM Exam 3: *"ALL MY TESTS ALWAYS HAVE A BACK AND NEXT. IF THE CHEM TEST NEVER HAD IT
+ITS BECAUSE THE AGENT WHO BUILT IT DID IT FROM SCRATCH INSTEAD OF FOLLOWING THE PATTERN THAT THE WHOLE ASTRAL PROJECT REPO
+FOLLOWS."* `courses/chem/views/ChemDrillRunner.jsx` was written from scratch and shipped without Back/Next, change-answer or
+hints, and with A-D answer hotkeys he had already asked to be removed (Ctrl+C answered questions). The pattern is AFOQT's
+`afoqt/views/DrillRunner.jsx` / `ExamRunner.jsx`. Every quiz or test surface must have, without being asked:
+- **Back / Next** between questions (buttons and arrow keys) and the ability to **change an answer**;
+- a **hint ladder** (5-7 steps; the first names the constants and equations needed WITHOUT their values; no hint states the answer);
+- **no letter hotkeys for answering**, and no hotkey ever fires on a Ctrl/Cmd/Alt chord;
+- the reference sheet openable mid-run where the course has one.
+Before claiming a feature "doesn't exist", search the whole repo AND his Drive (the Exam 2 hint ladders lived in
+`SupplementalCourseDocs/CHEM 1210/Exam2_Skill_Sweep.html`). Batch fixes into ONE push. Open follow-up: rebuild the CHEM runner
+on the shared pattern.
+
 ## 📚 Public sources for study material: the `public-curriculum` skill
 
 When Trey asks for a curriculum, or for where to read more on a topic in a course or AFOQT subject, use the user-level

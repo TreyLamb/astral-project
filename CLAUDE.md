@@ -4,6 +4,62 @@ This file is for Claude. Read it before touching anything.
 
 ---
 
+## 🔴🔴 REUSE BEFORE BUILD: follow the architecture that already exists. Read this before writing any feature.
+
+Trey, 2026-11-02, after the CHEM practice test turned out to be a from-scratch runner with no Back/Next, no hints and A-D
+answer hotkeys he had already asked to be removed: *"IT SHOULDN'T BE SAID THAT AGENTS SHOULD BE FOLLOWING THE SAME
+ARCHITECTURE OF THE WHOLE REST OF THE PROJECT ... IT'S COMMON SENSE ... WE SHOULDN'T EVEN HAVE TO HAVE RULES FOR THIS."*
+He is right. These rules exist because it happened anyway; treat every one as binding.
+
+**Before you build**
+1. **Find the existing version first.** Before writing any component, page, runner, deck, store or script, search the repo
+   for something that already does it (Grep the concept, not just one file name: "quiz", "drill", "runner", "deck", "hint",
+   "next"). Then search his Drive (`G:\My Drive\SupplementalCourseDocs\`) for anything a previous session built there.
+2. **Extend or reuse it. Never fork a second version.** If the existing one is close but not right, generalise it (props,
+   config) and use it in both places. A from-scratch copy drifts, and every fix then has to be made twice.
+3. **If you truly must build new, copy the established pattern feature for feature** and list in your report which existing
+   file you modelled it on.
+4. **Never claim a feature "doesn't exist" or "never existed" from one search.** Check the whole repo, git history and his
+   Drive. If a sibling surface has it and this one doesn't, this one is the bug, not the baseline.
+5. **Parity is the default.** Something that works one way in one sub-app works the same way in every sibling: same keys,
+   same buttons, same layout, same storage behaviour. A difference needs a stated reason.
+
+**Shared pieces that already exist (use them)**
+| Need | Use |
+|---|---|
+| A quiz, drill or test | AFOQT `src/pages/theknowledgebase/afoqt/views/DrillRunner.jsx` / `ExamRunner.jsx` pattern (see the TKB CLAUDE.md rule for what every runner must have) |
+| A flashcard deck | `src/pages/shared/FlipDeck.jsx` |
+| Text to speech | `src/pages/shared/ttsEngine.js` + `ttsCache.js` |
+| A battle screen (games) | `src/pages/shared/GameBattle.jsx` |
+| Error handling for a risky panel | `src/components/errors/Boundary.jsx` |
+| A tool's own top bar | `src/components/HubLink.jsx` + `OWN_TOPBAR_ROUTES` in `Navbar.jsx` |
+| A nav entry / Home card | one entry in `src/siteLinks.js` |
+| Random numbers, shuffles, spaced queues | `src/pages/theknowledgebase/engine/` (`rng.js`, `queue.js`, `selection.js`, `cycle.js`) |
+| localStorage + Firestore sync | the per-sub-app storage module pattern (`mymdbStorage.js`, `rotcStore.jsx`) |
+
+**Every quiz / test / drill, without being asked**
+6. Back / Next between questions (buttons and arrow keys), and answers can be changed until it is finished.
+7. A hint ladder per question (5-7 steps). The first hints name what you need to know (constants, equations) WITHOUT values;
+   no hint ever states the answer.
+8. **No letter hotkeys for answering.** Tap or click only. No hotkey ever fires on a Ctrl/Cmd/Alt chord (Ctrl+C was answering
+   questions).
+9. Hotkeys are ignored while typing in an input or the Notes panel.
+10. A results screen that shows every question, his answer, the right answer and the explanation.
+11. The course reference sheet opens mid-run where the course has one.
+12. A direct, obvious way to START a test from the place he will look for it. A study page that lists templates with no start
+   button is a dead end.
+13. Works on his iPhone in Safari at phone width: tap targets, no hover-only controls.
+
+**Working with him**
+14. **Batch the fixes and push ONCE.** No series of small pushes (Trey, 2026-11-02: "DO NOT DO MULTIPLE PUSHES. FIX IT ALL AND
+   DO ONE PUSH").
+15. Verify on the live site before telling him something works, and say what you checked.
+16. When he is about to use something under time pressure (an exam today), check it the way he will use it, end to end, before
+   handing it over.
+17. When he says something used to exist, believe it enough to search properly before answering. Lead with what you found.
+
+---
+
 ## ℹ️ Deferred env vars (Google Photos / App Check) — flag to check later, do NOT proactively raise
 As of 2026-07-24, Trey has **shelved the Google Photos project (uninterested for now)** and is deferring these two local env vars indefinitely. Both degrade gracefully (nothing crashes):
 - `VITE_PHOTOS_API_HOST` — used in `src/pages/GooglePhotos.jsx`; without it, API calls fall back to relative paths. **It worked last time Trey tried it (weeks ago).** When he **next works on Google Photos**, check whether this needs setting — until then it's not a priority and is NOT to be flagged as broken.
