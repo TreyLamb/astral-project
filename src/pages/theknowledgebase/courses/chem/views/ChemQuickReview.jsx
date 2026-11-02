@@ -88,8 +88,7 @@ export default function ChemQuickReview() {
         if (picked !== null) { e.preventDefault(); next(); }
         return;
       }
-      const i = ['A', 'B', 'C', 'D'].indexOf(e.key.toUpperCase());
-      if (i >= 0) { e.preventDefault(); answer(i); }
+      // No letter hotkeys for answers (Trey, 2026-11-02): tap/click only.
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);

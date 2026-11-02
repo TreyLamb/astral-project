@@ -54,6 +54,7 @@ export default function FlipDeck({
     const onKey = (e) => {
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if ((e.key === ' ' || e.key === 'Enter') && e.target.closest?.('button')) return;
       if (done) { if (e.key === 'r' || e.key === 'R') again(); return; }
       if (e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); setFlipped((f) => !f); }

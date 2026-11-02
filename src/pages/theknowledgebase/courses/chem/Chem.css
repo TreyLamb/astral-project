@@ -422,3 +422,6 @@
 /* The professor's own review sheet, front and centre on exam prep. */
 .chq-sheet-callout { border: 1px solid var(--tkb-accent); border-radius: 10px; padding: .8rem 1rem; background: color-mix(in srgb, var(--tkb-accent) 7%, transparent); }
 .chq-sheet-callout .chq-note { font-size: .95rem; line-height: 1.55; margin: 0 0 .6rem; }
+
+.chq-choice.chq-choice-picked { border-color: var(--tkb-accent, #4c8bf5); box-shadow: inset 0 0 0 2px var(--tkb-accent, #4c8bf5); }
+.chq-nav { justify-content: space-between; align-items: center; margin-top: .6em; }

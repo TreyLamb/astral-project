@@ -85,8 +85,8 @@ export default function ChemDrillRunner() {
 
   const finish = useCallback((finalAnswers) => {
     setDone(true);
-    const right = finalAnswers.filter((a) => a.correct).length;
-    if (chapter && finalAnswers.length === questions.length) {
+    const right = finalAnswers.filter((a) => a && a.correct).length;
+    if (chapter && finalAnswers.filter(Boolean).length === questions.length) {
       if (phase === 'testout') {
         mutate((p) => recordChemTestOut(p, chapter.id, { correct: right, total: questions.length, pass: chapter.testOutPass }));
       } else if (phase === 'mastery') {
@@ -100,7 +100,7 @@ export default function ChemDrillRunner() {
       startedAt: new Date(startedAt.current).toISOString(),
       endedAt: new Date().toISOString(),
       correct: right,
-      answered: finalAnswers.length,
+      answered: finalAnswers.filter(Boolean).length,
     });
   }, [recordRun, chapter, phase, questions.length, mutate]);
 
@@ -115,11 +115,12 @@ export default function ChemDrillRunner() {
       errorMode: !correct ? (q.errors?.[picked] ?? null) : null,
       errorWhy: !correct ? (q.whys?.[picked] ?? null) : null,
     };
-    const next = [...answers, entry];
+    // Answers are stored BY QUESTION so he can go back and change one (Trey, 2026-11-02).
+    const next = [...answers];
+    next[idx] = entry;
     setAnswers(next);
     questionStart.current = Date.now();
-    if (idx + 1 >= questions.length) finish(next);
-    else setIdx(idx + 1);
+    if (idx + 1 < questions.length) setIdx(idx + 1);
   }, [questions, idx, answers, done, finish]);
 
   useEffect(() => {
@@ -129,12 +130,14 @@ export default function ChemDrillRunner() {
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (done) return;
-      const q = questions[idx];
-      // R opens the reference. It is outside A-D, so it can never be mistaken for an answer.
+      // Never act on a chord: Ctrl+C / Ctrl+R / Cmd+H belong to the browser.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.key.toUpperCase() === 'R') { e.preventDefault(); setShowRef((v) => !v); return; }
       if (e.key.toUpperCase() === 'H') { e.preventDefault(); setHintN((n) => n + 1); return; }
-      const i = LETTERS.indexOf(e.key.toUpperCase());
-      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx((i) => Math.max(0, i - 1)); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); setIdx((i) => Math.min(questions.length - 1, i + 1)); return; }
+      // NO letter hotkeys for answers (Trey, 2026-11-02, said it before: a stray key or Ctrl+C
+      // answered the question). Answers are tap/click only.
       // Escape closes the reference first if it is open, and only ends the run otherwise -
       // ending a 40-question drill because you wanted to shut a panel is not recoverable.
       if (e.key === 'Escape') {
@@ -156,10 +159,10 @@ export default function ChemDrillRunner() {
   }
 
   if (done) {
-    const right = answers.filter((a) => a.correct).length;
+    const right = answers.filter((a) => a && a.correct).length;
     const modes = Object.entries(
       answers.reduce((acc, a) => {
-        if (a.errorMode) acc[a.errorMode] = (acc[a.errorMode] ?? 0) + 1;
+        if (a?.errorMode) acc[a.errorMode] = (acc[a.errorMode] ?? 0) + 1;
         return acc;
       }, {}),
     ).sort((p, q2) => q2[1] - p[1]);
@@ -273,7 +276,7 @@ export default function ChemDrillRunner() {
         >
           {showRef ? 'Close reference' : 'Reference'}
         </button>
-        <button className="chq-btn chq-ghost" onClick={() => finish(answers)}>End</button>
+        <button className="chq-btn chq-ghost" onClick={() => finish(answers)}>Finish</button>
       </header>
 
       {showRef && (
@@ -291,7 +294,7 @@ export default function ChemDrillRunner() {
         <ol className="chq-choices">
           {q.choices.map((c, i) => (
             <li key={i}>
-              <button className="chq-choice" onClick={() => submit(i)}>
+              <button className={'chq-choice' + (answers[idx]?.picked === i ? ' chq-choice-picked' : '')} onClick={() => submit(i)}>
                 <span className="chq-letter">{LETTERS[i]}</span>{c}
               </button>
             </li>
@@ -312,7 +315,15 @@ export default function ChemDrillRunner() {
         })()}
       </div>
 
-      <p className="chq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · H for a hint · R for the reference sheet · Esc to end</p>
+      <div className="chq-row chq-nav">
+        <button className="chq-btn" disabled={idx === 0} onClick={() => setIdx(idx - 1)}>← Back</button>
+        <span className="chq-progress">{answers.filter(Boolean).length} of {questions.length} answered</span>
+        {idx + 1 < questions.length
+          ? <button className="chq-btn" onClick={() => setIdx(idx + 1)}>Next →</button>
+          : <button className="chq-btn chq-primary" onClick={() => finish(answers)}>Finish test</button>}
+      </div>
+
+      <p className="chq-hint">Tap an answer · ← / → to move · H for a hint · R for the reference sheet · Esc to end</p>
     </div>
   );
 }
