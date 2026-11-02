@@ -153,7 +153,7 @@ registerChemTemplate({
     const neighbours = [METALS[k - 1], METALS[k + 1], METALS[k - 2], METALS[k + 2], ...METALS].filter((mt) => mt && mt !== m)
       .map((mt) => ({ value: mt.name, error: 'misread-table', why: `${mt.name} is ${mt.c.toFixed(3)} J/(g·°C); the calculated value is ${c.toFixed(3)}` }));
     return {
-      stem: `A ${mm}-g piece of an unknown metal is held in boiling water (100.0 °C), then quickly moved into ${vw} mL of water at ${tw.toFixed(1)} °C. The final temperature of the water and metal is ${tf.toFixed(2)} °C. Specific heats, J/(g·°C): ${metalTable()}. Which metal is it?`,
+      stem: `A ${mm}-g piece of an unknown metal is held in boiling water (100.0 °C), then quickly moved into ${vw} mL of water at ${tw.toFixed(1)} °C. The final temperature of the water and metal is ${tf.toFixed(2)} °C.\nSpecific heats, J/(g·°C): ${metalTable()}\nWhich metal is it?`,
       ...h.choices(m.name, [...mistakes, ...neighbours]),
       explanation: `Water gained q = ${vw} g × 4.184 × (${tf.toFixed(2)} − ${tw.toFixed(1)}) = ${qWater.toFixed(0)} J.\nThe metal lost the same heat while cooling from 100.0 to ${tf.toFixed(2)} °C, a ΔT of ${(100 - tf).toFixed(2)} °C.\nc = q ÷ (m·ΔT) = ${qWater.toFixed(0)} ÷ (${mm} × ${(100 - tf).toFixed(2)}) = ${c.toFixed(3)} J/(g·°C), closest to ${m.name} (${m.c.toFixed(3)}).`,
     };
@@ -281,7 +281,7 @@ registerChemTemplate({
       const n = mass / s.M;
       const q = (Q * n) / s.c;
       return {
-        stem: `${r.eq}    ΔH = ${r.dH} kJ\nHow much heat is released when ${mass.toFixed(1)} g of ${s.f} is ${verb}?`,
+        stem: `${r.eq}  ΔH = ${r.dH} kJ\nHow much heat is released when ${mass.toFixed(1)} g of ${s.f} is ${verb}?`,
         ...h.choices(kJ(q), [
           { value: kJ(Q * n), error: 'ignored-coefficient', why: `multiplied ΔH by the moles of ${s.f} directly. ΔH is for ${s.c} mol of ${s.f}, so divide by ${s.c} first` },
           { value: kJ(Q * n * s.c), error: 'multiplied-by-coefficient', why: `multiplied by the coefficient ${s.c} instead of dividing by it` },
@@ -294,7 +294,7 @@ registerChemTemplate({
     const qWant = h.int(100, 999) * (Q > 3000 ? 10 : 1);
     const mass = (qWant / Q) * s.c * s.M;
     return {
-      stem: `${r.eq}    ΔH = ${r.dH} kJ\nWhat mass of ${s.f} is ${verb} when the reaction releases ${qWant} kJ of heat?`,
+      stem: `${r.eq}  ΔH = ${r.dH} kJ\nWhat mass of ${s.f} is ${verb} when the reaction releases ${qWant} kJ of heat?`,
       ...h.choices(`${sig(mass)} g`, [
         { value: `${sig(mass / s.c)} g`, error: 'ignored-coefficient', why: `treated ${Q} kJ as the heat per mole of ${s.f}. It is per ${s.c} mol` },
         { value: `${sig((qWant / Q) * s.c)} g`, error: 'stopped-at-moles', why: 'found moles and reported them as grams. Multiply by the molar mass to finish' },
@@ -333,7 +333,7 @@ registerChemTemplate({
     const nA = ma / A.M;
     const nB = mb / B.M;
     return {
-      stem: `${r.eq}    ΔH = ${r.dH} kJ\nA mixture of ${ma.toFixed(1)} g of ${A.f} and ${mb.toFixed(1)} g of ${B.f} reacts until one reactant is used up. How much heat is released?`,
+      stem: `${r.eq}  ΔH = ${r.dH} kJ\nA mixture of ${ma.toFixed(1)} g of ${A.f} and ${mb.toFixed(1)} g of ${B.f} reacts until one reactant is used up. How much heat is released?`,
       ...h.choices(kJ(Q * ext), [
         { value: kJ(Q * Math.max(eA, eB)), error: 'used-excess-reactant', why: 'based the heat on the reactant in EXCESS. The reaction stops when the limiting reactant runs out' },
         { value: kJ(Q * Math.min(nA, nB)), error: 'ignored-coefficients', why: 'compared and used raw moles without dividing by the coefficients' },
@@ -387,7 +387,7 @@ registerChemTemplate({
     const twin = [0, 1, 3][pickTrue];
     const distractors = [FALSE[twin], ...FALSE.filter((_, i) => i !== twin)];
     return {
-      stem: `${r.eq}    ΔH = ${r.dH > 0 ? '+' : ''}${r.dH} kJ\nWhich statement is correct?`,
+      stem: `${r.eq}  ΔH = ${r.dH > 0 ? '+' : ''}${r.dH} kJ\nWhich statement is correct?`,
       ...h.choices(correct, distractors),
       explanation: `${exo ? 'ΔH is negative: exothermic, heat released, products lower in enthalpy.' : 'ΔH is positive: endothermic, heat absorbed, products higher in enthalpy.'} ΔH belongs to the equation as written: reverse it and the sign flips; multiply the coefficients and ΔH multiplies too. The correct statement: "${correct}."`,
     };
@@ -443,7 +443,7 @@ registerChemTemplate({
     // Drop a COMPOUND: dropping an element (ΔH°f = 0) changes nothing and duplicates the answer.
     const [dc, dsp] = [...rx.p].reverse().find(([, sp]) => sp in DHF);
     return {
-      stem: `Use standard enthalpies of formation (ΔH°f, kJ/mol: ${tableFor(rx)}) to find ΔH°rxn for:\n${eqText(rx)}`,
+      stem: `${eqText(rx)}\nStandard enthalpies of formation, ΔH°f (kJ/mol): ${tableFor(rx)}\nWhat is ΔH°rxn?`,
       ...h.choices(fmt1(ans), [
         { value: fmt1(R - P), error: 'reactants-minus-products', why: 'subtracted in the wrong order. It is products minus reactants' },
         { value: fmt1(side(rx.p, false) - side(rx.r, false)), error: 'ignored-coefficients', why: 'used each ΔH°f once. Each one is per mole and must be multiplied by its coefficient' },
@@ -491,7 +491,7 @@ registerChemTemplate({
     const known = [...rx.r, ...rx.p].map(([, sp]) => sp).filter((sp) => sp in DHF && sp !== u.sp)
       .filter((sp, i, a) => a.indexOf(sp) === i).map((sp) => `${sp} ${DHF[sp]}`).join(' · ');
     return {
-      stem: `${eqText(rx)}    ΔH°rxn = ${dHrxn.toFixed(1)} kJ\nGiven ΔH°f (kJ/mol): ${known || '(no other compounds)'}. What is ΔH°f of ${u.sp}?`,
+      stem: `${eqText(rx)}  ΔH°rxn = ${dHrxn.toFixed(1)} kJ\nKnown ΔH°f (kJ/mol): ${known || '(none needed)'}\nWhat is ΔH°f of ${u.sp}?`,
       ...h.choices(`${x.toFixed(1)} kJ/mol`, [
         { value: `${(x * u.c).toFixed(1)} kJ/mol`, error: 'forgot-to-divide-by-coefficient', why: `solved for ${u.c}·ΔH°f and stopped. ΔH°f is per ONE mole, so divide by ${u.c}` },
         { value: `${(-x).toFixed(1)} kJ/mol`, error: 'sign-error-rearranging', why: `put ${u.sp} on the wrong side of "products minus reactants" while rearranging` },

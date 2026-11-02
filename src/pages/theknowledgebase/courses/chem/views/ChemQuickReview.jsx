@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
+import ChemStem, { inline } from './ChemStem';
 import { useNavigate } from 'react-router-dom';
 import { CHEM_CHAPTERS } from '../curriculum';
 import { EXAMS, sectionsForExam, currentExamId, isAheadOfClass, STUDIED_THROUGH_CHAPTER } from '../syllabusMap';
@@ -163,7 +164,7 @@ export default function ChemQuickReview() {
       ) : (
         <>
           <div className="chq-quick-card">
-            <p className="chq-stem">{question.stem}</p>
+            <ChemStem text={question.stem} />
             <ol className="chq-choices">
               {question.choices.map((c, i) => {
                 const isAnswer = i === question.correctIndex;
@@ -175,7 +176,7 @@ export default function ChemQuickReview() {
                       onClick={() => answer(i)}
                       disabled={picked !== null}
                     >
-                      <span className="chq-letter">{['A', 'B', 'C', 'D'][i]}</span>{c}
+                      <span className="chq-letter">{['A', 'B', 'C', 'D'][i]}</span>{inline(c, i)}
                     </button>
                   </li>
                 );

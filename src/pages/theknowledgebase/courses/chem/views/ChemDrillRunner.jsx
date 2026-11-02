@@ -10,6 +10,7 @@ import { ChemReferenceContent } from './ChemResources';
 import { ConceptContent } from './ChemConceptView';
 import { conceptPageFor } from '../concepts';
 import { chemHints } from '../engine/hints';
+import ChemStem, { inline } from './ChemStem';
 import { allChemTemplates } from '../engine/generator';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
@@ -215,7 +216,7 @@ export default function ChemDrillRunner() {
               if (!q) return null;
               return (
                 <div key={i} className={a.correct ? 'chq-miss chq-hit' : 'chq-miss'}>
-                  <p className="chq-miss-stem"><span className="chq-miss-n">{i + 1}</span>{q.stem}</p>
+                  <div className="chq-miss-stem"><span className="chq-miss-n">{i + 1}</span><ChemStem text={q.stem} className="chq-stem-inline" /></div>
                   <p className="chq-miss-line">
                     {a.correct
                       ? <span className="chq-miss-good">You: {q.choices[q.correctIndex]}</span>
@@ -290,12 +291,12 @@ export default function ChemDrillRunner() {
       )}
 
       <div className="chq-card">
-        <p className="chq-stem">{q.stem}</p>
+        <ChemStem text={q.stem} />
         <ol className="chq-choices">
           {q.choices.map((c, i) => (
             <li key={i}>
               <button className={'chq-choice' + (answers[idx]?.picked === i ? ' chq-choice-picked' : '')} onClick={() => submit(i)}>
-                <span className="chq-letter">{LETTERS[i]}</span>{c}
+                <span className="chq-letter">{LETTERS[i]}</span>{inline(c, i)}
               </button>
             </li>
           ))}

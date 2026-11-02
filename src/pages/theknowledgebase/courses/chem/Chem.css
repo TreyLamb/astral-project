@@ -425,3 +425,23 @@
 
 .chq-choice.chq-choice-picked { border-color: var(--tkb-accent, #4c8bf5); box-shadow: inset 0 0 0 2px var(--tkb-accent, #4c8bf5); }
 .chq-nav { justify-content: space-between; align-items: center; margin-top: .6em; }
+
+/* Question layout (ChemStem): equations on their own line, data as a table, ΔH°f set properly. */
+.chq-stem p, .chq-stem-inline p { margin: 0 0 .55em; }
+.chq-stem-inline { display: inline-block; vertical-align: top; }
+.chq-eq {
+  column-gap: .5em;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: .2em .5em;
+  margin: .2em 0 .7em; padding: .55em .8em; border-radius: 8px;
+  background: var(--tkb-canvas); border: 1px solid var(--tkb-border);
+  font-size: 1.05em; letter-spacing: .01em; text-align: center;
+}
+.chq-eq-dh { color: var(--tkb-ink-soft); white-space: nowrap; }
+.chq-data-label { margin: 0 0 .25em; color: var(--tkb-ink-soft); font-size: .9em; }
+.chq-data { border-collapse: collapse; margin: 0 0 .7em; font-variant-numeric: tabular-nums; }
+.chq-data td { padding: .15em .9em .15em 0; border-bottom: 1px solid var(--tkb-border); }
+.chq-data td:last-child { text-align: right; padding-right: 0; }
+.chq-dh sup { font-size: .8em; vertical-align: .35em; margin-left: .02em; line-height: 0; }
+.chq-dh sub { font-size: .65em; vertical-align: -.3em; }
+.chq-eq-side { white-space: nowrap; }
+.chq-eq { overflow-x: auto; }
