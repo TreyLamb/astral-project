@@ -17,7 +17,7 @@ const ALL = (date, kind, title, extra = {}) => ({ id: `p${++seq}`, date, start: 
 
 const D = {
   fri: '2026-10-23', sat: '2026-10-24', sun: '2026-10-25', mon: '2026-10-26', tue: '2026-10-27',
-  wed: '2026-10-28', thu: '2026-10-29', fri2: '2026-10-30', sat2: '2026-10-31', sun2: '2026-11-01', mon2: '2026-11-02',
+  wed: '2026-10-28', thu: '2026-10-29', fri2: '2026-10-30', sat2: '2026-10-31', sun2: '2026-11-01', mon2: '2026-11-02', tue2: '2026-11-03',
 };
 
 export const PLAN = [
@@ -128,25 +128,29 @@ export const PLAN = [
   E(D.sat2, '19:00', '19:30', 'work', 'Warrior Knowledge (daily 30 min)', { course: 'AFROTC', prio: 'habit' }),
   E(D.sat2, '19:30', '20:30', 'work', 'MICR 2060 reading: MMAHP Ch 12 (OLQ 12, due Sat 11/7)', { course: 'MICR 2060', prio: 'must', note: 'Hour 2 of your 2 hr/week MICR reading. Light on purpose after a long day.' }),
 
-  // ── Sun 11-1: Exam 3 practice exam; get ahead on ESMG W4, ESFF 5+6, MICR Ch 11, ESMG A4 ──
-  E(D.sun2, '09:00', '12:00', 'work', 'CHEM 1210 Exam 3 prep: mixed Ch 1-6 timed practice exam', { course: 'CHEM 1210', prio: 'must', note: '~2 min/question. Mark misses for Monday. Saturday’s Ch 3-4 review moved here: weight Ch 3-4 heavier.' }),
-  E(D.sun2, '12:00', '13:00', 'work', 'CHEM 1210: rework the practice-exam misses, Ch 3-4 first', { course: 'CHEM 1210', prio: 'must', note: 'Quiz 8, 9 make-ups and the Quiz 14 retake move to after the exam (late quizzes accepted).' }),
-  E(D.sun2, '13:00', '13:45', 'rest', 'Lunch'),
-  E(D.sun2, '13:45', '14:45', 'work', 'ESMG 3200 Week 4 discussion: initial post', { course: 'ESMG 3200', prio: 'must', note: 'Real due date Mon 11/2 11:59 PM; Monday is exam day. Not known whether Fisher counts a Sunday post as a day for the 3-day extra credit.' }),
-  E(D.sun2, '15:00', '16:00', 'work', 'ESFF 1120 Init 5+6 combined paper: sources + skeleton (day 1 of 3)', { course: 'ESFF 1120', prio: 'must', note: 'Real due date Wed 11/4 11:59 PM, 100 pts, 500-700 words, one academic source per initiative.' }),
-  E(D.sun2, '16:00', '16:20', 'work', 'Air Force Song + Airman\u2019s Creed', { course: 'AFROTC', prio: 'habit' }),
-  E(D.sun2, '16:30', '17:30', 'work', 'MICR 2060 reading: MMAHP Ch 11 (OLQ 11, due Wed 11/4)', { course: 'MICR 2060', prio: 'must', note: 'Hour 1 of your 2 hr/week MICR reading.' }),
-  E(D.sun2, '17:30', '18:30', 'work', 'ESMG 3200 Assignment 4: read the prompt + sources + skeleton (day 1)', { course: 'ESMG 3200', prio: 'must', note: 'Real due date Thu 11/5 11:59 PM, 50 pts (Program Proposal).' }),
+  // ── Sun 11-1: Trey's plan (9:30 AM): CHEM make-up quizzes in hour-on / hour-off blocks, ESMG W4 post ──
+  E(D.sun2, '10:00', '11:00', 'work', "CHEM 1210 Quiz 15 make-up (Sec 5-1, 5-2)", {"course":"CHEM 1210","prio":"must","note":"Hour on, hour off (Trey, 11-1). Late quizzes accepted; doubles as Exam 3 warm-up."}),
+  E(D.sun2, '12:00', '13:00', 'work', "CHEM 1210 Quiz 16 make-up (Sec 5-3, 5-4)", {"course":"CHEM 1210","prio":"must"}),
+  E(D.sun2, '14:00', '15:00', 'work', "CHEM 1210 Quiz 18 make-up (Sec 6-1, 6-2)", {"course":"CHEM 1210","prio":"must"}),
+  E(D.sun2, '16:00', '17:00', 'work', "CHEM 1210 Quiz 19 make-up (Sec 6-3, 6-4)", {"course":"CHEM 1210","prio":"must"}),
+  E(D.sun2, '17:00', '17:30', 'work', "Warrior Knowledge (daily 30 min; fine in 5-min pieces during the off hours)", {"course":"AFROTC","prio":"habit"}),
+  E(D.sun2, '18:00', '19:00', 'work', "CHEM 1210 Quiz 20 make-up (Sec 6-5)", {"course":"CHEM 1210","prio":"must"}),
+  E(D.sun2, '20:00', '21:00', 'work', "ESMG 3200 Week 4 discussion: initial post", {"course":"ESMG 3200","prio":"must","note":"Real due date Mon 11/2 11:59 PM; Monday is the 6 AM practice + exam, so it goes up today."}),
 
   // ── Mon 11-2: CHEM Exam 3 at 1 PM ──
-  E(D.mon2, '08:30', '11:30', 'work', 'CHEM 1210 Exam 3 final prep: Sunday\u2019s misses + heat math', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.mon2, '06:00', '07:00', 'fixed', "Presidential Review practice (0600, PTGs)", {"course":"AFROTC","prio":"fixed","note":"End time is a guess."}),
+  E(D.mon2, '07:30', '11:30', 'work', "CHEM 1210 Exam 3 prep: library block, timed Ch 1-6 practice exam (~2 min/question), then rework the misses", {"course":"CHEM 1210","prio":"must","note":"Trey, 11-1: big library block before the exam. /TKB/courses/chem/exam -> Exam 3."}),
   E(D.mon2, '11:30', '12:30', 'rest', 'Lunch + get to class'),
   E(D.mon2, '13:00', '14:00', 'fixed', 'CHEM 1210 EXAM 3 (cumulative Ch 1-6)', { course: 'CHEM 1210', prio: 'deadline' }),
   E(D.mon2, '15:00', '15:20', 'work', 'ESMG 3200 Week 4 reply #1', { course: 'ESMG 3200', prio: 'must', note: '2 replies are REQUIRED (6 of 20 pts); real due date Thu 11/5.' }),
-  E(D.mon2, '15:30', '17:30', 'work', 'ESFF 1120 Init 5+6: bulk draft (day 2 of 3)', { course: 'ESFF 1120', prio: 'must', note: 'Real due date Wed 11/4.' }),
+  E(D.mon2, '15:30', '17:30', 'work', 'ESFF 1120 Init 5+6: sources + skeleton + start the draft', { course: 'ESFF 1120', prio: 'must', note: 'Real due date Wed 11/4.' }),
   E(D.mon2, '19:00', '19:30', 'work', 'CHEM 1210 Quiz 21 prep (Sec 7-1 to 7-3)', { course: 'CHEM 1210', prio: 'must', note: 'Quiz 21 is due Tue 11/3 12:30 PM; take it Tue 8:00 AM after PT.' }),
   E(D.mon2, '19:30', '19:50', 'work', 'Air Force Song + Airman\u2019s Creed', { course: 'AFROTC', prio: 'habit' }),
-  E(D.mon2, '23:59', null, 'due', 'DUE: ESMG 3200 Week 4 initial post (posted Sunday)'),
+  E(D.mon2, '23:59', null, 'due', 'DUE: ESMG 3200 Week 4 initial post (posted Sunday night)'),
+
+  // ── Tue 11-3: no PT (not taking the PFRA). Moved here from Sunday 11-1 ──
+  E(D.tue2, '09:00', '10:00', 'work', 'MICR 2060 reading: MMAHP Ch 11 (OLQ 11, due Wed 11/4)', { course: 'MICR 2060', prio: 'must', note: 'Moved from Sunday (CHEM make-up day). Hour 1 of the 2 hr/week MICR reading.' }),
+  E(D.tue2, '10:00', '11:00', 'work', 'ESMG 3200 Assignment 4: prompt + sources + skeleton (day 1)', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11/5 11:59 PM; Thursday is the Presidential Review, so finish by Wed night.' }),
 ];
 
 export const KIND_COLORS = { fixed: '#60a5fa', work: '#34d399', due: '#f87171', travel: '#9ca3af', class: '#a78bfa', rest: '#fbbf24' };

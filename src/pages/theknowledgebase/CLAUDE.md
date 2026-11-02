@@ -214,6 +214,14 @@ eleven job choices are scored on. MK, AR, TR and BC are open and cannot run out;
 
 ---
 
+## 📚 Public sources for study material: the `public-curriculum` skill
+
+When Trey asks for a curriculum, or for where to read more on a topic in a course or AFOQT subject, use the user-level
+`public-curriculum` skill and his database at `G:\My Drive\SupplementalCourseDocs\_LearningSources\`. Point him to real course
+pages from universities and professionals by direct link instead of writing the lesson in your own words (Trey, 2026-11-01). For
+his enrolled courses the professor's own material stays first; public sources are linked as a supplement (for example from a
+reference sheet or lesson), never swapped in for what the class assigns.
+
 ## ℹ️ AFROTC is NOT part of TKB any more (moved 2026-10-25)
 
 Trey, 2026-10-25: *"Get all of my AFROTC stuff out of TKB AND into the AFROTC page itself."* AFROTC is coursework, not an

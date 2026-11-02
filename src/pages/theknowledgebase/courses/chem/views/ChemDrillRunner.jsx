@@ -9,6 +9,8 @@ import { REVIEW2_REAL_ITEMS } from '../examReview2Items';
 import { ChemReferenceContent } from './ChemResources';
 import { ConceptContent } from './ChemConceptView';
 import { conceptPageFor } from '../concepts';
+import { chemHints } from '../engine/hints';
+import { allChemTemplates } from '../engine/generator';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 
@@ -75,6 +77,9 @@ export default function ChemDrillRunner() {
   // The "Explain further" page for a missed question's section, shown over the results. A drawer,
   // not a route: navigating away and back would rebuild the drill and lose the results.
   const [deeper, setDeeper] = useState(null);
+  // Hints are revealed one at a time; the first names the constants needed, never their values.
+  const [hintN, setHintN] = useState(0);
+  useEffect(() => { setHintN(0); }, [idx]);
   const startedAt = useRef(Date.now());
   const questionStart = useRef(Date.now());
 
@@ -127,6 +132,7 @@ export default function ChemDrillRunner() {
       const q = questions[idx];
       // R opens the reference. It is outside A-D, so it can never be mistaken for an answer.
       if (e.key.toUpperCase() === 'R') { e.preventDefault(); setShowRef((v) => !v); return; }
+      if (e.key.toUpperCase() === 'H') { e.preventDefault(); setHintN((n) => n + 1); return; }
       const i = LETTERS.indexOf(e.key.toUpperCase());
       if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); }
       // Escape closes the reference first if it is open, and only ends the run otherwise -
@@ -291,9 +297,22 @@ export default function ChemDrillRunner() {
             </li>
           ))}
         </ol>
+        {(() => {
+          const hints = chemHints(q, allChemTemplates().find((t) => t.id === q.templateId)?.name);
+          return (
+            <div className="chq-hints">
+              {hints.slice(0, hintN).map((t, i) => <p key={i} className="chq-res-note">💡 {t}</p>)}
+              {hintN < hints.length && (
+                <button className="chq-btn chq-ghost" onClick={() => setHintN((n) => n + 1)}>
+                  {hintN === 0 ? 'Hint' : 'Next hint'} ({hintN + 1}/{hints.length})
+                </button>
+              )}
+            </div>
+          );
+        })()}
       </div>
 
-      <p className="chq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · R for the reference sheet · Esc to end</p>
+      <p className="chq-hint">Press {LETTERS.slice(0, q.choices.length).join(' / ')} to answer · H for a hint · R for the reference sheet · Esc to end</p>
     </div>
   );
 }

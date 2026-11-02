@@ -737,6 +737,17 @@ the skill + STATE.md + this file + the memory folder the same turn.
 
 ---
 
+## 📚 "Build me a curriculum" = public courses + links, NOT Claude-written lessons
+Trey, 2026-11-01: *"I do not want YOU to build it all from scratch with your wording. Instead i want my curriculum to already
+consist of curriculums that exist publicly"*, written *"by a teacher/professional ... FOR humans by humans"*, with *"a direct link
+to the exact page i need to go to so i can just click and read."* Use the user-level **`public-curriculum` skill**
+(`C:\Users\Trey\.claude\skills\public-curriculum\SKILL.md`). The source database he can browse himself is
+`G:\My Drive\SupplementalCourseDocs\_LearningSources\` (`INDEX.md` has topic quick links): read it first, add to it every time,
+and verify every URL before writing it (a URL from memory was a 404 the day this was set up). His enrolled courses still run on
+their own assigned material first; public sources supplement them.
+
+---
+
 ## 🎨 webdesign.md is required reading before any layout work
 `webdesign.md` (same directory) is the binding contract for page layout, the
 counterpart to `gamedesign.md` and `featuredesign.md`. Written 2026-08-13 after

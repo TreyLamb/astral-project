@@ -375,6 +375,95 @@ export function ChemReferenceContent() {
         </p>
       </section>
 
+      {/* --- Oxidation numbers --------------------------------------------------- */}
+      {/* Trey's class list, 2026-11-01, kept in his numbering and wording. The warnings below are
+          where two of his rules collide; the list does not say which wins, and Exam 3 will ask. */}
+      <section className="chq-res-block">
+        <h3>Oxidation numbers</h3>
+        <p className="chq-res-sub">The oxidation number:</p>
+        <ol className="chq-res-list">
+          <li>of any free element is <strong>zero</strong> (Na, O₂, Cl₂, S₈)</li>
+          <li>of any simple, monoatomic ion is <strong>equal to the charge on the ion</strong></li>
+          <li>of fluorine in its compounds is <strong>−1</strong></li>
+          <li>Group 1A metals are <strong>+1</strong></li>
+          <li>Group 2A metals are <strong>+2</strong></li>
+          <li>of hydrogen in its compounds is <strong>+1</strong></li>
+          <li>of oxygen in its compounds is <strong>−2</strong></li>
+          <li>the <strong>sum</strong> of all oxidation numbers of the atoms in a molecule or
+            polyatomic ion must equal the <strong>charge on the particle</strong></li>
+          <li>of a Group VIIA (17) element in a compound is <strong>−1</strong></li>
+        </ol>
+        <div className="chq-res-formula">
+          <div>Find S in SO₄²⁻: &nbsp;S + 4(−2) = −2 &nbsp;→&nbsp; <strong>S = +6</strong></div>
+          <div>Find Mn in KMnO₄: &nbsp;+1 + Mn + 4(−2) = 0 &nbsp;→&nbsp; <strong>Mn = +7</strong></div>
+        </div>
+        <h4>F, H and O together: priority F &gt; H &gt; O</h4>
+        <p className="chq-res-inline">
+          When these three meet, assign them in this order. The one higher on the list keeps its
+          number, and the lower one gives way.
+        </p>
+        <table className="chq-res-table">
+          <thead><tr><th>Element</th><th>Usual</th><th>Gives way when</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>F</strong></td><td>−1</td><td>never, always −1</td><td>OF₂, HF</td></tr>
+            <tr><td><strong>H</strong></td><td>+1</td><td>bonded to a metal (metal hydride): <strong>−1</strong></td><td>NaH, CaH₂</td></tr>
+            <tr><td><strong>O</strong></td><td>−2</td><td>in a peroxide: <strong>−1</strong>; bonded to F: <strong>+2</strong></td><td>H₂O₂, OF₂</td></tr>
+          </tbody>
+        </table>
+        <p className="chq-res-note">
+          H₂O₂: H outranks O, so H takes +1 and O is left with −1. OF₂: F outranks O, so each F
+          takes −1 and O is left with +2. Assign the sure ones first, then let rule 8 solve for
+          the one left over.
+        </p>
+        <p className="chq-res-warn">
+          ⚠️ Rule 9 holds only when the halogen is the more electronegative partner (NaCl, HBr).
+          Bonded to oxygen it goes positive: Cl in ClO₃⁻ is <strong>+5</strong>, found by rule 8.
+          Fluorine is the exception: always −1.
+        </p>
+      </section>
+
+      {/* --- Heat and light ------------------------------------------------------ */}
+      {/* Trey's list, 2026-11-01 (Exam 3 constants and equations). */}
+      <section className="chq-res-block">
+        <h3>Heat and light: constants and equations</h3>
+        <table className="chq-res-table">
+          <thead><tr><th>Constant</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Specific heat of water</td><td><strong>4.184 J/(g·°C)</strong></td></tr>
+            <tr><td>Density of water</td><td>1.0 g/mL</td></tr>
+            <tr><td>Planck’s constant</td><td><strong>h = 6.626 × 10<sup>−34</sup> J·s</strong></td></tr>
+            <tr><td>Speed of light</td><td><strong>c = 3.00 × 10<sup>8</sup> m/s</strong></td></tr>
+          </tbody>
+        </table>
+        <table className="chq-res-table">
+          <thead><tr><th>Conversion</th><th>Equals</th></tr></thead>
+          <tbody>
+            <tr><td>1 Cal (food Calorie, capital C)</td><td>4.184 kJ = 4184 J</td></tr>
+            <tr><td>1 µm</td><td>10<sup>−6</sup> m</td></tr>
+          </tbody>
+        </table>
+        <div className="chq-res-formula">
+          <div><strong>ΔT = T<sub>f</sub> − T<sub>i</sub></strong></div>
+          <div><strong>q = m c ΔT</strong> &nbsp;·&nbsp; with total heat capacity: <strong>q = C ΔT</strong></div>
+          <div><strong>q<sub>hot</sub> = −q<sub>cold</sub></strong> &nbsp;(heat lost = heat gained)</div>
+          <div><strong>E = hν</strong> &nbsp;(energy of one photon)</div>
+          <div><strong>λν = c</strong> &nbsp;(wavelength × frequency)</div>
+        </div>
+        <p className="chq-res-warn">
+          ⚠️ Capital-C <strong>Cal</strong> is 4184 J; lowercase <strong>cal</strong> is 4.184 J.
+          Read the letter case before you convert.
+        </p>
+        <p className="chq-res-warn">
+          ⚠️ λν = c needs λ in <strong>meters</strong>, because c is in m/s. Convert nm or µm
+          first (1 nm = 10<sup>−9</sup> m).
+        </p>
+        <p className="chq-res-note">
+          Lowercase <strong>c</strong> is the specific heat, per gram. Capital <strong>C</strong> is
+          the heat capacity of the whole object. ΔT is final minus initial, so it is negative when
+          something cools, and then q comes out negative too.
+        </p>
+      </section>
+
       {/* --- Atomic structure -------------------------------------------------- */}
       <section className="chq-res-block">
         <h3>Reading an atom</h3>

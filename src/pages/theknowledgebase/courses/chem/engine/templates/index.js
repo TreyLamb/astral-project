@@ -42,3 +42,7 @@ import './acs-ch03-mole-calculations.js';
 // ch 3-4 review. The national exam is the bar; his professor's quizzes are the floor.
 import './acs-exam3-heat.js';
 import './acs-exam3-stoich.js';
+
+// Exam 3, 2026-11-02: generators modelled on his graded Quiz 19 (6-3/6-4) and Quiz 20 (6-5),
+// new elements/numbers/wording every draw, never the quiz items themselves.
+import './quiz-ch06-observed.js';
