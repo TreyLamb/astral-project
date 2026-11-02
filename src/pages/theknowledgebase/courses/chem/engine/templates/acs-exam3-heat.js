@@ -139,15 +139,22 @@ registerChemTemplate({
     const tf = Math.round(tfExact * 100) / 100;
     const qWater = vw * C_WATER * (tf - tw);
     const c = qWater / (mm * (100 - tf));
-    const show = (x) => `${x.toFixed(3)} J/(g·°C)`;
+    // Asks for the IDENTITY (Trey, 2026-11-02: the old stem asked for the specific heat and then
+    // said the table "tells you which metal", so the table did nothing). Each wrong metal is
+    // where a real calculation mistake lands; the remaining slots are the table neighbours.
+    const closest = (x) => METALS.reduce((best, mt) => (Math.abs(mt.c - x) < Math.abs(best.c - x) ? mt : best)).name;
+    const mistakes = [
+      { x: qWater / (mm * tf), error: 'used-final-temp-as-delta-t', why: 'used the final temperature itself as the metal’s ΔT. The metal went from 100.0 °C down to the final temperature' },
+      { x: vw * C_WATER / mm, error: 'used-one-delta-t-for-both', why: 'gave the metal the same ΔT as the water. They meet at one final temperature but start far apart' },
+      { x: (mm * C_WATER * (tf - tw)) / (vw * (100 - tf)), error: 'swapped-masses', why: 'used the metal’s mass for the water and the water’s mass for the metal' },
+      { x: qWater / (mm * (100 + tf)), error: 'added-temperatures', why: 'added the temperatures for the metal’s ΔT instead of subtracting them' },
+    ].map((d) => ({ value: closest(d.x), error: d.error, why: d.why }));
+    const k = METALS.indexOf(m);
+    const neighbours = [METALS[k - 1], METALS[k + 1], METALS[k - 2], METALS[k + 2], ...METALS].filter((mt) => mt && mt !== m)
+      .map((mt) => ({ value: mt.name, error: 'misread-table', why: `${mt.name} is ${mt.c.toFixed(3)} J/(g·°C); the calculated value is ${c.toFixed(3)}` }));
     return {
-      stem: `A ${mm}-g piece of an unknown metal is held in boiling water (100.0 °C), then quickly moved into ${vw} mL of water at ${tw.toFixed(1)} °C. The final temperature of the water and metal is ${tf.toFixed(2)} °C. Specific heats, J/(g·°C): ${metalTable()}. What is the metal's specific heat? (The table then tells you which metal it is.)`,
-      ...h.choices(show(c), [
-        { value: show(qWater / (mm * tf)), error: 'used-final-temp-as-delta-t', why: 'used the final temperature itself as the metal\'s ΔT. The metal went from 100.0 °C down to the final temperature' },
-        { value: show(vw * C_WATER / mm), error: 'used-one-delta-t-for-both', why: 'gave the metal the same ΔT as the water. The two objects meet at one final temperature but start far apart, so their ΔTs differ' },
-        { value: show((mm * C_WATER * (tf - tw)) / (vw * (100 - tf))), error: 'swapped-masses', why: 'used the metal\'s mass for the water and the water\'s mass for the metal' },
-        { value: show(qWater / (mm * (100 + tf))), error: 'added-temperatures', why: 'added the temperatures for the metal\'s ΔT instead of subtracting them' },
-      ]),
+      stem: `A ${mm}-g piece of an unknown metal is held in boiling water (100.0 °C), then quickly moved into ${vw} mL of water at ${tw.toFixed(1)} °C. The final temperature of the water and metal is ${tf.toFixed(2)} °C. Specific heats, J/(g·°C): ${metalTable()}. Which metal is it?`,
+      ...h.choices(m.name, [...mistakes, ...neighbours]),
       explanation: `Water gained q = ${vw} g × 4.184 × (${tf.toFixed(2)} − ${tw.toFixed(1)}) = ${qWater.toFixed(0)} J.\nThe metal lost the same heat while cooling from 100.0 to ${tf.toFixed(2)} °C, a ΔT of ${(100 - tf).toFixed(2)} °C.\nc = q ÷ (m·ΔT) = ${qWater.toFixed(0)} ÷ (${mm} × ${(100 - tf).toFixed(2)}) = ${c.toFixed(3)} J/(g·°C), closest to ${m.name} (${m.c.toFixed(3)}).`,
     };
   },

@@ -265,7 +265,8 @@ registerChemTemplate({
     const c = h.pick(PARAMAGNETIC_CASES);
     const wrongMagnetic = c.magnetic === 'paramagnetic' ? 'diamagnetic' : 'paramagnetic';
     return {
-      stem: `A ${c.name} has the valence configuration ${c.config}, giving it ${c.unpaired} unpaired electron${c.unpaired === 1 ? '' : 's'}. Is this atom paramagnetic or diamagnetic?`,
+      // The stem used to spell out the orbital filling and the unpaired count, which IS the answer.
+      stem: `Is a ${c.name} in its ground state paramagnetic or diamagnetic?`,
       ...h.choices(
         c.magnetic,
         [{ value: wrongMagnetic, error: 'paramagnetic-diamagnetic-swapped', why: c.unpaired > 0 ? 'called an atom with unpaired electrons diamagnetic — any unpaired electrons make an atom paramagnetic' : 'called a fully-paired atom paramagnetic — with zero unpaired electrons, it must be diamagnetic' }],

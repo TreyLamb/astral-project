@@ -73,9 +73,7 @@ export function chemHints({ stem = '', explanation = '', choices, correctIndex }
   const text = `${stem}\n${explanation}`;
   const answer = choices && correctIndex != null ? choices[correctIndex] : null;
   const leaks = answerTests(answer);
-  const out = [/\d/.test(stem)
-    ? 'Before calculating anything: what exactly is the question asking for, and in what units? Underline the given values you will need.'
-    : 'Before choosing: say in your own words what is being asked, and cross off any option that answers a different question.'];
+  const out = [];
   const consts = CONSTANTS.filter((c) => c.test.test(text));
   if (consts.length) {
     const given = consts.filter((c) => c.test.test(stem));
@@ -89,7 +87,6 @@ export function chemHints({ stem = '', explanation = '', choices, correctIndex }
     if (out.length >= MAX_HINTS - 1) break;
     out.push(`Step: ${s}`);
   }
-  if (out.length < MAX_HINTS && /\d/.test(stem)) out.push('Check your result against the choices: a wrong option usually comes from one skipped unit conversion, a flipped sign, or a forgotten power of ten.');
   return out.slice(0, MAX_HINTS);
 }
 

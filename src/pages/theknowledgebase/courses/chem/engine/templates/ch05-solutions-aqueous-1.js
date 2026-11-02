@@ -331,7 +331,7 @@ registerChemTemplate({
     const c = h.pick(OXNUM_COMPOUNDS);
     const answerNum = Number(c.answer);
     return {
-      stem: `Using the standard oxidation-number rules (O is usually −2, H is usually +1, the sum equals the overall charge), what is the oxidation number of ${c.target} in ${c.formula}?`,
+      stem: `What is the oxidation number of ${c.target} in ${c.formula}?`,
       ...h.choices(
         c.answer,
         [

@@ -373,6 +373,8 @@ registerChemTemplate({
         { value: pct(n / atoms * 100), error: 'atom-fraction', why: 'counted atoms instead of mass — percent composition is by MASS' },
         ...others,
         { value: pct(n * AM[el] / (M - n * AM[el]) * 100), error: 'divided-by-rest', why: `divided by the mass of everything except ${el}, not by the whole formula mass` },
+        { value: pct(n * AM[el] / c.parts.reduce((t, [e]) => t + AM[e], 0) * 100), error: 'total-without-subscripts', why: 'built the formula mass without its subscripts (one of each atom)' },
+        { value: pct(AM[el] / c.parts.reduce((t, [e]) => t + AM[e], 0) * 100), error: 'no-subscripts-anywhere', why: 'ignored every subscript, top and bottom' },
       ]),
       explanation: `Formula mass of ${formula(c.parts)} = ${M.toFixed(2)} g/mol. ${el} contributes ${n} × ${mm(AM[el])} = ${(n * AM[el]).toFixed(2)} g/mol, so %${el} = ${(n * AM[el]).toFixed(2)} / ${M.toFixed(2)} × 100 = ${pct(right)}.`,
     };
@@ -473,7 +475,6 @@ const YIELD_RXNS = [
   { eq: '2H₂ + O₂ → 2H₂O', r: 'O₂', Mr: 32.00, p: 'H₂O', Mp: 18.02, ratio: [1, 2] },
   { eq: '4Fe + 3O₂ → 2Fe₂O₃', r: 'Fe', Mr: 55.85, p: 'Fe₂O₃', Mp: 159.70, ratio: [4, 2] },
   { eq: '2Al + 3Cl₂ → 2AlCl₃', r: 'Cl₂', Mr: 70.90, p: 'AlCl₃', Mp: 133.33, ratio: [3, 2] },
-  { eq: 'C₃H₈ + 5O₂ → 3CO₂ + 4H₂O', r: 'C₃H₈', Mr: 44.09, p: 'CO₂', Mp: 44.01, ratio: [1, 3] },
   { eq: '2KClO₃ → 2KCl + 3O₂', r: 'KClO₃', Mr: 122.55, p: 'O₂', Mp: 32.00, ratio: [2, 3] },
 ];
 
@@ -492,13 +493,20 @@ registerChemTemplate({
     const right = actual / theo * 100;
     return {
       stem: `For ${x.eq}, ${mass.toFixed(1)} g of ${x.r} reacts completely (the other reactants are in excess) and ${actualStr} g of ${x.p} is collected. What is the percent yield? (${x.r} = ${mm(x.Mr)}, ${x.p} = ${mm(x.Mp)} g/mol)`,
+      // Every wrong option is a real mistake that still lands UNDER 100% (Trey, 2026-11-02: two
+      // options over 100% turned the item into a coin flip; a yield over 100% is eliminable on sight).
       ...h.choices(pct(right), [
-        { value: pct(theo / actual * 100), error: 'ratio-inverted', why: 'divided theoretical by actual — percent yield is ACTUAL / theoretical, and cannot exceed 100% for a clean product' },
-        ...(a !== b ? [{ value: pct(actual / (mass / x.Mr * x.Mp) * 100), error: 'ignored-mole-ratio', why: `skipped the ${a}:${b} mole ratio from the balanced equation` }] : []),
-        { value: pct(actual / mass * 100), error: 'used-reactant-mass', why: 'divided by the reactant mass instead of the theoretical yield of product' },
-        { value: pct(100 - right), error: 'reported-loss', why: 'that is the percent LOST, not the percent yield' },
-        { value: `${(right / 100).toFixed(3)}%`, error: 'forgot-times-100', why: 'left the ratio as a decimal fraction and never multiplied by 100' },
-      ]),
+        ...(a !== b ? [
+          { v: actual / (mass / x.Mr * x.Mp) * 100, error: 'ignored-mole-ratio', why: `skipped the ${a}:${b} mole ratio from the balanced equation` },
+          { v: actual / (mass / x.Mr * (a / b) * x.Mp) * 100, error: 'mole-ratio-inverted', why: `used the mole ratio upside down (${b}:${a} instead of ${a}:${b})` },
+        ] : []),
+        { v: actual / (mass / x.Mp * (b / a) * x.Mr) * 100, error: 'molar-masses-swapped', why: 'divided by the product molar mass and multiplied by the reactant one' },
+        { v: actual / mass * 100, error: 'used-reactant-mass', why: 'divided by the reactant mass instead of the theoretical yield of product' },
+        { v: 100 - right, error: 'reported-loss', why: 'that is the percent LOST, not the percent yield' },
+        { v: actual / (mass * (b / a)) * 100, error: 'skipped-molar-masses', why: 'applied the mole ratio straight to grams without converting through moles' },
+        { v: (actual / x.Mp) / (mass / x.Mr) * 100, error: 'compared-moles-no-ratio', why: 'compared moles of product to moles of reactant without the mole ratio' },
+        { v: actual / (theo * 1.1) * 100, error: 'rounded-early', why: 'rounded the molar masses or moles too early and carried the error' },
+      ].filter((d) => d.v > 5 && d.v < 100 && Math.abs(d.v - right) > 2).map((d) => ({ value: pct(d.v), error: d.error, why: d.why }))),
       explanation: `Theoretical yield: ${mass.toFixed(1)} g / ${mm(x.Mr)} = ${(mass / x.Mr).toFixed(4)} mol ${x.r} × ${b}/${a} = ${(mass / x.Mr * b / a).toFixed(4)} mol ${x.p} × ${mm(x.Mp)} = ${sf3(theo)} g. Percent yield = actual / theoretical × 100 = ${actualStr} / ${sf3(theo)} × 100 = ${pct(right)}.`,
     };
   },

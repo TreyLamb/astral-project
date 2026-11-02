@@ -80,12 +80,18 @@ function makeHelpers(rng, seed) {
       const seen = new Set([String(typeof correct === 'object' && correct !== null && 'value' in correct ? correct.value : correct)]);
       const pool = [];
       let labelled = false;
+      // A percent that is a part of a whole cannot pass 100%, so a wrong option above 100% is
+      // eliminable on sight and turns the item into a coin flip (Trey, 2026-11-02). When the right
+      // answer is a percent of 100 or less, no distractor above 100% is offered.
+      const pctOf = (v) => { const m = String(v).match(/^\s*([\d.]+)\s*%\s*$/); return m ? Number(m[1]) : null; };
+      const rightPct = pctOf(typeof correct === 'object' && correct !== null && 'value' in correct ? correct.value : correct);
       for (const d of distractors) {
         const tagged = d !== null && typeof d === 'object' && 'value' in d;
         if (tagged) labelled = true;
         const value = tagged ? d.value : d;
         const k = String(value);
         if (seen.has(k)) continue;
+        if (rightPct != null && rightPct <= 100 && pctOf(value) > 100) continue;
         seen.add(k);
         pool.push({ value, error: tagged ? (d.error ?? null) : null, why: tagged ? (d.why ?? null) : null });
         if (pool.length >= CHOICES_PER_QUESTION - 1) break;
