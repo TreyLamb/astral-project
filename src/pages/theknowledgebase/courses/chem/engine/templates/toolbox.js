@@ -28,7 +28,17 @@ registerChemTemplate({
     // value * 10^from.exp base units = answer * 10^to.exp base units
     const diff = from.exp - to.exp;
     const answer = value * Math.pow(10, diff);
-    const fmt = (n) => (Math.abs(n) >= 1000 || (Math.abs(n) < 0.001 && n !== 0)) ? n.toExponential(2) : String(n);
+    // toPrecision(12) strips float noise (3 × 10⁻² printed as 0.030000000000000006); big and tiny
+    // values are written the way a chemist writes them, not as "3.00e+3".
+    const SUPS = { '-': '⁻', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+    const fmt = (n) => {
+      const clean = Number(n.toPrecision(12));
+      if (Math.abs(clean) >= 1000 || (Math.abs(clean) < 0.001 && clean !== 0)) {
+        const [m, e] = clean.toExponential().split('e');
+        return `${m} × 10${String(Number(e)).split('').map((ch) => SUPS[ch]).join('')}`;
+      }
+      return String(clean);
+    };
     return {
       stem: `${value} ${from.name}grams (${from.symbol}g) equals how many ${to.name}grams (${to.symbol}g)?`,
       ...h.choices(
@@ -37,7 +47,7 @@ registerChemTemplate({
           { value: fmt(value * Math.pow(10, -diff)), error: 'inverted-conversion', why: 'inverted the direction of the conversion' },
           { value: fmt(value * Math.pow(10, from.exp - to.exp) / 10), error: 'off-by-one-power', why: 'was off by one power of ten' },
           { value: fmt(value), error: 'no-conversion', why: 'did not convert at all' },
-          { value: fmt(value * Math.pow(10, to.exp - from.exp) * -1), error: 'sign-error', why: 'flipped the sign of the exponent difference' },
+          { value: fmt(value * Math.pow(10, from.exp - to.exp) * 10), error: 'off-by-one-power', why: 'was off by one power of ten' },
         ],
       ),
       explanation: `Convert through base units: ${value} ${from.symbol}g × 10^${from.exp} g/${from.symbol}g ÷ 10^${to.exp} g/${to.symbol}g = ${fmt(answer)} ${to.symbol}g.`,

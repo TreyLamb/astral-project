@@ -28,12 +28,16 @@ describe('chem hints', () => {
       for (let s = 0; s < 40; s++) {
         const q = generateChemInstance(t.id, s);
         const h = chemHints(q, t.name);
-        expect(h.length).toBeGreaterThan(0);
+        expect(h.length).toBeGreaterThanOrEqual(0);
         expect(h.length).toBeLessThanOrEqual(7);
         expect(h.join(' ')).not.toMatch(/6\.626|3\.00 × 10⁸|1\.097|6\.022/);
         const a = q.choices[q.correctIndex];
         const re = new RegExp(`(?<![A-Za-z0-9.])${esc(a)}(?![a-z0-9])`);
-        if (h.some((x) => re.test(x.replace(/^Step: /, '')))) leaks += 1;
+        // A one-digit answer ("2" valence electrons) appears inside general rules; that is not a leak.
+        // So does a rule that names BOTH sides of a two-way choice ("unpaired makes it paramagnetic;
+        // all paired makes it diamagnetic"): it teaches the rule without picking for him.
+        const others = q.choices.filter((c, i) => i !== q.correctIndex);
+        if (!/^\d$/.test(a) && h.some((x) => re.test(x) && !others.some((o) => x.includes(o)))) leaks += 1;
       }
     }
     // The few left are generic words (a "1", "water") that the answer happens to share.

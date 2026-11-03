@@ -26,6 +26,12 @@ export function inline(text, key = 0) {
   return out;
 }
 
+// "2C₂H₆(g) + 7O₂(g) → 4CO₂(g)" -> ["2C₂H₆(g)", "+ 7O₂(g)", "→ 4CO₂(g)"]. Each term never breaks
+// inside itself, so a narrow screen wraps between terms instead of scrolling sideways.
+function terms(eq) {
+  return eq.trim().split(/\s+(?=[+→])/).map((t) => t.trim());
+}
+
 function dataRows(list) {
   return list.split(' · ').map((item) => {
     const t = item.trim().replace(/\.$/, '');
@@ -44,8 +50,7 @@ export default function ChemStem({ text, className = 'chq-stem' }) {
           return (
             <div key={i} className="chq-eq">
               {/* Reactants and "→ products" each stay whole, so a phone wraps at the arrow. */}
-              <span className="chq-eq-side">{inline(eq.split('→')[0].trim(), `${i}a`)}</span>
-              <span className="chq-eq-side">→ {inline(eq.split('→').slice(1).join('→').trim(), `${i}b`)}</span>
+              {terms(eq).map((t, j) => <span key={j} className="chq-eq-term">{inline(t, `${i}-${j}`)}</span>)}
               {dh && <span className="chq-eq-dh">{inline(dh, `${i}d`)}</span>}
             </div>
           );

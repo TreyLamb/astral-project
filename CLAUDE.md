@@ -789,6 +789,9 @@ real study = the CURRENT chapter tuned to the national ACS exam. He views CHEM d
 **never show or discuss "bands" in his course UI** — just build and plan to it. Agents share no memory: if he states a standing preference, write it into
 the skill + STATE.md + this file + the memory folder the same turn.
 ⏱️ **Time tracking (Trey, 2026-10-26): log how long each assignment REALLY takes** — `_ChiefOfStaff/time-log.csv` + `timelog.mjs` (`import-canvas`, `summary` → `TIME_AVERAGES.md`). When he says "start X"/"done X", stamp the clock and log net minutes, planned minutes, focus and reason; **if he gives no reason or the actual is outside 0.7x-1.4x of planned, get curious and ask one specific question.** Size future blocks from the MEDIANS, not guesses.
+🧪 **Daily (Trey, 2026-11-02): CHEM 1210 gets 3 hr every day, class included** (2 hr prep the night before on the next slides,
+then class), **and a workout is scheduled 5-6 days a week** (before 7 AM; Tue/Thu PT counts). Weekday model = a 7-3 "school shift";
+template `_ChiefOfStaff/Week_Template_7to3.pdf`. Block these first in every plan.
 🪖 **Daily (Trey, 2026-10-28): 30 min of Warrior Knowledge review** (roster names/faces/ranks, insignia, cards, Song and Creed; can be split into 5-minute pieces) goes in every daily plan, and the agent reminds him and calls it out when missed. **Every "do today" list accounts for the next 2-3 days**: pull work forward when later days can't hold it, and say why.
 
 ---

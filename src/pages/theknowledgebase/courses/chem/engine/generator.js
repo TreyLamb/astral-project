@@ -113,12 +113,41 @@ function makeHelpers(rng, seed) {
 /**
  * Build one question. Deterministic: same (templateId, seed) => identical output forever.
  */
+// Every number a human reads is written the way a chemist writes it (Trey, 2026-11-02, on an
+// option reading 0.030000000000000006). One pass over every instance, so no template can leak:
+//   - float noise is rounded off (0.30000000000000004 -> 0.3);
+//   - JS exponent form becomes scientific notation (2.17e-3 -> 2.17 × 10⁻³, 10^-6 -> 10⁻⁶);
+//   - an option that came out as Infinity (a division by a 0 °C that was never converted) is dropped.
+const SUP_DIGITS = { '-': '⁻', '+': '', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+const supOf = (e) => String(Number(e)).split('').map((ch) => SUP_DIGITS[ch]).join('');
+function tidyText(s) {
+  if (typeof s !== 'string') return s;
+  return s
+    .replace(/\d+\.\d{12,}/g, (m) => String(Number(Number(m).toPrecision(12))))
+    .replace(/(\d(?:\.\d+)?)e([+-]?\d+)/g, (_, m, e) => `${m} × 10${supOf(e)}`)
+    .replace(/10\^\(?([+-]?\d+)\)?/g, (_, e) => `10${supOf(e)}`);
+}
+function tidy(raw) {
+  const keep = (raw.choices ?? []).map((c, i) => i === raw.correctIndex || !/Infinity|^NaN /.test(String(c)));
+  const pick = (arr) => (arr ? arr.filter((_, i) => keep[i]) : arr);
+  return {
+    ...raw,
+    stem: tidyText(raw.stem),
+    explanation: tidyText(raw.explanation),
+    choices: pick(raw.choices)?.map(tidyText),
+    correctIndex: keep.slice(0, raw.correctIndex).filter(Boolean).length,
+    errors: pick(raw.errors),
+    whys: pick(raw.whys),
+  };
+}
+
 export function generateChemInstance(templateId, seed) {
   const t = registry.get(templateId);
   if (!t) return null;
   const rng = mulberry32(seed);
-  const raw = t.generate(rng, makeHelpers(rng, seed));
-  if (!raw) return null;
+  const raw0 = t.generate(rng, makeHelpers(rng, seed));
+  if (!raw0) return null;
+  const raw = tidy(raw0);
   return {
     templateId: t.id,
     seed,

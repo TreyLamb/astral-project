@@ -340,7 +340,7 @@ registerChemTemplate({
   section: '6-5',
   band: 3,
   name: 'Isoelectronic species and ion configurations',
-  concepts: ['periodic-trend-ionic-radius', 'electron-configuration-periodic-table'],
+  concepts: ['electron-configuration-periodic-table'],
   generate: (rng, h) => {
     const kind = h.pick(['which-isoelectronic', 'which-isoelectronic', 'ion-from-config']);
     if (kind === 'ion-from-config') {

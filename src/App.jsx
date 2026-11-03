@@ -14,6 +14,7 @@ import NotesPanel from './components/NotesPanel';
 import Home from './pages/Home';
 import DailyIdiom from './pages/DailyIdiom';
 import DailyIdiomWidget from './pages/DailyIdiomWidget';
+import ScheduleWidget from './pages/ScheduleWidget';
 import Lexicon from './pages/Lexicon';
 import QATracker from './pages/QATracker';
 import RSMarket from './pages/RSMarket';
@@ -65,6 +66,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/daily-idiom" element={<DailyIdiom />} />
             <Route path="/daily-idiom-widget" element={<DailyIdiomWidget />} />
+            <Route path="/schedule-widget" element={<ScheduleWidget />} />
             <Route path="/lexicon" element={<Lexicon />} />
             <Route path="/google-photos" element={<GooglePhotos />} />
             <Route path="/mymdb/*"       element={<MymdbApp />} />

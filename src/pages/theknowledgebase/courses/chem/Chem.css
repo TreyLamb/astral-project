@@ -103,7 +103,7 @@
    inherits it — bumping fifteen individual rules would have drifted the first time someone
    added a sixteenth. `em` rather than `rem` so it is 25% bigger than whatever the base
    actually is, not 25% of an assumed 16px. */
-.chq-runner { display: flex; flex-direction: column; gap: .75rem; max-width: 760px; font-size: 1.25em; }
+.chq-runner { display: flex; flex-direction: column; gap: .75rem; width: 100%; font-size: clamp(1rem, .85rem + .45vw, 1.35rem); }
 .chq-runner-top { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
 .chq-progress { color: var(--tkb-ink-soft); font-size: .85em; }
 .chq-card { background: var(--tkb-surface); border: 1px solid var(--tkb-border); border-radius: 10px; padding: 1.1em; }
@@ -443,5 +443,20 @@
 .chq-data td:last-child { text-align: right; padding-right: 0; }
 .chq-dh sup { font-size: .8em; vertical-align: .35em; margin-left: .02em; line-height: 0; }
 .chq-dh sub { font-size: .65em; vertical-align: -.3em; }
-.chq-eq-side { white-space: nowrap; }
-.chq-eq { overflow-x: auto; }
+.chq-practice { align-items: center; gap: .5em; margin-top: .4em; flex-wrap: wrap; }
+
+/* Test layout: full window on a PC (webdesign.md: tool pages use the whole width). Question on the left,
+   hints + practice in a side panel on the right; one column on a phone. */
+.chq-runner-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-items: start; }
+.chq-main { display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
+.chq-side { display: flex; flex-direction: column; gap: .6rem; min-width: 0; }
+.chq-side .chq-hints { display: flex; flex-direction: column; gap: .5rem; }
+@media (min-width: 1000px) {
+  .chq-runner-body { grid-template-columns: minmax(0, 1fr) minmax(300px, 30%); }
+  .chq-side { position: sticky; top: 1rem; }
+}
+/* Equations: terms stay whole and wrap between each other; nothing scrolls sideways. */
+.chq-eq { overflow: hidden; }
+.chq-eq-term { white-space: nowrap; }
+.chq-card, .chq-main, .chq-stem { min-width: 0; overflow-wrap: anywhere; }
+.chq-side .chq-res-note { font-size: .85em; line-height: 1.45; }

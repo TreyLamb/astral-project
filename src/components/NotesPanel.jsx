@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { isWidgetRoute } from '../widgetRoutes';
 import { firstSegment, segmentLabel } from '../routeAliases';
 import './NotesPanel.css';
 
@@ -78,6 +79,8 @@ export default function NotesPanel() {
     setNotes(nextNotes);
     writeStored({ notes: nextNotes, open });
   };
+
+  if (isWidgetRoute(location.pathname)) return null;
 
   return (
     <>

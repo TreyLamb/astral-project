@@ -18,6 +18,7 @@ const ALL = (date, kind, title, extra = {}) => ({ id: `p${++seq}`, date, start: 
 const D = {
   fri: '2026-10-23', sat: '2026-10-24', sun: '2026-10-25', mon: '2026-10-26', tue: '2026-10-27',
   wed: '2026-10-28', thu: '2026-10-29', fri2: '2026-10-30', sat2: '2026-10-31', sun2: '2026-11-01', mon2: '2026-11-02', tue2: '2026-11-03',
+  wed2: '2026-11-04', thu2: '2026-11-05', fri3: '2026-11-06',
 };
 
 export const PLAN = [
@@ -148,9 +149,78 @@ export const PLAN = [
   E(D.mon2, '19:30', '19:50', 'work', 'Air Force Song + Airman\u2019s Creed', { course: 'AFROTC', prio: 'habit' }),
   E(D.mon2, '23:59', null, 'due', 'DUE: ESMG 3200 Week 4 initial post (posted Sunday night)'),
 
-  // ── Tue 11-3: no PT (not taking the PFRA). Moved here from Sunday 11-1 ──
-  E(D.tue2, '09:00', '10:00', 'work', 'MICR 2060 reading: MMAHP Ch 11 (OLQ 11, due Wed 11/4)', { course: 'MICR 2060', prio: 'must', note: 'Moved from Sunday (CHEM make-up day). Hour 1 of the 2 hr/week MICR reading.' }),
-  E(D.tue2, '10:00', '11:00', 'work', 'ESMG 3200 Assignment 4: prompt + sources + skeleton (day 1)', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11/5 11:59 PM; Thursday is the Presidential Review, so finish by Wed night.' }),
+  // ── Tue 11-3: PT cancelled all week (Presidential Review practices). Everything due Thu moves to Tue/Wed,
+  //    because Thursday morning is the review. CHEM 3 hr/day + workout + Warrior Knowledge (standing, 11-2). ──
+  E(D.tue2, '09:45', '09:55', 'work', 'AEROS 210: check Learning Suite for DB8 (one Duo approval)', { course: 'AERO 2100', prio: 'must', note: 'Not on Canvas. DB7 was due Fri, so DB8 is probably Fri 11-6.' }),
+  E(D.tue2, '09:55', '10:55', 'work', 'MICR 2060 reading: MMAHP Ch 11', { course: 'MICR 2060', prio: 'must', note: 'For OLQ 11 (due Wed 11:59 PM). Hour 1 of the 2 hr/week MICR reading.' }),
+  E(D.tue2, '10:55', '11:25', 'work', 'MICR 2060 OLQ 11', { course: 'MICR 2060', prio: 'must', note: 'Due Wed 11/4 11:59 PM; take it while the reading is fresh.' }),
+  E(D.tue2, '11:25', '12:25', 'work', 'ESFF 1120 Init 5+6: prompt, sources, skeleton', { course: 'ESFF 1120', prio: 'must', note: 'Paper due Wed 11/4 11:59 PM (100 pts).' }),
+  E(D.tue2, '12:25', '13:00', 'rest', 'Lunch'),
+  E(D.tue2, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210' }),
+  E(D.tue2, '14:15', '15:15', 'work', 'ESMG 3200 Assignment 4: prompt, rubric, sources, skeleton', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11/5 11:59 PM; finished Wed because Thursday is the review.' }),
+  E(D.tue2, '15:15', '16:30', 'work', 'MICR 2065 Pre-Lab #8 + Module 8 Case Study', { course: 'MICR 2065', prio: 'must', note: 'Due Thu 11/5 4:00 PM.' }),
+  E(D.tue2, '16:30', '17:30', 'fixed', 'Workout (PT cancelled this week)'),
+  E(D.tue2, '17:30', '18:15', 'rest', 'Dinner'),
+  E(D.tue2, '18:15', '20:15', 'work', 'CHEM 1210 prep: 7-4/7-5 slides + Quiz 21 material (7-1 to 7-3)', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.tue2, '20:15', '20:45', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
+  E(D.tue2, '20:45', '21:15', 'work', 'Read the ODC OPORD (Lesson 10, GLPs) + lay out Duty uniform', { course: 'AFROTC', prio: 'must' }),
+
+  // ── Wed 11-4: ODC, then clear everything due Wed AND Thu ──
+  E(D.wed2, '06:00', '07:00', 'fixed', 'ODC Lesson 10: GLPs (Duty uniform)', { course: 'AFROTC', note: 'Confirm it is on this week; PT is cancelled for the review practices.' }),
+  E(D.wed2, '07:15', '08:15', 'fixed', 'Workout'),
+  E(D.wed2, '08:30', '09:00', 'work', 'CHEM 1210 Quiz 21 (7-1 to 7-3)', { course: 'CHEM 1210', prio: 'must', note: 'Due Thu 11/5 12:30 PM; Thursday morning is the review.' }),
+  E(D.wed2, '09:00', '11:30', 'work', 'ESFF 1120 Init 5+6: draft, polish, SUBMIT', { course: 'ESFF 1120', prio: 'deadline' }),
+  E(D.wed2, '11:30', '12:30', 'work', 'ESMG 3200 Assignment 4: draft', { course: 'ESMG 3200', prio: 'must' }),
+  E(D.wed2, '12:30', '13:00', 'rest', 'Lunch'),
+  E(D.wed2, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210' }),
+  E(D.wed2, '14:15', '15:45', 'work', 'ESMG 3200 Assignment 4: finish + SUBMIT', { course: 'ESMG 3200', prio: 'must' }),
+  E(D.wed2, '15:45', '16:00', 'work', 'ESMG 3200 W4 extra-credit reply (optional, day 3)', { course: 'ESMG 3200', prio: 'habit' }),
+  E(D.wed2, '17:00', '17:45', 'rest', 'Dinner'),
+  E(D.wed2, '17:45', '19:45', 'work', 'CHEM 1210 prep for Thursday’s class', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.wed2, '19:45', '20:15', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
+  E(D.wed2, '20:15', '20:30', 'work', 'Lay out review uniform (khakis, polo, Happy Jacket); early bed', { course: 'AFROTC', prio: 'must' }),
+  E(D.wed2, '23:59', null, 'due', 'DUE: ESFF 1120 Init 5+6 paper · MICR 2060 OLQ 11'),
+
+  // ── Thu 11-5: Presidential Review ──
+  E(D.thu2, '06:00', '07:00', 'fixed', 'Presidential Review dress rehearsal (Det, with Army)', { course: 'AFROTC' }),
+  E(D.thu2, '09:15', '09:45', 'fixed', 'Form up at the Det, march', { course: 'AFROTC' }),
+  E(D.thu2, '10:00', '11:00', 'fixed', 'Presidential Review (BYU Brigham Square)', { course: 'AFROTC' }),
+  E(D.thu2, '11:00', '12:00', 'fixed', 'Reception, Wilk Garden Court', { course: 'AFROTC', note: 'Optional Army leadership LLAB after; length unknown.' }),
+  E(D.thu2, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210' }),
+  E(D.thu2, '14:00', '16:00', 'work', 'CHEM 1210 prep (moved up: lab tonight)', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.thu2, '16:00', '18:00', 'class', 'MICR 2065 lab', { course: 'MICR 2065' }),
+  E(D.thu2, '18:00', '18:45', 'rest', 'Dinner'),
+  E(D.thu2, '18:45', '19:15', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
+  E(D.thu2, '23:59', null, 'due', 'DUE: ESMG 3200 A4 · CHEM Q21 (12:30) · MICR 2065 Pre-Lab #8 + Case 8 (4 PM)'),
+
+  // ── Fri 11-6: Holy War run (Trey, 11-3: back on the list; ready by 0600 he believes, his leg 0845-0935) ──
+  E(D.fri3, '06:00', '08:45', 'fixed', 'Holy War run: report by 0600 (CONFIRM time, place, uniform, ride)', { course: 'AFROTC', note: 'Details still missing: where to report, uniform, transport, when you are back.' }),
+  E(D.fri3, '08:45', '09:35', 'fixed', 'Holy War run: YOUR LEG (0845-0935)', { course: 'AFROTC' }),
+  E(D.fri3, '09:35', '10:30', 'travel', 'Back from the run (end time unknown)'),
+  E(D.fri3, '11:00', '12:00', 'work', 'MICR 2065 Lab Notebook #8 + Post-Lab #8', { course: 'MICR 2065', prio: 'must', note: 'Due date to confirm on Canvas after Thursday lab.' }),
+  E(D.fri3, '12:00', '12:30', 'work', 'AEROS 210 DB8 (Learning Suite)', { course: 'AERO 2100', prio: 'must', note: 'Due Fri 11:59 PM if it follows DB7.' }),
+  E(D.fri3, '12:30', '13:15', 'rest', 'Lunch'),
+  E(D.fri3, '13:15', '16:15', 'work', 'CHEM 1210: 3 hr (no class Fri): Quiz 22 (7-4, 7-5) + Quiz 8/9 make-ups', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.fri3, '16:30', '17:00', 'work', 'Warrior Knowledge QUIZ (due Sat 4 PM) + Honor Points', { course: 'AFROTC', prio: 'must' }),
+  E(D.fri3, '23:59', null, 'due', 'DUE (check Learning Suite): AEROS 210 DB8'),
+  E('2026-11-07', '16:00', null, 'due', 'DUE: Warrior Knowledge quiz (4 PM) · Honor Points (EOD)'),
+  E('2026-11-09', '14:30', null, 'due', 'DUE: CHEM 1210 Quiz 22 (7-4, 7-5), 2:30 PM'),
+  E('2026-11-11', '12:30', null, 'due', 'DUE: CHEM 1210 Quiz 23 (7-6), 12:30 PM'),
+  E('2026-11-16', '14:30', null, 'due', 'DUE: CHEM 1210 Quiz 24 (8-1 to 8-3), 2:30 PM'),
+];
+
+// Dates that matter beyond the day-by-day blocks: exams, ROTC events, windows. Drawn on the MFT calendar
+// as all-day ★ chips (planOverlayByDate) and included in the phone feed (scripts/exportSchedule.mjs). `tbc` marks a date that is a best estimate.
+export const IMPORTANT_DATES = [
+  { date: '2026-11-05', title: 'Presidential Review (practice 0600, review 1000)', course: 'AFROTC' },
+  { date: '2026-11-06', title: 'Holy War run (your leg 0845-0935)', course: 'AFROTC', tbc: true },
+  { date: '2026-11-08', end: '2026-11-14', title: 'MICR 2060 Exam 3 window', course: 'MICR 2060' },
+  { date: '2026-11-11', title: 'ODC: Morale PT (PTG uniform)', course: 'AFROTC' },
+  { date: '2026-11-17', title: 'Retreat, 1730', course: 'AFROTC' },
+  { date: '2026-11-19', title: 'ORI I (Service Dress)', course: 'AFROTC' },
+  { date: '2026-11-30', title: 'CHEM 1210 Exam 4 (Ch 1-8): date not announced, late Nov likely', course: 'CHEM 1210', tbc: true },
+  { date: '2026-12-03', title: 'Change of Command', course: 'AFROTC' },
+  { date: '2026-12-07', title: 'CHEM 1210 FINAL (ACS), 1:00 PM, no makeup', course: 'CHEM 1210' },
 ];
 
 export const KIND_COLORS = { fixed: '#60a5fa', work: '#34d399', due: '#f87171', travel: '#9ca3af', class: '#a78bfa', rest: '#fbbf24' };
@@ -173,7 +243,7 @@ export function workHoursByDay(plan = PLAN) {
 }
 
 /** The plan as the calendar overlay's event shape, grouped by day and sorted by start time. */
-export function planOverlayByDate(plan = PLAN) {
+export function planOverlayByDate(plan = PLAN, important = IMPORTANT_DATES) {
   const map = {};
   for (const e of plan) {
     const timed = Boolean(e.start);
@@ -181,6 +251,13 @@ export function planOverlayByDate(plan = PLAN) {
     (map[e.date] ||= []).push({
       id: `plan::${e.id}`, calId: 'plan', calName: 'Plan', color: KIND_COLORS[e.kind] ?? '#94a3b8',
       title, date: e.date, time: timed ? clock(e.start) : null, sortKey: timed ? e.start : '', allDay: !timed, link: null,
+    });
+  }
+  for (const d of important) {
+    (map[d.date] ||= []).push({
+      id: `plan::imp::${d.date}::${d.title}`, calId: 'plan', calName: 'Plan', color: '#f472b6',
+      title: `★ ${d.title}${d.end ? ` (through ${d.end.slice(5)})` : ''}${d.tbc ? ' (to confirm)' : ''}`,
+      date: d.date, time: null, sortKey: '', allDay: true, link: null,
     });
   }
   for (const list of Object.values(map)) list.sort((a, b) => a.sortKey.localeCompare(b.sortKey));

@@ -9,6 +9,6 @@ const b = await chromium.launch({ headless: true });
 const p = await b.newPage();
 await p.emulateMedia({ colorScheme: 'light' });
 await p.goto(pathToFileURL(src).href, { waitUntil: 'load' });
-await p.pdf({ path: out, format: 'Letter', printBackground: true, margin: { top: '0.45in', bottom: '0.45in', left: '0.45in', right: '0.45in' } });
+await p.pdf({ path: out, format: 'Letter', landscape: process.env.LANDSCAPE === '1', printBackground: true, margin: { top: '0.45in', bottom: '0.45in', left: '0.45in', right: '0.45in' } });
 await b.close();
 console.log('wrote', out);

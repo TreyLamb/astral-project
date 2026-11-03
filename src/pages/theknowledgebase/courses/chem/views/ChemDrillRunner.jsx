@@ -12,15 +12,23 @@ import { conceptPageFor } from '../concepts';
 import { chemHints } from '../engine/hints';
 import ChemStem, { inline } from './ChemStem';
 import { allChemTemplates } from '../engine/generator';
+import { buildPracticeSet } from '../engine/practice';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
+
+// The run in progress is saved to this browser after every answer, so a crash or a refresh never
+// costs a test again (2026-11-02: a results-screen crash lost a 40-question, 3-hour run).
+// /TKB/courses/chem/drill/run?resume=last reopens it, answers and position intact.
+const SAVE_KEY = 'chq_run_in_progress_v1';
+const loadSaved = () => { try { return JSON.parse(localStorage.getItem(SAVE_KEY) ?? 'null'); } catch { return null; } };
+const saveRun = (run) => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(run)); } catch { /* private mode: nothing to do */ } };
 
 // Runs one drill/gate/mastery-check/mass-review session. Mirrors afoqt/views/DrillRunner.jsx,
 // stripped of everything AFOQT-specific (pacing/clock/sweep/composite pressure) — see
 // courses/chem/PLAN.md. `chapter` absent means a cross-chapter run (the "mass review" mode,
 // reached from ChemPractice.jsx with no chapter param, same relationship AFOQT's
 // DrillConfig -> DrillRunner has).
-export default function ChemDrillRunner() {
+export default function ChemDrillRunner({ practice = null }) {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { recordRun, mutate } = useChem();
@@ -46,7 +54,10 @@ export default function ChemDrillRunner() {
   // ?sheet=exam2-review works the professor's whole Exam 2 review sheet in its own order — every
   // question once, options shuffled — instead of sampling it like a template pool.
   const sheet = params.get('sheet');
+  const resume = params.get('resume') === 'last' ? loadSaved() : null;
   const questions = useMemo(() => {
+    if (practice) return practice.questions;
+    if (resume?.questions?.length) return resume.questions;
     const rng = mulberry32(Date.now());
     if (sheet === 'exam2-review') {
       return REVIEW2_REAL_ITEMS.map((it, i) => {
@@ -67,9 +78,19 @@ export default function ChemDrillRunner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, chapter?.id, isGate, sectionParam, chapterWeights, sheet]);
 
-  const [idx, setIdx] = useState(0);
-  const [answers, setAnswers] = useState([]);
+  const [idx, setIdx] = useState(() => (resume && !practice ? resume.idx ?? 0 : 0));
+  // Practice mode (engine/practice.js): a set built around the question he is on. The test stays
+  // mounted underneath, so "Back to the test" returns to the same question with answers intact.
+  const [practiceSet, setPracticeSet] = useState(null);
+  const [answers, setAnswers] = useState(() => (resume && !practice ? resume.answers ?? [] : []));
+  // Saved only once this run has an answer, so opening a fresh test never wipes a saved one.
   const [done, setDone] = useState(false);
+  const [saved] = useState(() => (practice || resume ? null : loadSaved()));
+  useEffect(() => {
+    if (practice || !questions.length || !answers.some(Boolean)) return;
+    saveRun({ label: resume?.label ?? label ?? null, questions, answers, idx, done, savedAt: Date.now() });
+  }, [practice, questions, answers, idx, done, label, resume?.label]);
+  const [dismissSaved, setDismissSaved] = useState(false);
   const [showAll, setShowAll] = useState(false);
   // Reference drawer, openable DURING a run (Trey: "it's supposed to be available while taking
   // a chem drill"). It overlays the question rather than navigating away, because leaving the
@@ -94,6 +115,7 @@ export default function ChemDrillRunner() {
         mutate((p) => recordChemMastery(p, chapter.id, { correct: right, total: questions.length }));
       }
     }
+    if (practice) return;
     recordRun({
       id: Date.now().toString(36),
       chapter: chapter?.id ?? null,
@@ -130,6 +152,7 @@ export default function ChemDrillRunner() {
       // fires answer letters, R and Escape into the running drill.
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (practiceSet) return;
       if (done) return;
       // Never act on a chord: Ctrl+C / Ctrl+R / Cmd+H belong to the browser.
       if (e.ctrlKey || e.metaKey || e.altKey) return;
@@ -199,21 +222,23 @@ export default function ChemDrillRunner() {
           </section>
         )}
 
-        {answers.length > 0 && (
+        {/* Walks QUESTIONS, not answers: with Back/Next an answer slot can be empty (a skipped
+            question), and reading .correct off an empty slot crashed this screen on 2026-11-02
+            after Trey's 40-question run. A skipped question is shown as skipped. */}
+        {questions.length > 0 && (
           <section className="chq-misses">
             <div className="chq-review-head">
-              <h3>{showAll ? `Every question (${answers.length})` : 'What you missed'}</h3>
+              <h3>{showAll ? `Every question (${questions.length})` : 'What you missed or skipped'}</h3>
               <button className="chq-review-toggle" aria-pressed={showAll} onClick={() => setShowAll((v) => !v)}>
-                {showAll ? `Misses only (${answers.length - right})` : `Show all ${answers.length}`}
+                {showAll ? `Misses only (${questions.length - right})` : `Show all ${questions.length}`}
               </button>
             </div>
-            {!showAll && right === answers.length && (
-              <p className="chq-note">Nothing missed. Show all {answers.length} to read the explanations.</p>
+            {!showAll && right === questions.length && (
+              <p className="chq-note">Nothing missed. Show all {questions.length} to read the explanations.</p>
             )}
-            {answers.map((a, i) => {
+            {questions.map((q, i) => {
+              const a = answers[i] ?? { skipped: true, correct: false, picked: null };
               if (a.correct && !showAll) return null;
-              const q = questions[i];
-              if (!q) return null;
               return (
                 <div key={i} className={a.correct ? 'chq-miss chq-hit' : 'chq-miss'}>
                   <div className="chq-miss-stem"><span className="chq-miss-n">{i + 1}</span><ChemStem text={q.stem} className="chq-stem-inline" /></div>
@@ -221,7 +246,7 @@ export default function ChemDrillRunner() {
                     {a.correct
                       ? <span className="chq-miss-good">You: {q.choices[q.correctIndex]}</span>
                       : (<>
-                          <span className="chq-miss-bad">You: {q.choices[a.picked]}</span>
+                          <span className="chq-miss-bad">{a.skipped ? 'Skipped' : `You: ${q.choices[a.picked]}`}</span>
                           <span className="chq-miss-good">Answer: {q.choices[q.correctIndex]}</span>
                         </>)}
                   </p>
@@ -252,6 +277,11 @@ export default function ChemDrillRunner() {
           </aside>
         )}
 
+        {practice ? (
+          <div className="chq-row">
+            <button className="chq-btn chq-primary" onClick={practice.onExit}>Back to the test</button>
+          </div>
+        ) : (
         <div className="chq-row">
           <button className="chq-btn chq-primary" onClick={() => navigate(0)}>Again</button>
           {chapter
@@ -260,15 +290,24 @@ export default function ChemDrillRunner() {
               ? <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/exam')}>Change exam prep</button>
               : <button className="chq-btn" onClick={() => navigate('/TKB/courses/chem/practice')}>Change mass review</button>}
         </div>
+        )}
       </div>
     );
   }
 
+  if (practiceSet) {
+    return <ChemDrillRunner practice={{ ...practiceSet, onExit: () => setPracticeSet(null) }} />;
+  }
+
   const q = questions[idx];
+  const startPractice = (x) => {
+    const set = buildPracticeSet(q, x, mulberry32(Date.now()));
+    setPracticeSet({ ...set, size: x, label: `Practice: ${allChemTemplates().find((t) => t.id === q.templateId)?.name ?? 'this question'}` });
+  };
   return (
     <div className="chq-runner">
       <header className="chq-runner-top">
-        <span className="chq-pill">{label ?? (chapter ? chapter.title : 'Mass review')}</span>
+        <span className="chq-pill">{practice ? practice.label : label ?? (chapter ? chapter.title : 'Mass review')}</span>
         <span className="chq-progress">{idx + 1} / {questions.length}</span>
         <button
           className={'chq-btn chq-ghost' + (showRef ? ' chq-primary' : '')}
@@ -277,7 +316,9 @@ export default function ChemDrillRunner() {
         >
           {showRef ? 'Close reference' : 'Reference'}
         </button>
-        <button className="chq-btn chq-ghost" onClick={() => finish(answers)}>Finish</button>
+        {practice
+          ? <button className="chq-btn chq-ghost" onClick={practice.onExit}>Back to the test</button>
+          : <button className="chq-btn chq-ghost" onClick={() => finish(answers)}>Finish</button>}
       </header>
 
       {showRef && (
@@ -290,6 +331,17 @@ export default function ChemDrillRunner() {
         </aside>
       )}
 
+      {saved && !saved.done && !dismissSaved && !answers.some(Boolean) && saved.answers?.some(Boolean) && (
+        <div className="chq-res-warn chq-row chq-practice">
+          <span>
+            You have an unfinished test{saved.label ? ` (${saved.label})` : ''}: {saved.answers.filter(Boolean).length} of {saved.questions.length} answered.
+          </span>
+          <button className="chq-btn chq-primary" onClick={() => { window.location.href = '/TKB/courses/chem/drill/run?resume=last'; }}>Resume it</button>
+          <button className="chq-btn chq-ghost" onClick={() => setDismissSaved(true)}>Start this new one</button>
+        </div>
+      )}
+      <div className="chq-runner-body">
+      <div className="chq-main">
       <div className="chq-card">
         <ChemStem text={q.stem} />
         <ol className="chq-choices">
@@ -301,19 +353,6 @@ export default function ChemDrillRunner() {
             </li>
           ))}
         </ol>
-        {(() => {
-          const hints = chemHints(q, allChemTemplates().find((t) => t.id === q.templateId)?.name);
-          return (
-            <div className="chq-hints">
-              {hints.slice(0, hintN).map((t, i) => <p key={i} className="chq-res-note">💡 {t}</p>)}
-              {hintN < hints.length && (
-                <button className="chq-btn chq-ghost" onClick={() => setHintN((n) => n + 1)}>
-                  {hintN === 0 ? 'Hint' : 'Next hint'} ({hintN + 1}/{hints.length})
-                </button>
-              )}
-            </div>
-          );
-        })()}
       </div>
 
       <div className="chq-row chq-nav">
@@ -325,6 +364,41 @@ export default function ChemDrillRunner() {
       </div>
 
       <p className="chq-hint">Tap an answer · ← / → to move · H for a hint · R for the reference sheet · Esc to end</p>
+      </div>
+
+      {/* Side panel: on a PC it sits to the right of the question; on a phone it drops below. */}
+      <aside className="chq-side">
+        {(() => {
+          const hints = chemHints(q, allChemTemplates().find((t) => t.id === q.templateId)?.name);
+          return (
+            <div className="chq-hints">
+              {hints.slice(0, hintN).map((t, i) => <p key={i} className="chq-res-note">💡 {inline(t, i)}</p>)}
+              {hintN < hints.length && (
+                <button className="chq-btn chq-ghost" onClick={() => setHintN((n) => n + 1)}>
+                  {hintN === 0 ? 'Hint' : 'Next hint'} ({hintN + 1}/{hints.length})
+                </button>
+              )}
+            </div>
+          );
+        })()}
+      {practice && idx === 0 && practice.shortBy > 0 && (
+        <p className="chq-res-warn">
+          This skill has only {practice.siblingsUsed} other question type{practice.siblingsUsed === 1 ? '' : 's'} in the bank so far,
+          so {practice.shortBy} of the &quot;different kind&quot; slots are filled with this same type
+          {practice.questions.length < practice.size ? ` (and only ${practice.questions.length} fresh questions exist)` : ''}.
+          More types are being written.
+        </p>
+      )}
+      {practice && q.practiceKind === 'related' && <p className="chq-data-label">Same skill, different kind of question</p>}
+      {!practice && q.templateId && !String(q.templateId).startsWith('sheet-') && (
+        <div className="chq-row chq-practice">
+          <span className="chq-data-label">Stuck? Practice this:</span>
+          <button className="chq-btn chq-ghost" onClick={() => startPractice(5)}>5 questions</button>
+          <button className="chq-btn chq-ghost" onClick={() => startPractice(10)}>10 questions</button>
+        </div>
+      )}
+      </aside>
+      </div>
     </div>
   );
 }

@@ -85,3 +85,12 @@ prioritized worklist, the traps). `docs/afoqt/ENGINE-AUDIT.md` is the scoreboard
 `curriculum/` (chapters.js + lessons), `views/DrillConfig.jsx` (by topic / by type), `docs/afoqt/` (PLAN.md is the live state).
 Scripts in `scripts/`: `afoqtSelftest`, `afoqtCoverage`, `afoqtSample`, `afoqtConceptAudit`, `afoqtAuditAll`.
 Course engines (CHEM and others) follow the same bar: `src/pages/theknowledgebase/courses/`.
+
+## Practice mode sets the depth bar (Trey, 2026-11-02)
+
+Any question can open a practice set of 5 or 10: half the same generator, half OTHER generators testing the same
+skill (shared concept id). So **every skill needs at least 5 generators of genuinely different kinds**, not one rich
+generator. Check it with `practiceDepth()` in `courses/chem/engine/practice.js` (AFOQT: count generators per concept)
+before calling a topic done. A shortfall is shown to him on screen; it is a worklist item, never something to paper over
+with a reworded copy of the same question. Write stems and options in plain exam English: no riddles, no stilted
+phrasing invented to make a string unique.

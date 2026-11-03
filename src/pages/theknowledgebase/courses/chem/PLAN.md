@@ -153,3 +153,23 @@ three separate templates in this one session.
   hand-transcribed official-question bank. Not asked for, and the ACS guide's own SQ/PQ items
   are copyrighted commercial content — see courses/PLAN.md's 2026-08-28 entry for the "ruler,
   not corpus" handling that applies if this is ever revisited.
+
+## Practice mode and the depth it needs (2026-11-02)
+
+Trey asked for a "practice this" mode: from any test question, a set of 5 or 10 where the first half is the same
+generator (starting with the exact question) and the second half tests the SAME SKILL with DIFFERENT generators.
+Built: `engine/practice.js` (`buildPracticeSet`, `practiceDepth`), wired into `views/ChemDrillRunner.jsx` (the test
+stays mounted underneath; "Back to the test" returns to the same question). Shortfalls are shown on screen, never hidden.
+
+**Depth audit, Exam 3 scope (229 generators):** 72 have fewer than 5 sibling generators for their skill, so a
+10-question set cannot fill its "different kind" half. Thinnest, all chapter 5-6 (siblings in brackets):
+valence electrons (0), cation electron removal (0), paramagnetism (0), Zeff (0), oxidation number (0), first law (0),
+absorption/emission (1), quantum numbers (1), electron configuration (1), atomic radius (1), ionic radius (1),
+ionization energy (1), redox definitions (1), oxidizing/reducing agents (1), specific heat (1), q = mcΔT (1),
+bomb calorimetry (1), Hess (1), then the 2-sibling heat skills (thermal equilibrium, coffee cup, thermochemical
+stoichiometry, enthalpy of formation, energy per mole). Re-run with:
+`node -e` over `practiceDepth(sectionsForExam('exam-3').map(s => s.section))`, or the vitest in `engine/practice.test.js`.
+
+**Worklist (in order):** for each thin skill, map the family of question kinds a real exam asks (forward, inverse,
+compare, classify, find-the-error, multi-step), then write generators to the question-engine-quality bar until every
+Exam 3 skill has at least 5 sibling generators of genuinely different kinds. Never pad with reworded copies.

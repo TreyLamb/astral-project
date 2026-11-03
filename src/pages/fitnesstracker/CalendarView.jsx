@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect, useLayoutEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import { activityType, mealType, isoDate, todayISO, resolveGroups, goalDeadline } from './fitnessConfig';
 import { formatDistance, secToClock } from './units';
@@ -962,8 +962,16 @@ export default function CalendarView() {
   // pref. Switching to Month/Day is a look, not a new home view, and having the
   // calendar reopen on whatever you last poked at was disorienting.
   // (weekCount stays sticky below: that one you set on purpose.)
-  const [view, setView] = useState('week');
-  const [cursor, setCursor] = useState(() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; });
+  const [urlParams] = useSearchParams();
+  // ?view=day (and optional &date=YYYY-MM-DD) is how Trey's phone schedule widget opens straight onto a day
+  // (2026-11-03). Without it the page still opens on Week, as above.
+  const [view, setView] = useState(() => (['month', 'week', 'day'].includes(urlParams.get('view')) ? urlParams.get('view') : 'week'));
+  const [cursor, setCursor] = useState(() => {
+    const q = urlParams.get('date');
+    const d = /^\d{4}-\d\d-\d\d$/.test(q ?? '') ? new Date(`${q}T00:00`) : new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  });
 
   // two sticky calendar toggles (persisted so they survive reload/navigation)
   const showMeals = !!settings.calendarPrefs?.showMealsOnCalendar;
