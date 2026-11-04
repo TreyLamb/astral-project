@@ -2,6 +2,12 @@
 
 This file is for Claude. Read it before touching anything.
 
+## 🔴 Read `PREFERENCES.md` (repo root) first, every session. And WRITE to it.
+It is the list of how Trey wants things done: label wording, colours, what goes in which list, how to work with him.
+Trey, 2026-11-03: *"you just do what i say and you don't learn HOW i want things done for the future. i hate having to
+repeat myself."* **When he corrects you or states a preference, fix it AND add the general rule to `PREFERENCES.md` in the
+same turn** (and enforce it in code/tests where you can). Do not wait to be asked.
+
 ---
 
 ## 🔴🔴 REUSE BEFORE BUILD: follow the architecture that already exists. Read this before writing any feature.

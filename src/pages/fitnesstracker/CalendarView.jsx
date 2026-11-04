@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useFitness } from './fitnessContext';
 import { activityType, mealType, isoDate, todayISO, resolveGroups, goalDeadline } from './fitnessConfig';
 import { formatDistance, secToClock } from './units';
-import { formatCheckpointValue, interpolatedTarget, parseOverrideValue, overridePlaceholderFor } from './calc/checkpoints';
+import { formatCheckpointValue, interpolatedTarget } from './calc/checkpoints';
 import { addDaysISO } from './calc/planning';
 import { parseDistanceTotalM } from './calc/shorthand';
 import { netCaloriesForDay, latestBodyWeightKg } from './calc/calories';
@@ -20,9 +20,10 @@ import { firebaseReady } from '../../firebase';
 import { loadOrbitBridgeData, setOrbitDayLocation, addOrbitBase, setOrbitDayLocationsRange } from './orbitTasksBridge';
 import CalendarSideRail from './CalendarSideRail';
 import CalendarNotes from './CalendarNotes';
-import { useCourseTasks } from './courseTasks';
+import { useCourseTasks, courseColor } from './courseTasks';
+import { tidyTitle, courseChipLabel, dedupeCrossListed, chipDotColor, chipTextColor, COLOR_LEGEND, COLOR_DUE, COLOR_ROTC } from './calendarText';
 import { useGoogleOverlay } from './googleOverlayStore';
-import { PLAN_BY_DATE } from './studyPlan';
+import { PLAN_BY_DATE, KIND_COLORS } from './studyPlan';
 
 // Google events and the study plan share one strip on each day, in time order (all-day first).
 const mergeDay = (a = [], b = []) => (b.length ? [...a, ...b].sort((x, y) => x.sortKey.localeCompare(y.sortKey)) : a);
@@ -136,19 +137,6 @@ export function workoutDistanceM(w) {
   return parseDistanceTotalM(w.title || '') || parseDistanceTotalM(w.note || '');
 }
 
-// Sum of netCaloriesForDay across a week's 7 days — same missing-bmr/weight-
-// degrades-to-0 behavior as the per-day function, nothing new to guard here.
-function weekNetCalories(meals, workouts, sunISO, satISO, bmr, bodyWeightKg) {
-  let total = 0;
-  const start = new Date(sunISO + 'T00:00:00');
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(start);
-    d.setDate(d.getDate() + i);
-    total += netCaloriesForDay(meals, workouts, isoDate(d), bmr, bodyWeightKg);
-  }
-  return total;
-}
-
 function weekEndGoals(goals, activityTypes, saturdayISO) {
   const out = [];
   for (const g of goals) {
@@ -159,55 +147,6 @@ function weekEndGoals(goals, activityTypes, saturdayISO) {
     if (value != null) out.push({ goal: g, type: activityType(activityTypes, g.activityType), targetValue: value });
   }
   return out;
-}
-
-// Plain green marker, not the activity's own pictogram — this is a goal
-// summary, not another workout chip, so it shouldn't look like one. Colored
-// to match that goal's own activity color (same color as its row in the
-// Goals panel) so multiple goals stay visually distinguishable at a glance.
-// The target text is always ON the badge, not hidden behind a hover tooltip.
-// Clicking it opens a quick override — every week's on-pace number is a real,
-// editable touch point, not just a read-only preview.
-function WeekEndBadge({ goal, type, targetValue, units, onClick }) {
-  const targetText = formatCheckpointValue(goal, targetValue, units);
-  return (
-    <button
-      type="button" className="ft-weekend-badge"
-      style={{ borderColor: type.color, background: type.color + '1f', color: type.color }}
-      onClick={onClick}
-      title={`${goal.label || goal.kind} — end of week (click to retarget)`}
-    >
-      <span className="ft-weekend-dot" style={{ background: type.color, boxShadow: `0 0 6px ${type.color}b3` }} aria-hidden="true" />
-      <span className="ft-weekend-text" style={{ color: type.color }}>{targetText}</span>
-    </button>
-  );
-}
-
-// One Canvas assignment in the week column, when that column is in To-do mode. Same slot the
-// goal badges occupy, so a week reads as either "where the training should be" or "what is due"
-// — never both at once, which is what the toggle is for.
-function WeekTodoBadge({ task, todayISO: today }) {
-  const overdue = task.due < today;
-  const body = (
-    <>
-      {/* Course and day share one line so a Month row fits four or five badges before it has
-          to scroll. Week view has the height to spread out, and its CSS does. */}
-      <span className="ft-weektodo-top">
-        <span className="ft-weektodo-code" style={{ color: task.color }}>{task.code.split(' ')[1] || task.code}</span>
-        <span className="ft-weektodo-meta">
-          {new Date(`${task.due}T00:00:00`).toLocaleDateString(undefined, { weekday: 'short' })}
-          {task.points != null ? ` · ${task.points}p` : ''}
-        </span>
-      </span>
-      <span className="ft-weektodo-name">{task.name}</span>
-    </>
-  );
-  const cls = `ft-weektodo-badge${overdue ? ' ft-weektodo-overdue' : ''}`;
-  const style = { borderColor: `${task.color}59`, background: `${task.color}14` };
-  const title = `${task.code} — ${task.name}${task.dueTime ? ` · due ${task.dueTime}` : ''}`;
-  return task.url
-    ? <a className={cls} style={style} href={task.url} target="_blank" rel="noreferrer" title={title}>{body}</a>
-    : <div className={cls} style={style} title={title}>{body}</div>;
 }
 
 // A recurring class on a day cell. Off by default (the "Classes" toggle) because the full grid
@@ -230,7 +169,7 @@ function ClassChip({ block }) {
 // to-dos — a Canvas due date is context for the day, not another thing scheduled into it, and
 // it must never compete with a workout chip for the cell's space.
 function CourseChip({ task }) {
-  const label = `${task.code.split(' ')[1] || task.code} ${task.name}`;
+  const label = courseChipLabel(task);
   const title = `${task.code} — ${task.name}${task.dueTime ? ` · due ${task.dueTime}` : ''}${task.points != null ? ` · ${task.points} pts` : ''}${task.done ? ' · done' : ''}`;
   const inner = <span className="ft-course-chip-text" style={{ color: task.color }}>{label}</span>;
   // Exams read heavier and finished work recedes, so the day cell says which line matters.
@@ -246,9 +185,9 @@ function GoogleChip({ ev }) {
   const title = `${ev.title}${ev.time ? ` · ${ev.time}` : ' · all day'} — from Google: ${ev.calName}`;
   const inner = (
     <>
-      <span className="ft-gcal-dot" style={{ background: ev.color }} />
+      <span className="ft-gcal-dot" style={{ background: chipDotColor(ev, courseColor, KIND_COLORS) }} />
       {ev.time && <span className="ft-gcal-time">{ev.time.replace(':00 ', ' ').replace(' ', '').toLowerCase()}</span>}
-      <span className="ft-gcal-title">{ev.title}</span>
+      <span className="ft-gcal-title" style={{ color: chipTextColor(ev, courseColor) || undefined }}>{tidyTitle(ev.title)}</span>
     </>
   );
   return ev.link
@@ -391,6 +330,11 @@ const CHIP_LINE_HEIGHT = 1.32;
 const CHIP_V_PADDING = 3;   // .ft-chip padding, top + bottom
 const CHIP_GAP = 2;         // .ft-cell-items row-gap
 
+// Everything in a day stacks from the TOP (Trey, 2026-11-03), so the chip list is content-sized
+// and the Google / coursework strips follow straight after it. The room the chips may use is the
+// cell body's height minus those strips, which do not depend on the chip size, so there is still
+// no feedback loop. No dependency array on purpose: a strip appearing or growing changes the
+// answer without changing `count`, and setSize with an unchanged value does not re-render.
 function useAutoChipSize(variant, count) {
   const ref = useRef(null);
   const [min, max] = CHIP_SIZE_RANGE[variant] || CHIP_SIZE_RANGE.month;
@@ -398,22 +342,27 @@ function useAutoChipSize(variant, count) {
 
   useLayoutEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    const host = el?.closest('.ft-cell-body');
+    if (!el || !host) return;
+    const top = [...host.children].find((c) => c.contains(el));
     const measure = () => {
       if (!count) { setSize(max); return; }
-      // clientHeight is safe to read here: .ft-cell-items is flex:1 inside a
-      // cell of externally-determined height with min-height:0 and overflow
-      // hidden, so its box does NOT grow with its content. No feedback loop.
-      const avail = el.clientHeight;
+      let avail = host.clientHeight;
       if (!avail) return;
+      for (const c of host.children) {
+        if (c === top) continue;
+        const cs = getComputedStyle(c);
+        avail -= c.offsetHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom);
+      }
       const perItem = avail / count - CHIP_GAP - CHIP_V_PADDING;
       setSize(Math.max(min, Math.min(max, Math.floor(perItem / CHIP_LINE_HEIGHT))));
     };
     measure();
     const ro = new ResizeObserver(measure);
-    ro.observe(el);
+    ro.observe(host);
+    for (const c of host.children) if (c !== top) ro.observe(c);
     return () => ro.disconnect();
-  }, [variant, count, min, max]);
+  });
 
   return [ref, size];
 }
@@ -504,8 +453,13 @@ function DayCell({
           {whereBase ? whereBase.tag : '+'}
         </button>
         {calorieGoal != null && <span className="ft-cell-cal">{net}/{calorieGoal}</span>}
-        {variant !== 'month' && <span className="ft-cell-dow">{WEEKDAYS[date.getDay()]}</span>}
+        {variant !== 'month' && (
+          <span className="ft-cell-dow">
+            {variant === 'day' ? date.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' }) : WEEKDAYS[date.getDay()]}
+          </span>
+        )}
       </div>
+      <div className="ft-cell-body">
       {showMeals ? (
         <div className="ft-cell-cols">
           <div
@@ -543,7 +497,7 @@ function DayCell({
       )}
       {courseDue?.length > 0 && (
         <div className="ft-cell-course">
-          {courseDue.map((t) => <CourseChip key={t.id} task={t} />)}
+          {dedupeCrossListed(courseDue).map((t) => <CourseChip key={t.id} task={t} />)}
         </div>
       )}
       {/* Orbit to-dos — additive, deliberately its own strip below the fitness
@@ -561,6 +515,7 @@ function DayCell({
           </div>
         </div>
       )}
+      </div>
       {/* Day's scheduled Orbit energy on a 0–100 scale (share of the day's
           budget). Shown on every month cell — 0/100 for an empty day — so the
           month reads as an energy heat-map at a glance.
@@ -731,7 +686,7 @@ function DayRails({
         <>
           <h4 className="ft-day-rail-title">Due today</h4>
           <div className="ft-day-course">
-            {courseDue.map((t) => <CourseChip key={t.id} task={t} />)}
+            {dedupeCrossListed(courseDue).map((t) => <CourseChip key={t.id} task={t} />)}
           </div>
         </>
       )}
@@ -774,27 +729,10 @@ function rectsIntersect(a, b) {
   return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
 }
 
-// Same 640px mobile breakpoint FitnessTracker.css already switches on
-// elsewhere. matchMedia (not a one-time window.innerWidth read) so rotating a
-// tablet or resizing a desktop window updates the default live.
-const MOBILE_BREAKPOINT_QUERY = '(max-width: 640px)';
-function useIsMobileViewport() {
-  const [isMobile, setIsMobile] = useState(() => (
-    typeof window !== 'undefined' ? window.matchMedia(MOBILE_BREAKPOINT_QUERY).matches : false
-  ));
-  useEffect(() => {
-    const mq = window.matchMedia(MOBILE_BREAKPOINT_QUERY);
-    const onChange = (e) => setIsMobile(e.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-  return isMobile;
-}
-
 export default function CalendarView() {
   const {
     workouts, activityTypes, settings, updateSettings, updateWorkout, openQuickAdd,
-    meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout, logCheckpoint, addWorkout,
+    meals, mealTypes, goals, openMealQuickAdd, updateGoal, removeWorkout, addWorkout,
     bodyWeightLogs, openEntryEditor, openMealEditor,
   } = useFitness();
   const navigate = useNavigate();
@@ -863,6 +801,8 @@ export default function CalendarView() {
     }
     return map;
   }, [orbitLiveTasks]);
+  // The To-do tab: open Orbit to-dos (not done, not killed). School work is NOT in it.
+  const orbitOpenTodos = useMemo(() => orbitLiveTasks.filter((t) => t.status !== 'done'), [orbitLiveTasks]);
   const onOrbitOpen = (task) => navigate(task.projectId ? `/orbit/project/${task.projectId}` : '/orbit');
 
   // "Where I am" editor — a calendar-level modal (the day cells are 92px and
@@ -884,7 +824,7 @@ export default function CalendarView() {
     reloadOrbit();
     setWhereEditor(null);
   };
-  const addBaseForDay = keyActionsRef.current.addBaseForDay = async () => {
+  const addBaseForDay = async () => {
     const t = whereTag.trim();
     if (!t) return;
     setWhereBusy(true);
@@ -897,6 +837,7 @@ export default function CalendarView() {
     reloadOrbit();
     setWhereEditor(null);
   };
+  useEffect(() => { keyActionsRef.current.addBaseForDay = addBaseForDay; });
 
   // "Where I'll be" — bulk-tag a whole date range with one location (#2: e.g.
   // "Paris Aug 1–10"), plus a list of already-tagged trips you can clear.
@@ -934,30 +875,6 @@ export default function CalendarView() {
     for (const w of stale) await removeWorkout(w.id);
   }
 
-  // Click any week-end badge -> retarget that week directly, right from the
-  // calendar, without hunting down which day happens to carry the real
-  // checkpoint. logCheckpoint inserts a checkpoint at this date if one
-  // doesn't already exist there (most week-end dates are an interpolated
-  // on-pace estimate, not a formal cadence checkpoint) and recomputes
-  // everything after it forward — nothing before it moves.
-  const [weekOverride, setWeekOverride] = useState(null); // null | { goal, date, targetValue }
-  const [weekOverrideInput, setWeekOverrideInput] = useState('');
-  const openWeekOverride = (goal, date, targetValue) => { setWeekOverride({ goal, date, targetValue }); setWeekOverrideInput(''); };
-  useModalKeys({
-    onClose: useCallback(() => setWeekOverride(null), []),
-    onSubmit: useCallback(() => { keyActionsRef.current.applyWeekOverride?.(); }, []),
-    canSubmit: !!weekOverride && weekOverrideInput !== '',
-  });
-  keyActionsRef.current.applyWeekOverride = applyWeekOverride;
-  async function applyWeekOverride() {
-    if (!weekOverride) return;
-    const val = parseOverrideValue(weekOverride.goal, weekOverrideInput, units.weight);
-    if (val == null) return;
-    await logCheckpoint(weekOverride.goal.id, weekOverride.date, val, 'override');
-    setWeekOverride(null);
-    setWeekOverrideInput('');
-  }
-
   // Week EVERY time the page opens — deliberately local state, not a persisted
   // pref. Switching to Month/Day is a look, not a new home view, and having the
   // calendar reopen on whatever you last poked at was disorienting.
@@ -978,14 +895,8 @@ export default function CalendarView() {
   const mealDayView = !!settings.calendarPrefs?.mealDayView;
   const toggleCalendarPref = (key) => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, [key]: !settings.calendarPrefs?.[key] } });
 
-  // Goals/Miles side columns default ON for desktop, OFF for mobile (they
-  // crush the day grid to slivers at phone widths) — but a manual toggle in
-  // either direction wins over the device default, and that override sticks
-  // (calendarPrefs.showWeekSideCols stays null until the user actually flips it).
-  const isMobileViewport = useIsMobileViewport();
-  const sideColsOverride = settings.calendarPrefs?.showWeekSideCols;
-  const showWeekSideCols = sideColsOverride != null ? sideColsOverride : !isMobileViewport;
-  const toggleWeekSideCols = () => updateSettings({ calendarPrefs: { ...settings.calendarPrefs, showWeekSideCols: !showWeekSideCols } });
+  // The two stat rails either side of Day view. Off by default (Trey, 2026-11-03).
+  const showDayRails = settings.calendarPrefs?.showDayRails === true;
 
   // The two rails and what they show. sideMode drives BOTH the right rail and the narrow
   // per-week column, so there is one answer to "what is this column" rather than two controls
@@ -1268,39 +1179,11 @@ export default function CalendarView() {
   const weekHead = (
     <div className="ft-weekhead">
       {WEEKDAYS.map((d) => <div key={d} className="ft-weekhead-cell">{d}</div>)}
-      {showWeekSideCols && (
-        <>
-          {/* The header cell IS the switch — "a toggle over the top of the goals". It sets the
-              same sideMode the right rail uses, so the two move together. */}
-          <div className="ft-weekhead-cell ft-weekend-head">
-            <button
-              type="button"
-              className={`ft-weekend-tab${sideMode === 'todo' ? ' active' : ''}`}
-              onClick={() => setSideMode('todo')}
-            >
-              To-do
-            </button>
-            <button
-              type="button"
-              className={`ft-weekend-tab${sideMode === 'goals' ? ' active' : ''}`}
-              onClick={() => setSideMode('goals')}
-            >
-              Goals
-            </button>
-          </div>
-          <div className="ft-weekhead-cell ft-weekmiles-head">Miles</div>
-        </>
-      )}
     </div>
   );
 
   const renderWeekRow = (week, inMonthOf) => {
-    const sunISO = isoDate(week[0]);
     const satISO = isoDate(week[6]);
-    const ends = showWeekSideCols && sideMode === 'goals' ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
-    const weekTodos = showWeekSideCols && sideMode === 'todo' ? courseTasksInRange(sunISO, satISO) : [];
-    const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
-    const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
     return (
       <div key={satISO} className="ft-week-row">
         <div className="ft-month-grid">
@@ -1308,30 +1191,6 @@ export default function CalendarView() {
             <DayCell key={isoDate(d)} variant="month" {...cellProps(d, inMonthOf ? inMonthOf(d) : true)} />
           ))}
         </div>
-        {showWeekSideCols && (
-          <>
-            <div className="ft-weekend-col">
-              {sideMode === 'todo'
-                ? weekTodos.map((t) => <WeekTodoBadge key={t.id} task={t} todayISO={today} />)
-                : ends.map(({ goal, type, targetValue }) => (
-                  <WeekEndBadge
-                    key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
-                    onClick={() => openWeekOverride(goal, satISO, targetValue)}
-                  />
-                ))}
-            </div>
-            <div className="ft-weekmiles-col">
-              <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
-                <span className="ft-weekmiles-text">{milesText}</span>
-              </div>
-              {calorieGoal != null && (
-                <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
-                  <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
-                </div>
-              )}
-            </div>
-          </>
-        )}
       </div>
     );
   };
@@ -1518,14 +1377,16 @@ export default function CalendarView() {
         >
           {CHIP_FILTER_LABEL[chipFilter]}
         </button>
-        <button
-          type="button"
-          className={`ft-toggle-btn${showWeekSideCols ? ' active' : ''}`}
-          onClick={toggleWeekSideCols}
-          title="Show/hide the weekly To-do/Goals + Miles summary columns beside the calendar grid — defaults on for desktop, off for mobile, but this overrides that"
-        >
-          Side cols
-        </button>
+        {view === 'day' ? (
+          <button
+            type="button"
+            className={`ft-toggle-btn${showDayRails ? ' active' : ''}`}
+            onClick={() => toggleCalendarPref('showDayRails')}
+            title="Show/hide the stat panels either side of the day (this day, week to date, coming up, due this week)"
+          >
+            Day stats
+          </button>
+        ) : null}
       </div>
 
       {whereRangeOpen && (
@@ -1606,41 +1467,11 @@ export default function CalendarView() {
         {view === 'week' && weekCount === 1 && (() => {
           const s = startOfWeek(cursor);
           const days = Array.from({ length: 7 }, (_, i) => addDays(s, i));
-          const sunISO = isoDate(days[0]);
-          const satISO = isoDate(days[6]);
-          const ends = showWeekSideCols && sideMode === 'goals' ? weekEndGoals(activeGoals, activityTypes, satISO) : [];
-          const weekTodos = showWeekSideCols && sideMode === 'todo' ? courseTasksInRange(sunISO, satISO) : [];
-          const milesText = formatDistance(weekTrackedDistanceM(workouts, sunISO, satISO), units.distance, 1);
-          const weekNet = weekNetCalories(meals, workouts, sunISO, satISO, bmr, latestWeightKg);
           return (
             <div className="ft-week-row ft-week-row-single">
               <div className="ft-week">
                 {days.map((d) => <DayCell key={isoDate(d)} variant="week" {...cellProps(d, true)} />)}
               </div>
-              {showWeekSideCols && (
-                <>
-                  <div className="ft-weekend-col">
-                    {sideMode === 'todo'
-                      ? weekTodos.map((t) => <WeekTodoBadge key={t.id} task={t} todayISO={today} />)
-                      : ends.map(({ goal, type, targetValue }) => (
-                        <WeekEndBadge
-                          key={goal.id} goal={goal} type={type} targetValue={targetValue} units={units}
-                          onClick={() => openWeekOverride(goal, satISO, targetValue)}
-                        />
-                      ))}
-                  </div>
-                  <div className="ft-weekmiles-col">
-                    <div className="ft-weekmiles-badge" title={`${milesText} tracked this week`}>
-                      <span className="ft-weekmiles-text">{milesText}</span>
-                    </div>
-                    {calorieGoal != null && (
-                      <div className="ft-weekmiles-badge ft-weeknet-badge" title="Net calories this week vs. a 1lb-equivalent (3500 kcal) reference">
-                        <span className="ft-weekmiles-text">{weekNet}/{KCAL_PER_LB_ADIPOSE}</span>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )}
             </div>
           );
         })()}
@@ -1664,12 +1495,12 @@ export default function CalendarView() {
             courseWeek: courseTasksInRange(isoDate(sun), isoDate(sat)).filter((t) => t.due !== iso),
           };
           return (
-            <div className="ft-day">
-              <DayRails side="left" {...railProps} />
+            <div className={`ft-day${showDayRails ? '' : ' ft-day-solo'}`}>
+              {showDayRails && <DayRails side="left" {...railProps} />}
               <div className="ft-day-main">
                 <DayCell variant="day" {...cellProps(cursor, true)} />
               </div>
-              <DayRails side="right" {...railProps} />
+              {showDayRails && <DayRails side="right" {...railProps} />}
             </div>
           );
         })()}
@@ -1690,6 +1521,13 @@ export default function CalendarView() {
         </div>
       )}
 
+      <div className="ft-cal-legend" aria-label="Colour key">
+        {COLOR_LEGEND.map(([key, label]) => (
+          <span key={key} className="ft-cal-legend-item" style={{ color: key === 'due' ? COLOR_DUE : key === 'rotc' ? COLOR_ROTC : courseColor(key) }}>
+            <i style={{ background: 'currentColor' }} />{label}
+          </span>
+        ))}
+      </div>
       <p className="ft-cal-hint">Click a day to schedule · drag to reschedule (hold Shift while dragging to duplicate instead) · click to edit · Alt+click to delete instantly · Ctrl/Shift-click or drag a box to select multiple · Ctrl+C/X/V to copy/cut/paste onto the last-clicked day · Delete to remove selected</p>
 
       {goalEditor && (
@@ -1748,31 +1586,6 @@ export default function CalendarView() {
         </div>
       )}
 
-      {weekOverride && (
-        <div className="ft-modal-backdrop" onClick={() => setWeekOverride(null)}>
-          <div className="ft-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-            <div className="ft-modal-head">
-              <h3>Retarget week of {weekOverride.date}</h3>
-              <button type="button" className="ft-x" onClick={() => setWeekOverride(null)} aria-label="Close">✕</button>
-            </div>
-            <p className="ft-hint-sm">
-              {weekOverride.goal.label || weekOverride.goal.kind} — currently on pace for {formatCheckpointValue(weekOverride.goal, weekOverride.targetValue, units)}.
-              Retargeting recomputes everything after this date; nothing before it moves.
-            </p>
-            <div className="ft-field">
-              <label className="ft-field-label">New value</label>
-              <ClearableInput
-                value={weekOverrideInput} onChange={(e) => setWeekOverrideInput(e.target.value)} onClear={() => setWeekOverrideInput('')}
-                placeholder={overridePlaceholderFor(weekOverride.goal, units.weight)}
-              />
-            </div>
-            <div className="ft-modal-actions">
-              <button type="button" className="ft-btn-ghost" onClick={() => setWeekOverride(null)}>Cancel</button>
-              <button type="button" className="ft-btn-primary" disabled={weekOverrideInput === ''} onClick={applyWeekOverride}>Apply</button>
-            </div>
-          </div>
-        </div>
-      )}
       </div>
 
       {coursePanel && (
@@ -1784,6 +1597,9 @@ export default function CalendarView() {
           onHorizon={setCourseHorizon}
           goalCount={activeGoals.length}
           goalsNode={goalsNode}
+          orbitTodos={orbitOpenTodos}
+          orbitAreaById={orbitAreaById}
+          onOrbitOpen={onOrbitOpen}
           onClose={() => toggleCalendarPref('coursePanel')}
         />
       )}

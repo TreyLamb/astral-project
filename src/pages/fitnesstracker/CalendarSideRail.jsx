@@ -1,4 +1,4 @@
-// The calendar's right-hand rail: coursework To-do, or Goals, behind one toggle.
+// The calendar's right-hand rail: the To-do list (Orbit to-dos, NOT school), or Goals, behind one toggle.
 //
 // Defaults to To-do — that's the thing checked daily; goals are checked weekly. The same
 // `mode` drives the narrow per-week column beside each week row (CalendarView owns the state),
@@ -8,14 +8,12 @@
 // updateGoal/abandonGoal/the editor modal, all of which live in CalendarView. One definition,
 // rendered in two places.
 //
-// The To-do pane is a coach's list, not a calendar dump (courses/SCHOOL-OPS.md): what to do
-// next and why, what is open to start now, what Canvas says is missing, and — the part the old
-// rail silently dropped — everything past due that nobody has confirmed either way.
+// TaskRow / FreshnessNote below are the coursework pieces the School planner (SchoolPlanner.jsx) reuses.
 
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useCourseTasks, groupByDay, kindAbbr } from './courseTasks';
-import { daysBetween, relativeDay, shortDate, startHint, nextReason } from './courseworkFormat';
+import { kindAbbr } from './courseTasks';
+import { orbitTodoDay } from './orbitTasksBridge';
+import { daysBetween, relativeDay, shortDate, startHint } from './courseworkFormat';
 
 const HORIZONS = [
   { value: 7, label: '7 days' },
@@ -80,52 +78,52 @@ export function FreshnessNote({ meta, compact = false }) {
   );
 }
 
-function TodoPane({ todayISO, horizon, onHorizon }) {
-  const cw = useCourseTasks();
-  const [showPast, setShowPast] = useState(false);
-  const toggle = (t) => cw.actions.setDone(t.id, !t.done);
+const NO_DATE_CAP = 12;
 
-  const ahead = cw.upcoming.filter((t) => horizon == null || daysBetween(todayISO, t.due) <= horizon);
-  const byDay = groupByDay(ahead);
-  const totalPts = ahead.reduce((n, t) => n + (t.points ?? 0), 0);
-  const next = cw.doNext(3);
+/** One Orbit to-do: area colour on the left, title, and what kind of date it is. Opens it in Orbit. */
+function OrbitTodoRow({ task, area, onOpen }) {
+  const color = area?.color || '#94a3b8';
+  const dueOnly = task.dueDate && task.dueDate !== task.scheduledDate;
+  return (
+    <div className="ft-crs-row" style={{ '--ft-crs-accent': color }}>
+      <button type="button" className="ft-crs-row-body" onClick={() => onOpen(task)} title="Open in Orbit">
+        <div className="ft-crs-row-top">
+          <span className="ft-crs-row-code" style={{ color }}>{area?.name || 'To-do'}</span>
+          {dueOnly && <span className="ft-crs-row-kind">due</span>}
+        </div>
+        <div className="ft-crs-row-name">{task.title || '(untitled)'}</div>
+      </button>
+    </div>
+  );
+}
 
-  if (!cw.tasks.length) {
-    return <div className="ft-crs-empty">No coursework found. See <Link to="/MFT/school">School</Link> to connect your school calendars.</div>;
+// The To-do tab is the things you have to do that are NOT school (Trey, 2026-11-03: "school
+// doesn't count for that list"). They come from Orbit, the same to-dos the day cells draw as
+// chips. Coursework has its own "Coursework" chips on the grid and the School planner.
+function TodoPane({ todayISO, horizon, onHorizon, orbitTodos, orbitAreaById, onOrbitOpen }) {
+  const dated = orbitTodos.filter((t) => orbitTodoDay(t));
+  const undated = orbitTodos.filter((t) => !orbitTodoDay(t));
+  const overdue = dated.filter((t) => orbitTodoDay(t) < todayISO);
+  const ahead = dated.filter((t) => orbitTodoDay(t) >= todayISO
+    && (horizon == null || daysBetween(todayISO, orbitTodoDay(t)) <= horizon));
+  const byDay = [];
+  for (const t of [...ahead].sort((a, b) => orbitTodoDay(a).localeCompare(orbitTodoDay(b)))) {
+    const day = orbitTodoDay(t);
+    if (!byDay.length || byDay[byDay.length - 1][0] !== day) byDay.push([day, []]);
+    byDay[byDay.length - 1][1].push(t);
+  }
+  const row = (t) => <OrbitTodoRow key={t.id} task={t} area={orbitAreaById.get(t.areaId)} onOpen={onOrbitOpen} />;
+
+  if (!orbitTodos.length) {
+    return <div className="ft-crs-empty">No open to-dos. Add some in <Link to="/orbit">Orbit</Link>.</div>;
   }
 
   return (
     <>
-      <FreshnessNote meta={cw.meta} compact />
-
-      {next.length > 0 && (
-        <div className="ft-crs-next">
-          <div className="ft-crs-next-head">Do next</div>
-          {next.map((t) => <TaskRow key={t.id} task={t} todayISO={todayISO} onToggle={toggle} reason={nextReason(t)} />)}
-        </div>
-      )}
-
-      {cw.missing.length > 0 && (
+      {overdue.length > 0 && (
         <div className="ft-crs-alert">
-          <div className="ft-crs-alert-head">{cw.missing.length} missing (Canvas said so)</div>
-          {cw.missing.map((t) => <TaskRow key={t.id} task={t} todayISO={todayISO} onToggle={toggle} />)}
-        </div>
-      )}
-
-      {cw.pastUnverified.length > 0 && (
-        <div className="ft-crs-note">
-          <button type="button" className="ft-crs-note-btn ft-crs-note-warn" onClick={() => setShowPast((v) => !v)}>
-            {showPast ? '▾' : '▸'} {cw.pastUnverified.length} past due, not confirmed done
-          </button>
-          {showPast && (
-            <>
-              <p className="ft-crs-note-text">
-                These were still open at the last Canvas capture. Tick off the ones you did — anything left is
-                worth a look before it turns into a zero.
-              </p>
-              {cw.pastUnverified.map((t) => <TaskRow key={t.id} task={t} todayISO={todayISO} onToggle={toggle} />)}
-            </>
-          )}
+          <div className="ft-crs-alert-head">{overdue.length} overdue</div>
+          {overdue.map(row)}
         </div>
       )}
 
@@ -139,12 +137,12 @@ function TodoPane({ todayISO, horizon, onHorizon }) {
             <option key={h.label} value={h.value == null ? 'all' : h.value}>{h.label}</option>
           ))}
         </select>
-        <span className="ft-crs-tally">{ahead.length} due · {totalPts.toFixed(0)} pts</span>
+        <span className="ft-crs-tally">{ahead.length} coming up</span>
       </div>
 
       {byDay.length === 0 ? (
         <div className="ft-crs-empty">
-          Nothing due{horizon == null ? '' : ` in the next ${horizon} days`}.
+          Nothing dated{horizon == null ? '' : ` in the next ${horizon} days`}.
         </div>
       ) : byDay.map(([day, tasks]) => (
         <div className="ft-crs-day" key={day}>
@@ -152,14 +150,17 @@ function TodoPane({ todayISO, horizon, onHorizon }) {
             <span>{relativeDay(day, todayISO)}</span>
             {daysBetween(todayISO, day) < 7 && <span className="ft-crs-day-date">{shortDate(day)}</span>}
           </div>
-          {tasks.map((t) => <TaskRow key={t.id} task={t} todayISO={todayISO} onToggle={toggle} />)}
+          {tasks.map(row)}
         </div>
       ))}
 
-      {cw.undated.length > 0 && (
+      {undated.length > 0 && (
         <div className="ft-crs-day">
-          <div className="ft-crs-day-head"><span>No date yet</span></div>
-          {cw.undated.map((t) => <TaskRow key={t.id} task={t} todayISO={todayISO} onToggle={toggle} reason="no due date in Canvas or the syllabus" />)}
+          <div className="ft-crs-day-head"><span>No date</span></div>
+          {undated.slice(0, NO_DATE_CAP).map(row)}
+          {undated.length > NO_DATE_CAP && (
+            <div className="ft-crs-empty"><Link to="/orbit">+{undated.length - NO_DATE_CAP} more in Orbit</Link></div>
+          )}
         </div>
       )}
     </>
@@ -168,6 +169,7 @@ function TodoPane({ todayISO, horizon, onHorizon }) {
 
 export default function CalendarSideRail({
   mode, onMode, todayISO, horizon, onHorizon, goalCount, goalsNode, onClose,
+  orbitTodos, orbitAreaById, onOrbitOpen,
 }) {
   return (
     <aside className="ft-side-rail">
@@ -193,14 +195,13 @@ export default function CalendarSideRail({
 
       <div className="ft-side-rail-body">
         {mode === 'todo'
-          ? <TodoPane todayISO={todayISO} horizon={horizon} onHorizon={onHorizon} />
+          ? <TodoPane todayISO={todayISO} horizon={horizon} onHorizon={onHorizon} orbitTodos={orbitTodos} orbitAreaById={orbitAreaById} onOrbitOpen={onOrbitOpen} />
           : goalsNode}
       </div>
 
       {mode === 'todo' && (
         <div className="ft-side-rail-foot">
-          <Link to="/MFT/school">School planner</Link>
-          <Link to="/TKB/courses/dashboard">Course dashboard</Link>
+          <Link to="/orbit">Orbit</Link>
         </div>
       )}
     </aside>

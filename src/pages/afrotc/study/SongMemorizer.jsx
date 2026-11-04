@@ -42,8 +42,21 @@ const SONGS = [
   {
     id: 'sf', title: 'Space Force Song', where: 'handbook p.24, or the "Semper Supra" article on spaceforce.mil',
     page: 'https://www.spaceforce.mil/News/Article/3163735/space-force-reveals-official-song-semper-supra/',
+    // Checked 2026-11-04 against YouTube's oEmbed endpoint (public and embeddable).
+    videos: [
+      { id: 'EdK9RRpofI4', label: 'Space Force, lyric video', note: 'The United States Space Force channel: "The Official United States Space Force Song (Lyric Video)"' },
+      { id: 'L_-MSEBOIA8', label: 'Unveiling', note: 'Military Times: "Hear the new Space Force official song"' },
+    ],
   },
-  { id: 'cr', title: "Airman's Creed", where: 'handbook p.20', builtin: AIRMANS_CREED, word: 'Part' },
+  {
+    id: 'cr', title: "Airman's Creed", where: 'handbook p.20', builtin: AIRMANS_CREED, word: 'Part',
+    // Checked 2026-11-04 against YouTube's oEmbed endpoint (public and embeddable).
+    videos: [
+      { id: 'NqZTnuqm5fc', label: 'JBSA recitation', note: 'Joint Base San Antonio: "The Airman\'s Creed"' },
+      { id: 'JwrgI0aV9WE', label: 'Mountain Home recitation', note: '366th Fighter Wing, Mountain Home AFB: "Airman\'s Creed"' },
+      { id: '_DcmGOuby4Y', label: 'Basic Training graduation', note: 'Recited at Basic Training, 26 Sep 2014 (uploaded by YOUR Military Money)' },
+    ],
+  },
 ];
 // A saved override only counts when it has words in it. An empty saved string used to beat the built-in
 // text (`??` only skips null and undefined), which is how the Airman's Creed ended up loading as a blank editor.
@@ -96,13 +109,13 @@ export default function SongMemorizer() {
       </div>
 
       {listening && (
-        <LoopPlayer key={song.id} value={cfg.listen?.[song.id]} suggested={song.videos} lines={parsed.lines} defaultStart={song.start ?? 0} lyricsPage={song.lyricsPage}
+        <LoopPlayer key={`player-${song.id}`} songId={song.id} value={cfg.listen?.[song.id]} suggested={song.videos} lines={parsed.lines} defaultStart={song.start ?? 0} lyricsPage={song.lyricsPage}
           onAddLyrics={() => setEditing(true)}
           onChange={(v) => setCfg({ listen: { ...cfg.listen, [song.id]: v } })} />
       )}
 
       {showEditor ? (
-        <Editor key={song.id} song={song} text={text} hasLyrics={parsed.lines.length > 0}
+        <Editor key={`editor-${song.id}`} song={song} text={text} hasLyrics={parsed.lines.length > 0}
           onReset={song.builtin ? () => { const { [song.id]: _drop, ...rest } = cfg.lyrics ?? {}; setCfg({ lyrics: rest }); setEditing(false); } : null}
           onSave={(t) => { setCfg({ lyrics: { ...cfg.lyrics, [song.id]: t } }); setEditing(false); }}
           onCancel={() => setEditing(false)} />

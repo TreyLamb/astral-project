@@ -386,6 +386,13 @@
 .arc-s-listen-audio { width: 100%; }
 .arc-s-listen-clock { font-variant-numeric: tabular-nums; color: var(--arc-muted); margin-left: auto; }
 .arc-s-listen-mark { display: flex; gap: .3rem; align-items: center; }
+.arc-s-listen-time {
+  width: 6.2rem; flex: 0 0 auto; font: inherit; font-variant-numeric: tabular-nums; text-align: center;
+  padding: .5rem .4rem; border: 1px solid var(--arc-border); border-radius: 8px;
+  background: var(--arc-bg); color: var(--arc-text);
+}
+.arc-s-listen-time::placeholder { color: var(--arc-muted); font-size: .85em; }
+.arc-s-listen-time:focus { outline: 2px solid var(--arc-accent, #7cc4ff); outline-offset: 1px; }
 .arc-s-listen-mark b { min-width: 4.2rem; text-align: center; font-variant-numeric: tabular-nums; }
 .arc-s-listen-msg { margin: 0; }
 .arc-s-listen-sec { display: inline-flex; align-items: center; }
