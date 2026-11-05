@@ -18,7 +18,7 @@ const ALL = (date, kind, title, extra = {}) => ({ id: `p${++seq}`, date, start: 
 const D = {
   fri: '2026-10-23', sat: '2026-10-24', sun: '2026-10-25', mon: '2026-10-26', tue: '2026-10-27',
   wed: '2026-10-28', thu: '2026-10-29', fri2: '2026-10-30', sat2: '2026-10-31', sun2: '2026-11-01', mon2: '2026-11-02', tue2: '2026-11-03',
-  wed2: '2026-11-04', thu2: '2026-11-05', fri3: '2026-11-06',
+  wed2: '2026-11-04', thu2: '2026-11-05', fri3: '2026-11-06', sat3: '2026-11-07', sun3: '2026-11-08',
 };
 
 export const PLAN = [
@@ -101,6 +101,7 @@ export const PLAN = [
   E(D.thu, '18:00', '18:30', 'rest', 'Dinner'),
   E(D.thu, '18:30', '20:00', 'work', 'ESMG 3200 Assignment 2: finish + SUBMIT', { course: 'ESMG 3200', prio: 'deadline', note: 'Last day before the penalty grows (Thu 11:59 PM). Brief: ESMG 3200/ESMG3200_A2_BRIEF_2026-10-27.pdf.' }),
   E(D.thu, '20:00', '23:00', 'work', 'ESMG 3200 Assignment 3: write + SUBMIT', { course: 'ESMG 3200', prio: 'deadline', note: 'Due tonight 11:59 PM. Brief: ESMG 3200/ESMG3200_A3_BRIEF_2026-10-27.pdf. If the night runs out: A2 and A3 cost the same 5 pts each if late; finish whichever is closer first.' }),
+  ALL(D.thu, 'work', 'ESMG 3200 W3 discussion: final reply (done, ~6:50 PM)', { course: 'ESMG 3200', prio: 'done', note: 'W3: 4 replies over 4 days, graded 26/20.' }),
   E(D.thu, '23:59', null, 'due', 'DUE: ESMG 3200 Assignment 3 (+ A2 penalty step)'),
 
   // ── Fri 10-30 (rebuilt Thu 11:59 PM): AIWP 3 already SUBMITTED, so everything moves up an hour and a
@@ -172,39 +173,64 @@ export const PLAN = [
   E(D.wed2, '18:15', '18:45', 'rest', 'Dinner'),
   E(D.wed2, '18:45', '19:45', 'work', 'MICR 2065 Pre-Lab #8 + Module 8 Case Study', { course: 'MICR 2065', prio: 'must', note: 'Due Thu 11/5 4:00 PM. Fallback: Thu 2-4 PM.' }),
   E(D.wed2, '19:45', '21:15', 'work', 'ESMG 3200 Assignment 4: prompt, rubric, topic, sources, skeleton', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11/5 11:59 PM. 1,500-2,000 words, 50 pts. Done today so Thursday is not overloaded.' }),
-  E(D.wed2, '21:15', '21:30', 'fixed', 'Lay out review uniform (khakis, polo, Happy Jacket); bed by 9:45', { course: 'AFROTC', note: 'Rehearsal 6 AM. Warrior Knowledge and CHEM prep for Thursday dropped today (slept); WK resumes Thu.' }),
+  E(D.wed2, '21:15', '21:30', 'fixed', 'Lay out review uniform (khakis, polo, Happy Jacket)', { course: 'AFROTC', note: 'Rehearsal 6 AM. Warrior Knowledge and CHEM prep for Thursday dropped today (slept); WK resumes Thu.' }),
+  E(D.wed2, '21:30', '21:45', 'work', 'ESMG 3200 Week 4 discussion reply to Ashley Davis (done, 10:47 PM)', { course: 'ESMG 3200', prio: 'done', note: 'Posted 10:47 PM. That is three replies on two separate days, which is more than the two required (Week 1 earned extra credit the same way).' }),
   E(D.wed2, '23:59', null, 'due', 'DUE: ESFF 1120 Initiatives 5+6 paper (one attempt)'),
 
   // ── Thu 11-5: Presidential Review ──
-  E(D.thu2, '06:00', '07:00', 'fixed', 'Presidential Review dress rehearsal (Det, with Army)', { course: 'AFROTC' }),
-  E(D.thu2, '07:15', '09:00', 'work', 'ESMG 3200 Assignment 4: draft the middle sections', { course: 'ESMG 3200', prio: 'must', note: 'Between rehearsal and form-up, at BYU. Bring the laptop.' }),
-  E(D.thu2, '09:15', '09:45', 'fixed', 'Form up at the Det, march', { course: 'AFROTC' }),
-  E(D.thu2, '10:00', '11:00', 'fixed', 'Presidential Review (BYU Brigham Square)', { course: 'AFROTC' }),
-  E(D.thu2, '11:00', '12:00', 'fixed', 'Reception, Wilk Garden Court', { course: 'AFROTC', note: 'Optional Army leadership LLAB after; length unknown.' }),
+  E(D.thu2, '06:00', '07:00', 'fixed', 'Presidential Review dress rehearsal at the Det', { course: 'AFROTC' }),
+  E(D.thu2, '07:15', '08:00', 'work', 'CHEM 1210 Quiz 21 (7-1 to 7-3)', { course: 'CHEM 1210', prio: 'must', note: 'Due today 12:30 PM, and this is the only free time before then. Bring the laptop. Slides: CHEM 1210/slides/CHEM1210_Ch7_Slides_Bonding_and_Molecular_Geometry.pdf.' }),
+  E(D.thu2, '08:00', '09:00', 'work', 'ESMG 3200 Assignment 4: start writing', { course: 'ESMG 3200', prio: 'must', note: 'Skeleton: ESMG 3200/A4 Program Proposal.docx (topic: emergency vehicle crash reduction; every section has its facts and citations in a gray note). Start with Introduction and Evidence of Need.' }),
+  E(D.thu2, '09:05', '09:45', 'fixed', 'First formation at the Det', { course: 'AFROTC', note: 'Formation is 0915; arrive 5-10 minutes early.' }),
+  E(D.thu2, '09:45', '10:00', 'fixed', 'March to the Presidential Review', { course: 'AFROTC' }),
+  E(D.thu2, '10:00', '11:00', 'fixed', 'Presidential Review ceremony (BYU Brigham Square)', { course: 'AFROTC' }),
+  E(D.thu2, '11:00', '12:00', 'fixed', 'Reception, Wilkinson Center Garden Court', { course: 'AFROTC', note: 'Trey will probably skip this or the 12:00 Q&A. Use the hour you skip for AEROS 210 DB8 (15 minutes) and more of ESMG 3200 Assignment 4.' }),
+  E(D.thu2, '12:00', '13:00', 'fixed', 'Optional Q&A with LTG Taylor, JKB 1102', { course: 'AFROTC', note: 'Optional. Trey will probably skip this or the 11:00 reception. It ends at 1:00, when CHEM 1210 class starts at UVU: to make class, leave by about 12:40.' }),
   E(D.thu2, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210' }),
-  E(D.thu2, '14:00', '16:00', 'work', 'CHEM 1210 prep (moved up: lab tonight)', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.thu2, '14:00', '15:00', 'work', 'MICR 2065 Pre-Lab #8 + Module 8 Case Study: finish + submit', { course: 'MICR 2065', prio: 'must', note: 'Due 4 PM. If it was done Wednesday, use this hour for CHEM 1210 prep (7-4, 7-5 for Quiz 22).' }),
+  E(D.thu2, '15:00', '15:40', 'fixed', '2-mile run', { note: 'Trey, 11-4: before lab. Your Holy War leg is tomorrow at 0845, so unless this is a timed test, keep it comfortable.' }),
+  E(D.thu2, '15:40', '16:00', 'rest', 'Change, get to MICR 2065 lab'),
   E(D.thu2, '16:00', '18:00', 'class', 'MICR 2065 lab', { course: 'MICR 2065' }),
-  E(D.thu2, '18:00', '18:45', 'rest', 'Dinner'),
-  E(D.thu2, '18:45', '19:15', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
-  E(D.thu2, '19:15', '21:15', 'work', 'ESMG 3200 Assignment 4: finish + SUBMIT', { course: 'ESMG 3200', prio: 'must', note: 'Due tonight 11:59 PM. Word count 1,500-2,000 (excluding title + reference pages).' }),
-  E(D.thu2, '23:59', null, 'due', 'DUE: ESMG 3200 A4 · CHEM Q21 (12:30) · MICR 2065 Pre-Lab #8 + Case 8 (4 PM)'),
+  E(D.thu2, '18:00', '18:30', 'rest', 'Dinner'),
+  E(D.thu2, '18:30', '18:45', 'work', 'ESMG 3200 Week 4 discussion reply to Danielle Peck', { course: 'ESMG 3200', prio: 'must', note: 'Extra credit needs posts on 3 separate days. You have Monday (post + 2 replies) and Wednesday (Ashley Davis, 10:47 PM); today is day 3, reply 4. Replies close tonight 11:59 PM. Ideas: ESMG 3200/ESMG3200_W4_REPLY_BRAINSTORM_2026-11-02.md, Reply D.' }),
+  E(D.thu2, '18:45', '19:00', 'work', 'AEROS 210 DB8 (Learning Suite), if not done at noon', { course: 'AERO 2100', prio: 'must', note: 'Trey, 11-4: about 15 minutes. Due Friday 11:59 PM if it follows DB7 (check Learning Suite).' }),
+  E(D.thu2, '19:00', '21:30', 'work', 'ESMG 3200 Assignment 4: finish + submit', { course: 'ESMG 3200', prio: 'must', note: 'Due tonight 11:59 PM. Word count 1,500-2,000 (excluding title + reference pages).' }),
+  E(D.thu2, '23:59', null, 'due', 'DUE: CHEM 1210 Quiz 21 (12:30 PM) · MICR 2065 Pre-Lab #8 + Module 8 Case Study (4 PM) · ESMG 3200 Assignment 4 (11:59 PM)'),
 
   // ── Fri 11-6: Holy War run (Trey, 11-3: back on the list; ready by 0600 he believes, his leg 0845-0935) ──
-  E(D.fri3, '06:00', '08:45', 'fixed', 'Holy War run: report by 0600 (CONFIRM time, place, uniform, ride)', { course: 'AFROTC', note: 'Details still missing: where to report, uniform, transport, when you are back.' }),
+  E(D.fri3, '06:00', '08:45', 'fixed', 'Holy War run: report by 0600 (CONFIRM time, place, uniform, ride)', { course: 'AFROTC', note: 'Details still missing: where to report, uniform, transport, when you are back. Downtime before your leg: optional, draft the ESMG 3200 Week 5 post on your phone (brief in the ESMG 3200 folder).' }),
   E(D.fri3, '08:45', '09:35', 'fixed', 'Holy War run: YOUR LEG (0845-0935)', { course: 'AFROTC' }),
   E(D.fri3, '09:35', '10:30', 'travel', 'Back from the run (end time unknown)'),
   E(D.fri3, '11:00', '12:00', 'work', 'MICR 2065 Lab Notebook #8 + Post-Lab #8', { course: 'MICR 2065', prio: 'must', note: 'Due date to confirm on Canvas after Thursday lab.' }),
-  E(D.fri3, '12:00', '12:30', 'work', 'AEROS 210 DB8 (Learning Suite)', { course: 'AERO 2100', prio: 'must', note: 'Due Fri 11:59 PM if it follows DB7.' }),
+  E(D.fri3, '12:00', '12:30', 'work', 'AEROS 210 DB8 (Learning Suite), only if not done Thursday', { course: 'AERO 2100', prio: 'must', note: 'Due Fri 11:59 PM if it follows DB7.' }),
   E(D.fri3, '12:30', '13:15', 'rest', 'Lunch'),
   E(D.fri3, '13:15', '16:15', 'work', 'CHEM 1210 quizzes (30 min each): Quiz 22 (new) + make-ups Quiz 5, 6, 7, 8 (never taken, 0/8)', { course: 'CHEM 1210', prio: 'must' }),
   E(D.fri3, '16:30', '17:00', 'work', 'Honor Points (+ Week 9 WK quiz if not done Tue)', { course: 'AFROTC', prio: 'must' }),
   E(D.fri3, '17:00', '17:30', 'work', 'TBAS paperwork: Candidate Worksheet, transcript, ID + SOCIAL SECURITY CARD', { course: 'AFROTC', prio: 'must', note: 'Worksheet: access.afpc.af.mil/pcsmdmz/Candidate Worksheet.pdf. Flight logs only if any, fully totaled.' }),
   E(D.fri3, '23:59', null, 'due', 'DUE (check Learning Suite): AEROS 210 DB8'),
+
+  // ── Sat 11-7 + Sun 11-8: writing marathon (Trey, 11-4: "bust out A LOT of writing ... still have some relaxation").
+  // Order = due date. Every paper has a brief + skeleton ready before Saturday, so each block starts with writing,
+  // not with finding sources. Long blocks for flow; evenings off. Sunday 4-7 PM is with friends.
+  E(D.sat3, '08:30', '09:15', 'work', 'ESMG 3200 Week 5 discussion post: write + post (warm-up)', { course: 'ESMG 3200', prio: 'must', note: 'Due Mon 11/9 11:59 PM. Open-ended question + one credible source. Replies Mon-Thu for the extra credit.' }),
+  E(D.sat3, '09:30', '11:00', 'work', 'ESFF 1120 Initiatives 7+8: write the whole paper', { course: 'ESFF 1120', prio: 'must', note: 'Due Wed 11/11, one attempt. Same outline as 5+6 (Explanation / Implementation / Impact / Reflection / Reference(s) FOR INITIATIVE N). Submit after checking Dr. L’s Module 4 announcement on Monday: he has changed the outline by announcement before.' }),
+  E(D.sat3, '11:15', '12:30', 'work', 'ESMG 3200 Assignment 5: pick the incident, sources, skeleton', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11/12. 1,000-1,500 words, APA 7, title + reference page, 3+ sources incl. one official incident report.' }),
+  E(D.sat3, '12:30', '13:15', 'rest', 'Lunch'),
+  E(D.sat3, '13:15', '15:45', 'work', 'ESMG 3200 Assignment 5: bulk draft', { course: 'ESMG 3200', prio: 'must', note: 'Take a 10-minute break halfway.' }),
+  E(D.sat3, '16:15', '17:45', 'work', 'CHEM 1210 quizzes: Quiz 9 (never taken), retakes Quiz 11 and Quiz 14', { course: 'CHEM 1210', prio: 'must', note: 'The biggest gains on the under-90% list (0/8, 25%, 0%). Sig figs: after + or -, round to the fewest DECIMAL PLACES before the next step.' }),
+  E(D.sat3, '17:45', '18:15', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
+  E(D.sat3, '18:15', '22:00', 'rest', 'Evening off'),
+
+  E(D.sun3, '08:30', '10:00', 'work', 'ESMG 3200 Assignment 5: finish, APA check, submit', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11/12; done four days early.' }),
+  E(D.sun3, '10:15', '12:00', 'work', 'ESMG 3200 Assignment 6: program, sources, skeleton', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11/19. 1,000-1,500 words, APA 7, 4+ sources: a government or standards source, a peer-reviewed source, one more on the program. Must weigh costs, savings and operational consequences.' }),
+  E(D.sun3, '12:00', '12:45', 'rest', 'Lunch'),
+  E(D.sun3, '12:45', '14:15', 'work', 'ESMG 3200 Assignment 6: start the draft', { course: 'ESMG 3200', prio: 'must', note: 'Finish next week (due Thu 11/19). ESFF 1120 Initiatives 9+10 (due Wed 11/18) is the next paper after this.' }),
+  E(D.sun3, '14:15', '14:45', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
+  E(D.sun3, '14:45', '15:45', 'work', 'CHEM 1210 prep for Monday’s class (Ch 7)', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.sun3, '16:00', '19:00', 'fixed', 'With friends', { note: 'Trey, 11-4: around 4-7 PM.' }),
   E('2026-11-07', '16:00', null, 'due', 'DUE: Warrior Knowledge quiz (4 PM) · Honor Points (EOD)'),
-  // ── Sat 11-7 / Sun 11-8: CHEM quizzes under 90% (Trey, 11-3: list every quiz below 90% and take/retake it; ~30 min each) ──
-  E('2026-11-07', '09:00', '12:00', 'work', 'CHEM 1210 quizzes: Quiz 9 (0/8, never taken), retakes Quiz 10 (63%), 11 (25%), 12 (56%), 14 (0%), 20 (75%)', { course: 'CHEM 1210', prio: 'must', note: 'Sig figs: after + or -, round to the fewest DECIMAL PLACES before the next step.' }),
-  E('2026-11-08', '09:00', '10:00', 'work', 'CHEM 1210 retakes: Quiz 1 (88%), Quiz 4 (75%)', { course: 'CHEM 1210', prio: 'must' }),
-  E('2026-11-08', '10:00', '12:00', 'work', 'CHEM 1210 prep for Monday’s class (Ch 7)', { course: 'CHEM 1210', prio: 'must' }),
+  // CHEM quizzes under 90% (Trey, 11-3: take/retake every one, ~30 min each) were planned Sat 9-12 + Sun 9-10.
+  // 11-4 writing marathon: Quiz 9, 11, 14 stay (Sat 4:15); retakes of Quiz 10, 12, 20, 1 and 4 move to next week.
   E('2026-11-09', '14:30', null, 'due', 'DUE: CHEM 1210 Quiz 22 (7-4, 7-5), 2:30 PM'),
   E('2026-11-11', '12:30', null, 'due', 'DUE: CHEM 1210 Quiz 23 (7-6), 12:30 PM'),
   E('2026-11-16', '14:30', null, 'due', 'DUE: CHEM 1210 Quiz 24 (8-1 to 8-3), 2:30 PM'),

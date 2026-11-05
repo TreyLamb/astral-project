@@ -33,7 +33,8 @@ describe('study plan', () => {
     const hours = workHoursByDay();
     for (const [day, h] of Object.entries(hours)) expect({ day, ok: h <= 9 }).toEqual({ day, ok: true });
     const over75 = Object.entries(hours).filter(([, h]) => h > 7.5).map(([d]) => d);
-    for (const d of over75) expect({ d, inPushWeek: d >= '2026-10-26' && d <= '2026-11-04' }).toEqual({ d, inPushWeek: true });
+    // 2026-11-04: Trey asked for a weekend writing marathon (Sat 11-7, Sun 11-8).
+    for (const d of over75) expect({ d, inPushWeek: (d >= '2026-10-26' && d <= '2026-11-04') || d === '2026-11-07' }).toEqual({ d, inPushWeek: true });
   });
 
   it('puts the Air Force Song / Airman’s Creed slot on every weekday-evening plan day it was promised', () => {
@@ -49,10 +50,17 @@ describe('study plan', () => {
     for (const e of odc) expect(`${e.date}T${e.start}` < '2026-10-28T06:00').toBe(true);
   });
 
-  it('has one ESMG discussion post or reply every day Mon-Thu (extra credit needs 3+ separate days)', () => {
-    // Trey posted + replied Mon, replied Tue (both required replies done). Reply #3 dropped 10-28: no room Wed/Thu.
-    for (const d of ['2026-10-26', '2026-10-27']) {
-      expect({ d, n: PLAN.filter((e) => e.date === d && /ESMG 3200 W3 discussion/.test(e.title)).length >= 1 }).toEqual({ d, n: true });
+  it('plans ESMG discussion work on 3+ separate days of EVERY discussion week (Sun-Thu), for the extra credit', () => {
+    // Every Monday in the plan whose Thursday is also planned, not one hard-coded week: this test used to check
+    // only Week 3, so Week 4 shipped with no reply after Monday and the extra credit was nearly missed (Trey, 11-4).
+    const dates = [...new Set(PLAN.map((e) => e.date))].sort();
+    const shift = (d, n) => new Date(Date.parse(`${d}T12:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
+    const mondays = dates.filter((d) => new Date(`${d}T12:00:00Z`).getUTCDay() === 1 && dates.includes(shift(d, 3)));
+    expect(mondays.length).toBeGreaterThan(0);
+    for (const mon of mondays) {
+      const week = [-1, 0, 1, 2, 3].map((n) => shift(mon, n));
+      const days = new Set(PLAN.filter((e) => week.includes(e.date) && /ESMG 3200 (W|Week )\d+ (discussion|reply)/.test(e.title)).map((e) => e.date));
+      expect({ mon, days: days.size >= 3 }).toEqual({ mon, days: true });
     }
   });
 

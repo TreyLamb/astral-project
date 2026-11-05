@@ -14,6 +14,10 @@ When Trey corrects you, complains, or says "I want X" / "always" / "stop doing Y
 Do not wait to be told to write it down. Mention in your reply, in one line, which rule you added.
 
 ## Writing on screen (chips, labels, titles, buttons)
+- 🔴 **NO SHORTHAND, ANYWHERE** (chat replies, briefs, skeletons, plans, notes, labels). Write every line so it makes
+  sense to someone reading it cold, with no context: full sentences, say what each thing IS, no slash-lists of
+  half-phrases, no private labels. Trey has asked for this many times: *"its so annoying and its a waste of time the
+  shorthand makes NO SENSE without context 99% of the time."* (2026-11-04)
 - **Never use abbreviations he might not know or that are ambiguous.** "DB" for discussion board needed explaining;
   write "Discussion Board". Shorten only when it genuinely does not fit, and then only with a standard one. Spell out:
   Init → Initiative, DB → Discussion Board, Q21 → Quiz 21, A4 → Assignment 4, W3 → Week 3. (2026-11-03)
@@ -72,6 +76,26 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
 - **Anything that would overload tomorrow is "due today."** Before finalising a day, look at tomorrow's fixed load
   (ROTC events, lab, early starts); pull work forward until tomorrow is reasonable, up to today's cap. Trey: *"Whatever
   we need to do today to not make tomorrow too busy - consider it 'due today' and we will get it done."* (2026-11-04)
+
+- **A recurring rule gets a recurring check, for EVERY week, never one hard-coded week.** The ESMG "reply on 3+ days for
+  extra credit" test only checked Week 3, so Week 4 went out with no replies after Monday and no reminder. Trey: *"You
+  didn't remind me at all this week to reply to the extra discussions."* Tests loop over every week in the plan, and every
+  daily habit (ESMG replies, Warrior Knowledge) gets a line in the morning brief. (2026-11-04)
+
+- **Briefs are never ambiguous about scope.** Each topic opens with one bold sentence saying what it IS focused on, then
+  names what is only one part of it. If the sources or examples lean toward one subtopic, the brief says so outright
+  ("cancer is one of four parts, not the focus"). Trey: *"Stop being ambiguous, we have talked about that for briefs like
+  this."* (2026-11-04, ESFF Initiative 5 read as a cancer paper)
+  **Skeleton prompts are full sentences he can read cold**: no shorthand lists like "(weekly wellness memo / 5-hour
+  homework cap)". Say what the heading asks, what each example option IS, and why it fits. Trey on the 5+6 skeleton:
+  *"I have no idea what any of this means."* (2026-11-04)
+
+- **Never ask him to send a file you can already read** (Drive, the repo, Downloads). Open it yourself. Trey: *"why am i
+  sending you the file? You know where it is."* (2026-11-04)
+- **"(citation)" in his draft is an instruction to me:** the final edit inserts the correct APA in-text citation there and
+  adds the matching reference. The final edit of a paper is mine: citations, reference lists, formatting, typos and the
+  word count, in a separate _FINAL copy, with his wording left as his. Don't flag his placeholders as mistakes. (2026-11-04)
+  The whole workflow is the user-level **`paper-final-edit` skill** (`~/.claude/skills/paper-final-edit/`), made because "we always have this conversation".
 
 ## Where the other preference-style files are
 - Root `CLAUDE.md` (project rules) and `src/pages/theknowledgebase/CLAUDE.md` (TKB/AFOQT/courses).
