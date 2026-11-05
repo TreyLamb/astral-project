@@ -97,6 +97,8 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
   word count, in a separate _FINAL copy, with his wording left as his. Don't flag his placeholders as mistakes. (2026-11-04)
   The whole workflow is the user-level **`paper-final-edit` skill** (`~/.claude/skills/paper-final-edit/`), made because "we always have this conversation".
 
+- **A special event does not cancel his regular classes unless he or the event notice says so.** Keep the class blocks in the plan and ask once if it is unclear. The 11-5 Presidential Review plan dropped AERO 1100 and AERO 2100 and filled 8-9 AM with homework; both classes were still on. (2026-11-05)
+
 ## Where the other preference-style files are
 - Root `CLAUDE.md` (project rules) and `src/pages/theknowledgebase/CLAUDE.md` (TKB/AFOQT/courses).
 - `~/.claude/CLAUDE.md` (global) and the auto-memory folder `~/.claude/projects/c--Projects-astral-project/memory/`.

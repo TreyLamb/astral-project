@@ -180,11 +180,11 @@ export const PLAN = [
   // ── Thu 11-5: Presidential Review ──
   E(D.thu2, '06:00', '07:00', 'fixed', 'Presidential Review dress rehearsal at the Det', { course: 'AFROTC' }),
   E(D.thu2, '07:15', '08:00', 'work', 'CHEM 1210 Quiz 21 (7-1 to 7-3)', { course: 'CHEM 1210', prio: 'must', note: 'Due today 12:30 PM, and this is the only free time before then. Bring the laptop. Slides: CHEM 1210/slides/CHEM1210_Ch7_Slides_Bonding_and_Molecular_Geometry.pdf.' }),
-  E(D.thu2, '08:00', '09:00', 'work', 'ESMG 3200 Assignment 4: start writing', { course: 'ESMG 3200', prio: 'must', note: 'Skeleton: ESMG 3200/A4 Program Proposal.docx (topic: emergency vehicle crash reduction; every section has its facts and citations in a gray note). Start with Introduction and Evidence of Need.' }),
-  E(D.thu2, '09:05', '09:45', 'fixed', 'First formation at the Det', { course: 'AFROTC', note: 'Formation is 0915; arrive 5-10 minutes early.' }),
+  E(D.thu2, '08:00', '09:00', 'class', 'AERO 1100 class', { course: 'AERO 1100', note: 'Trey, 11-5: both morning classes are on today despite the Presidential Review.' }),
+  E(D.thu2, '09:00', '09:45', 'class', 'AERO 2100 class, then first formation at the Det', { course: 'AERO 2100', note: 'Trey, 11-5: AERO 2100 is on today. The Presidential Review timeline has first formation at 0915 at the Det, so follow cadre on when class breaks for it.' }),
   E(D.thu2, '09:45', '10:00', 'fixed', 'March to the Presidential Review', { course: 'AFROTC' }),
   E(D.thu2, '10:00', '11:00', 'fixed', 'Presidential Review ceremony (BYU Brigham Square)', { course: 'AFROTC' }),
-  E(D.thu2, '11:00', '12:00', 'fixed', 'Reception, Wilkinson Center Garden Court', { course: 'AFROTC', note: 'Trey will probably skip this or the 12:00 Q&A. Use the hour you skip for AEROS 210 DB8 (15 minutes) and more of ESMG 3200 Assignment 4.' }),
+  E(D.thu2, '11:00', '12:00', 'fixed', 'Reception, Wilkinson Center Garden Court', { course: 'AFROTC', note: 'Trey will probably skip this or the 12:00 Q&A. Use the hour you skip for AEROS 210 DB8 (15 minutes) and 45 minutes of ESMG 3200 Assignment 4. The 8:00 Assignment 4 block was lost to AERO 1100, so this hour matters.' }),
   E(D.thu2, '12:00', '13:00', 'fixed', 'Optional Q&A with LTG Taylor, JKB 1102', { course: 'AFROTC', note: 'Optional. Trey will probably skip this or the 11:00 reception. It ends at 1:00, when CHEM 1210 class starts at UVU: to make class, leave by about 12:40.' }),
   E(D.thu2, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210' }),
   E(D.thu2, '14:00', '15:00', 'work', 'MICR 2065 Pre-Lab #8 + Module 8 Case Study: finish + submit', { course: 'MICR 2065', prio: 'must', note: 'Due 4 PM. If it was done Wednesday, use this hour for CHEM 1210 prep (7-4, 7-5 for Quiz 22).' }),
@@ -194,7 +194,7 @@ export const PLAN = [
   E(D.thu2, '18:00', '18:30', 'rest', 'Dinner'),
   E(D.thu2, '18:30', '18:45', 'work', 'ESMG 3200 Week 4 discussion reply to Danielle Peck', { course: 'ESMG 3200', prio: 'must', note: 'Extra credit needs posts on 3 separate days. You have Monday (post + 2 replies) and Wednesday (Ashley Davis, 10:47 PM); today is day 3, reply 4. Replies close tonight 11:59 PM. Ideas: ESMG 3200/ESMG3200_W4_REPLY_BRAINSTORM_2026-11-02.md, Reply D.' }),
   E(D.thu2, '18:45', '19:00', 'work', 'AEROS 210 DB8 (Learning Suite), if not done at noon', { course: 'AERO 2100', prio: 'must', note: 'Trey, 11-4: about 15 minutes. Due Friday 11:59 PM if it follows DB7 (check Learning Suite).' }),
-  E(D.thu2, '19:00', '21:30', 'work', 'ESMG 3200 Assignment 4: finish + submit', { course: 'ESMG 3200', prio: 'must', note: 'Due tonight 11:59 PM. Word count 1,500-2,000 (excluding title + reference pages).' }),
+  E(D.thu2, '19:00', '22:00', 'work', 'ESMG 3200 Assignment 4: write + submit', { course: 'ESMG 3200', prio: 'must', note: 'Due tonight 11:59 PM. Word count 1,500-2,000 (excluding title + reference pages). Skeleton: ESMG 3200/A4 Program Proposal.docx; every section has its facts and citations in the gray notes. Lengthened to 3 hours because the morning block became AERO 1100. Tell me when done and I will do the final edit.' }),
   E(D.thu2, '23:59', null, 'due', 'DUE: CHEM 1210 Quiz 21 (12:30 PM) · MICR 2065 Pre-Lab #8 + Module 8 Case Study (4 PM) · ESMG 3200 Assignment 4 (11:59 PM)'),
 
   // ── Fri 11-6: Holy War run (Trey, 11-3: back on the list; ready by 0600 he believes, his leg 0845-0935) ──
