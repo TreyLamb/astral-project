@@ -99,6 +99,43 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
 
 - **A special event does not cancel his regular classes unless he or the event notice says so.** Keep the class blocks in the plan and ask once if it is unclear. The 11-5 Presidential Review plan dropped AERO 1100 and AERO 2100 and filled 8-9 AM with homework; both classes were still on. (2026-11-05)
 
+- **Plan the change of clothes around a workout.** Every run or workout block gets about 15 minutes before it to change into PT
+  gear and about 30 minutes after it to shower and change, unless nothing comes before or after it. On 11-5 the plan put a run right
+  after homework ended and gave 20 minutes to get from the run to a lab, so the run did not happen. `studyPlan.test.js` enforces
+  the gaps. (2026-11-05)
+- **ESFF 1120: Dr. L's Thursday "Welcome to Module N" post is the brief for the next initiative pair.** It is a Canvas
+  announcement (for example /courses/657840/discussion_topics/4586769, 11-5) that says what he wants in the next two papers and gives
+  feedback on the last pair. Read it before building a skeleton or writing, and fold it into the brief. **Write the pair early, but
+  submit only after the previous pair is graded**, so his feedback can change the draft (one attempt per paper; Trey, 11-5). (2026-11-05)
+- **Size blocks from what things really take, not a guess.** MICR 2065 Pre-Lab plus Case Study takes about 1.5 hours together
+  ("as per usual"), so it is planned at 90 minutes; the plan test enforces it. Use `_ChiefOfStaff/time-log.csv` medians for the rest. (2026-11-05)
+- **TBAS practice is 30 minutes every day until he takes the test.** Every planned day gets its own block; the plan test
+  enforces it until `TBAS_TEST` in `studyPlan.test.js` is set to the test date (Capt Malone has not scheduled it yet). (2026-11-06)
+- **Spell out every acronym in a brief the first time it appears**, in parentheses: "AMC (Air Mobility Command)". He asked for
+  it on the MAJCOM brief; apply it to every brief, study sheet and plan note. (2026-11-06)
+
+- **Photos or files that do not match the question I just asked are not a task.** Say what I see in one line and ask what he wants
+  done with them before making anything. Never turn "organize them" into a PDF or any other file on a guess. On 11-6 he sent ten
+  MICR 2065 lab notebook photos meant for another session, while I was waiting on handbook pages, and I started building a PDF of them.
+  He was upset: *"why would you randomly put them in a pdf."* (2026-11-06)
+- **Never create a second folder for something that already has one.** Before making a folder, list the parent and reuse the
+  existing one even if its name differs (`Lab8_Pics` already existed when I made `LabNotebook8` for the same lab; he had to move
+  the files himself). If two names fit, use the older one and say which. (2026-11-06)
+- **A study document holds the CONTENT, not the working notes.** The Det 855 handbook page exists to be a virtual copy of his
+  pocket handbook, and earlier agents filled it with "Trey's chain", "photo cut off", "Trey chose", source-hunting asides and a
+  to-do list. Content docs under `src/pages/afrotc/docs/` and the study pages state the facts and, at most, one short line of
+  status (✅ copied from the book, 📘 public sources, ⏳ not added). Process notes, who decided what, and next steps go in STATE.md
+  or the chat, never in the document he reads. Never refer to him by name in app content. (2026-11-07)
+- **Search every section, and let him preview before he navigates.** AFROTC search covers all pages (handbook, quizzes, briefs,
+  lists, cards, roster, references, recitation); a result can be previewed in place and opened at the exact heading. A new AFROTC
+  page or data file must be added to `getSearchIndex()` in `AfrotcApp.jsx`, or it is invisible to search. (2026-11-07)
+
+- **A graded attempt is fact-check material: apply it to the practice worksheet the same day it lands.** Every question that scored
+  becomes `graded`; every wrong pick becomes `knownWrong` and its answer is re-derived from the chapter (flagged unsure if not certain).
+  The graded MICR 2060 OLQ 12 PDF sat in Drive from 11-3 while the Chapter 12 worksheet still said "derived" on all 66 questions,
+  and 7 of those derived answers were the exact picks Canvas had marked wrong. Trey: *"everything still says its derived and not
+  official when we have a whole quiz to fact check on."* (2026-11-07)
+
 ## Where the other preference-style files are
 - Root `CLAUDE.md` (project rules) and `src/pages/theknowledgebase/CLAUDE.md` (TKB/AFOQT/courses).
 - `~/.claude/CLAUDE.md` (global) and the auto-memory folder `~/.claude/projects/c--Projects-astral-project/memory/`.

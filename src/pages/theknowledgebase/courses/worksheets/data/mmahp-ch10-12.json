@@ -3559,8 +3559,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: ALL primary pathogens are parasites. S. pyogenes is the only primary pathogen listed."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: ALL primary pathogens are parasites. S. pyogenes is the only primary pathogen listed. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q28: you picked this and it scored."
       },
       {
        "id": "ch12-q3",
@@ -3585,8 +3585,8 @@
         }
        ],
        "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: normal microbiota occupy the cell receptors, so pathogens fail to attach. Not all of them make vitamins, and some cause opportunistic infections."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: normal microbiota occupy the cell receptors, so pathogens fail to attach. Not all of them make vitamins, and some cause opportunistic infections. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q12: you picked this and it scored."
       },
       {
        "id": "ch12-q4",
@@ -3706,12 +3706,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "Figure 12.2 numbers are not in the text I have. Mouth/nasal surfaces are densely populated per unit; vagina is the main alternative.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "E"
-       ]
+       "answerSource": "graded",
+       "answerRationale": "Figure 12.2 numbers are not in the text I have. Mouth/nasal surfaces are densely populated per unit; vagina is the main alternative. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q21: you picked this and it scored."
       },
       {
        "id": "ch12-q8",
@@ -3766,8 +3762,8 @@
         }
        ],
        "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: all animal viruses, worms and insects in the body are parasites; phages, archaeoviruses, plant viruses (transient), bacteria, archaea, fungi and protozoa can be microbiota."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: all animal viruses, worms and insects in the body are parasites; phages, archaeoviruses, plant viruses (transient), bacteria, archaea, fungi and protozoa can be microbiota. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q11: you picked this and it scored."
       },
       {
        "id": "ch12-q10",
@@ -3856,8 +3852,8 @@
         }
        ],
        "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: the normal biota keeps C. difficile out; antibiotics remove it."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: the normal biota keeps C. difficile out; antibiotics remove it. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q40: you picked this and it scored."
       },
       {
        "id": "ch12-q13",
@@ -3907,9 +3903,15 @@
          "text": "Group B mice were exposed to hormones in milk unnatural to the non-obese breed."
         }
        ],
-       "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "Same food, different mothers: the obesity-promoting microbiome passed on by the obese mother explains it (chapter: transplants from obese animals)."
+       "answer": "C",
+       "answerSource": "corrected",
+       "answerRationale": "Chapter: microbes transplanted from obese animals make non-obese animals obese. Group A kept the obese mothers' microbiome (88% obese); group B picked up the non-obese adoptive mothers' microbiome (8% obese), which prevented obesity. B describes group A, not group B. Canvas marked B wrong on your graded OLQ 12 (11-3), Q20.",
+       "knownWrong": [
+        "B"
+       ],
+       "priorAnswer": "B",
+       "priorSource": "derived",
+       "priorRationale": "Same food, different mothers: the obesity-promoting microbiome passed on by the obese mother explains it (chapter: transplants from obese animals)."
       },
       {
        "id": "ch12-q15",
@@ -3938,8 +3940,8 @@
         }
        ],
        "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "Tolerance is partial; \"completely tolerized\" is the overstatement."
+       "answerSource": "graded",
+       "answerRationale": "Tolerance is partial; \"completely tolerized\" is the overstatement. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q27: you picked this and it scored."
       }
      ]
     },
@@ -4007,8 +4009,8 @@
         }
        ],
        "answer": "E",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: botulism (an exotoxin disease) is non-communicable."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: botulism (an exotoxin disease) is non-communicable. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q30: you picked this and it scored."
       },
       {
        "id": "ch12-q18",
@@ -4033,8 +4035,8 @@
         }
        ],
        "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: a communicable disease that transmits rapidly is contagious."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: a communicable disease that transmits rapidly is contagious. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q9: you picked this and it scored."
       },
       {
        "id": "ch12-q19",
@@ -4093,8 +4095,8 @@
         }
        ],
        "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "Leptospira and coxsackie viruses are listed as leaving in urine (Table 12.3)."
+       "answerSource": "graded",
+       "answerRationale": "Leptospira and coxsackie viruses are listed as leaving in urine (Table 12.3). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q17: you picked this and it scored."
       },
       {
        "id": "ch12-q21",
@@ -4150,8 +4152,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "Table 12.4: gonorrhea, syphilis, HIV and other STIs have humans as their only reservoir."
+       "answerSource": "graded",
+       "answerRationale": "Table 12.4: gonorrhea, syphilis, HIV and other STIs have humans as their only reservoir. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q3: you picked this and it scored."
       },
       {
        "id": "ch12-q23",
@@ -4175,13 +4177,20 @@
          "text": "all these animals/apes and other primates"
         }
        ],
-       "answer": "D",
+       "answer": "A",
        "answerSource": "derived",
-       "answerRationale": "Chapter: zoonoses come more readily from phylogenetically close hosts (monkeys, chimpanzees) than from fish and amphibians. Option wording is clumsy, but D is the only one naming apes and primates.",
+       "answerRationale": "Chapter: 'infectious diseases of monkeys and chimpanzees would be more easily transmitted to humans than those of fish and amphibians.' D was marked wrong on your graded OLQ 12 (11-3), Q32. A names the chapter's own example (fish) against mammals; C (lizards and snakes / mammals) is the other candidate. B pairs amphibians with birds, which are not closer to humans than mammals.",
        "confidence": "unsure",
        "likelyOptions": [
-        "A"
-       ]
+        "A",
+        "C"
+       ],
+       "knownWrong": [
+        "D"
+       ],
+       "priorAnswer": "D",
+       "priorSource": "derived",
+       "priorRationale": "Chapter: zoonoses come more readily from phylogenetically close hosts (monkeys, chimpanzees) than from fish and amphibians. Option wording is clumsy, but D is the only one naming apes and primates."
       },
       {
        "id": "ch12-q24",
@@ -4210,8 +4219,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: about 75% of human infections are zoonoses and humans share about 150 diseases with animals."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: about 75% of human infections are zoonoses and humans share about 150 diseases with animals. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q7: you picked this and it scored."
       },
       {
        "id": "ch12-q25",
@@ -4266,8 +4275,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Chapter lists VZV, HIV, Toxoplasma, Brucella, N. gonorrhoeae and C. trachomatis as passing mother-to-child, and all also spread horizontally."
+       "answerSource": "graded",
+       "answerRationale": "Chapter lists VZV, HIV, Toxoplasma, Brucella, N. gonorrhoeae and C. trachomatis as passing mother-to-child, and all also spread horizontally. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q31: you picked this and it scored."
       },
       {
        "id": "ch12-q27",
@@ -4356,8 +4365,8 @@
         }
        ],
        "answer": "E",
-       "answerSource": "derived",
-       "answerRationale": "Viruses, bacteria, protozoa and worms all have vector-borne members (Fig 12.6)."
+       "answerSource": "graded",
+       "answerRationale": "Viruses, bacteria, protozoa and worms all have vector-borne members (Fig 12.6). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q1: you picked this and it scored."
       },
       {
        "id": "ch12-q30",
@@ -4442,8 +4451,8 @@
         }
        ],
        "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "A biological vector hosts a stage of the pathogen life cycle (as with mosquitoes and malaria)."
+       "answerSource": "graded",
+       "answerRationale": "A biological vector hosts a stage of the pathogen life cycle (as with mosquitoes and malaria). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q35: you picked this and it scored."
       }
      ]
     },
@@ -4507,8 +4516,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "High herd immunity decreases transmission. Procedures, devices, chain of transmitters and errors increase HAI (chapter list)."
+       "answerSource": "graded",
+       "answerRationale": "High herd immunity decreases transmission. Procedures, devices, chain of transmitters and errors increase HAI (chapter list). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q4: you picked this and it scored."
       },
       {
        "id": "ch12-q35",
@@ -4537,12 +4546,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "The numbers are in the Fig 12.7 pie charts, which the text file does not carry. Surgical site infection and S. aureus fit the CDC data I know; pneumonia is about as common, so check the figure.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "E"
-       ]
+       "answerSource": "graded",
+       "answerRationale": "The numbers are in the Fig 12.7 pie charts, which the text file does not carry. Surgical site infection and S. aureus fit the CDC data I know; pneumonia is about as common, so check the figure. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q16: you picked this and it scored."
       },
       {
        "id": "ch12-q36",
@@ -4571,8 +4576,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "Handwashing: chapter says it reduces diarrheal disease by 31% and respiratory infections by 21%, and costs almost nothing."
+       "answerSource": "graded",
+       "answerRationale": "Handwashing: chapter says it reduces diarrheal disease by 31% and respiratory infections by 21%, and costs almost nothing. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q10: you picked this and it scored."
       }
      ]
     },
@@ -4606,8 +4611,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Dose, portal of entry, host health, age, sex and social status affect that person; community health matters least for the individual after exposure."
+       "answerSource": "graded",
+       "answerRationale": "Dose, portal of entry, host health, age, sex and social status affect that person; community health matters least for the individual after exposure. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q29: you picked this and it scored."
       },
       {
        "id": "ch12-q38",
@@ -4654,8 +4659,8 @@
         }
        ],
        "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "ID50 is the dose that infects 50% of exposed subjects, so 50% of a group inhaling 10 cells get TB."
+       "answerSource": "graded",
+       "answerRationale": "ID50 is the dose that infects 50% of exposed subjects, so 50% of a group inhaling 10 cells get TB. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q24: you picked this and it scored."
       },
       {
        "id": "ch12-q40",
@@ -4710,8 +4715,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "The ID50 values are for ingestion, but the bacteria were injected; ID50 depends on portal of entry (Table 12.6)."
+       "answerSource": "graded",
+       "answerRationale": "The ID50 values are for ingestion, but the bacteria were injected; ID50 depends on portal of entry (Table 12.6). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q15: you picked this and it scored."
       }
      ]
     },
@@ -4770,13 +4775,15 @@
          "text": "None of these."
         }
        ],
-       "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "Weight loss, night sweats and low fever are non-specific signs; lung nodules are the nearest to a specific sign. The chapter notes some diseases lack any specific sign.",
-       "confidence": "unsure",
-       "likelyOptions": [
-        "E"
-       ]
+       "answer": "E",
+       "answerSource": "corrected",
+       "answerRationale": "Chapter: fever, sleeplessness and similar signs are non-specific because many diseases cause them, and 'some diseases lack any specific signs.' Nodules in the lung (C) was marked wrong on your graded OLQ 12 (11-3), Q34, and A, B and D are all non-specific, which leaves None of these.",
+       "knownWrong": [
+        "C"
+       ],
+       "priorAnswer": "C",
+       "priorSource": "derived",
+       "priorRationale": "Weight loss, night sweats and low fever are non-specific signs; lung nodules are the nearest to a specific sign. The chapter notes some diseases lack any specific sign."
       },
       {
        "id": "ch12-q44",
@@ -4804,13 +4811,20 @@
          "text": "the syndrome"
         }
        ],
-       "answer": "C",
+       "answer": "D",
        "answerSource": "derived",
-       "answerRationale": "An ulcer is an observable lesion (a sign), and ulcers have other causes so it is not specific to H. pylori.",
+       "answerRationale": "Not in the Chapter 12 text (H. pylori ulcers are in M2OS). A non-specific sign (C) was marked wrong on your graded OLQ 12 (11-3), Q37. An ulcer is seen on examination, so it is a sign rather than a symptom, and a classic H. pylori lesion is specific; D is the likeliest of what is left.",
        "confidence": "unsure",
        "likelyOptions": [
-        "D"
-       ]
+        "D",
+        "B"
+       ],
+       "knownWrong": [
+        "C"
+       ],
+       "priorAnswer": "C",
+       "priorSource": "derived",
+       "priorRationale": "An ulcer is an observable lesion (a sign), and ulcers have other causes so it is not specific to H. pylori."
       },
       {
        "id": "ch12-q45",
@@ -4865,9 +4879,20 @@
          "text": "Non-communicable diseases."
         }
        ],
-       "answer": "A",
+       "answer": "C",
        "answerSource": "derived",
-       "answerRationale": "Latent infections show no disease for a long time (no acute phase)."
+       "answerRationale": "Chapter: 'not all primary infections result in acute disease'; a subacute disease has a long incubation and slow, progressive worsening. Latent (A) was marked wrong on your graded OLQ 12 (11-3), Q18. Chronic (B) is the other candidate, but the chapter says chronic HCV and HIV-1 infections may begin with an acute phase.",
+       "knownWrong": [
+        "A"
+       ],
+       "priorAnswer": "A",
+       "priorSource": "derived",
+       "priorRationale": "Latent infections show no disease for a long time (no acute phase).",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C",
+        "B"
+       ]
       },
       {
        "id": "ch12-q47",
@@ -4892,8 +4917,8 @@
         }
        ],
        "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "Chronic diseases are prolonged and show signs throughout."
+       "answerSource": "graded",
+       "answerRationale": "Chronic diseases are prolonged and show signs throughout. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q39: you picked this and it scored."
       },
       {
        "id": "ch12-q48",
@@ -4918,8 +4943,8 @@
         }
        ],
        "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "IgM without IgG = new, early acute infection (IgG comes later)."
+       "answerSource": "graded",
+       "answerRationale": "IgM without IgG = new, early acute infection (IgG comes later). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q25: you picked this and it scored."
       },
       {
        "id": "ch12-q49",
@@ -4944,8 +4969,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: a drug-resistant strain arising during treatment of the same infection is a superinfection. Others are secondary or co-infections."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: a drug-resistant strain arising during treatment of the same infection is a superinfection. Others are secondary or co-infections. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q22: you picked this and it scored."
       },
       {
        "id": "ch12-q50",
@@ -4974,8 +4999,8 @@
         }
        ],
        "answer": "E",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: persistently infected, chronic low-load, prodrome and convalescent subjects can all shed the agent while symptom-free."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: persistently infected, chronic low-load, prodrome and convalescent subjects can all shed the agent while symptom-free. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q5: you picked this and it scored."
       }
      ]
     },
@@ -5004,9 +5029,15 @@
          "text": "It cannot be predicted based on the data."
         }
        ],
-       "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "21% is point PREVALENCE (existing cases); the chance of developing it needs the incidence rate."
+       "answer": "C",
+       "answerSource": "corrected",
+       "answerRationale": "His own solved problem in the chapter: a point prevalence of 60% 'means that a person living in that city has a 60% chance of contracting the virus.' By the same logic 21,000 / 100,000 = 21.0%. 'Cannot be predicted' (D) was marked wrong on your graded OLQ 12 (11-3), Q26.",
+       "knownWrong": [
+        "D"
+       ],
+       "priorAnswer": "D",
+       "priorSource": "derived",
+       "priorRationale": "21% is point PREVALENCE (existing cases); the chance of developing it needs the incidence rate."
       },
       {
        "id": "ch12-q52",
@@ -5035,8 +5066,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "178/2021 = 0.088, rounded to 0.09; 0.09 x 658,000 = 59,220."
+       "answerSource": "graded",
+       "answerRationale": "178/2021 = 0.088, rounded to 0.09; 0.09 x 658,000 = 59,220. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q33: you picked this and it scored."
       },
       {
        "id": "ch12-q53",
@@ -5061,8 +5092,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Incidence = 353,000 new cases per 314,000,000 = about 112 per 100,000 (if you remove the 20 million existing cases from the denominator you get 120, which is not offered)."
+       "answerSource": "graded",
+       "answerRationale": "Incidence = 353,000 new cases per 314,000,000 = about 112 per 100,000 (if you remove the 20 million existing cases from the denominator you get 120, which is not offered). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q23: you picked this and it scored."
       },
       {
        "id": "ch12-q54",
@@ -5090,9 +5121,20 @@
          "text": "Genital human papillomavirus infections."
         }
        ],
-       "answer": "E",
+       "answer": "B",
        "answerSource": "derived",
-       "answerRationale": "Genital HPV has the highest incidence of the listed STDs."
+       "answerRationale": "Not in the Chapter 12 text. Genital HPV (E) was marked wrong on your graded OLQ 12 (11-3), Q36. Chlamydia is the most commonly reported notifiable STD in the United States (CDC), which is most likely the incidence figure his key uses; genital herpes (D) is the other candidate.",
+       "knownWrong": [
+        "E"
+       ],
+       "priorAnswer": "E",
+       "priorSource": "derived",
+       "priorRationale": "Genital HPV has the highest incidence of the listed STDs.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B",
+        "D"
+       ]
       },
       {
        "id": "ch12-q55",
@@ -5143,8 +5185,8 @@
         }
        ],
        "answer": "B",
-       "answerSource": "derived",
-       "answerRationale": "Sporadic diseases have a very low incidence (a few cases a year, never zero) and prevalence close to zero."
+       "answerSource": "graded",
+       "answerRationale": "Sporadic diseases have a very low incidence (a few cases a year, never zero) and prevalence close to zero. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q6: you picked this and it scored."
       },
       {
        "id": "ch12-q57",
@@ -5169,8 +5211,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "A rise in a small locality over a short time is an outbreak (bird flu was a Hong Kong outbreak in 1997)."
+       "answerSource": "graded",
+       "answerRationale": "A rise in a small locality over a short time is an outbreak (bird flu was a Hong Kong outbreak in 1997). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q2: you picked this and it scored."
       }
      ]
     },
@@ -5200,8 +5242,8 @@
         }
        ],
        "answer": "D",
-       "answerSource": "derived",
-       "answerRationale": "Re-emerging = a disease once controlled or forgotten that is rising again."
+       "answerSource": "graded",
+       "answerRationale": "Re-emerging = a disease once controlled or forgotten that is rising again. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q38: you picked this and it scored."
       },
       {
        "id": "ch12-q59",
@@ -5230,8 +5272,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "Ecological changes bringing people into contact with unfamiliar microbes is the chapter's leading cause of emergence."
+       "answerSource": "graded",
+       "answerRationale": "Ecological changes bringing people into contact with unfamiliar microbes is the chapter's leading cause of emergence. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q8: you picked this and it scored."
       },
       {
        "id": "ch12-q60",
@@ -5260,8 +5302,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "MRSA is not on the CDC 2016 national notifiable list (VRSA is)."
+       "answerSource": "graded",
+       "answerRationale": "MRSA is not on the CDC 2016 national notifiable list (VRSA is). Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q19: you picked this and it scored."
       },
       {
        "id": "ch12-q61",
@@ -5347,8 +5389,8 @@
         }
        ],
        "answer": "C",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: the same group measured repeatedly over time is a longitudinal study."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: the same group measured repeatedly over time is a longitudinal study. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q13: you picked this and it scored."
       },
       {
        "id": "ch12-q64",
@@ -5369,8 +5411,8 @@
         }
        ],
        "answer": "A",
-       "answerSource": "derived",
-       "answerRationale": "Chapter: experimental studies need case and control groups, which are often not feasible in humans."
+       "answerSource": "graded",
+       "answerRationale": "Chapter: experimental studies need case and control groups, which are often not feasible in humans. Confirmed by your graded OLQ 12 (16.5/20, 11-3), Q14: you picked this and it scored."
       },
       {
        "id": "ch12-q65",

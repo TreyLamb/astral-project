@@ -34,7 +34,9 @@ describe('study plan', () => {
     for (const [day, h] of Object.entries(hours)) expect({ day, ok: h <= 9 }).toEqual({ day, ok: true });
     const over75 = Object.entries(hours).filter(([, h]) => h > 7.5).map(([d]) => d);
     // 2026-11-04: Trey asked for a weekend writing marathon (Sat 11-7, Sun 11-8).
-    for (const d of over75) expect({ d, inPushWeek: (d >= '2026-10-26' && d <= '2026-11-04') || d === '2026-11-07' }).toEqual({ d, inPushWeek: true });
+    // 2026-11-05: ESMG Assignment 4 slipped to Friday 11-6 ("gonna have to do it tomorrow"), on top of two MICR 2065 items due that night.
+    const push = (d) => (d >= '2026-10-26' && d <= '2026-11-04') || d === '2026-11-06' || d === '2026-11-07';
+    for (const d of over75) expect({ d, inPushWeek: push(d) }).toEqual({ d, inPushWeek: true });
   });
 
   it('puts the Air Force Song / Airman’s Creed slot on every weekday-evening plan day it was promised', () => {
@@ -61,6 +63,42 @@ describe('study plan', () => {
       const week = [-1, 0, 1, 2, 3].map((n) => shift(mon, n));
       const days = new Set(PLAN.filter((e) => week.includes(e.date) && /ESMG 3200 (W|Week )\d+ (discussion|reply)/.test(e.title)).map((e) => e.date));
       expect({ mon, days: days.size >= 3 }).toEqual({ mon, days: true });
+    }
+  });
+
+  it('plans MICR 2065 Pre-Lab + Case Study at 90 minutes or more (Trey, 11-5: "about an hr and a half, as per usual")', () => {
+    for (const e of PLAN) {
+      if (e.date < '2026-11-05' || !e.end || !/MICR 2065 Pre-Lab/.test(e.title)) continue;
+      expect({ title: e.title, min: minutesOf(e) >= 90 }).toEqual({ title: e.title, min: true });
+    }
+  });
+
+  it('gives every run or workout time to change before it and after it (Trey, 11-5)', () => {
+    const byDay = {};
+    for (const e of PLAN) if (e.start && e.end && e.date >= '2026-11-05') (byDay[e.date] ||= []).push(e);
+    const isWorkout = (e) => /\brun\b|workout|\bPT\b/i.test(e.title) && e.kind !== 'travel' && !/Holy War|Get to|Change|homework/i.test(e.title);
+    const mins = (t) => +t.slice(0, 2) * 60 + +t.slice(3);
+    const isChange = (e) => e.kind === 'rest' && /change|shower/i.test(e.title);
+    for (const list of Object.values(byDay)) {
+      list.sort((a, b) => a.start.localeCompare(b.start));
+      list.forEach((w, i) => {
+        if (!isWorkout(w)) return;
+        const prev = list[i - 1];
+        const next = list[i + 1];
+        const before = !prev || isChange(prev) || mins(w.start) - mins(prev.end) >= 15;
+        const after = !next || isChange(next) || mins(next.start) - mins(w.end) >= 30;
+        expect({ date: w.date, title: w.title, before, after }).toEqual({ date: w.date, title: w.title, before: true, after: true });
+      });
+    }
+  });
+
+  it('plans 30+ minutes of TBAS practice every planned day until the test (Trey, 11-6)', () => {
+    const TBAS_TEST = null; // set to the test date once Capt Malone schedules it
+    const days = [...new Set(PLAN.filter((e) => e.start && e.end && e.kind === 'work').map((e) => e.date))]
+      .filter((d) => d >= '2026-11-06' && (!TBAS_TEST || d < TBAS_TEST));
+    for (const d of days) {
+      const mins = PLAN.filter((e) => e.date === d && e.end && /^TBAS practice/.test(e.title)).reduce((s, e) => s + minutesOf(e), 0);
+      expect({ d, ok: mins >= 30 }).toEqual({ d, ok: true });
     }
   });
 

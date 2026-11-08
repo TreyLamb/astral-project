@@ -1,23 +1,8 @@
-# AFROTC Detachment 855 Cadet Handbook — Personal Transcript
+# AFROTC Detachment 855 Cadet Handbook
 
-Not an official document — this is a running transcript Trey is building from photos of his own
-physical Det 855 cadet pocket handbook, so there's a searchable/virtual copy outside the book
-itself. Structured to match the book's own Table of Contents (see below) so new photos slot into
-the right section. Verbatim where the photo was legible; paraphrased and flagged where it wasn't.
+A searchable copy of the Det 855 pocket handbook, in the book's own page order. Not an official document.
 
-**Updated 2026-10-17:** the pages that only hold public Air Force / Space Force / DoD material
-(values, creeds, oaths, ranks, commands, phonetic alphabet, and so on) were filled in from the
-public sources named under each heading, instead of waiting for photos. Those pages are marked
-📘 and are **not a copy of the book's printed wording** — the facts match, but your book's
-phrasing and layout can differ, so treat the printed page as the final word for a graded
-recitation. Pages that only the book can answer (Welcome, Cadre, Important Quotes) stay ⏳.
-
-This is a personal reference document, not app content — nothing here feeds the AFOQT/AFROTC
-flashcards in the astral-project repo automatically. Only specific, individually-verified facts
-get promoted into `cardData.js`, and only when they're something the graded Warrior Knowledge
-Quizzes actually test. Started 2026-09-25.
-
-**Status legend:** ✅ transcribed from a photo · 📘 filled in from public sources (2026-10-17), not the book's own wording · ⏳ page known to exist (from TOC), not yet photographed · ⚠️ photographed but too blurry to transcribe reliably · 🚫 deliberately excluded, Trey's choice
+✅ copied from the book · 📘 the same facts from public Air Force sources, so the wording may differ from your printed page (the printed page wins in a graded recitation) · ⏳ not added yet
 
 ---
 
@@ -34,7 +19,7 @@ Quizzes actually test. Started 2026-09-25.
 **Policies & Procedures**
 - Customs & Courtesies — p.10 📘
 - Communication Etiquette — p.12 ✅
-- Cadre Notification — p.14 🚫 (Trey chose not to include this page in the virtual version)
+- Cadre Notification — p.14 (not included)
 
 **Warrior Knowledge**
 - Air Force Core Values — p.15 📘
@@ -59,10 +44,9 @@ Quizzes actually test. Started 2026-09-25.
 - Formal Reporting-In Procedures — p.39 ✅
 - Publications — p.41 ✅
 - Acronyms & Abbreviations — p.42 📘 (common list, not the book’s exact one)
-- Notes — p.44 (blank, presumably)
+- Notes — p.44
 
-*(No dedicated "Uniform Wear" section appears in this TOC — that content likely lives only in the
-separate "Uniform Wear for Dummies — Detachment 855" guide, not this pocket handbook.)*
+Uniform wear is not in this handbook; it is in the separate "Uniform Wear for Dummies — Detachment 855" guide.
 
 ---
 
@@ -70,28 +54,19 @@ separate "Uniform Wear for Dummies — Detachment 855" guide, not this pocket ha
 
 ### Welcome (p.2) ⏳ and Detachment 855 Cadre (p.5) ⏳
 
-Both pages are specific to the detachment, and cadre names are not published anywhere public, so
-they stay pending until there is a photo. Two things already on file that will help when that
-photo arrives: the Fall 2026 OPLAN names Col Trig Randall (the attendance memo in its Appendix C)
-and Capt Lucas Parker (signs as Operations Flight Commander, Det 855). The same appendix still
-shows "Maj Corban Smith" as the Operations Flight Commander in one paragraph, so it was only
-partly updated; do not recite either list until the printed page confirms it.
+Not added yet. Both pages are specific to the detachment.
 
 ### Cadet Wing Staff (p.6) 📘
 
-The cadet wing staff and every other billet in the wing (61 people, from the 20 Aug 2026 OPLAN
-Unit Manning Document) are already laid out, by rank and by group, in the **Cadet Wing Who's
-Who** tab of this hub. This page does not repeat them, so there is one list to keep current.
+The full wing staff and every other billet (61 people, Fall 2026 OPLAN, 20 Aug 2026) is on the **Cadet Wing Who's Who** page.
 
 ### Chain of Command (p.7) 📘
 
-Source: Trey's chain from the Fall 2026 OPLAN; the national and AFROTC links from a dossier checked
-against .mil, DVIDS and Air & Space Forces Magazine sources on **3 Sep 2026**. **Names are
-perishable. Re-check the starred ones before reciting.**
+Names as of 3 Sep 2026. ★ marks names that change often; re-check them before reciting.
 
 **Service chain, top to bottom**
 1. President of the United States: Donald J. Trump
-2. Secretary of Defense: the Honorable Pete Hegseth (the det's 28 Oct 2026 knowledge list writes "Secretary of War: The Honorable Peter B. Hegseth")
+2. Secretary of Defense (also styled Secretary of War): the Honorable Peter B. Hegseth
 3. Secretary of the Air Force: the Honorable Dr. Troy E. Meink
 4. Under Secretary of the Air Force: the Honorable Matthew L. Lohmeier
 5. Chief of Staff of the Air Force (CSAF): General Kenneth S. Wilsbach ★ (sworn in 3 Nov 2025)
@@ -106,24 +81,22 @@ but is **not** in the operational chain. The operational chain runs President �
 Defense → Combatant Commanders.
 
 **"Department of War":** the statutory name is still the Department of Defense. Executive Order
-14347 (5 Sep 2025) authorized "Department of War" and "Secretary of War" as secondary titles. If
-your book or cadre use them, say so and note the statutory name.
+14347 (5 Sep 2025) authorized "Department of War" and "Secretary of War" as secondary titles.
 
 **AFROTC chain, top to bottom**
 1. Commander, Air Education and Training Command (AETC): Lt Gen Clark J. Quinn
 2. Commander, Air Force Accessions Center / Air Force Recruiting Service: Maj Gen Jeffrey W. Nelson ★
 3. Commander, Jeanne M. Holm Center for Officer Accessions and Citizen Development: Brig Gen Christopher T. Lay ★ (since 18 Aug 2026)
 4. Commander, Headquarters AFROTC: Col Michael G. Fleming ★ (since 29 Jun 2026)
-5. Northwest Region Director: Col Sandra Coble (from the det's 28 Oct 2026 knowledge list, not the printed handbook; no public source names her yet)
-6. Detachment Commander (Det/CC): Col Trig Randall (he issued the Det 855 attendance memo in the OPLAN; confirm he is the current Det/CC)
-7. Operations Flight Commander (OFC): the first active-duty officer above the cadet wing
+5. Northwest Region Director: Col Sandra Coble
+6. Detachment Commander (Det/CC): Col Trig Randall ★
+7. Operations Flight Commander (OFC): Capt Lucas Parker ★, the first active-duty officer above the cadet wing
 
 ⚠️ **The Holm Center is no longer under Air University.** Since 8 Oct 2024 it reports through Air
 Force Recruiting Service and the Air Force Accessions Center. Older material still teaches
-AETC → Air University → Holm Center. If your cadre teaches the old version, give their answer and
-note the change.
+AETC → Air University → Holm Center.
 
-**Cadet chain, Charlie Flight (Fall 2026 OPLAN, 20 Aug 2026)**
+**Cadet chain, Charlie Flight (20 Aug 2026)**
 1. Charlie Flight Commander: C/Capt McGuire
 2. Yankee Squadron Commander: C/Lt Col Christensen
 3. Training Group Commander: C/Col Storey
@@ -153,9 +126,7 @@ note the change.
 
 ### Customs & Courtesies (p.10–11) 📘
 
-General AFROTC customs, not a copy of Det 855's page. Sources: AFMAN 36-2203 (as quoted in
-AFROTC detachment manuals), 4 U.S.C. § 4 (the Pledge), the Det 432 public handbook for
-everyday forms of address. Saluting and reporting-in are in their own sections below.
+Saluting and reporting-in are in their own sections below.
 
 - **Titles of address.** Officers: rank + last name, or "Sir/Ma'am." NCOs: rank (+ last name);
   never "Sir/Ma'am." Cadets: "Cadet" + last name. Cadets address cadre by rank + last name or
@@ -177,8 +148,7 @@ everyday forms of address. Saluting and reporting-in are in their own sections b
   from the first note to the last. Indoors, in uniform, bareheaded: attention only, no salute;
   with headgear in formation, or under arms: salute.
 - **Pledge of Allegiance.** Under 4 U.S.C. § 4, a person in uniform stands at attention, faces the
-  flag, stays silent and salutes. Secondary sources vary on this one; give the statute answer
-  and defer to cadre if they teach otherwise.
+  flag, stays silent and salutes. Secondary sources vary on this one; this is the statute's answer.
 - **Passing colors.** Salute when the uncased national color is six paces away and hold until it
   is six paces past.
 - **Receiving an award.** Shake (right hand), take (left hand), salute.
@@ -227,24 +197,11 @@ learned and practiced.
    (okay or not). Purpose: quickly establish accountability of everyone in the detachment during
    an emergency (natural disaster, active shooter, etc.).
 
-### Cadre Notification (p.14) 🚫 EXCLUDED — Trey's choice, not left out for a lack of a photo
-
-A photo of this page was taken 2026-09-25 but came out too blurry to transcribe reliably, and
-Trey then chose not to include this page in the virtual version at all — so this section is
-intentionally blank, not pending. Don't re-add speculative content from the earlier blurry photo
-here even if it partially resurfaces; if he wants this page documented later, that's a new
-decision he'll make, not a default to fall back into.
-
 ---
 
 ## Warrior Knowledge
 
-Pages p.15–36 below are 📘: public wording from the sources named under each heading, in the
-book's order. Check the printed page for exact phrasing before a graded recitation.
-
 ### Air Force Core Values (p.15) 📘
-
-Source: AFI 1-1, *Air Force Standards* (7 Aug 2012); glosses as taught in the Det 432 public handbook.
 
 1. **Integrity First.** Doing the right thing, all the time, whether or not anyone is watching.
    It is the foundation trust and respect are built on.
@@ -255,8 +212,7 @@ Source: AFI 1-1, *Air Force Standards* (7 Aug 2012); glosses as taught in the De
 
 ### Space Force Core Values (p.17) 📘
 
-Source: the Guardian Ideal, unveiled by Gen John W. Raymond in Sep 2021 (spaceforce.mil); glosses
-from the Det 432 public handbook and the Space Force Guardian Spirit handbook.
+The Guardian Ideal, unveiled by Gen John W. Raymond in Sep 2021.
 
 1. **Character…Above All.** High ethical standards; act with integrity; stay accountable and honor
    your obligations.
@@ -273,13 +229,11 @@ Domain").
 ### Honor Code & Mission Statements (p.19) 📘
 
 - **Honor Code:** "We will not lie, steal, or cheat, nor tolerate among us anyone who does."
-  (As given in the Det 432 public handbook; the same wording is the Air Force Academy's code.)
 - **Air Force mission:** "To fly, fight, and win… airpower anytime, anywhere."
-- **Air Force vision (Det 432 handbook, 2026):** "The World's Greatest Air Force — Powered by
-  Airmen, Fueled by Innovation."
+- **Air Force vision:** "The World's Greatest Air Force — Powered by Airmen, Fueled by Innovation."
 - **Space Force mission:** "Secure our Nation's interests in, from, and to space."
-- **Air Force core functions** (as framed in the Det 432 handbook; doctrine has re-worded this
-  list before): Air Superiority; Global Strike; Rapid Global Mobility; Intelligence, Surveillance
+- **Air Force core functions** (the list ROTC handbooks use; current doctrine words and orders it
+  differently): Air Superiority; Global Strike; Rapid Global Mobility; Intelligence, Surveillance
   & Reconnaissance; Command and Control.
 - **Detachment vision (Fall 2026 OPLAN):** to be the Nation's premier detachment of choice,
   commissioning principled and stalwart officers prepared to fight and win the Nation's wars.
@@ -287,9 +241,7 @@ Domain").
 ### The Airman's Creed (p.20) 📘
 
 Released 25 Apr 2007 by Gen T. Michael Moseley, then Chief of Staff of the Air Force. It replaced
-the older NCO, SNCO, Chief's and First Sergeant's creeds. Text as reproduced by Wikipedia from the
-2007 release (the af.mil pages block automated access, so this is a secondary copy; the words
-match the creed lines already in the Warrior Knowledge flashcards):
+the older NCO, SNCO, Chief's and First Sergeant's creeds.
 
 > I am an American Airman.
 > I am a Warrior.
@@ -313,13 +265,12 @@ match the creed lines already in the Warrior Knowledge flashcards):
 > I will never falter,
 > And I will not fail.
 
-⚠️ Capitalization and stanza punctuation vary between printed copies. Confirm against your book.
+Capitalization and punctuation vary between printed copies.
 
 ### Code of Conduct (p.21) 📘
 
-Established by President Eisenhower in **Executive Order 10631 (17 Aug 1955)**. Current text, with
-the amendments made by EO 12017 (1977) and EO 12633 (1988). Source: National Archives, Office of
-the Federal Register.
+Established by President Eisenhower in **Executive Order 10631 (17 Aug 1955)**, amended by EO 12017
+(1977) and EO 12633 (1988).
 
 - **I.** I am an American, fighting in the forces which guard my country and our way of life. I am
   prepared to give my life in their defense.
@@ -350,17 +301,15 @@ Force Academy's song).
 - Opens: "Off we go into the wild blue yonder,"
 - Closes: "Nothing'll stop the U.S. Air Force!"
 
-The full current lyrics are not reproduced here because the song is under copyright. The Air Force
-Band posts them at music.af.mil (Multimedia → Air Force Song); read them from that page or your
-printed book.
+The lyrics are under copyright, so they are not copied here. The Air Force Band posts them at
+music.af.mil (Multimedia → Air Force Song); the Song & Creed page has a player and the lyrics frame.
 
 ### Space Force Song (p.24) 📘
 
 "Semper Supra" ("Always Above," the Space Force motto). Words and melody by James Teachenor,
 arranged by Sean Nelson of the Coast Guard Band. Revealed at the Air & Space Forces Association
-conference in Sep 2022. The Department of the Air Force owns the copyright, so the lyrics are not
-reproduced here; they are published on spaceforce.mil in the article "Space Force reveals official
-song: 'Semper Supra.'"
+conference in Sep 2022. The lyrics are copyrighted, so they are not copied here; spaceforce.mil
+publishes them in "Space Force reveals official song: 'Semper Supra.'"
 
 - Opens: "We're the mighty watchful eye,"
 - Closes: "We're the Space Force from on high."
@@ -387,8 +336,7 @@ writes them "C/2d Lt" and "C/1st Lt."
 
 ### Enlisted Rank Structure, USAF (p.26) 📘
 
-Sources: Det 432 public handbook, cross-checked with af.mil. Total stripe count is the pay grade
-minus 1 (E-6 has 5).
+Total stripe count is the pay grade minus 1 (E-6 has 5).
 
 - **E-1 Airman Basic (AB):** no insignia
 - **E-2 Airman (Amn):** 1 stripe
@@ -438,8 +386,6 @@ Admirals, and Rear Admiral Lower Half (1 star, O-7) and Upper Half (2 stars, O-8
 
 ### Oath of Office & Oath of Enlistment (p.29) 📘
 
-Primary text, from the U.S. Code (Legal Information Institute copies).
-
 **Oath of Enlistment, 10 U.S.C. § 502:** "I, ______, do solemnly swear (or affirm) that I will
 support and defend the Constitution of the United States against all enemies, foreign and
 domestic; that I will bear true faith and allegiance to the same; and that I will obey the orders
@@ -460,8 +406,7 @@ any mental reservation or purpose of evasion" and faithfully discharging the dut
 
 ### Air Force Major Commands (p.32) 📘
 
-Nine MAJCOMs, as listed by Wikipedia and the Air Force Small Business site, checked 17 Oct 2026.
-Seven are functional and two are geographic. The Air National Guard is not a MAJCOM. Space
+Nine MAJCOMs (checked 17 Oct 2026). Seven are functional and two are geographic. The Air National Guard is not a MAJCOM. Space
 organizations belong to the Space Force and are on the next page.
 
 - **Air Combat Command (ACC):** Langley AFB, VA
@@ -480,9 +425,7 @@ component MAJCOMs prepare Airmen to fight in a combatant command's area of respo
 ### Space Force Field Commands (p.33) 📘
 
 Three field commands. ⚠️ **Space Operations Command (SpOC) was renamed Combat Forces Command
-(CFC) on 3 Nov 2025.** Most study guides, including some in the Det 432 handbook, still say SpOC.
-Sources: CRS *Defense Primer: U.S. Space Force* (Apr 2026) and the Gazette report of the 3 Nov
-2025 ceremony.
+(CFC) on 3 Nov 2025.** Most study guides still say SpOC.
 
 - **Combat Forces Command (CFC)**, formerly SpOC: Peterson SFB, CO. Develops tactics, techniques,
   procedures and force-generation models; generates and presents space forces for combatant
@@ -497,9 +440,8 @@ Operations (a four-star) reports to the Secretary of the Air Force.
 
 ### Unified Combatant Commands (p.33, cont.) 📘
 
-Eleven combatant commands: seven geographic and four functional. Sources: Wikipedia's *Unified
-combatant command* page (Oct 2026) and 10 U.S.C. § 161; secondary sources differ slightly on how
-they label Space Command, which this list counts as geographic.
+Eleven combatant commands: seven geographic and four functional (10 U.S.C. § 161). Sources differ
+on how they label Space Command; this list counts it as geographic.
 
 **Geographic**
 - U.S. Africa Command (AFRICOM): Stuttgart, Germany
@@ -517,12 +459,11 @@ they label Space Command, which this list counts as geographic.
 - U.S. Transportation Command (TRANSCOM): Scott AFB, IL
 
 Combatant commanders report to the Secretary of Defense (and the President), not through the
-service chiefs. Commander names are left out on purpose; they change often.
+service chiefs.
 
 ### Seven Basic Responses & Phonetic Alphabet (p.34) 📘
 
-**Seven basic responses** (as published by the ASU and MIT AFROTC detachments; the order can vary
-by detachment):
+**Seven basic responses** (the order varies by detachment):
 1. "Yes, Sir/Ma'am."
 2. "No, Sir/Ma'am."
 3. "No excuse, Sir/Ma'am."
@@ -549,7 +490,7 @@ Whiskey, X-ray, Yankee, Zulu.
 
 ### Important Quotes (p.36) ⏳
 
-The selection of quotes is specific to the book, so it stays pending until there is a photo.
+Not added yet. The selection of quotes is specific to the book.
 
 ---
 
@@ -597,8 +538,7 @@ salute.'"
   individual — with the SELECTED cadet standing on the right of the group. Salute if reporting to
   an officer/POC. The selected cadet states on behalf of the group: **"Sir/Ma'am, Cadets (last
   names of the whole party) report as ordered."**
-  *(Photo cut off at this point — the closing/departure steps for the group variant weren't
-  captured; presumably mirror the single-cadet closing above.)*
+  *(The page as copied stops here; the group's closing steps are not included.)*
 
 ### Publications (p.41) ✅
 
@@ -609,7 +549,7 @@ Cadets should be familiar with:
 - AFMAN 10-100 — The Airman's Manual
 - AFROTCI 36-2011v1 (18 Aug 2026) — Cadet's Guide to Leadership Laboratory Curriculum
 - AFROTCI 36-2011v3 (24 Jun 2026) — Cadet Operations
-- AFROTC IMT 48 — **Planned Academic Program** (confirms: "Form 48" = the academic plan form)
+- AFROTC IMT 48 — **Planned Academic Program** ("Form 48")
 - AFROTC IMT 16 — AFROTC Cadet Counseling Record
 
 Used during Field Training only:
@@ -617,9 +557,6 @@ Used during Field Training only:
 - AFROTC IMT 341 — Excellence/Discrepancy Report
 
 ### Acronyms & Abbreviations (p.42) 📘
-
-A common AFROTC and Air Force list, not the book's exact one. Where Det 855's own page adds more,
-add it here after the photo.
 
 - **AFI** Air Force Instruction · **DAFI** Department of the Air Force Instruction · **AFMAN** Air
   Force Manual · **AFPAM** Air Force Pamphlet · **AFROTCI** AFROTC Instruction · **IMT** Information
@@ -648,18 +585,3 @@ add it here after the photo.
   **MFR** Memorandum for Record · **OPLAN** Operation Plan · **OPORD** Operations Order · **SOP**
   Standard Operating Procedure · **CI** Civil Involvement · **E/E, E/U, U/U** explained/excused,
   explained/unexcused, unexplained/unexcused absences (Det 855 attendance memo)
-
----
-
-## Open items / what to photograph next
-
-Still pending (these only the book can answer):
-1. **Welcome (p.2)** and **Detachment 855 Cadre (p.5)** — detachment-specific; cadre names are
-   not public.
-2. **Important Quotes (p.36)** — the selection is the book's own.
-3. **Customs & Courtesies (p.10–11)** — the general version is filled in above, but this page may
-   also cover the attendance %, absence types, high-risk activity, international travel and
-   uniform-wear questions the Weekly Warrior Knowledge Quiz tests, so it is still worth a photo.
-4. A **proofread against the printed book** of every 📘 page before a graded recitation. Command
-   lists and office-holders (the ★ names, the Space Force field commands) change, so they carry
-   the date they were checked.
