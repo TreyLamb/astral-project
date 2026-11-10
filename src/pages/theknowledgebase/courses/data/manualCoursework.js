@@ -101,6 +101,7 @@ export const COURSEWORK_EXTRA = [
     points: 1,
     note: 'Weekly, Fridays; about 1% of the grade each. No board the week of Oct 16.',
   })),
+  { ...AERO2100_LS, id: 'manual:aero2100-yes-men', title: 'Yes-Men group presentation', kind: 'assignment', due: '2026-11-12', dueTime: '9:00 AM', note: 'Group project on followership: the yes-man follower type. Presented in class. Source: Trey, 2026-11-09.' },
   { ...AERO2100_LS, id: 'manual:aero2100-paper', title: 'Paper', kind: 'assignment', due: '2026-12-02', dueTime: '4:00 PM', points: 50, note: '24.75% of the grade.' },
   { ...AERO2100_LS, id: 'manual:aero2100-briefing', title: 'Briefing', kind: 'assignment', due: '2026-12-03', points: 50, note: '14.85% of the grade.' },
   { ...AERO2100_LS, id: 'manual:aero2100-final', title: 'Final exam', kind: 'exam', due: '2026-12-12', dueTime: '6:00 PM', note: 'Opens Dec 3. 24.75% of the grade.' },

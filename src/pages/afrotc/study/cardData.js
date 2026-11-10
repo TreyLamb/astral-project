@@ -71,6 +71,12 @@ export const PRESETS = [
     hint: 'Everything else: how you address people and report in, org structure, admin/reporting policy, acronyms.',
     subjects: ['customs', 'org', 'admin', 'acronyms'],
   },
+  {
+    id: 'customs-only',
+    label: 'Customs & Courtesies',
+    hint: 'Week 9 Warrior Knowledge quiz: salutes, forms of address, reporting in, flag and anthem, room attention, dining-in.',
+    subjects: ['customs'],
+  },
 ];
 
 // Ids are positional and flags are keyed by id, so new cards go at the END of CARDS, never in the
@@ -260,6 +266,34 @@ export const CARDS = [
   card('ranks-officer', 'The Navy’s "special" five-star rank above Admiral (O-10)', 'Fleet Admiral (FADM) — wartime only, not held since World War II.', 'Army equivalent: General of the Army. Air Force: General of the Air Force, held only by Hap Arnold.'),
   card('org', 'The nine Air Force MAJCOMs and their headquarters', 'ACC — JB Langley-Eustis, VA · AETC — JBSA-Randolph, TX · AFGSC — Barksdale AFB, LA · AFMC — Wright-Patterson AFB, OH · AFRC — Robins AFB, GA · AFSOC — Hurlburt Field, FL · AMC — Scott AFB, IL · PACAF — JB Pearl Harbor-Hickam, HI · USAFE-AFAFRICA — Ramstein AB, Germany'),
   card('org', 'Which MAJCOM is the only one headquartered outside the U.S.?', 'USAFE-AFAFRICA — Ramstein Air Base, Germany.'),
+
+  // ── Added 2026-11-09 for the Week 9 Warrior Knowledge quiz (Customs and Courtesies). Det 855
+  // handbook pp.10-11 and 38-39 first, then fundamentals/research/04-customs-courtesies.md
+  // (AFMAN 36-2203 salute mechanics, 4 U.S.C. § 4). Only facts those two agree on or state outright.
+  card('customs', 'Where did the hand salute come from, and what does it mean today?', 'Medieval knights lifting their visors to show they were friends. Today it says "I greet you" / "I return your greeting": rendered willingly, with pride and respect, between comrades in arms.', "Det 855's own handbook, Saluting Procedures p.38."),
+  card('customs', 'Hand salute: hand, palm and arm position', 'Hand flat, fingers and thumb extended and joined, a straight line from fingertips to elbow (no bent wrist). Palm tilted slightly toward the face. Upper arm horizontal, slightly forward of the body.', 'AFMAN 36-2203, Drill and Ceremonies.'),
+  card('customs', 'Hand salute: where does the middle finger touch?', 'With a billed cap: the right front corner of the brim. With a flight cap or no headgear: the outer corner of the right eyebrow (or the front corner of your glasses).', 'AFMAN 36-2203.'),
+  card('customs', 'When is the hand CUPPED during a salute?', 'Never at the top of the salute: the salute is a flat hand. The hand cups only as it drops past the waist on the way back to attention (and it is cupped at attention).', 'AFMAN 36-2203. A classic trick question.'),
+  card('customs', 'How far away do you start a salute, and how long do you hold it?', 'About 6 paces, so it can be seen and returned. Hold it until it is returned (or until the officer or colors are about 6 paces past you).'),
+  card('customs', 'What do you SAY with a salute?', 'The greeting of the day: "Good morning / afternoon / evening, Sir/Ma’am" (or rank + last name).'),
+  card('customs', 'Whom do you NOT salute?', 'Enlisted members (including NCO cadre), cadets of equal or lower grade, and civilians (except the President as Commander in Chief).'),
+  card('customs', 'Medal of Honor recipients and salutes', 'They are saluted regardless of their rank or yours, so even a senior officer salutes them first. It is a custom of respect.'),
+  card('customs', 'When are you NOT required to salute? (name as many as you can)', 'Indoors (except reporting or a ceremony) · in formation (only the person in charge salutes) · on a work detail (only the person in charge) · both hands full (greet verbally) · in public conveyances or crowded places · driving a vehicle · no-salute or field/combat areas. In PT gear it is authorized but not required.'),
+  card('customs', 'Carrying something in one hand: which hand?', 'The LEFT, so the right hand is free to salute.'),
+  card('customs', 'A group in formation passes an officer. Who salutes?', 'Only the person in charge of the formation, who salutes and gives the greeting for everyone. Individuals in ranks do not salute.'),
+  card('customs', 'Does the driver of a moving car salute?', 'No (it is unsafe). Passengers may salute if practical.'),
+  card('customs', 'How do you address an NCO (enlisted cadre)?', 'By rank (+ last name), e.g., "Technical Sergeant Rivera." NEVER "Sir" or "Ma’am."', "Det 855's own handbook, Customs & Courtesies pp.10-11."),
+  card('customs', 'A senior officer enters the room. What happens, and who does it?', 'The FIRST person to notice calls "Room, ATTENTION." Everyone stands at attention until the officer says "Carry on" or "As you were."', "Det 855's own handbook, Customs & Courtesies pp.10-11."),
+  card('customs', 'When do you NOT call the room to attention for an arriving officer?', 'When an officer of equal or higher rank is already in the room. Call it again only if the newcomer outranks the senior person present.', "Det 855's own handbook, Customs & Courtesies pp.10-11."),
+  card('customs', 'Reveille or Retreat, in uniform and outdoors: the full sequence', 'Stop and face the flag (or the music). Parade rest during the bugle call. Come to attention and salute on the first note of "To the Colors" or the National Anthem; hold until the last note.', "Det 855's own handbook, Customs & Courtesies pp.10-11."),
+  card('customs', 'Reveille or Retreat while you are driving', 'Pull over, stop, and sit quietly at attention until the music ends. Do not get out or salute.'),
+  card('customs', 'National Anthem INDOORS: when DO you salute?', 'Only if you are under arms (carrying a weapon, e.g., color guard) or wearing headgear in a formation. Otherwise, attention only.', "Det 855's own handbook, Customs & Courtesies pp.10-11."),
+  card('customs', 'Headgear indoors: the rule and the main exception', 'Remove it indoors. The main exception is being UNDER ARMS (armed guard, color guard, armed detail).'),
+  card('customs', 'Taps and the flag folding at a military funeral, in uniform', 'Render the hand salute during Taps and during the folding and presentation of the flag. Civilians put a hand over the heart.'),
+  card('customs', 'Dining-in vs. dining-out', 'Dining-in: a formal military dinner for members of the unit only. Dining-out: the same event with spouses and guests invited.'),
+  card('customs', 'Rules of the mess (dining-in) most often asked', 'Arrive at least 10 minutes before dinner is announced · stand behind your chair until told to sit · do not leave while the mess is convened without being excused · join every toast except one made to you · infractions are fined (sent to the grog bowl), not punished.'),
+  card('customs', 'Answering an official phone call', 'Give the unit and your name, then offer help: "Detachment 855, Cadet [Last Name] speaking, how may I help you, Sir/Ma’am?"', 'Model wording; detachments word it slightly differently.'),
+  card('customs', 'Using a phone while walking in uniform', 'Authorized (calls, earpieces, texting), but customs and courtesies come first: stop to salute and greet.', 'DAFI 36-2903.'),
   ...CHAIN_CARDS,
 ];
 

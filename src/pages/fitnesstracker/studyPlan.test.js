@@ -102,6 +102,18 @@ describe('study plan', () => {
     }
   });
 
+  it('ends every planned day from 11-10 with 2-3 "extra if you have time" blocks (Trey, 11-10)', () => {
+    const days = [...new Set(PLAN.filter((e) => e.start && e.end && e.kind === 'work' && e.date >= '2026-11-10').map((e) => e.date))];
+    for (const d of days) {
+      const timed = PLAN.filter((e) => e.date === d && e.start && e.end);
+      const extras = timed.filter((e) => e.kind === 'extra');
+      const lastEnd = timed.filter((e) => e.kind !== 'extra').reduce((m, e) => (e.end > m ? e.end : m), '00:00');
+      const titled = extras.every((e) => /^Extra if you have time: /.test(e.title));
+      const atEnd = extras.every((e) => e.start >= lastEnd);
+      expect({ d, count: extras.length >= 2 && extras.length <= 3, titled, atEnd }).toEqual({ d, count: true, titled: true, atEnd: true });
+    }
+  });
+
   it('plans about 2 hours of MICR 2060 reading in its own blocks', () => {
     const mins = PLAN.filter((e) => /^MICR 2060 reading/.test(e.title)).reduce((s, e) => s + minutesOf(e), 0);
     expect(mins).toBeGreaterThanOrEqual(120);

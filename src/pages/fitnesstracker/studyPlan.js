@@ -6,8 +6,7 @@
 // Maintained by the agent from what Trey has said (STATE.md in Drive is the source of truth for WHY).
 // Rules it was built to: the 5 hr/day cap he set is LIFTED for the 10-26 to 10-30 catch-up push (2026-10-25: he
 // will do more than 5 hours a day "if I need to"), so those days run 6-7.5 hours and are named in the test;
-// nothing is due before it is scheduled; each paper is spread over 3 days (sources + skeleton + AI brief 1 hr,
-// bulk draft 2-3 hr, fine-tune + submit 30 min); one ESMG discussion post a day Mon-Thu; every day has the
+// nothing is due before it is scheduled; each paper is ONE ~2-hour sitting (Trey, 11-9); from 11-10 every day is an EASY minimum plus 2-3 'extra' blocks at the end (kind 'extra', not counted as work hours) he can pick up on a good day (Trey, 11-10); one ESMG discussion post a day Mon-Thu; every day has the
 // Air Force Song / Airman's Creed slot. Times he has not given are marked with a note and are guesses.
 
 const pad = (n) => String(n).padStart(2, '0');
@@ -19,6 +18,7 @@ const D = {
   fri: '2026-10-23', sat: '2026-10-24', sun: '2026-10-25', mon: '2026-10-26', tue: '2026-10-27',
   wed: '2026-10-28', thu: '2026-10-29', fri2: '2026-10-30', sat2: '2026-10-31', sun2: '2026-11-01', mon2: '2026-11-02', tue2: '2026-11-03',
   wed2: '2026-11-04', thu2: '2026-11-05', fri3: '2026-11-06', sat3: '2026-11-07', sun3: '2026-11-08',
+  mon3: '2026-11-09', tue3: '2026-11-10', wed3: '2026-11-11', thu3: '2026-11-12', fri4: '2026-11-13', sat4: '2026-11-14', sun4: '2026-11-15',
 };
 
 export const PLAN = [
@@ -232,18 +232,164 @@ export const PLAN = [
   E(D.sat3, '18:30', '19:00', 'rest', 'Shower and change'),
   E(D.sat3, '19:00', '19:30', 'rest', 'Dinner'),
   E(D.sat3, '19:30', '20:00', 'work', 'TBAS practice (daily until the test)', { course: 'AFROTC', prio: 'must' }),
-  E(D.sat3, '20:00', '20:30', 'work', 'CHEM 1210 Quiz 21 (missed Thursday, take it late)', { course: 'CHEM 1210', prio: 'must', note: 'Canvas shows 0/8, missing, never submitted (due Thu 11-5 12:30 PM). It has no lock date and unlimited attempts, so it can still be taken. The 11-5 check wrongly called it done.' }),
+  E(D.sat3, '20:00', '20:30', 'work', 'CHEM 1210 Quiz 21 (not taken, moved to Sunday 7:30 PM)', { course: 'CHEM 1210', prio: 'must', note: 'Canvas on Sun 4:30 AM still shows 0/8, missing. It has no lock date and unlimited attempts, so it can still be taken. The 11-5 check wrongly called it done.' }),
   E(D.sat3, '20:30', '21:00', 'work', 'TBAS paperwork: Candidate Worksheet, transcript, ID + SOCIAL SECURITY CARD', { course: 'AFROTC', prio: 'must', note: 'Worksheet: access.afpc.af.mil/pcsmdmz/Candidate Worksheet.pdf (a copy is in AFROTC/PCSM_TBAS_official/). Flight logs only if any, fully totaled. Have it ready in case Capt Malone can test you Monday.' }),
-  E(D.sat3, '21:00', '22:00', 'rest', 'Evening off', { note: 'Optional if you feel like it: MICR 2060 OLQ 12 retake (16.5/20 now, Canvas keeps the highest, due 11:59 PM tonight). It is also review for MICR 2060 Exam 3, which opens Sunday.' }),
+  E(D.sat3, '21:00', '22:00', 'rest', 'Evening off', { note: 'Done: MICR 2060 OLQ 12 retake taken 10:37 PM, 19/20 (up from 16.5; Canvas keeps the highest).' }),
 
-  E(D.sun3, '08:30', '09:15', 'work', 'ESMG 3200 Week 5 discussion post: write + post', { course: 'ESMG 3200', prio: 'must', note: 'Due Mon 11/9 11:59 PM. Open-ended question + one credible source. Replies Mon-Thu for the extra credit. Brief: ESMG 3200/ESMG3200_W5_DISCUSSION_BRIEF_2026-11-05.pdf (three question options with sources). Draft in ESMG3200_W5_Discussion_SKELETON.docx.' }),
-  E(D.sun3, '09:30', '11:45', 'work', 'OTS application: first essay section (about 1,000 words)', { course: 'AFROTC', prio: 'must', note: 'Moved from Saturday afternoon (the game ran until about 5:30 PM). Tell me the two section prompts and I will build a skeleton with word targets.' }),
+  E(D.sun3, '08:30', '09:15', 'work', 'ESMG 3200 Week 5 discussion post (not posted, moved to Monday 9:30 AM)', { course: 'ESMG 3200', prio: 'must', note: 'Due Mon 11/9 11:59 PM. Open-ended question + one credible source. Replies Mon-Thu for the extra credit. Brief: ESMG 3200/ESMG3200_W5_DISCUSSION_BRIEF_2026-11-05.pdf (three question options with sources). Draft in ESMG3200_W5_Discussion_SKELETON.docx.' }),
+  E(D.sun3, '09:30', '11:45', 'work', 'OTS application: first essay section (not written, moved to Monday)', { course: 'AFROTC', prio: 'must', note: 'Moved from Saturday afternoon (the game ran until about 5:30 PM). Tell me the two section prompts and I will build a skeleton with word targets.' }),
   E(D.sun3, '11:45', '12:30', 'rest', 'Lunch'),
   E(D.sun3, '12:30', '13:00', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
-  E(D.sun3, '13:00', '15:15', 'work', 'OTS application: second essay section (about 1,000 words)', { course: 'AFROTC', prio: 'must', note: 'Then reread the first section with fresh eyes. Tell me when both are done and I will check grammar, length and any character limits on the form.' }),
+  E(D.sun3, '13:00', '15:15', 'work', 'OTS application: second essay section (not written, moved to Monday)', { course: 'AFROTC', prio: 'must', note: 'Then reread the first section with fresh eyes. Tell me when both are done and I will check grammar, length and any character limits on the form.' }),
   E(D.sun3, '15:15', '15:45', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
   E(D.sun3, '16:00', '19:00', 'fixed', 'With friends', { note: 'Trey, 11-4: around 4-7 PM.' }),
-  E(D.sun3, '19:30', '20:30', 'work', 'CHEM 1210 prep for Monday’s class (Ch 7)', { course: 'CHEM 1210', prio: 'must' }),
+  E(D.sun3, '19:30', '20:00', 'work', 'CHEM 1210 Quiz 21 take (late): not taken, moved to Monday 9:00 AM', { course: 'CHEM 1210', prio: 'must', note: 'Missed Thursday and not taken Saturday: Canvas still shows 0/8, missing. No lock date, unlimited attempts, 8 points back.' }),
+  E(D.sun3, '20:00', '20:45', 'work', 'CHEM 1210 prep for Monday’s class (Ch 7)', { course: 'CHEM 1210', prio: 'must', note: 'Cut to 45 minutes so Quiz 21 fits and Sunday stays at 7.5 hours of work.' }),
+
+  // ── Mon 11-9: workout, CHEM Quiz 22 before class, ESMG A5 start + W5 reply, TBAS, ESMG A4 (late), PTGs for Tue PT ──
+  // ESFF 7+8 (due Wed 11/11): brief + skeleton already exist, so it starts with the bulk draft Tuesday and is polished Wednesday.
+  // MICR 2060 Exam 3 (Ch 9, 11, 12; window through Sat 11-14) review starts Tuesday.
+  E(D.mon3, '05:45', '06:00', 'rest', 'Change into workout gear'),
+  E(D.mon3, '06:00', '06:45', 'fixed', 'Workout before 7 AM (lift or easy run)'),
+  E(D.mon3, '06:45', '07:15', 'rest', 'Shower and change'),
+  E(D.mon3, '07:15', '07:45', 'rest', 'Breakfast'),
+  // Trey, 8:40 AM: Det drop-off around 9, then UVU; OTS essays not written Sunday and promised to the recruiter, so they are today's
+  // top priority. He asked for plenty of slack between blocks and to drop the lowest-priority work. Moved off today: CHEM Quiz 21
+  // (late, no lock), ESMG W5 reply #1 (Tuesday), ESMG A4 bulk (late; penalty step after Thu 11-12), Warrior Knowledge (skipped today).
+  E(D.mon3, '08:45', '09:30', 'travel', 'Drive to the Det: drop-off', { course: 'AFROTC', note: 'Trey, 8:40 AM. Length assumed.' }),
+  // 10:40 AM (Trey): at the Det at BYU; rock painting there 2-5 PM. Plan: stay at BYU, skip in-person CHEM class, watch the lecture recording tonight. CHEM attendance is -5 points (of 1,100) per absence unless excused. TBAS kept (30 min, 9:15 PM); Tuesday's CHEM prep folded into the recording.
+  E(D.mon3, '09:30', '10:45', 'rest', 'At the Det (BYU): drop-off done, settle in', { course: 'AFROTC' }),
+  E(D.mon3, '10:45', '11:15', 'work', 'CHEM 1210 Quiz 22 prep (Sec 7-4, 7-5): not done', { course: 'CHEM 1210', prio: 'must', note: 'Due today 2:30 PM. Do it first: rock painting starts at 2.' }),
+  E(D.mon3, '11:15', '11:45', 'work', 'CHEM 1210 Quiz 22: not taken (0/8 missing at 7:15 PM; no lock, take it late this week)', { course: 'CHEM 1210', prio: 'must', note: '30-minute time limit. Due 2:30 PM.' }),
+  E(D.mon3, '12:00', '13:30', 'work', 'OTS application: first essay section (about 1,000 words)', { course: 'AFROTC', prio: 'must', note: 'Promised to the recruiter for Sunday; finish today. Get a full rough draft down; it gets finished tonight. Tell me the two section prompts and I will build a skeleton with word targets.' }),
+  E(D.mon3, '13:30', '14:00', 'rest', 'Lunch, walk to rock painting'),
+  E(D.mon3, '14:00', '17:00', 'fixed', 'AFROTC rock painting (BYU)', { course: 'AFROTC', note: 'Trey: 1400 to about 1700. Instead of CHEM 1210 class (1 PM, UVU).' }),
+  E(D.mon3, '17:00', '17:45', 'rest', 'Home + dinner'),
+  E(D.mon3, '17:45', '18:00', 'work', 'Lay out PTGs for Tuesday physical training (6 AM)', { course: 'AFROTC', prio: 'must', note: 'Check the Teams OPORD for Tuesday physical training and Wednesday ODC (Morale PT, PTG uniform).' }),
+  E(D.mon3, '19:30', '20:15', 'work', 'ESMG 3200 Week 5 discussion post: write + post (DUE TONIGHT)', { course: 'ESMG 3200', prio: 'must', note: 'Not posted Sunday (Canvas 4:32 AM Monday: no entry from you). Due 11:59 PM tonight, 20 pts. Open-ended question + one credible source. Brief: ESMG 3200/ESMG3200_W5_DISCUSSION_BRIEF_2026-11-05.pdf; draft in ESMG3200_W5_Discussion_SKELETON.docx. Discussion day 1 of 3.' }),
+  E(D.mon3, '20:15', '22:00', 'work', 'OTS application: second essay section + finish the first', { course: 'AFROTC', prio: 'must', note: 'Then reread both. Tell me when they are done and I will check grammar, length and any character limits on the form before you send them.' }),
+  E(D.mon3, '22:00', '22:30', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
+  E(D.mon3, '23:59', null, 'due', 'DUE: ESMG 3200 Week 5 discussion post, 11:59 PM (planned 7:30 PM)'),
+
+  // ── Tue 11-10: PT, ESMG A5 start (moved from Monday) + W5 reply #2, ESFF 7+8 bulk draft, MICR 2060 Exam 3 review (Ch 9), CHEM Quiz 23 early ──
+  E(D.tue3, '05:30', '05:45', 'rest', 'Change into PTGs'),
+  E(D.tue3, '06:00', '07:00', 'fixed', 'AFROTC PT (AERO 1430R)', { course: 'AFROTC', note: 'Speed day. Workout: Medal of Honor "Chappy", 10 rounds of 3 burpees, 16 walking lunges and a 200m run. There is no rest between rounds, so aim for about 54 seconds per 200m on every round (acceptable 52 to 57). Start at that pace, never faster than 52, and hold the effort if two in a row go over about 58. Gold is under 27:00, which is 2:42 per round. Aim per round: 0:54 for the 200m plus about 1:30 for burpees and lunges (2:24). Clock at the end of round 3: aim 7:12, gold limit 8:06. Round 5: aim 12:00, limit 13:30. Round 8: aim 19:12, limit 21:36. Finish: aim 24:00, limit 27:00.' }),
+  E(D.tue3, '07:00', '07:45', 'rest', 'Home, shower and change'),
+  E(D.tue3, '07:45', '08:00', 'rest', 'Breakfast'),
+  E(D.tue3, '08:00', '09:00', 'work', 'MICR 2060 reading: Exam 3 review, MMAHP Ch 11', { course: 'MICR 2060', prio: 'must', note: 'Exam 3 (Ch 9, 11, 12, 149.99 pts) closes Sat 11-14 11:59 PM. ESMG A5 moved to one 2-hour block Thursday (Trey, 11-9: papers in one sitting).' }),
+  E(D.tue3, '16:50', '18:20', 'work', 'ESFF 1120 Init 7+8: write it (one sitting)', { course: 'ESFF 1120', prio: 'must', note: 'Due Wed 11/11 11:59 PM, one attempt. Brief: ESFF 1120/ESFF1120_Init7+8_BRIEF_2026-11-05.pdf; skeleton: Lamb_Initiatives7and8_SKELETON.docx. 500-700 words for both. Use Dr. L outline headings; 5+6 scored 100/100 that way.' }),
+  E(D.tue3, '11:15', '11:45', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
+  E(D.tue3, '11:45', '12:45', 'rest', 'Lunch + get to class'),
+  E(D.tue3, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210' }),
+  E(D.tue3, '14:15', '15:00', 'work', 'MICR 2060 reading: Exam 3 review, MMAHP Ch 9', { course: 'MICR 2060', prio: 'must', note: 'Exam 3 covers Ch 9, 11 and 12; window closes Sat 11-14 11:59 PM, 150 pts. Study guide: /TKB/courses/worksheets/mmahp-ch10-12 (Ch 12 now checked against your graded OLQ 12).' }),
+  E(D.tue3, '16:00', '16:30', 'work', 'Warrior Knowledge: memorize a jodie for ODC first, then customs and courtesies cards', { course: 'AFROTC', prio: 'habit', note: 'Trey, 11-10: needs a jodie for Wednesday morale PT. "I Can Run to California" (backups: "Everywhere We Go", "Mama, Mama"); the words are in AFROTC/Jodies.docx. Say it out loud at running pace, then the rest of the block is customs and courtesies cards for the Week 9 quiz.' }),
+  E(D.tue3, '15:00', '16:00', 'fixed', 'AEROS 210 Yes-Men group meeting (about 3 PM)', { course: 'AERO 2100', note: 'Trey, 11-10: the group is meeting today around 3. Settle who presents what, put the slides in one place, and set a run-through time. Presentation is Thursday 9 AM in class (followership: the yes-man follower type).' }),
+  E(D.tue3, '16:30', '16:50', 'work', 'ESMG 3200 W5 reply #2', { course: 'ESMG 3200', prio: 'must', note: 'Canvas 11:10 AM: Monday night you posted AND replied once (day 1, reply 1). The 9 AM reply had not posted, so it moved here. Today = day 2 of 3, reply 2 of 3+. Use Kales et al. (2007) if it fits a classmate post.' }),
+  E(D.tue3, '18:20', '19:00', 'rest', 'Dinner'),
+  E(D.tue3, '19:00', '19:30', 'work', 'CHEM 1210 Quiz 23 prep (Sec 7-6)', { course: 'CHEM 1210', prio: 'must', note: 'Due Wed 12:30 PM; Wednesday morning is ODC, so take it tonight.' }),
+  E(D.tue3, '19:30', '20:00', 'work', 'CHEM 1210 Quiz 23 take', { course: 'CHEM 1210', prio: 'must', note: '30-minute time limit.' }),
+  E(D.tue3, '21:00', '21:15', 'work', 'Read the ODC OPORD + lay out PTGs for Wednesday Morale physical training (6 AM) + say your jodie twice out loud', { course: 'AFROTC', prio: 'must', note: 'OPLAN: ODC 11 Nov is Morale PT, PTG uniform.' }),
+  // Trey, 11-10 12:30 PM: 'easy' schedule from now on = the minimum he must do, then 2-3 extras at the end of the day for a good day.
+  E(D.tue3, '21:15', '21:45', 'extra', 'Extra if you have time: CHEM 1210: Monday’s lecture recording at 1.5x', { course: 'CHEM 1210', note: 'Moved out of the minimum (Trey, 11-10: CHEM will stay behind this week).' }),
+  E(D.tue3, '21:45', '22:15', 'extra', 'Extra if you have time: CHEM 1210 Quiz 21 (late)', { course: 'CHEM 1210', note: '0/8 now, no lock, unlimited attempts.' }),
+  E(D.tue3, '22:15', '22:45', 'extra', 'Extra if you have time: OTS application: start essay 1 (objectives and reasons for a commission)', { course: 'AFROTC', note: '2,000 characters; AFROTC/OTS_Application_Objectives.docx has the prompt and helper text.' }),
+  // Trey, 11-9 7:30 PM: ESMG A4 finished this week at -10% (option B), as ONE 2-hour block; papers are written in one sitting from now on.
+  E(D.wed3, '05:30', '05:45', 'rest', 'Change into PTGs'),
+  E(D.wed3, '06:00', '07:00', 'fixed', 'ODC: Veterans Day morale PT (PTGs, bring Jodies)', { course: 'AFROTC', note: 'From Teams: read the OPORD beforehand.' }),
+  E(D.wed3, '07:00', '07:45', 'rest', 'Home, shower and change'),
+  E(D.wed3, '07:45', '08:00', 'rest', 'Breakfast'),
+  E(D.wed3, '08:00', '10:00', 'work', 'ESMG 3200 Assignment 4 (late): write it', { course: 'ESMG 3200', prio: 'must', note: 'Late (0/50 now; -10% through Thu 11:59 PM, then -20%). One 2-hour sitting (Trey, 11-9). Write into ESMG 3200/A4 Program Proposal.docx: the gray notes carry each section target, rubric points and cited facts (about 1,800 words, limit 1,500-2,000). Tell me when done; I do the final edit.' }),
+  E(D.wed3, '10:15', '11:15', 'work', 'MICR 2060 reading: Exam 3 review, MMAHP Ch 12', { course: 'MICR 2060', prio: 'must', note: 'Exam 3 closes Sat 11-14 11:59 PM.' }),
+  E(D.wed3, '11:15', '11:45', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
+  E(D.wed3, '11:45', '12:45', 'rest', 'Lunch + get to class'),
+  E(D.wed3, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210', note: 'Veterans Day: assumed on (events do not cancel classes unless stated).' }),
+  E(D.wed3, '14:15', '16:15', 'work', 'MICR 2065 Pre-Lab #9 + Module 9 Case Study', { course: 'MICR 2065', prio: 'must', note: 'Due Thu 4 PM. Rosie (11-9): this case study takes longer than the others and needs Google for some answers; NO AI allowed, so this one is yours alone. Start with the case study. If it runs long, finish it Thursday 2:15 (that block moves to the weekend).' }),
+  E(D.wed3, '18:30', '19:00', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
+  E(D.wed3, '16:15', '16:45', 'work', 'AEROS 210 Yes-Men presentation: your part + slides', { course: 'AERO 2100', prio: 'must', note: 'Presented Thu 9 AM. Parts split at the Tuesday 3 PM group meeting.' }),
+  E(D.wed3, '16:45', '17:45', 'fixed', 'Pick up Mom (about 5 PM)', { note: 'Trey, 11-10. Where from, how long the drive is, and how long she is staying are not known yet: ask him. If she stays, it may change Thursday night (ESMG Assignment 5) and the weekend.' }),
+  E(D.wed3, '17:45', '18:15', 'rest', 'Dinner'),
+  E(D.wed3, '18:15', '18:30', 'work', 'ESMG 3200 W5 reply #3', { course: 'ESMG 3200', prio: 'must', note: 'Day 3 of 3 and reply 3: this one earns both kinds of extra credit (Mon post + reply, Tue reply, Wed reply).' }),
+  E(D.wed3, '19:00', '19:15', 'work', 'ESFF 1120 Init 7+8 + ESMG 3200 A4: SUBMIT both after my final edit', { course: 'ESFF 1120', prio: 'must', note: 'ESFF is one attempt, due 11:59 PM tonight. A4 is in by tonight, a day ahead of the -20% step.' }),
+  E(D.wed3, '19:15', '19:30', 'work', 'Thursday prep: LLAB OPORD, PTGs, Happy Jacket; PRINT the MICR 2065 Biochemical Fact Sheet (+ study guide)', { course: 'AFROTC', prio: 'must', note: 'Happy Jacket returns: Det basement, 1 hour before or after LLAB Thursday. Fact sheet: Canvas, MICR 2065 Module 9: Dichotomous Key/Flow Chart Information. Rosie wants it on paper for the downtime in lab; no laptops in lab.' }),
+  E(D.wed3, '19:30', '20:00', 'extra', 'Extra if you have time: CHEM 1210 Quiz 22 (late)', { course: 'CHEM 1210', note: '0/8 now, no lock, unlimited attempts.' }),
+  E(D.wed3, '20:00', '20:45', 'extra', 'Extra if you have time: CHEM 1210 prep for Thursday’s class', { course: 'CHEM 1210' }),
+  E(D.wed3, '20:45', '21:15', 'extra', 'Extra if you have time: OTS application: essay 1', { course: 'AFROTC' }),
+  E(D.thu3, '05:30', '05:45', 'rest', 'Change into PTGs'),
+  E(D.thu3, '06:00', '07:00', 'fixed', 'AFROTC PT (AERO 1430R)', { course: 'AFROTC' }),
+  E(D.thu3, '07:00', '07:45', 'rest', 'Home, shower and change'),
+  E(D.thu3, '07:45', '08:00', 'rest', 'Breakfast'),
+  E(D.thu3, '08:00', '09:00', 'class', 'AERO 1100 class', { course: 'AERO 1100' }),
+  E(D.thu3, '09:00', '10:00', 'class', 'AERO 2100 class: Yes-Men group presentation', { course: 'AERO 2100' }),
+  E(D.thu3, '10:00', '10:15', 'fixed', 'Return the Happy Jacket (Det basement)', { course: 'AFROTC', note: 'Open 1 hour before and after LLAB. Wash per the tag if worn a lot (Teams).' }),
+  E(D.thu3, '10:15', '10:30', 'work', 'ESMG 3200 W5 reply #4 (optional)', { course: 'ESMG 3200', prio: 'must', note: 'Only needed if Tuesday or Wednesday slipped; replies close tonight.' }),
+  E(D.thu3, '10:30', '11:00', 'work', 'MICR 2065 lab prep: read the biochemical assay protocol + watch the fact-sheet walkthrough video', { course: 'MICR 2065', prio: 'must', note: 'Rosie (11-9): no lecture or procedure review before you start; you get your unknown and inoculate the biochemical assays right away. You also pass off a quadrant streak and pipetting into a DNA gel (counts toward the practical exam score).' }),
+  E(D.thu3, '11:00', '13:00', 'fixed', 'LLAB (AERO 2000)', { course: 'AFROTC' }),
+  E(D.thu3, '13:00', '14:00', 'class', 'CHEM 1210 class', { course: 'CHEM 1210', note: 'LLAB ends at 1; you usually arrive late.' }),
+  E(D.thu3, '14:15', '15:45', 'work', 'MICR 2060 reading: Exam 3 review, MMAHP Ch 9 + practice', { course: 'MICR 2060', prio: 'must', note: 'Exam 3 closes Sat 11-14 11:59 PM.' }),
+  E(D.thu3, '15:45', '16:00', 'rest', 'Get to MICR 2065 lab'),
+  E(D.thu3, '16:00', '18:00', 'class', 'MICR 2065 lab', { course: 'MICR 2065' }),
+  E(D.thu3, '18:00', '18:30', 'rest', 'Dinner'),
+  E(D.thu3, '18:30', '20:30', 'work', 'ESMG 3200 Assignment 5: write it', { course: 'ESMG 3200', prio: 'must', note: 'Due tonight 11:59 PM, 1,000-1,500 words. One 2-hour sitting (Trey, 11-9). Skeleton: ESMG 3200/A5 Case Analysis SKELETON.docx; incident options in the brief PDF (Option A recommended). Tell me when done; I do the final edit.' }),
+  E(D.thu3, '20:45', '21:00', 'work', 'ESMG 3200 Assignment 5: SUBMIT after my final edit', { course: 'ESMG 3200', prio: 'must', note: 'Due 11:59 PM.' }),
+  E(D.thu3, '21:00', '21:30', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
+  E(D.thu3, '21:30', '22:00', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit', note: 'Customs and courtesies cards for Saturday’s Week 9 quiz.' }),
+  E(D.thu3, '22:00', '22:30', 'extra', 'Extra if you have time: CHEM 1210 Quiz 21 or 22, whichever is still open (late)', { course: 'CHEM 1210' }),
+  E(D.thu3, '22:30', '23:00', 'extra', 'Extra if you have time: MICR 2060 Exam 3 practice questions', { course: 'MICR 2060', note: 'The exam is planned for Friday morning.' }),
+  // ── Fri 11-13 to Sun 11-15: easy minimum + extras (Trey, 11-10). Mom is visiting from Wed evening (length unknown: ask).
+  E(D.fri4, '05:45', '06:00', 'rest', 'Change into running gear'),
+  E(D.fri4, '06:00', '06:45', 'fixed', 'Easy run', { note: 'Workout 5 of the week (Tue PT, Wed ODC, Thu PT, Fri, Sat). Conversational pace.' }),
+  E(D.fri4, '06:45', '07:30', 'rest', 'Shower and change'),
+  E(D.fri4, '07:30', '08:00', 'rest', 'Breakfast'),
+  E(D.fri4, '08:00', '09:00', 'work', 'MICR 2060 reading: Exam 3 final review, Ch 11 + study guide', { course: 'MICR 2060', prio: 'must' }),
+  E(D.fri4, '09:15', '11:20', 'work', 'MICR 2060 Exam 3: take it', { course: 'MICR 2060', prio: 'must', note: 'One attempt, 125 minutes, about 50 questions + a reading comprehension; the study guide may be open. Closes Sat 11:59 PM, so Friday morning keeps a day of margin.' }),
+  E(D.fri4, '11:30', '12:00', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
+  E(D.fri4, '12:00', '13:00', 'rest', 'Lunch'),
+  E(D.fri4, '13:00', '14:30', 'work', 'MICR 2065 Lab Notebook #9 + Post-Lab #9 (Blood Microscopy)', { course: 'MICR 2065', prio: 'must', note: 'Due tonight 11:59 PM. Post-Lab is Honorlock, closed book, one attempt; the Notebook has 2 attempts.' }),
+  E(D.fri4, '14:45', '15:30', 'work', 'AEROS 210 DB9 (Learning Suite)', { course: 'AERO 2100', prio: 'must', note: 'Due tonight 11:59 PM.' }),
+  E(D.fri4, '15:30', '16:00', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit', note: 'Customs and courtesies cards; the Week 9 quiz is due Saturday 4 PM.' }),
+  E(D.fri4, '16:00', '17:00', 'extra', 'Extra if you have time: ESMG 3200 Assignment 6: start writing (due Thu 11-19)', { course: 'ESMG 3200', note: 'Getting ahead: skeleton and brief are in ESMG 3200/. Anything written today shortens Saturday.' }),
+  E(D.fri4, '17:00', '17:30', 'extra', 'Extra if you have time: CHEM 1210 make-up Quizzes 5 + 6 (Ch 2)', { course: 'CHEM 1210', note: '0/8 each, no lock.' }),
+  E(D.fri4, '17:30', '18:00', 'extra', 'Extra if you have time: MICR 2060 OLQ 13 (Ch 13; due Wed 11-18)', { course: 'MICR 2060' }),
+  E(D.sat4, '08:30', '08:45', 'rest', 'Change into gym clothes'),
+  E(D.sat4, '08:45', '09:30', 'fixed', 'Workout (lift or easy run)', { note: 'Workout 6 of the week; skip it if Mom’s plans need the morning.' }),
+  E(D.sat4, '09:30', '10:00', 'rest', 'Shower and change'),
+  E(D.sat4, '10:00', '12:00', 'work', 'ESMG 3200 Assignment 6: write it (one sitting)', { course: 'ESMG 3200', prio: 'must', note: 'Due Thu 11-19, so this is 5 days AHEAD. Skeleton: ESMG 3200/A6 Advocacy Brief SKELETON.docx. Tell me when done; I do the final edit and you submit.' }),
+  E(D.sat4, '12:00', '12:45', 'rest', 'Lunch'),
+  E(D.sat4, '12:45', '13:15', 'work', 'Warrior Knowledge Week 9 quiz (customs and courtesies): review the cards, then take it', { course: 'AFROTC', prio: 'must', note: 'Closed note. Due 4 PM with your honor points: submit both, then DM the Deputy your point count.' }),
+  E(D.sat4, '13:15', '13:45', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
+  E(D.sat4, '13:45', '14:30', 'work', 'OTS application: essay 1 (objectives and reasons for a commission)', { course: 'AFROTC', prio: 'must', note: '2,000 characters. Prompt + helper text: AFROTC/OTS_Application_Objectives.docx. Tell me when done; I check length and grammar.' }),
+  E(D.sat4, '14:45', '15:30', 'extra', 'Extra if you have time: CHEM 1210 make-up Quizzes 7 + 8', { course: 'CHEM 1210', note: '0/8 each, no lock.' }),
+  E(D.sat4, '15:30', '16:00', 'extra', 'Extra if you have time: CHEM 1210 make-up Quiz 9', { course: 'CHEM 1210' }),
+  E(D.sat4, '16:00', '16:30', 'extra', 'Extra if you have time: ESFF 1120 Initiatives 9+10: read the brief before Sunday', { course: 'ESFF 1120' }),
+  E(D.sun4, '09:00', '10:45', 'work', 'ESFF 1120 Initiatives 9+10: write it (one sitting)', { course: 'ESFF 1120', prio: 'must', note: 'Due Wed 11-18, so this is 3 days AHEAD. I build the brief and skeleton by Saturday night. Tell me when done; final edit, then you submit.' }),
+  E(D.sun4, '11:00', '11:30', 'work', 'TBAS practice (30 min, daily until the test)', { course: 'AFROTC', prio: 'must' }),
+  E(D.sun4, '11:30', '12:00', 'work', 'Warrior Knowledge (30 min)', { course: 'AFROTC', prio: 'habit' }),
+  E(D.sun4, '12:00', '13:00', 'rest', 'Lunch'),
+  E(D.sun4, '13:00', '13:45', 'work', 'ESMG 3200: draft the Week 6 discussion post (post it Monday)', { course: 'ESMG 3200', prio: 'must', note: 'Who Owns Safety? Post Monday so Mon-Tue-Wed are the 3 days for the extra credit.' }),
+  E(D.sun4, '14:00', '15:00', 'work', 'CHEM 1210 Quiz 24 prep (8-1 to 8-3) + Monday class prep', { course: 'CHEM 1210', prio: 'must', note: 'Quiz 24 is due Monday 2:30 PM.' }),
+  E(D.sun4, '15:00', '15:45', 'work', 'OTS application: essay 2 (leadership attributes)', { course: 'AFROTC', prio: 'must' }),
+  E(D.sun4, '17:00', '17:45', 'travel', 'Service Dress on, to the BYU Conference Center'),
+  E(D.sun4, '18:00', '19:00', 'fixed', 'Veterans Day Devotional (BYU Conference Center 2254)', { course: 'AFROTC', note: 'Service Dress or Sunday dress, 40 honor points (+100 flight bonus at 90%). React to the Wing Bulletins post for the headcount; plus-ones welcome (Mom?).' }),
+  E(D.sun4, '19:00', '19:30', 'travel', 'Home'),
+  E(D.sun4, '19:30', '20:00', 'extra', 'Extra if you have time: CHEM 1210 Quiz 24: take it early (due Monday 2:30 PM)', { course: 'CHEM 1210' }),
+  E(D.sun4, '20:00', '20:45', 'extra', 'Extra if you have time: CHEM 1210 catch-up: read Ch 8 (8-1 to 8-3)', { course: 'CHEM 1210' }),
+  E(D.sun4, '20:45', '21:15', 'extra', 'Extra if you have time: MICR 2060 OLQ 13 if not done (due Wed 11-18)', { course: 'MICR 2060' }),
+  E('2026-11-13', '23:59', null, 'due', 'DUE: AEROS 210 DB9 (Learning Suite), 11:59 PM'),
+  E('2026-11-14', '16:00', null, 'due', 'DUE: Warrior Knowledge Week 9 quiz (customs and courtesies) + honor points, 4 PM'),
+  ALL('2026-11-16', 'work', 'ESMG 3200 Week 6 discussion post (from Sunday’s draft; time set when Monday is planned)', { course: 'ESMG 3200', prio: 'must', note: 'Day 1 of 3 for the extra credit.' }),
+  ALL('2026-11-17', 'work', 'ESMG 3200 Week 6 discussion reply #1 (time set when Tuesday is planned)', { course: 'ESMG 3200', prio: 'must', note: 'Day 2 of 3.' }),
+  ALL('2026-11-18', 'work', 'ESMG 3200 Week 6 discussion reply #2 (time set when Wednesday is planned)', { course: 'ESMG 3200', prio: 'must', note: 'Day 3 of 3; earns both extra credits with a third reply by Thursday.' }),
+  E('2026-11-16', '23:59', null, 'due', 'DUE: ESMG 3200 Week 6 discussion post, 11:59 PM'),
+  E('2026-11-18', '12:30', null, 'due', 'DUE: CHEM 1210 Quiz 25 (8-4 to 8-5), 12:30 PM'),
+  E('2026-11-18', '23:59', null, 'due', 'DUE: ESFF 1120 Initiatives 9+10 · MICR 2060 OLQ 13, 11:59 PM'),
+  E('2026-11-19', '12:30', null, 'due', 'DUE: CHEM 1210 Quiz 26 (9-1 to 9-3), 12:30 PM'),
+  E('2026-11-19', '16:00', null, 'due', 'DUE: MICR 2065 Lab Notebook #10 (4 PM) · ESMG 3200 Assignment 6 (11:59 PM)'),
+  E('2026-11-12', '23:59', null, 'due', 'DUE: ESMG 3200 Assignment 4 (late), last day at -10%, 11:59 PM (planned Wednesday)'),
+  E('2026-11-11', '23:59', null, 'due', 'DUE: ESFF 1120 Initiatives 7+8 paper, 11:59 PM (one attempt)'),
+  E('2026-11-12', '09:00', null, 'due', 'DUE: AEROS 210 Yes-Men group presentation, 9 AM in class (followership: the yes-man follower type)'),
+  E('2026-11-12', '16:00', null, 'due', 'DUE: MICR 2065 Pre-Lab #9 + Module 9 Case Study (4 PM) · ESMG 3200 Assignment 5 + Week 5 replies (11:59 PM)'),
+  E('2026-11-13', '23:59', null, 'due', 'DUE: MICR 2065 Lab Notebook #9 + Post-Lab #9, 11:59 PM'),
+  E('2026-11-14', '23:59', null, 'due', 'DUE: MICR 2060 Exam 3 (Ch 9, 11, 12), 11:59 PM'),
   E('2026-11-07', '16:00', null, 'due', 'DUE: Warrior Knowledge quiz (4 PM) · Honor Points (EOD) · MICR 2060 OLQ 12 retake (11:59 PM)'),
   // CHEM quizzes under 90% (Trey, 11-3: take/retake every one, ~30 min each) were planned Sat 9-12 + Sun 9-10.
   // 11-4 writing marathon: Quiz 9, 11, 14 stay (Sat 4:15); retakes of Quiz 10, 12, 20, 1 and 4 move to next week.
@@ -267,7 +413,7 @@ export const IMPORTANT_DATES = [
 ];
 
 // Course colours come from COURSE_COLORS; these are only for items with no course (greys, so they never read as a class).
-export const KIND_COLORS = { fixed: '#e2e8f0', work: '#e2e8f0', due: '#f87171', travel: '#9ca3af', class: '#e2e8f0', rest: '#a8a29e' };
+export const KIND_COLORS = { fixed: '#e2e8f0', work: '#e2e8f0', due: '#f87171', travel: '#9ca3af', class: '#e2e8f0', rest: '#a8a29e', extra: '#7dd3fc' };
 export const KIND_LABELS = { fixed: 'Fixed', work: 'Work block', due: 'Deadline', travel: 'Travel', class: 'Class', rest: 'Meal / rest' };
 
 const hm = (s) => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };

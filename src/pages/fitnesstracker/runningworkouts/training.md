@@ -1,6 +1,7 @@
 # Training — Numbers (Cycles 3–5)
 
 **Goal:** 13:56 (6:58/mi) · stretch 13:40 (6:50/mi) · Test: **12/31/26** *(USAF PFRA — see `Guidelines_AF`)*
+**Measured 2-mile (2026-11-09): 9/29 = 18:11 · 10/22 PFRA = 16:42 (VDOT 35.6). Near-term target 7:30/mi = 15:00.** Details and paces in the AFROTC section below; they override the August estimates.
 **Baseline (8/2/26):** 2-mile ~18:00 (9:00/mi) · fresh full-recovery 400m ~1:56–2:00
 
 **Rebased 2026-08-17.** Trey fell behind partway through Cycle 2, so **Cycle 2 was ended early at D4 and today (Mon 8/17) became Cycle 3 Day 1.** Cycles 1 and 2 are no longer shown here — the record of what was actually run lives in `pfra-full-calendar.md`. This doc now shows the next **three full cycles** and nothing else.
@@ -130,6 +131,18 @@ Hybrid Legs/Back day (2026-09-14)"; the rule changes live in `cycle.md`.
 ---
 
 ## AFROTC-integrated weekly template — live from Mon 9/14
+
+**MEASURED 2-mile results (Trey, 2026-11-09): Tue 9/29 = 18:11 · Thu 10/22 (USAF PFRA) = 16:42.** These are the only
+real 2-mile results on record and they **override every August estimate in this file**. Improvement in 23 days: 1:29.
+- **Current fitness (from 16:42): VDOT 35.6.** Repetition (R) pace 55.6 s per 200m (1:51 per 400m); interval (I)
+  1:00.5 per 200m (2:01 per 400m); threshold (T) 8:59 per mile; easy 10:46–11:50 per mile.
+- **Near-term target (Trey, 2026-11-09): 7:30 per mile = 15:00 for 2 miles = VDOT 40.4.** At that fitness: R 50.3 s per
+  200m (1:40 per 400m), I 54.7 s per 200m (1:49 per 400m), T 8:08 per mile, easy 9:46–10:44 per mile. The official target
+  in `Guidelines_AF` is still 13:56 (VDOT 44); 15:00 is the nearer step toward it.
+- **The VDOT ~40.7 bands below are therefore GOAL-level paces, not current ones** (they describe a 14:54 runner;
+  he ran 16:42). Do not prescribe them as where he is now.
+- The Dashboard "Current fitness" panel reads logged runs from the app, not from this file; the two results above
+  still need to be logged in `/MFT` for it to re-derive paces.
 
 **Pace bands unchanged** — still the VDOT ~40.7 bands from the 2026-08-19 recalibration at the top
 of this doc (Easy 9:42–10:41/mi, Threshold 8:05/mi, I-pace 1:49/400, R-pace 1:40/400).

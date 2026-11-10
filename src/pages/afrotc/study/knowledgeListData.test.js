@@ -104,6 +104,9 @@ describe('initials', () => {
   });
 });
 
+// Pinned so an insertion above it (which would move every flag) fails loudly.
+const BIRTHDAY_ID = 'mission-values-158';
+
 describe('knowledge-card additions from the same list', () => {
   it('the field-command card names Combat Forces Command, not SpOC', () => {
     const fc = CARDS.find((c) => c.front === 'The Space Force’s three Field Commands');
@@ -113,9 +116,12 @@ describe('knowledge-card additions from the same list', () => {
 
   it('new cards were appended, so existing ids (and their flags) did not move', () => {
     // Chain-of-command cards (2026-10-30) carry position-based ids, so they sit after the positional ones.
-    const tail = CARDS.filter((c) => c.subject !== 'chain').slice(-7).map((c) => c.front);
-    expect(tail).toContain('Air Force birthday');
-    expect(tail).toContain('The nine Air Force MAJCOMs and their headquarters');
+    const fronts = CARDS.filter((c) => c.subject !== 'chain').map((c) => c.front);
+    const birthday = fronts.indexOf('Air Force birthday');
+    expect(fronts.slice(birthday, birthday + 7)).toContain('The nine Air Force MAJCOMs and their headquarters');
+    // The Week 9 customs block (2026-11-09) came after the 10-28 block, not before it.
+    expect(fronts.indexOf('Hand salute: where does the middle finger touch?')).toBeGreaterThan(birthday);
+    expect(CARDS.find((c) => c.front === 'Air Force birthday').id).toBe(BIRTHDAY_ID);
     expect(new Set(CARDS.map((c) => c.id)).size).toBe(CARDS.length);
   });
 });

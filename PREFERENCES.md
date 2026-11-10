@@ -62,6 +62,8 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
 - **Batch fixes and push ONCE, and only when he says "push".** Nothing is committed or pushed until then.
 - **Verify before saying it works**: run it, look at the screenshot, say what you checked. Live-site check after a push.
 - **He cannot open HTML files or Claude artifacts.** Send PNG images, or put text in chat; longer docs as .md/.docx in Drive.
+- (2026-11-09) **No phone notifications for now.** He doesn't use them: never call PushNotification and never mention push in reports ("a waste of tokens"). About once a week, one line in a brief: phone notifications are an option if he wants them. Anything urgent goes at the top of the next message instead.
+- (2026-11-09) **Papers are planned as ONE ~2-hour sitting, not spread over 3 days.** Trey: "i always push them off and do them all at once anyways." Skeleton/brief ready beforehand, then my final edit, then he submits.
 - **Design suggestions are shown, not imposed**: captioned NOW-vs-PROPOSED PNG mockups in a folder, researched against
   real apps (Google/Apple Calendar). Outright bugs get fixed. He has made many deliberate layout choices; do not
   restyle them unasked.
@@ -135,6 +137,22 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
   The graded MICR 2060 OLQ 12 PDF sat in Drive from 11-3 while the Chapter 12 worksheet still said "derived" on all 66 questions,
   and 7 of those derived answers were the exact picks Canvas had marked wrong. Trey: *"everything still says its derived and not
   official when we have a whole quiz to fact check on."* (2026-11-07)
+
+- **A real fitness result is recorded the turn he mentions it, with its date, and an estimate is always labelled as one.** His real
+  2-mile results (9/29 18:11, 10/22 PFRA 16:42) were told to an earlier session and written nowhere, so the docs still carried a
+  three-month-old estimate (14:54) that I quoted as his fitness and then built a pace answer on. Re-ask nothing he has already said:
+  if a transcript or file has it, use it; if not, record what he says at once. Put every measured result (2-mile, PFRA, time trial) in `runningworkouts/training.md`
+  and the memory facts file at once, and when quoting a derived number say what it was derived from and how old it is. (2026-11-09)
+
+- **Words he will memorize or recite (jodies, songs, creeds) come from a published written version, never from my own transcription
+  of a recording.** Search for the written text first and copy it word for word with the source named. If no written version exists,
+  say so plainly and mark the result "from listening, unconfirmed", line by line where unsure; never fill a garbled line with the
+  "usual wording" and present it as what the recording says. Trey, after a speech-to-text pass on a cadence video came out wrong:
+  *"i dont like that method if it is inaccurate."* (2026-11-10)
+
+- **Schedules are an EASY minimum plus 2-3 extras at the end of each day.** The minimum is what must get done plus a little more;
+  the extras are real assignments he can pick up on a locked-in day to get ahead. Enforced by the studyPlan test 'ends every planned
+  day from 11-10 with 2-3 extra blocks'. Trey: *"From now on always do the schedule that way."* (2026-11-10)
 
 ## Where the other preference-style files are
 - Root `CLAUDE.md` (project rules) and `src/pages/theknowledgebase/CLAUDE.md` (TKB/AFOQT/courses).
