@@ -16,6 +16,7 @@ import { gradeAdjustedPace, gradeFrom } from './calc/gap';
 import { zoneForHr } from './calc/hr';
 import { per100, swolf } from './calc/swim';
 import { extractCheckpointResult } from './calc/goals';
+import { runProfile } from './calc/performance';
 import { formatCheckpointValue, interpolatedTarget, parseOverrideValue, overridePlaceholderFor } from './calc/checkpoints';
 import { fmtPace } from './format';
 import LiftSets from './LiftSets';
@@ -186,6 +187,7 @@ export default function EntryEditor({ id: idProp, onClose }) {
         linkedGoal.kind,
         { activityType: form.activityType, distanceM: savedDistanceM, durationSec: savedDurationSec, metrics },
         linkedGoal.label,
+        { targetDistanceM: linkedGoal.targetDistanceM, k: runProfile(workouts)?.exponent.k },
       );
       if (extracted != null) await logCheckpoint(linkedGoal.id, w.date, extracted, 'logged');
     }

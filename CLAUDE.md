@@ -795,6 +795,10 @@ real study = the CURRENT chapter tuned to the national ACS exam. He views CHEM d
 **never show or discuss "bands" in his course UI** — just build and plan to it. Agents share no memory: if he states a standing preference, write it into
 the skill + STATE.md + this file + the memory folder the same turn.
 ⏱️ **Time tracking (Trey, 2026-10-26): log how long each assignment REALLY takes** — `_ChiefOfStaff/time-log.csv` + `timelog.mjs` (`import-canvas`, `summary` → `TIME_AVERAGES.md`). When he says "start X"/"done X", stamp the clock and log net minutes, planned minutes, focus and reason; **if he gives no reason or the actual is outside 0.7x-1.4x of planned, get curious and ask one specific question.** Size future blocks from the MEDIANS, not guesses.
+✍️ **Emails and messages Trey will send: write in HIS voice — use the `trey-voice` skill** (Trey, 2026-11-09: *"I want you to start getting better at writing in my voice ... improve every time we have a new chance"*). Knowledge lives on Drive in `_ChiefOfStaff/voice/` (VOICE.md, SAMPLES.md, REVISIONS.md); skill backup in `_ChiefOfStaff/skill-backup/trey-voice/`. Whenever he pastes what he actually sent, log it verbatim, diff it against the draft, and update the profile the same turn.
+📣 **AFROTC events / "what's coming up" from Teams: run the Teams capture yourself**: `npm run capture` in the private **TreyLamb/teams-capture** repo (`C:/Users/clown/projects/teams-capture` on the home PC; clone it on any other computer) (2026-11-09, Trey: *"one script that YOU can run … autonomous of me"*; moved out of astral-project 2026-11-12 at his request). ~1 min, hidden browser, saved session in that repo's `.auth/teams-profile` (one per device); reads Announcements 1-6, GMC Official, Flight Charlie, Yankee Flight - ODC, Holy War Ball Run (last 14 days) into `_ChiefOfStaff/teams-capture/teams-digest.md`. The Det's Teams is in **BYU's** tenant (he's a UVU guest). Exit 2 = session expired → `npm run login` and he signs in once. Charlie Flight GMC is informal chatter, never a source of truth. Details: `teams-capture/CHANNELS.md`.
+🎓 **BYU Learning Suite (AEROS 110 / 210 / 100R / 143R): read it yourself, it is in the same teams-capture repo** (`learningsuite/`, added 2026-11-12). `npm run ls:crawl -- <cid> <outDir>` pulls Content pages, every attached file, Schedule, Grades, Exams, Announcements; `ls:extract` turns PDFs/PPTX into text; `ls:discussion` reads a discussion board. Session expires every few days: `npm run ls:login` (one Duo push). **AEROS 110 was never in the plan and its 50% Mid-Term was missed 2026-11-11 because of it: check Learning Suite deadlines for every AEROS course whenever you plan his week.** Course ids + full usage: the repo README.
+📄 **Memorandums: use the `trey-memo` skill** (2026-11-09). Format verified against The Tongue and Quill ch. 14 + the Det 855 template; `_ChiefOfStaff/voice/memo/make_memo.py` builds the .docx/.pdf on the Det letterhead. Never hand-format a memo (his printed AERO memo had spacing errors from the template's styles); always render the PDF and look at it before handing it over.
 🧪 **Daily (Trey, 2026-11-02): CHEM 1210 gets 3 hr every day, class included** (2 hr prep the night before on the next slides,
 then class), **and a workout is scheduled 5-6 days a week** (before 7 AM; Tue/Thu PT counts). Weekday model = a 7-3 "school shift";
 template `_ChiefOfStaff/Week_Template_7to3.pdf`. Block these first in every plan.
@@ -939,6 +943,15 @@ Steps 4 and 5 have collapsed into step 5 — the navbar no longer has hand-writt
   evidently **deduplicates unchanged files across builds** and an asset that never changes is not
   stored once per deployment. Trimming static assets helps much less than file sizes suggest.
   Never project a storage saving from `du` — compare Usage → Deployment Storage before and after.
+
+---
+
+## 🖥️ PC settings — re-check weekly, silently
+
+**`PC-SETTINGS.md` (repo root)** lists Windows settings Trey changed on purpose (e.g. the classic
+right-click menu), each with a Check / Fix / Revert. Read its `**Last checked:**` date. **Under
+7 days old: do nothing and don't mention it.** Older: run every Check once, re-stamp the date,
+and speak up only if something had reset. Its own header has the full rules.
 
 ---
 

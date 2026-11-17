@@ -31,6 +31,28 @@ exactly where to pick up. Update it at the end of every working block.
   before dropping it.
 - 🔴 Project ownership doc for quizzes + coursework dashboard + calendar sync: `courses/SCHOOL-OPS.md`.
 
+### 🆕 The professor's EXAM 2 review sheet is transcribed — 34 questions, NOT yet in the bank
+
+Trey photographed it 2026-10-06 12:15 (the night before Exam 2). Transcribed the same hour:
+
+- **`<DRIVE>:\My Drive\SupplementalCourseDocs\CHEM 1210\IMG_8608-8609_exam-prep-study-guide.md`**
+  (human-readable) and **`.json`** (structured: per-question `topics`/`skills`, a `topicIndex`,
+  and both figures described in words). Source photos are `IMG_8608.HEIC` (Q1–22) and
+  `IMG_8609.HEIC` (Q23–34). **Read the .md/.json — do not re-OCR the HEICs.**
+- This is a **different sheet from the 23-item Ch 1-2 review** already registered in
+  `engine/templates/real-items-ch01-ch02.js` via `examReviewItems.js`. This one is 34 questions
+  spanning roughly **chapters 1–4** — i.e. the Exam 2 sheet, matching the Ch3×7/Ch4×7/Ch1×3/Ch2×3
+  weighting above.
+- ⚠️ **Not registered as templates.** The obvious next step is the same treatment the Exam 1
+  review sheet got — real items + iterations — and a coverage diff of all 34 against the 187
+  templates. Not done; flagged rather than assumed.
+- 🔴 **Q18 is wrong in the handout**: *"What is the percent potassium in Ca₃(PO₄)₂?"* — calcium
+  phosphate contains no potassium. Verified at high magnification; the formula really is `Ca`.
+  Three self-consistent repairs (percent **calcium** in Ca₃(PO₄)₂ / percent potassium in **K₃PO₄**,
+  which appears in Q17 / percent **lead** in **Pb₃(PO₄)₂**). Note K is 1+ so "K₃(PO₄)₂" is not a
+  valid formula — the element word is what is wrong, not the subscripts. Worth asking the professor.
+  Five smaller flags (Q7 invented element, Q9 unstated H%, Q13, Q22, Q27) are listed in the files.
+
 ---
 
 # Previous resume point — last session 2026-09-18

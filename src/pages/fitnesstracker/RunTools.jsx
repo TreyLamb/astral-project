@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useFitness } from './fitnessContext';
 import { solve, evenSplits, paceIn, PACE_UNITS, parseStructuredWorkout } from './calc/pace';
-import { riegelPredict } from './calc/riegel';
+import { riegelPredict, RIEGEL_EXPONENT } from './calc/riegel';
+import { runProfile, slowdownPerDoubling } from './calc/performance';
 import { vdotFromRace, trainingPaces, equivalentRaceTime, PACE_ZONE_LABELS } from './calc/vdot';
 import { gradeAdjustedPace, gapFactor } from './calc/gap';
 import { hrZones } from './calc/hr';
@@ -17,7 +18,7 @@ const PRESETS = [
   ['Half', '21.0975', 'km'], ['Marathon', '42.195', 'km'],
 ];
 const PREDICT_DISTS = [
-  { id: '1mi', name: '1 mile', m: 1609.344 }, { id: '5k', name: '5K', m: 5000 },
+  { id: '1mi', name: '1 mile', m: 1609.344 }, { id: '2mi', name: '2 mile', m: 3218.688 }, { id: '5k', name: '5K', m: 5000 },
   { id: '10k', name: '10K', m: 10000 }, { id: '15k', name: '15K', m: 15000 },
   { id: 'half', name: 'Half', m: 21097.5 }, { id: 'marathon', name: 'Marathon', m: 42195 },
 ];
@@ -126,22 +127,48 @@ function SplitList({ title, splits }) {
 function Out({ k, v }) { return <div className="ft-out"><span className="ft-out-k">{k}</span><span className="ft-out-v">{v}</span></div>; }
 
 // ---- Riegel race predictor ----
+// The exponent is the runner's endurance profile, not a constant: 1.06 is
+// Riegel's average, and a speed-limited runner can sit well above it. It is a
+// free field, pre-filled with your own fitted value once two test distances
+// exist (calc/performance.js).
 function RiegelCard() {
+  const { workouts } = useFitness();
+  const mine = useMemo(() => {
+    const p = runProfile(workouts);
+    return p && p.exponent.source !== 'default' ? p.exponent.k : null;
+  }, [workouts]);
   const [dv, setDv] = useState('5');
   const [du, setDu] = useState('km');
   const [time, setTime] = useState('20:00');
+  const [expText, setExpText] = useState(null);
+  const exponentText = expText ?? (mine ? mine.toFixed(3) : String(RIEGEL_EXPONENT));
+  const exponent = Number(exponentText);
+  const expOk = exponent >= 0.95 && exponent <= 1.3;
   const distanceM = distanceToMeters(dv, du);
   const timeSec = clockToSec(time);
-  const rows = distanceM && timeSec ? PREDICT_DISTS.map((d) => ({ ...d, t: riegelPredict(distanceM, timeSec, d.m) })) : [];
+  const rows = distanceM && timeSec && expOk ? PREDICT_DISTS.map((d) => ({ ...d, t: riegelPredict(distanceM, timeSec, d.m, exponent) })) : [];
   return (
     <div className="ft-set-card">
       <h3>Race predictor (Riegel)</h3>
-      <p className="ft-hint-sm">T₂ = T₁·(D₂/D₁)^1.06 — Riegel (1981). Best from ~1500 m to the marathon.</p>
+      <p className="ft-hint-sm">
+        T₂ = T₁·(D₂/D₁)^k, Riegel (1981). k is how much YOUR pace fades as distance grows: 1.06 is the
+        average runner, ~1.04 an endurance specialist, 1.10+ a speed-limited runner.
+        {expOk && ` At ${exponent.toFixed(3)} pace drops ${(slowdownPerDoubling(exponent) * 100).toFixed(1)}% per doubling of distance.`}
+      </p>
       <Presets onPick={(v, u) => { setDv(v); setDu(u); }} />
       <div className="ft-solver-grid">
         <div className="ft-field"><label className="ft-field-label">Recent race</label><DistanceField value={dv} unit={du} onValue={setDv} onUnit={setDu} /></div>
         <div className="ft-field"><label className="ft-field-label">Time</label><input className="ft-input" value={time} onChange={(e) => setTime(e.target.value)} placeholder="mm:ss" /></div>
+        <div className="ft-field">
+          <label className="ft-field-label">Fatigue factor k</label>
+          <input className="ft-input" inputMode="decimal" value={exponentText} onChange={(e) => setExpText(e.target.value)} placeholder="1.06" />
+          <div className="ft-preset-row">
+            <button type="button" className="ft-preset-btn" onClick={() => setExpText(String(RIEGEL_EXPONENT))}>average 1.06</button>
+            {mine && <button type="button" className="ft-preset-btn" onClick={() => setExpText(mine.toFixed(3))}>mine {mine.toFixed(3)}</button>}
+          </div>
+        </div>
       </div>
+      {!expOk && <p className="ft-hint-sm">k should be between about 0.95 and 1.30.</p>}
       {rows.length > 0 && (
         <table className="ft-table">
           <tbody>{rows.map((r) => <tr key={r.id}><td>{r.name}</td><td className="ft-num">{fmtDur(r.t)}</td></tr>)}</tbody>
@@ -164,7 +191,11 @@ function VdotCard() {
   return (
     <div className="ft-set-card">
       <h3>VDOT &amp; training paces (Daniels)</h3>
-      <p className="ft-hint-sm">Daniels &amp; Gilbert equations. A 20:00 5K ≈ VDOT 50.</p>
+      <p className="ft-hint-sm">
+        Daniels &amp; Gilbert equations. A 20:00 5K ≈ VDOT 50. The equivalent times below assume an AVERAGE
+        endurance profile. For predictions from your own tests, see Current fitness on the Dashboard, or set your k in the
+        Riegel predictor.
+      </p>
       <Presets onPick={(v, u) => { setDv(v); setDu(u); }} />
       <div className="ft-solver-grid">
         <div className="ft-field"><label className="ft-field-label">Race</label><DistanceField value={dv} unit={du} onValue={setDv} onUnit={setDu} /></div>

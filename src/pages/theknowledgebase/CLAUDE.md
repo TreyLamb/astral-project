@@ -108,6 +108,38 @@ before assuming it is covered. Figures on such a sheet can be asked in prose —
 *"dont worry about making particle diagrams. questions related to mixtures, pure substances,
 etc replace those."*
 
+## 🔴 BUILD ORDER: textbook → instructor material → ACS. Never ACS-first.
+
+Trey's standing instruction, 2026-10-06. Build a course bank in three layers, **in this order**:
+
+1. **The textbook chapters, alone.** He has **two versions of the book**. That is enough on its
+   own to enumerate the skills and build a test — do it *before* opening anything else. Verbatim:
+   *"even without info from the ACS study guide or my instructor you HAVE the chapters from two
+   versions of the book, you SHOULD be able to build your own test."*
+2. **Instructor material** — his quizzes, exams, review handouts. These **fine-tune and build on**
+   layer 1: they calibrate wording, emphasis and difficulty. They do not define the territory.
+3. **The ACS study guide, LAST.** Only once layers 1–2 have established the real subject/skill map
+   can ACS content be layered on *"without adding things that are unrelated."*
+
+**Why the order is the whole point.** The first 88 chem templates were built ACS-first and it
+failed twice over: **(a)** the ACS study guide's chapter numbering **does not match his course's
+chapters**, so the bank was scoped to the wrong chapters outright (see "Scope by BOOK SECTION, not
+ACS chapter" above); **(b)** with no text-derived skill map to judge against, there was no basis
+for deciding whether an ACS topic was even relevant. An instructor review handout later surfaced
+**15 skills the 88-template bank could not ask at all**. Trey's verdict: that is a **failure of the
+build method**, not an interesting fact about handouts. A topic list names *domains*; only the
+chapter text enumerates the *operations* a student performs — and an operation is what a question
+actually tests.
+
+**ACS is still the highest source of truth for the FINAL**, which really is an ACS exam. ACS
+content is not unwelcome — it is just last. For each chapter test he wants to be
+**OVER-prepared**: ready for the instructor's version *and* an ACS version of the same material.
+
+**The mechanical method for layer 1:** walk the assigned text section by section and list every
+operation the student is asked to perform. Worked examples and end-of-section exercises are the
+highest-signal source — they are literally the question shapes the instructor writes from. Diff
+that list against the bank; every uncovered operation is a gap by construction rather than by luck.
+
 ⚠️ **A bank built from a STANDARDIZED-exam study guide is not aligned to the
 instructor's own midterms, even when the course ends in that standardized exam.** Found
 2026-09-09 auditing chem. CHEM 1210's final really is an ACS exam, so building the first 88
@@ -382,7 +414,37 @@ describe SEVEN**, the seventh being **Situational Judgment**.
 
 ---
 
-## Calibration books (outside the repo, at `G:\My Drive\`)
+## 🔴 The Drive letter is `G:` OR `H:` — it depends which machine you are on. NEVER hardcode it.
+
+Trey runs this on two machines and **the Google Drive mount gets a different letter on each**
+(laptop vs PC). Both letters can exist *at the same time*: confirmed on the PC 2026-10-06, `G:\My
+Drive\` and `H:\My Drive\` were both mounted — two different Google accounts, with `G:` nearly
+empty and `H:` holding all the coursework.
+
+**This has now been "fixed" in both directions and both fixes were wrong**, because each asserted
+one letter as canonical:
+- this file once said *"the drive letter is `H:`, not `G:` — `G:` is a different Google account
+  and contains none of this material"*;
+- `courses/PLAN.md` records the mirror image — *"Stale drive letter fixed: … said `H:\…`; the
+  folder is on `G:`"*.
+
+Both observations were true **on the machine the agent happened to be on**. Neither generalises.
+
+**The rule: resolve it at runtime, never from a doc.** Probe for the drive whose `My Drive`
+actually contains the folder you want, e.g. `SupplementalCourseDocs`:
+
+```bash
+for d in g h; do [ -d "/$d/My Drive/SupplementalCourseDocs" ] && echo "${d^^}:" ; done
+```
+
+Every `G:\My Drive\...` path written throughout these docs (AGENT-PROMPT.md, DATA-MODEL.md,
+INGEST-HOWTO.md, PLAN.md, QUESTION-DOCTRINE.md, OATTS-TABLE-READING.md and below) is
+**illustrative of the layout, not a literal location**. Do not go rewrite them to the other
+letter — that is the loop this note exists to break.
+
+---
+
+## Calibration books (outside the repo, under `<DRIVE>:\My Drive\` — see the note above)
 
 | Anchor | File | Rule |
 |---|---|---|
@@ -397,6 +459,34 @@ describe SEVEN**, the seventh being **Situational Judgment**.
 | Trivium (164 pp) | **Native** | Clean. No OCR issues. |
 | Complete Study Guide (`.epub`, 28 files) | **Native** | Clean, ~280k chars. |
 | Barron's (700 pp) | **OCR'd library scan** | Body prose extracts well. ⚠ **Cover art, TOC dot leaders, table cells and math notation are mangled** (`517` → `Sy7`; the composite table lost every X mark). Never trust an OCR'd number or table from this book without eyeballing the page. |
+
+### 📷 HEIC photos: `sharp` CANNOT decode them — use Windows' own codec (2026-10-06)
+
+Trey photographs handouts on his iPhone, so source documents arrive as `.HEIC`. The obvious tool
+fails in a misleading way: **`sharp` reads the HEIC container fine** (`metadata()` returns
+`heif 3024x4032`, so it looks like it works) and then **throws on decode** —
+`Support for this compression format has not been built in`. The prebuilt sharp binary has no
+HEVC decoder. Reading the file off the Drive letter directly also emits `bad seek` noise; copy it
+to local disk first.
+
+**What works: Windows' own HEIF codec via WIC, from PowerShell.** No install needed.
+
+```powershell
+Add-Type -AssemblyName PresentationCore
+$s = [System.IO.File]::OpenRead($src)
+$d = [System.Windows.Media.Imaging.BitmapDecoder]::Create($s,
+      [System.Windows.Media.Imaging.BitmapCreateOptions]::PreservePixelFormat,
+      [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad)
+$e = New-Object System.Windows.Media.Imaging.PngBitmapEncoder
+$e.Frames.Add($d.Frames[0]); $o = [System.IO.File]::Create($dst); $e.Save($o); $o.Close()
+```
+
+Then sharp handles the PNG normally — crop into overlapping bands at ~1700px wide and Read those;
+a whole 3024x4032 page downscaled to fit loses small print. Same technique as the PDF recipe below.
+
+🔴 **`convert` is on PATH on Windows and it is NOT ImageMagick.** It resolves to
+`C:\Windows\system32\convert.exe`, the **FAT→NTFS filesystem converter**. Never invoke it for an
+image. `magick`, `ffmpeg` and `heif-convert` are all absent on Trey's machine.
 
 ### ⭐ PDF pages DO render — you can look at the figures yourself (2026-08-20)
 

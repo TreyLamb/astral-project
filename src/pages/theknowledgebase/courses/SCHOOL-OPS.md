@@ -28,6 +28,20 @@ Every status answer, in this order:
 
 Never answer from memory. Re-read §2–§5 and re-check the data freshness (§3) first.
 
+### 🔴 For ANY schedule / "what's due" answer: the live plan is NOT in this repo
+
+It is `<DRIVE>:\My Drive\SupplementalCourseDocs\_ChiefOfStaff\STATE.md` (newest entries at the bottom; standing rules + ALWAYS-REMIND list at the top) plus `LEDGER.md` (fresh Canvas capture vs plan). Read both before speaking, and **append to STATE.md as you go** — every new fact, date, decision or done item,
+the same turn (Trey, 2026-10-27: he switches devices often; chat that isn't written there is lost).
+`data/canvasSchedule.json` here can be weeks stale. Missed 2026-10-27: a brief built from the 09-18 snapshot had wrong quiz dates and no Exam 3, Retreat or OTS paperwork.
+
+### 🔔 Standing reminders: say these EVERY time he asks for his schedule
+
+Trey, 2026-10-21: *"remind me periodically when i ask for my schedule that i need to remove RDP
+from my OTS application."* Put these at the **top** of any schedule or status answer, one line each,
+until he says one is done. Then delete it from this list and add a dated line to the Log.
+
+- [ ] **Remove RDP from the OTS application.** (Added 2026-10-21.)
+
 ---
 
 ## 1. The three workstreams

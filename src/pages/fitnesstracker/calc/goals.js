@@ -19,16 +19,21 @@
 
 import { computePRs } from './pr';
 import { vdotFromRace } from './vdot';
+import { runProfile, translateEffort, DEFAULT_EXPONENT } from './performance';
 import { per100 } from './swim';
 import { oneRepMax } from './lift';
 
 // ---- baseline estimation (real formulas, real logged data) ----
 
-// Best current VDOT across any completed run that matches a standard PR bucket.
-// VDOT is Daniels' cross-distance fitness score, so the single highest value
-// across buckets is a fair "current fitness" baseline regardless of which
-// distance produced it.
-export function estimateRunBaseline(workouts) {
+// Current fitness AT THE GOAL'S DISTANCE. With real max efforts logged this is
+// the VDOT of the runner's own predicted time at that distance
+// (calc/performance.js): a fast mile no longer sets a 2-mile baseline as if
+// it would repeat. Without any flagged effort it falls back to the old
+// PR-bucket scan so a goal still pre-fills for someone who never tagged a test;
+// the field stays editable either way.
+export function estimateRunBaseline(workouts, targetDistanceM) {
+  const profile = runProfile(workouts);
+  if (profile) return profile.vdotAt(targetDistanceM || profile.anchor.distanceM);
   let best = null;
   for (const { pr } of computePRs(workouts, 'run')) {
     if (!pr) continue;
@@ -156,9 +161,14 @@ export function weekdayOffsets(daysPerWeek) {
 // call, against a SINGLE completed workout tied to a checkpoint, so a real
 // result and a baseline are always expressed in the same comparable unit.
 
-export function extractRunResult(workout) {
+// A checkpoint run at a different distance from the goal is first translated
+// to the goal distance through the runner's own exponent. Grading a mile time
+// trial straight off its VDOT would score it as if the mile pace held for the
+// whole goal distance.
+export function extractRunResult(workout, { targetDistanceM, k = DEFAULT_EXPONENT } = {}) {
   if (workout.activityType !== 'run' || !workout.distanceM || !workout.durationSec) return null;
-  return vdotFromRace(workout.distanceM, workout.durationSec);
+  if (!targetDistanceM) return vdotFromRace(workout.distanceM, workout.durationSec);
+  return vdotFromRace(targetDistanceM, translateEffort(workout.distanceM, workout.durationSec, targetDistanceM, k));
 }
 
 export function extractSwimResult(workout) {
@@ -184,9 +194,9 @@ export function extractLiftResult(workout, exerciseName) {
 // Generic/weight goals resolve "actual" from other sources (a manual override
 // field, or a BodyWeightLog) rather than from a workout's own fields — null
 // here is correct, not a gap.
-export function extractCheckpointResult(kind, workout, exerciseName) {
+export function extractCheckpointResult(kind, workout, exerciseName, runOpts) {
   switch (kind) {
-    case 'run': return extractRunResult(workout);
+    case 'run': return extractRunResult(workout, runOpts);
     case 'swim': return extractSwimResult(workout);
     case 'lift': return extractLiftResult(workout, exerciseName);
     default: return null;

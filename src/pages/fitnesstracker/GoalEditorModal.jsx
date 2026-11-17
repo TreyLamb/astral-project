@@ -70,7 +70,7 @@ export default function GoalEditorModal({ goal, onClose }) {
     if (goal?.kind === 'run' && goal.baselineValue) return secToClock(Math.round(equivalentRaceTime(goal.baselineValue, goal.targetDistanceM)));
     return '';
   });
-  const autoRunBaseline = estimateRunBaseline(workouts);
+  const autoRunBaseline = estimateRunBaseline(workouts, runDistanceM);
 
   // ---- swim (canonical seconds-per-100m, no pool-unit toggle here) ----
   const [swimTargetClock, setSwimTargetClock] = useState(() => (goal?.kind === 'swim' && goal.targetValue ? secToClock(Math.round(goal.targetValue)) : ''));
