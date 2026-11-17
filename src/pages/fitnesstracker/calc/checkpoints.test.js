@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import {
   daysBetween, resolveCadenceDates, shiftForRestDay, buildCheckpoints,
-  recomputeFrom, mostRecentTouchIndex, buildTaskSessions,
+  recomputeFrom, mostRecentTouchIndex, buildTaskSessions, formatCheckpointValue,
 } from './checkpoints';
+import { vdotFromRace } from './vdot';
 
 describe('resolveCadenceDates', () => {
   it('always includes start and deadline, even for a goal shorter than one cadence interval', () => {
@@ -116,5 +117,13 @@ describe('buildTaskSessions', () => {
     expect(sessions).not.toContain('2026-01-01');
     expect(sessions.length).toBeGreaterThan(0);
     expect(sessions.every((d) => d >= '2026-01-01' && d <= '2026-01-14')).toBe(true);
+  });
+});
+
+describe('formatCheckpointValue — run pace', () => {
+  it('shows the average pace over the goal distance, not the one-mile equivalent', () => {
+    const goal = { kind: 'run', targetDistanceM: 2 * 1609.344 };
+    const text = formatCheckpointValue(goal, vdotFromRace(goal.targetDistanceM, 13 * 60 + 56), { distance: 'mi' });
+    expect(text).toBe('13:56 at 2mi (6:58/mi)');
   });
 });

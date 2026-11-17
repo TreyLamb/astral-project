@@ -43,6 +43,44 @@ precision, and they follow two jobs at once: reading an instrument, and reportin
 > sig figs unless you're told otherwise or it's written in scientific notation (`1.00 × 10²` is
 > unambiguously 3).
 
+### 🔴 Why `(12.2 − 0.2) / 1.02` keeps 3 sig figs
+
+This single example settles the two-rule confusion better than any amount of rule-reciting, so
+work through it rather than memorising it.
+
+**`0.2` has exactly 1 significant figure** — leading zeros never count. So the instinct is that
+the whole calculation collapses to 1 sig fig. It does not, and the reason is the thing to learn:
+
+> **Significant figures do not survive a subtraction. Decimal places do.**
+> The "1 sig fig" of `0.2` never enters the calculation at all — it is the wrong currency for a
+> `+`/`−` step.
+
+| | |
+|---|---|
+| 1. Line up on the decimal point | `12.2` is reliable to the tenths. `0.2` is reliable to the tenths. So the difference is reliable to the tenths → `12.2 − 0.2 = 12.0` |
+| 2. **Re-count on the RESULT** | `12.0` has **3** sig figs: the 1, the 2, and a trailing zero with a decimal point shown |
+| 3. Only now switch rules | The next step is division, so sig figs apply: `12.0 ÷ 1.02` is 3 s.f. ÷ 3 s.f. → **3 s.f.** → `11.8` |
+
+**The intuition.** `+`/`−` care about **absolute** precision — which column your last trustworthy
+digit sits in. `×`/`÷` care about **relative** precision — how many digits you have. `0.2` is a
+*small* number, not a *sloppy* one: it is pinned to the tenths place just as tightly as `12.2` is.
+Its relative uncertainty is awful (±0.1 on 0.2 is 50%), but relative uncertainty is irrelevant to
+a subtraction.
+
+**It cuts both ways — never predict the count from the inputs.** Subtraction does not *protect*
+sig figs either; it can destroy them:
+
+```
+   12.2        ← 3 sig figs
+ − 12.1        ← 3 sig figs
+ -------
+    0.1        ← ONE sig fig
+```
+
+Same rule, opposite outcome, because those two values nearly cancelled. That is exactly why the
+procedure is: **finish the `+`/`−` step, then re-count the result, and only then carry it into the
+next operation.** You cannot know the answer's sig figs by looking at the inputs.
+
 ### Counting significant figures in a number you are handed
 
 The rules, in the order you apply them:

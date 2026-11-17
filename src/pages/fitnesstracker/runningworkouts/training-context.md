@@ -51,6 +51,43 @@ Used to reset training paces off real data instead of an assumed baseline.
 - Goal race pace: **1:45/400m**.
 - Cycle 1 specifically: both speed days kept light — strides + relaxed ~2:00 400s, nothing near max, no formal threshold yet (coming off time-trial soreness, still Phase 1 base-building anyway).
 
+## Benchmark log — every all-out run test, newest last (started 2026-10-21)
+
+**Append a row for every real all-out test.** This is the progress record. Per `guidelinesForecast.md`,
+real results are the only manual input. VDOT comes from `calc/vdot.js` → `vdotFromRace()`, never
+hand-estimated. Also log each test in the MFT app with **"time trial"** in the title or note. That
+is what makes `calc/fitness.js` → `measuredVdot()` count it, and without it the Current Fitness panel
+falls back to guessing from easy runs.
+
+| Date | Test | Time | Pace /mi | VDOT | Notes |
+|---|---|---|---|---|---|
+| 2026-08-01 | 1600m TT | 8:23 | ~8:26 | 33.0 | 91°F, 4,575 ft. Splits 1:56/2:07/2:14/2:06 (see section above) |
+| ~2026-09-08 | 2 mile | 19:00 | 9:30 | 30.6 | Date approximate ("3-ish weeks" before 9/29, Trey) |
+| 2026-09-29 | 2 mile | 18:11 | 9:06 | 32.2 | −49 s in ~3 weeks |
+| 2026-10-20 | 1 mile TT | 7:34 | 7:34 | 37.3 | Trey wrote it with a "?", so confirm it against the watch/track |
+| 2026-10-22 | 2 mile | _pending_ | | | Predicted **16:45–17:05**, see below |
+
+**Prediction for the 2026-10-22 2-mile, and why it is NOT the equivalency number.** Both standard
+calculators make a 7:34 mile into a faster 2-mile than he will run tomorrow. Daniels VDOT 37.3 gives
+**16:03** and Riegel gives **15:47**. Both assume a runner whose endurance matches his speed. Every
+test so far says Trey's doesn't: in August the limiter was diagnosed as aerobic endurance, not top
+speed, and his 2-mile VDOT has run 1–2.5 points below his short-test VDOT the whole time (33.0 at
+1600 m vs 30.6–32.2 at 2 miles). Taking that same gap off 37.3 lands at ~35, which is a **~16:50**
+2-mile. It also means a 2-mile/mile ratio of ~2.2, against ~2.1 for an aerobically trained runner.
+Also counted: the mile was only 48 h before this test (small residual fatigue).
+- Working target **16:50** (2:06/400, 8:25/mi). Floor: anything under 17:30 is a clear step up from 18:11.
+  Only a sub-16:30 would mean the endurance gap has actually closed.
+- ✅ **Fixed in the app 2026-10-21 (`calc/performance.js`).** The app used to take the BEST VDOT ever
+  logged and run every pace off it, so this mile alone would have prescribed paces for a 16:03 2-miler
+  (T 8:40/mi). Now it anchors on the most recent test and fits Trey's OWN fatigue factor (how much his
+  pace drops each time distance doubles) from tests at different distances. Each zone reads off that
+  curve at its own effort length: R at the mile, I at ~11 min, T at 60 min (capped at the longest
+  test actually run), and E from the I anchor. With these four tests the app shows a **2-mile of 16:41
+  (range 16:00–17:23)**, a factor of 1.140 (10.2% slower per doubling; a typical runner loses 4–6%),
+  T 8:59/mi, I 7:55/mi (1:58/400), R 7:11/mi (1:47/400), E 10:32–11:34/mi. The mile and the 18:11
+  2-mile are 21 days apart, so the fit is flagged "loose". The 10/22 2-mile, two days after the mile,
+  makes it a clean fit.
+
 ## Cycle structure — hard rules (settled, live in full in `cycle.md`)
 1. **3 lift SESSIONS per cycle, full stop — one chest, one legs, one back** (corrected 2026-08-04, see "Decisions — Lift A Count Correction" below; previously-ambiguous wording had let a second chest session get added). The A/B/C letters are just labels for which muscle group is which — not themselves a count. Order among the three doesn't matter, spacing does.
 2. Leg day ↔ Back day: **≥3 days** apart.

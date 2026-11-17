@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useFitness } from './fitnessContext';
-import { currentFitness, classifyPace, suggestsRecalibration } from './calc/fitness';
-import { trainingPaces, equivalentRaceTime, PACE_ZONE_LABELS } from './calc/vdot';
+import { currentFitness, classifyPace, suggestsRecalibration, isTimeTrial, MAX_EFFORT_RPE } from './calc/fitness';
+import { equivalentRaceTime, PACE_ZONE_LABELS } from './calc/vdot';
+import { slowdownPerDoubling, DEFAULT_EXPONENT } from './calc/performance';
 import { paceSecPerMeter } from './calc/pace';
 import { acwrRolling, acwrStatus } from './calc/load';
 import { fmtPace, fmtDist, paceUnitFor } from './format';
@@ -18,13 +19,52 @@ const TARGET_LABEL = '2-mile';
 // How far off target still counts as "on track" rather than "behind".
 const ON_TRACK_TOLERANCE_SEC = 20;
 
+const pct = (x) => `${(x * 100).toFixed(1)}%`;
+
+// How this runner's pace holds up as distance grows, in words. The number is
+// the pace cost of doubling distance: an average runner loses ~4-6%.
+function EnduranceProfile({ profile, unit }) {
+  const { exponent, anchor } = profile;
+  const tested = exponent.points.map((p) => `${fmtDist(p.distanceM, unit)} ${secToClock(p.timeSec)} (${p.date})`).join(' · ');
+  let body;
+  if (exponent.source === 'default') {
+    body = (
+      <>
+        Only one distance tested, so how your pace holds up over longer runs is <strong>not known yet</strong>.
+        The prediction assumes a typical recreational runner (fatigue factor {DEFAULT_EXPONENT}, ~{pct(slowdownPerDoubling(DEFAULT_EXPONENT))} slower
+        per doubling of distance) and shows a range. Run a test at a second distance, ideally within a week of this one, and it
+        will use YOUR number.
+      </>
+    );
+  } else {
+    body = (
+      <>
+        Your pace drops <strong>{pct(profile.slowdownPerDoubling)}</strong> each time distance doubles (fatigue
+        factor {exponent.k.toFixed(3)}; a typical runner loses ~4–6%). Fitted from: {tested}.
+        {exponent.source === 'loose' && (
+          <> These tests are {exponent.gapDays} days apart, so part of the gap is fitness changing in between. The
+          prediction splits the difference and shows a range. Two tests within a week pin it down.</>
+        )}
+        {exponent.clamped && <> The raw fit ({exponent.raw.toFixed(3)}) was outside any real runner&apos;s range and was capped.</>}
+      </>
+    );
+  }
+  return (
+    <p className="ft-cf-source">
+      <strong>Endurance profile.</strong> {body}
+      {profile.stale && <> <strong>Your newest test ({anchor.date}) is over six weeks old. Retest.</strong></>}
+    </p>
+  );
+}
+
 function VdotSource({ fit }) {
   if (fit.confidence === 'measured') {
     const w = fit.workout;
     return (
       <p className="ft-cf-source">
-        Measured from your {fit.via === 'timeTrial' ? 'time trial' : 'max-effort run'} on{' '}
-        <strong>{w.date}</strong> — {fmtDist(w.distanceM, 'mi')} in {secToClock(w.durationSec)}.
+        Anchored on your most recent {fit.via === 'timeTrial' ? 'time trial' : 'max-effort run'},{' '}
+        <strong>{w.date}</strong>: {fmtDist(w.distanceM, 'mi')} in {secToClock(w.durationSec)}. VDOT shown is for
+        your predicted {TARGET_LABEL}, not that run.
       </p>
     );
   }
@@ -51,21 +91,24 @@ export default function CurrentFitness() {
   const unit = settings.units.distance;
   const paceUnit = paceUnitFor(unit);
 
-  const fit = useMemo(() => currentFitness(workouts), [workouts]);
-  const paces = useMemo(() => (fit.vdot ? trainingPaces(fit.vdot) : null), [fit.vdot]);
+  const fit = useMemo(() => currentFitness(workouts, { targetDistanceM: TARGET_DISTANCE_M }), [workouts]);
+  const { paces, profile } = fit;
 
-  const predicted = useMemo(
-    () => (fit.vdot ? equivalentRaceTime(fit.vdot, TARGET_DISTANCE_M) : null),
-    [fit.vdot],
-  );
+  const predicted = useMemo(() => {
+    if (profile) return profile.predict(TARGET_DISTANCE_M).timeSec;
+    return fit.vdot ? equivalentRaceTime(fit.vdot, TARGET_DISTANCE_M) : null;
+  }, [fit.vdot, profile]);
   const predictedRange = useMemo(() => {
+    if (profile) return profile.predict(TARGET_DISTANCE_M).range;
     if (!fit.range || fit.confidence !== 'inferred') return null;
     // Faster VDOT => faster time, so the range inverts.
     return [equivalentRaceTime(fit.range[1], TARGET_DISTANCE_M), equivalentRaceTime(fit.range[0], TARGET_DISTANCE_M)];
-  }, [fit.range, fit.confidence]);
+  }, [fit.range, fit.confidence, profile]);
 
-  const acwr = useMemo(() => acwrRolling(workouts), [workouts]);
-  const acwrState = acwr != null ? acwrStatus(acwr) : null;
+  // acwrRolling returns { acute, chronic, ratio }. This panel used to treat it
+  // as a bare number and crashed whenever any fitness was derivable.
+  const acwr = useMemo(() => acwrRolling(workouts).ratio, [workouts]);
+  const acwrState = acwr != null ? acwrStatus(acwr).label : null;
 
   // Recent runs, classified against the current model. A run that lands well
   // outside its zone is the signal the model is stale (methodology.md rule 3).
@@ -77,10 +120,13 @@ export default function CurrentFitness() {
       .slice(0, 6)
       .map((w) => {
         const secPerM = paceSecPerMeter(w.distanceM, w.durationSec);
-        return { w, secPerM, cls: classifyPace(secPerM, fit.vdot),
-          recalibrate: suggestsRecalibration(secPerM, fit.vdot, 'E') };
+        // A max effort IS the model's input, so it can't be evidence the model
+        // is stale. Checking it against the easy band flagged every time trial.
+        const maxEffort = isTimeTrial(w) || (w.rpe ?? 0) >= MAX_EFFORT_RPE;
+        return { w, secPerM, cls: classifyPace(secPerM, paces),
+          recalibrate: !maxEffort && suggestsRecalibration(secPerM, paces, 'E') };
       });
-  }, [workouts, fit.vdot]);
+  }, [workouts, fit.vdot, paces]);
 
   const gapSec = predicted != null ? predicted - TARGET_TIME_SEC : null;
   const onTrack = gapSec != null && gapSec <= ON_TRACK_TOLERANCE_SEC;
@@ -124,6 +170,7 @@ export default function CurrentFitness() {
           </div>
 
           <VdotSource fit={fit} />
+          {profile && <EnduranceProfile profile={profile} unit={unit} />}
 
           <table className="ft-cf-paces">
             <thead>
@@ -138,7 +185,14 @@ export default function CurrentFitness() {
                 ['R', paces.R, 'Reps — speed and economy, full recovery.'],
               ].map(([zone, secPerM, why]) => (
                 <tr key={zone}>
-                  <td><span className={`ft-cf-zone ft-cf-zone-${zone}`}>{zone}</span> {PACE_ZONE_LABELS[zone]}</td>
+                  <td>
+                    <span className={`ft-cf-zone ft-cf-zone-${zone}`}>{zone}</span> {PACE_ZONE_LABELS[zone]}
+                    {profile?.zoneAnchors[zone]?.extrapolationCapped && (
+                      <span className="ft-cf-flag" title="Your longest test is shorter than this zone's effort, so it reads off that test instead of extrapolating. A longer test sharpens it.">
+                        {' '}from {fmtDist(profile.zoneAnchors[zone].distanceM, unit)} test
+                      </span>
+                    )}
+                  </td>
                   <td>
                     {zone === 'E'
                       ? `${fmtPace(paces.E[0], paceUnit)} – ${fmtPace(paces.E[1], paceUnit)}`

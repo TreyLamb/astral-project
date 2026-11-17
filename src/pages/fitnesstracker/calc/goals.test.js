@@ -4,6 +4,7 @@ import {
   weeksForPercentGain, forecastRunWeeks, forecastSwimWeeks, forecastLiftWeeks, forecastGenericWeeks,
   weekdayOffsets, extractRunResult, extractSwimResult, extractLiftResult,
 } from './goals';
+import { vdotFromRace } from './vdot';
 
 describe('estimateRunBaseline', () => {
   it('picks the highest VDOT across completed PR-bucket runs', () => {
@@ -113,5 +114,25 @@ describe('extractRunResult / extractSwimResult / extractLiftResult', () => {
   it('extractLiftResult is null without a matching exercise name', () => {
     const w = { activityType: 'lift', metrics: { exercises: [{ name: 'Squat', sets: [{ reps: 5, weightKg: 100 }] }] } };
     expect(extractLiftResult(w, 'Bench')).toBeNull();
+  });
+});
+
+describe('run goals use the personal curve', () => {
+  const MI = 1609.344;
+  const tt = (date, distanceM, durationSec) => ({ activityType: 'run', status: 'completed', title: 'time trial', date, distanceM, durationSec });
+  it('a fast mile does not set the 2-mile baseline when the 2-mile test says otherwise', () => {
+    const v = estimateRunBaseline([tt('2026-10-20', MI, 454), tt('2026-10-22', 2 * MI, 1010)], 2 * MI);
+    expect(v).toBeCloseTo(vdotFromRace(2 * MI, 1010), 6);
+    expect(v).toBeLessThan(vdotFromRace(MI, 454));
+  });
+  it('the baseline follows the newest test, not the best-ever one', () => {
+    const v = estimateRunBaseline([tt('2026-01-01', 2 * MI, 900), tt('2026-10-22', 2 * MI, 1010)], 2 * MI);
+    expect(v).toBeCloseTo(vdotFromRace(2 * MI, 1010), 6);
+  });
+  it('a checkpoint run at another distance is translated before it is graded', () => {
+    const w = { activityType: 'run', distanceM: MI, durationSec: 454 };
+    const graded = extractRunResult(w, { targetDistanceM: 2 * MI, k: 1.15 });
+    expect(graded).toBeCloseTo(vdotFromRace(2 * MI, 454 * Math.pow(2, 1.15)), 6);
+    expect(graded).toBeLessThan(extractRunResult(w));
   });
 });

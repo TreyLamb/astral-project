@@ -29,7 +29,7 @@ export function ChemReferenceContent() {
       {/* PerTable.jpg from his Drive folder — the OpenStax table, which is the one his AcademiQ
           text uses and the one the syllabus says is PROVIDED during quizzes. Worth having here
           precisely because he should practise with the same one he will sit the exam with. */}
-      <section className="chq-res-block">
+      <section className="chq-res-block chq-res-block--wide">
         <h3>Periodic table</h3>
         <p className="chq-res-sub">
           The same table you are given during quizzes. Tap to open full size — atomic masses are
@@ -62,15 +62,21 @@ export function ChemReferenceContent() {
       <section className="chq-res-block">
         <h3>Metric prefix ladder</h3>
         <p className="chq-res-sub">
-          Read it as one ladder, not nine separate facts. Below the base unit the exponents go
-          negative; past milli they step down by <strong>three</strong> at a time.
+          Read it as one ladder, not thirteen separate facts. The <strong>big</strong> end and the{' '}
+          <strong>small</strong> end both step by <strong>three</strong> at a time. The only
+          single-step rungs are the four clustered either side of the base unit —{' '}
+          <code>h</code>, <code>da</code>, <code>d</code>, <code>c</code> — and those four are the
+          ones people forget.
         </p>
         <table className="chq-res-table">
           <thead><tr><th>Prefix</th><th>Symbol</th><th>Factor</th><th>Meaning</th></tr></thead>
           <tbody>
+            <tr><td>tera</td><td><code>T</code></td><td>10<sup>12</sup></td><td>1 000 000 000 000</td></tr>
             <tr><td>giga</td><td><code>G</code></td><td>10<sup>9</sup></td><td>1 000 000 000</td></tr>
             <tr><td>mega</td><td><code>M</code></td><td>10<sup>6</sup></td><td>1 000 000</td></tr>
             <tr><td>kilo</td><td><code>k</code></td><td>10<sup>3</sup></td><td>1 000</td></tr>
+            <tr><td>hecto</td><td><code>h</code></td><td>10<sup>2</sup></td><td>100</td></tr>
+            <tr><td>deka (deca)</td><td><code>da</code></td><td>10<sup>1</sup></td><td>10</td></tr>
             <tr className="chq-res-base"><td>— base —</td><td></td><td>10<sup>0</sup></td><td>1</td></tr>
             <tr><td>deci</td><td><code>d</code></td><td>10<sup>−1</sup></td><td>0.1</td></tr>
             <tr><td>centi</td><td><code>c</code></td><td>10<sup>−2</sup></td><td>0.01</td></tr>
@@ -80,6 +86,12 @@ export function ChemReferenceContent() {
             <tr><td>pico</td><td><code>p</code></td><td>10<sup>−12</sup></td><td>0.000 000 000 001</td></tr>
           </tbody>
         </table>
+        <p className="chq-res-note">
+          <strong>Shape of the ladder:</strong> T · G · M · k are three apart going up; m · µ · n · p
+          are three apart going down. In between sit <code>h</code> (10<sup>2</sup>),{' '}
+          <code>da</code> (10<sup>1</sup>), <code>d</code> (10<sup>−1</sup>) and{' '}
+          <code>c</code> (10<sup>−2</sup>) — four consecutive single steps around the base unit.
+        </p>
         <p className="chq-res-note">
           <strong>From your class notes:</strong> 100 cm = 1 m, and 10 mm = 1 cm. Both fall out of
           the ladder — centi is 10<sup>−2</sup>, milli is 10<sup>−3</sup>.
@@ -191,6 +203,46 @@ export function ChemReferenceContent() {
         <p className="chq-res-warn">
           ⚠️ Mixing the two rules up is the most common sig-fig mistake there is. Addition does
           <strong> not</strong> use significant figures.
+        </p>
+
+        <h4>Worked: why <code>(12.2 − 0.2) / 1.02</code> keeps 3 sig figs</h4>
+        <p className="chq-res-sub">
+          This is the exact case that trips everyone, so it is worth having straight.{' '}
+          <strong>0.2 has only 1 significant figure</strong> — so how can the answer have three?
+        </p>
+        <ul className="chq-res-list">
+          <li>
+            <strong>Because sig figs do not survive a subtraction — decimal places do.</strong> The
+            "1 sig fig" of <code>0.2</code> never enters the calculation. It is the wrong currency
+            for a <code>+</code>/<code>−</code> step.
+          </li>
+          <li>
+            Line the numbers up on the decimal point. <code>12.2</code> is reliable to the tenths;{' '}
+            <code>0.2</code> is reliable to the tenths. So the difference is reliable to the
+            tenths: <code>12.2 − 0.2 = 12.0</code>.
+          </li>
+          <li>
+            <strong>Now re-count on the RESULT.</strong> <code>12.0</code> has 3 sig figs — the 1,
+            the 2, and a trailing zero with a decimal point shown.
+          </li>
+          <li>
+            Only now switch rules, because the next step is division: <code>12.0 ÷ 1.02</code>,
+            3 s.f. ÷ 3 s.f. → <strong>3 s.f.</strong> → <code>11.8</code>.
+          </li>
+        </ul>
+        <p className="chq-res-sub">
+          <strong>The intuition:</strong> <code>+</code>/<code>−</code> care about{' '}
+          <em>absolute</em> precision (which column your last trustworthy digit is in);{' '}
+          <code>×</code>/<code>÷</code> care about <em>relative</em> precision (how many digits).
+          <code> 0.2</code> is a <em>small</em> number, not a <em>sloppy</em> one — it is pinned to
+          the tenths just as tightly as <code>12.2</code> is.
+        </p>
+        <p className="chq-res-warn">
+          🔴 <strong>It cuts both ways — never predict the count from the inputs.</strong>{' '}
+          <code>12.2 − 12.1 = 0.1</code> turns two 3-sig-fig numbers into <strong>one</strong> sig
+          fig. Same rule, opposite outcome, because the two values nearly cancelled.{' '}
+          <strong>Always finish the <code>+</code>/<code>−</code> step first, then re-count the
+          result before you carry it into anything else.</strong>
         </p>
       </section>
 

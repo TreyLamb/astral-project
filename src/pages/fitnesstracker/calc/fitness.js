@@ -16,6 +16,7 @@
 // as such, and always beaten by a real time trial.
 
 import { vo2AtVelocity, vdotFromRace, PACE_FRACTIONS, trainingPaces } from './vdot';
+import { runProfile } from './performance';
 
 // RPE at or above this is treated as a maximal effort worth deriving VDOT from.
 // 9 = "very hard, could not hold much longer" on this app's RPE_LEGEND.
@@ -77,18 +78,23 @@ export function impliedVdotFromReps(repDistanceM, repTimeSec) {
 // filter here is effort FIRST (flagged time trial, or max-effort RPE), distance
 // second. This is why a fresh install reports "no qualifying effort" instead of
 // a confident wrong number.
+//
+// Returns the MOST RECENT qualifying effort, not the best. It used to return
+// the highest VDOT ever logged, so a single fast mile set every pace in the
+// app indefinitely, as if that mile both repeated over longer distances and
+// never went stale (calc/performance.js has the full reasoning).
 export function measuredVdot(workouts, activityType = 'run') {
-  let best = null;
+  let latest = null;
   for (const w of workouts ?? []) {
     if (!isRun(w, activityType) || !w.distanceM || !w.durationSec) continue;
     const tt = isTimeTrial(w);
     if (!tt && (w.rpe ?? 0) < MAX_EFFORT_RPE) continue;
     const vdot = vdotFromRace(w.distanceM, w.durationSec);
-    if (vdot && (!best || vdot > best.vdot)) {
-      best = { vdot, workout: w, via: tt ? 'timeTrial' : 'rpe' };
+    if (vdot && (!latest || String(w.date ?? '') >= String(latest.workout.date ?? ''))) {
+      latest = { vdot, workout: w, via: tt ? 'timeTrial' : 'rpe' };
     }
   }
-  return best;
+  return latest;
 }
 
 // INFERRED: bound VDOT from ordinary easy runs. Only runs that were actually
@@ -112,41 +118,62 @@ export function inferredVdotFromEasy(workouts, { activityType = 'run', maxRpe = 
 }
 
 // The composite answer the UI asks for.
-//   confidence 'measured' — a real max effort exists, use it.
+//   confidence 'measured' — real max efforts exist. Predictions and paces come
+//                           off the runner's own curve (calc/performance.js),
+//                           and `vdot` is the VDOT of the predicted time AT
+//                           opts.targetDistanceM, so it never claims a fast
+//                           short test carries over unchanged.
 //   confidence 'inferred' — only easy runs; VDOT is a range, midpoint reported.
 //   confidence 'none'     — nothing usable logged.
 export function currentFitness(workouts, opts = {}) {
-  const measured = measuredVdot(workouts, opts.activityType);
-  if (measured) {
+  const profile = runProfile(workouts, opts);
+  if (profile) {
+    const { anchor } = profile;
+    const target = opts.targetDistanceM ?? anchor.distanceM;
+    const { range } = profile.predict(target);
+    const vdot = profile.vdotAt(target);
     return {
-      vdot: measured.vdot,
-      range: [measured.vdot, measured.vdot],
+      vdot,
+      // Faster time => higher VDOT, so the time range inverts.
+      range: range ? [vdotFromRace(target, range[1]), vdotFromRace(target, range[0])] : [vdot, vdot],
       confidence: 'measured',
-      via: measured.via,
-      workout: measured.workout,
-      needsTimeTrial: false,
+      via: anchor.via,
+      workout: anchor.workout,
+      paces: profile.paces,
+      profile,
+      needsTimeTrial: profile.stale,
     };
   }
   const easy = inferredVdotFromEasy(workouts, opts);
   if (easy) {
     const [lo, hi] = easy.range;
+    const vdot = (lo + hi) / 2;
     return {
-      vdot: (lo + hi) / 2,
+      vdot,
       range: easy.range,
       confidence: 'inferred',
       via: 'easyRuns',
       workout: easy.workouts[0],
       samples: easy.samples,
+      paces: trainingPaces(vdot),
+      profile: null,
       needsTimeTrial: true,
     };
   }
-  return { vdot: null, range: null, confidence: 'none', via: null, workout: null, needsTimeTrial: true };
+  return { vdot: null, range: null, confidence: 'none', via: null, workout: null, paces: null, profile: null, needsTimeTrial: true };
+}
+
+// Both take either a VDOT or a paces object, because a personal profile's
+// zones no longer all share one VDOT.
+function pacesFrom(vdotOrPaces) {
+  if (typeof vdotOrPaces === 'number') return trainingPaces(vdotOrPaces);
+  return vdotOrPaces ?? null;
 }
 
 // Which training zone a pace actually landed in, and how far off the nearest
 // zone it was. Drives the "you ran this faster/slower than prescribed" flag.
-export function classifyPace(secPerM, vdot) {
-  const paces = vdot ? trainingPaces(vdot) : null;
+export function classifyPace(secPerM, vdotOrPaces) {
+  const paces = pacesFrom(vdotOrPaces);
   if (!paces || !secPerM) return null;
   const points = [
     { zone: 'E', secPerM: (paces.E[0] + paces.E[1]) / 2, range: paces.E },
@@ -169,8 +196,8 @@ export function classifyPace(secPerM, vdot) {
 // Does a session imply we are under-rating current fitness? True when a run
 // that should have been in `expectedZone` came in materially faster than that
 // zone's pace — the trigger for re-deriving, per methodology.md rule 3.
-export function suggestsRecalibration(secPerM, vdot, expectedZone, tolerance = 0.03) {
-  const paces = vdot ? trainingPaces(vdot) : null;
+export function suggestsRecalibration(secPerM, vdotOrPaces, expectedZone, tolerance = 0.03) {
+  const paces = pacesFrom(vdotOrPaces);
   if (!paces || !secPerM || !expectedZone) return false;
   const target = expectedZone === 'E' ? paces.E[1] : paces[expectedZone];
   if (!target) return false;

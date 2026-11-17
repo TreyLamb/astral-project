@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dress &amp; Grooming Standards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    color-scheme:light dark;
+    --ground:#F5F6F8; --surface:#FFFFFF; --surface-2:#EDEFF3;
+    --ink:#161B22; --ink-2:#3E4854; --ink-3:#6B7683;
+    --rule:#D6DBE2; --rule-2:#C0C7D1;
+    --accent:#1F4E79; --accent-soft:#E4EDF5;
+    --brass:#8A6520; --brass-soft:#F5EDDC;
+    --flag:#8C2F2F; --flag-soft:#F7E6E6;
+    --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+    --f-body:"Source Serif 4",Georgia,serif;
+    --f-mono:"IBM Plex Mono",Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0D1218; --surface:#141B23; --surface-2:#1B242E;
+      --ink:#E7ECF2; --ink-2:#B3BDC9; --ink-3:#7F8B99;
+      --rule:#27323E; --rule-2:#36434F;
+      --accent:#7FB2DC; --accent-soft:#16283A;
+      --brass:#D2A759; --brass-soft:#2A2213;
+      --flag:#E08585; --flag-soft:#2E1A1A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0D1218; --surface:#141B23; --surface-2:#1B242E;
+    --ink:#E7ECF2; --ink-2:#B3BDC9; --ink-3:#7F8B99;
+    --rule:#27323E; --rule-2:#36434F;
+    --accent:#7FB2DC; --accent-soft:#16283A;
+    --brass:#D2A759; --brass-soft:#2A2213;
+    --flag:#E08585; --flag-soft:#2E1A1A;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px 72px;}
+  header.mast{border-bottom:3px solid var(--accent);padding:34px 0 18px;margin-bottom:30px;}
+  .eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;}
+  .eyebrow b{color:var(--accent);font-weight:600;}
+  h1{font-family:var(--f-display);font-weight:700;font-size:clamp(36px,7vw,64px);line-height:.98;margin:0;text-transform:uppercase;text-wrap:balance;}
+  .cols{display:block;}
+  @media(min-width:1000px){.cols{display:grid;grid-template-columns:240px minmax(0,1fr);gap:52px;align-items:start;}}
+  nav.toc{display:none;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;font-family:var(--f-mono);font-size:12.5px;line-height:1.45;border-left:2px solid var(--rule);padding-left:14px;}
+  @media(min-width:1000px){nav.toc{display:block;}}
+  nav.toc a{display:block;color:var(--ink-3);text-decoration:none;padding:3px 0;}
+  nav.toc a.h3{padding-left:12px;font-size:11.5px;}
+  nav.toc a:hover{color:var(--accent);}
+  details.mtoc{margin-bottom:28px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:10px 14px;font-family:var(--f-mono);font-size:13px;}
+  details.mtoc summary{cursor:pointer;color:var(--accent);font-weight:600;}
+  details.mtoc a{display:block;color:var(--ink-2);text-decoration:none;padding:4px 0;}
+  details.mtoc a.h3{padding-left:14px;color:var(--ink-3);}
+  @media(min-width:1000px){details.mtoc{display:none;}}
+  main, .eyebrow{min-width:0;overflow-wrap:anywhere;}
+  h2{font-family:var(--f-display);text-transform:uppercase;font-weight:700;font-size:clamp(25px,4.2vw,34px);line-height:1.08;margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--rule);scroll-margin-top:20px;text-wrap:balance;}
+  main > h2:first-of-type{margin-top:0;}
+  h3{font-family:var(--f-display);text-transform:uppercase;font-weight:600;font-size:21px;letter-spacing:.02em;color:var(--accent);margin:30px 0 8px;scroll-margin-top:20px;}
+  p{margin:0 0 14px;}
+  ul,ol{margin:0 0 16px;padding-left:24px;}
+  li{margin:5px 0;}
+  li > ul{margin:4px 0;}
+  strong{font-weight:600;color:var(--ink);}
+  em{color:var(--ink-2);}
+  a{color:var(--accent);text-underline-offset:2px;overflow-wrap:anywhere;}
+  hr{display:none;}
+  blockquote{margin:0 0 20px;padding:14px 18px;background:var(--brass-soft);border-left:4px solid var(--brass);border-radius:0 6px 6px 0;}
+  blockquote p:last-child{margin:0;}
+  .flag{background:var(--flag-soft);color:var(--flag);font-family:var(--f-mono);font-size:.78em;font-weight:600;letter-spacing:.04em;padding:1px 6px;border-radius:3px;vertical-align:middle;}
+  main > p:first-of-type, main > p:nth-of-type(2){background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:12px 16px;font-size:15.5px;color:var(--ink-2);}
+  .qa ol > li{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin:10px 0;list-style-position:inside;}
+  .qa ol{padding-left:0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="mast">
+  <div class="eyebrow"><b>AFROTC Fundamentals 6.1&ndash;6.3</b> &middot; DAFI 36-2903 thru DAFGM 2026-02 &middot; researched 3 Sep 2026</div>
+  <h1>6.1–6.3 Dress, Personal Appearance &amp; Grooming Standards (AFROTC / DAF)</h1>
+</header>
+<div class="cols">
+<nav class="toc" aria-label="Contents">
+<a class="h2" href="#6-1-when-it-is-inappropriate-to-wear-the-uniform">6.1 — When It Is INAPPROPRIATE to Wear the Uniform</a>
+<a class="h2" href="#6-2-current-daf-grooming-standards-verified-against-the-feb-2026-revision">6.2 — Current DAF Grooming Standards (verified against the Feb 2026 revision)</a>
+<a class="h3" href="#men-s-hair">Men's Hair</a>
+<a class="h3" href="#sideburns-tightened-verify-this-is-the-current-rule">Sideburns <span class="flag">TIGHTENED</span></a>
+<a class="h3" href="#mustaches-tightened">Mustaches <span class="flag">TIGHTENED</span></a>
+<a class="h3" href="#beards-shaving-waivers-critical-multiple-2025-2026-changes-flagged">Beards / Shaving Waivers — CRITICAL, MULTIPLE 2025–2026 CHANGES (flagged)</a>
+<a class="h3" href="#women-s-hair-2021-standard-unchanged-by-the-2025-2026-gm-confirmed-not-on-the-changed-list">Women's Hair (2021+ standard, unchanged by the 2025–2026 GM — confirmed not on the "Changed" list)</a>
+<a class="h3" href="#fingernails">Fingernails</a>
+<a class="h3" href="#cosmetics">Cosmetics</a>
+<a class="h3" href="#jewelry-earrings-watches-rings-bracelets-necklaces">Jewelry, Earrings, Watches, Rings, Bracelets, Necklaces</a>
+<a class="h3" href="#tattoos-brands-body-art">Tattoos, Brands, Body Art</a>
+<a class="h3" href="#body-piercing-dental-ornamentation-alteration">Body Piercing, Dental Ornamentation, Alteration</a>
+<a class="h3" href="#eyeglasses-sunglasses-contact-lenses">Eyeglasses / Sunglasses / Contact Lenses</a>
+<a class="h2" href="#6-3-afrotc-daf-dress-and-appearance-standards">6.3 — AFROTC &amp; DAF Dress and Appearance Standards</a>
+<a class="h3" href="#uniform-combinations-cadets-wear">Uniform Combinations Cadets Wear</a>
+<a class="h3" href="#ocp-configuration-base-dafi-afrotc-specific">OCP Configuration (base DAFI + AFROTC-specific)</a>
+<a class="h3" href="#ribbons-badges-nametag-placement-highlights">Ribbons, Badges, Nametag Placement (highlights)</a>
+<a class="h3" href="#everyday-bearing-conduct-rules">Everyday Bearing / Conduct Rules</a>
+<a class="h3" href="#headgear-when-worn-removed">Headgear — When Worn / Removed</a>
+<a class="h3" href="#afrotc-specific-notes">AFROTC-Specific Notes</a>
+<a class="h2" href="#confidence-sources">Confidence &amp; Sources</a>
+<a class="h2" href="#most-likely-test-questions">Most Likely Test Questions</a>
+</nav>
+<main>
+<details class="mtoc"><summary>Contents</summary>
+<a class="h2" href="#6-1-when-it-is-inappropriate-to-wear-the-uniform">6.1 — When It Is INAPPROPRIATE to Wear the Uniform</a>
+<a class="h2" href="#6-2-current-daf-grooming-standards-verified-against-the-feb-2026-revision">6.2 — Current DAF Grooming Standards (verified against the Feb 2026 revision)</a>
+<a class="h3" href="#men-s-hair">Men's Hair</a>
+<a class="h3" href="#sideburns-tightened-verify-this-is-the-current-rule">Sideburns <span class="flag">TIGHTENED</span></a>
+<a class="h3" href="#mustaches-tightened">Mustaches <span class="flag">TIGHTENED</span></a>
+<a class="h3" href="#beards-shaving-waivers-critical-multiple-2025-2026-changes-flagged">Beards / Shaving Waivers — CRITICAL, MULTIPLE 2025–2026 CHANGES (flagged)</a>
+<a class="h3" href="#women-s-hair-2021-standard-unchanged-by-the-2025-2026-gm-confirmed-not-on-the-changed-list">Women's Hair (2021+ standard, unchanged by the 2025–2026 GM — confirmed not on the "Changed" list)</a>
+<a class="h3" href="#fingernails">Fingernails</a>
+<a class="h3" href="#cosmetics">Cosmetics</a>
+<a class="h3" href="#jewelry-earrings-watches-rings-bracelets-necklaces">Jewelry, Earrings, Watches, Rings, Bracelets, Necklaces</a>
+<a class="h3" href="#tattoos-brands-body-art">Tattoos, Brands, Body Art</a>
+<a class="h3" href="#body-piercing-dental-ornamentation-alteration">Body Piercing, Dental Ornamentation, Alteration</a>
+<a class="h3" href="#eyeglasses-sunglasses-contact-lenses">Eyeglasses / Sunglasses / Contact Lenses</a>
+<a class="h2" href="#6-3-afrotc-daf-dress-and-appearance-standards">6.3 — AFROTC &amp; DAF Dress and Appearance Standards</a>
+<a class="h3" href="#uniform-combinations-cadets-wear">Uniform Combinations Cadets Wear</a>
+<a class="h3" href="#ocp-configuration-base-dafi-afrotc-specific">OCP Configuration (base DAFI + AFROTC-specific)</a>
+<a class="h3" href="#ribbons-badges-nametag-placement-highlights">Ribbons, Badges, Nametag Placement (highlights)</a>
+<a class="h3" href="#everyday-bearing-conduct-rules">Everyday Bearing / Conduct Rules</a>
+<a class="h3" href="#headgear-when-worn-removed">Headgear — When Worn / Removed</a>
+<a class="h3" href="#afrotc-specific-notes">AFROTC-Specific Notes</a>
+<a class="h2" href="#confidence-sources">Confidence &amp; Sources</a>
+<a class="h2" href="#most-likely-test-questions">Most Likely Test Questions</a>
+</details>
+
+<p><strong>Research date:</strong> 2026-09-03
+<strong>Primary source verified:</strong> DAFI 36-2903, <em>Dress and Personal Appearance of Department of the Air Force Personnel</em>, base document dated <strong>29 February 2024</strong> (corrective actions applied 13 March 2024), <strong>as amended by DAFGM 2026-02 (19 February 2026)</strong>, which itself incorporated <strong>DAFGM 2026-01 (9 January 2026)</strong> and an earlier <strong>DAFGM approved 29 October 2025</strong>. This is the version in effect as of 3 September 2026. Where a rule was changed by the 2025–2026 memoranda, that is called out explicitly below.</p>
+<p>Secondary source: <strong>DAFI36-2903_AFROTCSUP</strong> (AFROTC Supplement), dated <strong>18 November 2021</strong> — the most current AFROTC-specific supplement found. <span class="flag">FLAG</span> this supplement text is dated 2021 and cross-references the older 7 Feb 2020 DAFI, so it predates the 2024 DAFI rewrite and the 2025–2026 grooming changes. Its AFROTC-only content (rank insignia placement, patches, flight cap, ribbons) is not contradicted by the newer DAFI changes I found (which only touched hair/mustache/beard/nails/cosmetics/tattoos/boots/T-shirt/duty patches), so it is used for uniform-combination and insignia-placement specifics, but treat it as the weaker/older authority if a cadet&#x27;s detachment gives different current guidance.</p>
+<hr/>
+<h2 id="6-1-when-it-is-inappropriate-to-wear-the-uniform">6.1 — When It Is INAPPROPRIATE to Wear the Uniform</h2>
+<p>Per <strong>DAFI 36-2903, paragraph 1.4, &quot;When NOT to Wear the Air Force Uniform&quot;</strong> (this paragraph was <strong>not</strong> modified by the 2025–2026 guidance memoranda — confirmed unchanged):</p>
+<ol>
+<li><strong>1.4.1</strong> — At a meeting of, or sponsored by, an organization/association/movement/group that:
+<ul>
+<li><strong>1.4.1.1</strong> The U.S. Attorney General has named as totalitarian, fascist, communist, or subversive.</li>
+<li><strong>1.4.1.2</strong> Advocates or approves acts of force or violence to deny others their constitutional rights.</li>
+<li><strong>1.4.1.3</strong> Seeks to change the U.S. Government by unconstitutional means.</li>
+</ul>
+</li>
+<li><strong>1.4.2</strong> — Except when authorized by AF/A1, while participating in unofficial public speeches, interviews, <strong>picket lines, marches, rallies, or any public demonstration</strong> that may imply Air Force sanction of the cause.</li>
+<li><strong>1.4.3</strong> — At any public meeting, demonstration, march, rally, or interview if the purpose may be to <strong>advocate, express, or approve opposition to the Armed Forces</strong>.</li>
+<li><strong>1.4.4</strong> — When it would <strong>discredit the Armed Forces</strong>.</li>
+<li><strong>1.4.5</strong> — When discharged for bad conduct, undesirability, unsuitability, inaptitude, or otherwise not honorably — do not wear the uniform after such a discharge.</li>
+<li><strong>1.4.6</strong> — While <strong>furthering political activities, private employment, or commercial interest</strong>.</li>
+<li><strong>1.4.7</strong> — While <strong>working in an off-duty, civilian capacity</strong>.</li>
+<li><strong>1.4.8</strong> — While participating in <strong>civilian court proceedings</strong> when the conviction would discredit the Air Force.</li>
+<li><strong>1.4.9</strong> — While in <strong>civilian attire</strong> — do not combine civilian and military clothing/unique items (rank insignia, cap devices, badges, U.S./AF insignia, buttons, etc.). <em>Exception:</em> tie tacks and lapel pins are authorized with business attire.</li>
+<li><strong>1.4.10</strong> — When wearing <strong>uniform-item combinations not specifically prescribed</strong> in the DAFI.</li>
+<li><strong>1.4.11</strong> — When uniform items <strong>do not meet DAF specifications</strong>.</li>
+<li><strong>1.4.12</strong> — Do <strong>not</strong> wear the <strong>OCP or Flight Duty Uniform</strong> when eating at off-base establishments where most diners wear business attire, or at establishments that <strong>operate primarily to serve alcohol</strong> (i.e., bars/liquor establishments — OCP/FDU is barred there; short convenience stops and dining where patrons wear comparable casual/work clothing are allowed, per para. 1.3 and AFROTC Sup. 1.2.12.1.1).</li>
+<li><strong>1.4.13</strong> — DAF personnel may <strong>not</strong> wear the uniform when using frequent flyer miles to upgrade to business/first class, even if the upgrade is otherwise legitimate.</li>
+</ol>
+<p><strong>AFROTC-specific addition (AFROTCSUP 1.4.14 — &quot;When NOT to wear the AFROTC Uniform&quot;):</strong> Det/CCs have discretion to enforce a professional military image and may further restrict uniform wear as necessary. A cadet who fails a BMI or body-fat check may still wear the uniform if a current <em>passing</em> PFA (fitness assessment) is on file.</p>
+<p>Related context also worth knowing for the exam:</p>
+<ul>
+<li>Uniform is <strong>optional</strong> (not prohibited) during commercial-air travel CONUS/AK/HI in service dress, blues, or OCP — but the <strong>Flight Duty Uniform may never be worn on commercial aircraft</strong> (DAFI 1.3.1). AFROTC cadets specifically <strong>may not wear any AFROTC uniform on commercial aircraft</strong> unless directed (AFROTCSUP 1.3.4.1).</li>
+<li>Civilian clothing worn in lieu of a uniform during official travel must still be neat/clean — no ripped/torn/frayed clothing, tank tops, extremely short shorts/skirts, undergarments as outerwear, bathing suits, or revealing/obscene garments (1.3.1.3).</li>
+</ul>
+<hr/>
+<h2 id="6-2-current-daf-grooming-standards-verified-against-the-feb-2026-revision">6.2 — Current DAF Grooming Standards (verified against the Feb 2026 revision)</h2>
+<blockquote>
+<p><strong>IMPORTANT CONTEXT FOR THE CADET:</strong> Late 2025–early 2026 saw the most significant grooming-standard tightening in years, driven by SecDef/SecWar Hegseth&#x27;s grooming directive. Sideburns, mustaches, and shaving-waiver policy were all tightened from the looser 2021–2022 standards. The numbers below are the <strong>current, tightened</strong> standards effective now.</p>
+</blockquote>
+<h3 id="men-s-hair">Men&#x27;s Hair</h3>
+<ul>
+<li>Tapered appearance on sides/back of head from all angles, curving inward to a natural termination point — no eccentric directional flow, twists, or spiking.</li>
+<li>Block-cut permitted <strong>if</strong> tapered.</li>
+<li><strong>Bulk: not to exceed 2½ inches</strong>, regardless of length, and <strong>¼ inch at the natural termination point</strong>.</li>
+<li>Only closely cut/shaved hair at the back of the neck may touch the collar.</li>
+<li>Hair must <strong>not touch the ears</strong> or protrude under the front band of headgear.</li>
+<li>Clean-shaven heads, high-and-tight, and flattop cuts are authorized.</li>
+<li>One optional straight-line part (cut/clipped/shaved), not slanted/curved, above the temple: <strong>max 4 inches long, ¼ inch wide</strong>.</li>
+</ul>
+<h3 id="sideburns-tightened-verify-this-is-the-current-rule">Sideburns <span class="flag">TIGHTENED</span></h3>
+<ul>
+<li><strong>Current (post-Jan 2026 GM):</strong> &quot;If worn, sideburns will be straight and even width (not flared) and will be <strong>above the ear opening</strong>. Sideburns will end in a clean-shaven horizontal line.&quot;</li>
+<li>This replaced the looser 2024-base wording (&quot;will not extend below the bottom of the orifice of the ear opening&quot;) — i.e., sideburns can no longer run down to/past the ear opening; they must stop above it. <strong>This is a real tightening — do not use the old wording.</strong></li>
+</ul>
+<h3 id="mustaches-tightened">Mustaches <span class="flag">TIGHTENED</span></h3>
+<ul>
+<li>Male members may wear mustaches.</li>
+<li><strong>Current:</strong> No portion may extend below the upper-lip line, and it <strong>must not go beyond the corners of the mouth</strong> or into a respirator seal zone. Must be neatly trimmed and match natural head-hair color.</li>
+<li>This removed the prior allowance of extending &quot;no more than ¼-inch beyond a vertical line drawn from the corner of the mouth&quot; — the ¼-inch grace is <strong>gone</strong>.</li>
+<li><strong>Handlebar styles, twists, curls, and goatees are strictly prohibited.</strong></li>
+</ul>
+<h3 id="beards-shaving-waivers-critical-multiple-2025-2026-changes-flagged">Beards / Shaving Waivers — CRITICAL, MULTIPLE 2025–2026 CHANGES (flagged)</h3>
+<ul>
+<li><strong>Baseline rule:</strong> Male members must be clean-shaven at the start of each duty day. <strong>Beards are not authorized</strong> except:
+<ul>
+<li>For <strong>medical reasons</strong>, when recommended/authorized by a medical official and approved by the unit commander, <strong>or</strong></li>
+<li>Under an approved <strong>religious accommodation</strong> (governed by DAFI Ch. 11; unaffected by the medical-waiver tightening below).</li>
+</ul>
+</li>
+<li>When medically authorized, facial hair must be uniformly trimmed and <strong>may not exceed ¼ inch in length</strong>; no shaping into goatees/faded beards; must look natural (no bleach/dye).</li>
+<li><strong>Medical shaving-waiver (PFB) policy timeline — verify before test day, this is evolving fast:</strong>
+<ul>
+<li><strong>1 March 2025:</strong> New medical shaving-profile guidance took effect, distinguishing mild/moderate/severe pseudofolliculitis barbae (PFB) cases; profiles began expiring <strong>90 days after the member&#x27;s next Periodic Health Assessment</strong> rather than being issued for up to 5 years.</li>
+<li><strong>All shaving profiles issued before 1 March 2025 became invalid as of 31 January 2026.</strong></li>
+<li><strong>31 January 2026:</strong> New DoD/DAF-wide grooming standards (the tightened mustache/sideburn rules above) took effect.</li>
+<li>Under the tightened rules, <strong>no single shaving profile may exceed a 6-month period</strong>, and long-term profiles require approval by a <strong>senior profiling officer</strong>.</li>
+<li><strong>1 February 2026:</strong> Enforcement began of a rule that members accumulating <strong>more than 12 months of shaving profile within a rolling 24-month period</strong> (starting 1 Feb 2026 or their first profile date, whichever is later) are referred to their commander.</li>
+<li><strong>A later memo (reported effective 28 July 2026)</strong> formalized the separation process: commanders of members who exceed the 12-of-24-month threshold and still cannot meet standards must either <strong>initiate involuntary administrative separation</strong> or submit a <strong>retention recommendation</strong> up the chain. Members separated <em>solely</em> for the medical condition receive an <strong>honorable discharge</strong> (absent willful disregard of policy). Commissioned officers must first receive formal counseling and a chance to correct deficiencies. Commanders may retain a member case-by-case for &quot;compelling government interest&quot; (critical/undermanned specialty, high replacement cost, near-retirement, etc.).</li>
+<li><strong>Religious-accommodation beard waivers are explicitly exempt</strong> from all of the above — this policy only tightens <em>medical</em> shaving waivers.</li>
+</ul>
+</li>
+<li><strong>BOTTOM LINE for the test:</strong> Beards are not authorized without a medical or religious waiver; medical (PFB) waivers are no longer indefinite — they&#x27;re capped, tracked, and can now lead to separation if a member can&#x27;t return to standards. This is a genuinely new and heavily-reported policy change — expect it to be tested.</li>
+</ul>
+<h3 id="women-s-hair-2021-standard-unchanged-by-the-2025-2026-gm-confirmed-not-on-the-changed-list">Women&#x27;s Hair (2021+ standard, unchanged by the 2025–2026 GM — confirmed not on the &quot;Changed&quot; list)</h3>
+<ul>
+<li>Applies to females and to males with an approved unshorn-hair religious accommodation.</li>
+<li><strong>No minimum length.</strong> Maximum bulk: <strong>4 inches from the scalp</strong>, and must still allow proper wear of headgear.</li>
+<li>Must present a symmetric or tapered appearance from all angles.</li>
+<li>Hair must end above the bottom edge of the collar and not extend below a line parallel to the ground (front-to-back and side-to-side) <strong>unless</strong> pulled back/secured or worn in an authorized ponytail/equivalent or long braid(s).</li>
+<li><strong>When pulled back and secured behind the head</strong> (not gathered at the crown/top of head): radius <strong>not to exceed 6 inches to either side</strong> of the gather point (<strong>12 inches total width</strong>), <strong>6 inches of bulk</strong>, and must still allow proper headgear fit.</li>
+<li><strong>One or two braids, or a single ponytail/equivalent</strong>, may be worn down the back — length <strong>must not extend below a horizontal line running under the arms through the shoulder blades</strong>, and may not be worn over the shoulder or pulled to the front.</li>
+<li>Bangs/side-swept hair may touch the eyebrows but not touch or cover the eyes.</li>
+<li><strong>Exception:</strong> in PT Gear, long hair must be secured but loose ends may extend past that shoulder-blade line.</li>
+<li><strong>Buns:</strong> must be a single bun, no loose ends, positioned so it doesn&#x27;t start at the crown or sit on top of the head; must still allow headgear to fit.</li>
+<li><strong>Hair accessories:</strong> must be black or match hair color (scrunchies, pins, combs, clips, headbands, elastic bands, barrettes). Invisible/hair-colored hairnets authorized. <strong>Headbands/scrunchies max 2 inches wide.</strong> No ornaments (ribbons, beads, jeweled pins).</li>
+<li><strong>Locs, braids, twists, micro-braids, French braids, Dutch braids, cornrows</strong> are authorized. Added hair must be a natural-looking color matching the member&#x27;s own. When worn individually: <strong>uniform dimension, no wider than 1 inch</strong>, natural spacing, tightly interwoven. When gathered into 1–2 braids/ponytail: <strong>no larger than ¼-inch diameter, no more than ¼ inch of visible scalp</strong> between sections.</li>
+<li>Unauthorized hair colors (both sexes): burgundy, purple, orange, fluorescent/neon, ombré, or unnatural two-tone combinations (e.g., black w/ blonde highlights).</li>
+<li>Unauthorized styles: mohawk, mullet, etched designs. <strong>Males only:</strong> dreadlocks, coils, braids, twists, designs, extensions are <strong>not</strong> authorized (locs/braids/twists are a female-only allowance). <strong>Females only:</strong> partially shaved sides/back with long hair on top requiring a ponytail/bun/braid to cover it is prohibited.</li>
+</ul>
+<h3 id="fingernails">Fingernails</h3>
+<ul>
+<li><strong>Max length: ¼ inch beyond the fingertip</strong>, clean and well-groomed; must not interfere with duties or safety-equipment/uniform fit.</li>
+<li><strong>Male Airmen: no nail polish, period.</strong></li>
+<li><strong>Female Airmen:</strong> if worn, polish must be <strong>clear, French manicure (white tips, clear base), or American manicure (ivory/cream tips, clear base)</strong>. <strong>Ombré manicure is not authorized.</strong> No nail designs/art.</li>
+</ul>
+<h3 id="cosmetics">Cosmetics</h3>
+<ul>
+<li><strong>Male Airmen: no cosmetics authorized.</strong></li>
+<li><strong>Female Airmen:</strong> may wear conservatively styled cosmetics. Lipstick, if worn, must be a conservative shade. <strong>Eyeliner may not extend past the corners of the eye opening — winged liner is not authorized.</strong></li>
+<li>No cosmetics in field conditions.</li>
+<li><strong>Eyelash extensions:</strong> not authorized unless medically documented (AF Form 469); if authorized, must be natural eyelash color and <strong>not exceed 12mm</strong>.</li>
+</ul>
+<h3 id="jewelry-earrings-watches-rings-bracelets-necklaces">Jewelry, Earrings, Watches, Rings, Bracelets, Necklaces</h3>
+<ul>
+<li>General rule: jewelry must be <strong>plain and conservative</strong>, per commander discretion.</li>
+<li><strong>Earrings (7.3.1.1):</strong> <strong>Male Airmen may not wear earrings in uniform or in civilian attire for official duty</strong> (may wear them off-duty in civilian attire on base). <strong>Female Airmen</strong> may wear <strong>small (≤6mm diameter), conservative round or square</strong> earrings — white diamond, gold, white pearl, or silver — <strong>as a matching set</strong>, worn only in the <strong>lower earlobes</strong>, one set only regardless of multiple piercings. Transparent piercing spacers are allowed in the lower earlobe only when not wearing earrings (not in other visible piercing holes). Piercing holes may not be large enough to let light through.</li>
+<li><strong>Bracelets:</strong> one only, ≤½ inch wide, black/gold/silver, conservative design, no writing/inappropriate imagery. Medical-alert bracelets authorized. Gemstone/tennis bracelets only with mess dress. Traditional POW/MIA/KIA bracelets remain authorized regardless of color. Ankle bracelets not authorized.</li>
+<li><strong>Watches/smart watches:</strong> one only, conservative (black/brown/silver/gold), band ≤1 inch wide (no diamond-covered/neon). Smart watches/fitness trackers in <strong>PT gear</strong> may have a band up to 1½ inches and color restrictions are waived.</li>
+<li><strong>Rings:</strong> up to <strong>3 total</strong> (a wedding set counts as one ring); worn at the base of the finger or on the thumb.</li>
+<li><strong>Necklaces:</strong> must <strong>never be visible</strong> — concealed under collar/undershirt at all times.</li>
+</ul>
+<h3 id="tattoos-brands-body-art">Tattoos, Brands, Body Art</h3>
+<ul>
+<li><strong>Prohibited locations, always (both in and out of uniform):</strong> head, face, tongue, lips, eyes, and scalp.</li>
+<li><strong>Prohibited content anywhere on the body, in and out of uniform:</strong> obscene; gang/extremist/supremacist-affiliated; advocating sexual, racial, ethnic, or religious discrimination; anything otherwise prejudicial to good order/discipline or that discredits the DAF. Members may not cover prohibited tattoos with bandages/makeup to &quot;comply.&quot;</li>
+<li><strong>Authorized locations:</strong> chest, back (below an open collar — must not be visible through any uniform or with an open collar), arms, legs, feet, hands, and neck.</li>
+<li><strong>Neck tattoo:</strong> <strong>one only</strong>, <strong>max 1 inch in any dimension</strong>, placed only within the band running behind a vertical line at one ear opening around the back of the neck to the vertical line at the other ear opening (including behind the ear).</li>
+<li><strong>Hand tattoos:</strong> a <strong>ring tattoo</strong> is authorized — a single band, <strong>one per hand</strong>, <strong>no wider than ⅜ inch</strong>, positioned below the knuckle and above the finger joint nearest the palm. <strong>In addition</strong>, <strong>one more hand tattoo is authorized per hand</strong>, <strong>max 1 inch in any dimension</strong>. Hand/arm/leg/neck/ring tattoos may be exposed/visible in any uniform.</li>
+<li><strong>Applicant hand-tattoo ETP:</strong> a limited exception-to-policy process allows waiving hand tattoos up to <strong>25% of the hand</strong> for exceptionally qualified applicants in critical/undermanned specialties — approved no lower than Recruiting Squadron Commander/Recruiting &amp; Retention Chief level; this is an accessions waiver, not a blanket allowance.</li>
+<li><strong>Cosmetic tattooing</strong> (medically directed, or for women: permanent eyebrow/eyeliner makeup; for men: scalp micropigmentation) is authorized if natural/conservative in appearance.</li>
+<li>Commanders retain authority to be <strong>more restrictive</strong> for legal/safety/sanitary/host-nation reasons.</li>
+</ul>
+<h3 id="body-piercing-dental-ornamentation-alteration">Body Piercing, Dental Ornamentation, Alteration</h3>
+<ul>
+<li><strong>Body piercing:</strong> other than the female-earring allowance above, <strong>no</strong> attaching/displaying jewelry or objects to/through ear, nose, tongue, eyebrows, lips, or any exposed body part — in uniform <em>or</em> civilian attire on official duty, on or off base.</li>
+<li><strong>Dental ornamentation:</strong> no designs/jewels/initials on teeth; gold/white-gold/platinum caps not required by dental necessity are prohibited (limited grandfather exemption only for such caps applied before 13 June 2011).</li>
+<li><strong>Body alteration/modification</strong> that visibly disfigures, deforms, or detracts from a professional military image is prohibited — e.g., tongue splitting/forking, tooth filing, visible disfiguring implants, gauging (piercings large enough to let light through). Can result in disciplinary action or involuntary separation.</li>
+</ul>
+<h3 id="eyeglasses-sunglasses-contact-lenses">Eyeglasses / Sunglasses / Contact Lenses</h3>
+<ul>
+<li>Never worn around the neck, on top/back of the head, or hanging exposed on the uniform.</li>
+<li>Conservative frame colors: black, brown, white, dark blue, gray, transparent, or gold/silver wire; small brand logos allowed.</li>
+<li>Clear, slightly tinted, mirrored, or photosensitive lenses OK; <strong>sunglasses (including photosensitive/darkened lenses) are not authorized in formation</strong> and not worn indoors, except for documented medical reasons (e.g., post-PRK/LASIK) or commander/commandant authorization.</li>
+<li><strong>Contact lenses:</strong> must look natural — clear, not altering natural eye color.</li>
+</ul>
+<hr/>
+<h2 id="6-3-afrotc-daf-dress-and-appearance-standards">6.3 — AFROTC &amp; DAF Dress and Appearance Standards</h2>
+<h3 id="uniform-combinations-cadets-wear">Uniform Combinations Cadets Wear</h3>
+<ul>
+<li><strong>Service Dress (Class A):</strong> service dress coat + trousers + long- or short-sleeve shirt/blouse + tie/tie tab + accoutrements (name tag, rank, ribbons, badges). This is the <strong>official AFROTC training uniform</strong> (AFROTCSUP 4.5.1.2) and must be worn at LLAB <strong>at least once per term</strong>.</li>
+<li><strong>Blues (Class B):</strong> long- or short-sleeve blue shirt/blouse worn without the service coat.
+<ul>
+<li><strong>Tie rule (verified — more nuanced than a flat &quot;no tie with short sleeve&quot;):</strong> a tie <strong>is mandatory</strong> with the <strong>long-sleeve</strong> blue shirt (and always with service dress). With the <strong>short-sleeve</strong> blue shirt worn <em>alone</em> (Class B), the <strong>tie is optional</strong> — but if the short-sleeve shirt is worn <strong>with the service dress coat</strong>, a tie <strong>is</strong> required.</li>
+</ul>
+</li>
+<li><strong>OCP (Operational Camouflage Pattern):</strong> the day-to-day utility uniform; primary Uniform of the Day for AFROTC.</li>
+<li><strong>Mess Dress / Semi-Formal:</strong> worn for AFROTC military ball/dining-out. Headgear is <strong>not</strong> worn with mess/semi-formal dress. POC cadets wear silver sleeve braid; GMC cadets do not.</li>
+<li><strong>Flight Duty Uniform (FDU):</strong> authorized only for cadets categorized Pilot/CSO/ABM/RPA/Missile.</li>
+</ul>
+<h3 id="ocp-configuration-base-dafi-afrotc-specific">OCP Configuration (base DAFI + AFROTC-specific)</h3>
+<ul>
+<li><strong>Coat/shirt</strong> worn outside the trousers (commanders may authorize tucking for certain duties). Sleeves may be rolled with cuffs visible, resting within 1 inch of the forearm at 90°, or folded inward up to twice if not rolled.</li>
+<li><strong>Name tape and &quot;U.S. AIR FORCE&quot; tape:</strong> mandatory, <strong>spice brown block-lettering embroidery on OCP background</strong>; must be either all sewn-on or all Velcro (no mixing). AFROTC cadets: <strong>Spice Brown nametapes</strong> for USAF-track cadets; <strong>Space Blue nametapes</strong> for USSF-select cadets; cadets do <strong>not</strong> sew tapes onto the utility uniform (Velcro only).</li>
+<li><strong>Rank:</strong> spice brown rank insignia mandatory for regular DAF members (1st Lt/Lt Col insignia in black). For <strong>AFROTC cadets specifically</strong>, OCP rank is <strong>Velcro</strong>, centered on the chest Velcro rank area: <strong>POC cadets</strong> wear rank with silver stripe(s) oriented <strong>horizontally</strong>; <strong>GMC cadets</strong> wear rank with the short edge parallel to the bottom of the Velcro square and chevrons pointing <strong>upward</strong>.</li>
+<li><strong>Patches:</strong> Right sleeve — subdued U.S. flag patch (mandatory) with detachment patch centered below it (USAF cadets) or detachment patch centered both ways (USSF-select). Left sleeve — AFROTC patch centered below the full-color flag patch (USSF-select) or centered both ways (USAF cadets).</li>
+<li><strong>T-shirt:</strong> <strong>Coyote Brown (Tan 499)</strong>, tucked in (base DAFI); AFROTC detachments may authorize a standardized &quot;Friday&quot; morale T-shirt in Coyote Brown as well, with unit emblem ≤5 inches on the upper-left chest.</li>
+<li><strong>Boots:</strong> <strong>Coyote Brown combat boots only</strong> with OCP; must be <strong>6–12 inches tall</strong> (heel-tread to top of boot back), soling ≤2 inches. <em>Note:</em> the DAFI text gives Airmen <strong>until 30 September 2026</strong> to comply with this height standard — essentially now.</li>
+<li><strong>Headgear:</strong> OCP <strong>patrol cap</strong>, worn outdoors at all times unless in a designated &quot;no-hat&quot; area; cap band forms a straight, level line; no hair visible on the forehead beneath it; blocking of the cap is authorized. Nametape centered on the back of the cap. Cadets may add the &quot;Prop &amp; Wings&quot; insignia, centered front, after completing Field Training.</li>
+</ul>
+<h3 id="ribbons-badges-nametag-placement-highlights">Ribbons, Badges, Nametag Placement (highlights)</h3>
+<ul>
+<li>Occupational/qualification/skill badges: up to <strong>4</strong>, centered above the U.S. Air Force tape on OCP.</li>
+<li>Name tag on the blues shirt: blue plastic, white-engraved last name, centered resting on (not over) the pleated pocket edge, wearer&#x27;s right.</li>
+<li>AFROTC cadet medals/ribbons are centered horizontally midway between lapel and arm seam, vertically between shoulder and top button; large and miniature medals cannot be mixed.</li>
+</ul>
+<h3 id="everyday-bearing-conduct-rules">Everyday Bearing / Conduct Rules</h3>
+<ul>
+<li><strong>Hands in pockets:</strong> <strong>UNVERIFIED as a specific DAFI 36-2903 citation</strong> — I could not locate an explicit &quot;no hands in pockets&quot; provision in the current DAFI text. This is a long-standing customs-and-courtesies/bearing expectation commonly taught at the detachment/Field Training level rather than a numbered DAFI paragraph; treat it as a bearing standard, not a quotable regulation citation, unless your detachment cites a specific source.</li>
+<li><strong>Eating/drinking while walking in uniform (DAFI 2.17.7.2):</strong> members <strong>will not consume food</strong> while walking in uniform (commanders may authorize food consumption while walking during special functions); <strong>beverage consumption while walking is authorized</strong> — this is a <strong>2024-rewrite change</strong> (previously more restrictive).</li>
+<li><strong>Cell phone/electronic device use while walking (DAFI 7.3.4.2 — RELAXED, confirm this is current):</strong> use of personal electronic devices — cell phones, earpieces, speakerphone, or <strong>text messaging while walking in uniform is authorized</strong>, though &quot;military customs and courtesies take precedence&quot; (i.e., don&#x27;t ignore a senior officer to text). Authorized earpiece colors: white, black, brown, dark blue, or gray.</li>
+<li><strong>Backpacks (DAFI 7.3.5.3):</strong> solid black/brown/gray/dark blue (or olive drab/tan/sage/OCP-patterned with OCP uniform only); single color, small logos OK, no ornamentation/high-gloss/dangling objects. <strong>Sling-style</strong> backpacks worn across the chest (or left shoulder if carried on one shoulder). <strong>Two-strap backpacks</strong> may be worn on the <strong>left shoulder or both shoulders</strong>, as long as it doesn&#x27;t interfere with rendering a proper salute.</li>
+<li><strong>Umbrellas (DAFI 7.3.7):</strong> plain, <strong>solid black, gray, brown, or dark blue</strong>, carried in the <strong>left hand</strong>. (No male-specific prohibition found in the current text — earlier-generation Air Force custom sometimes discouraged male umbrella use, but the current DAFI states the color/carry rule without a sex restriction; flag this if your source material says otherwise.)</li>
+</ul>
+<h3 id="headgear-when-worn-removed">Headgear — When Worn / Removed</h3>
+<ul>
+<li><strong>Outdoors:</strong> authorized headgear <strong>will be worn</strong> at all times outdoors, unless the area is designated a &quot;no-hat&quot; area by the installation commander.</li>
+<li><strong>Indoors:</strong> headgear is generally not worn indoors, <strong>except</strong> it should also be worn indoors by <strong>armed Security Forces</strong> personnel/others bearing arms while on duty.</li>
+<li><strong>No-hat/no-salute areas:</strong> all DAF Child and Youth Program facilities (CDCs, School Age Care, Youth Development Centers) are designated no-hat/no-salute areas by policy.</li>
+<li><strong>In a vehicle:</strong> <span class="flag">UNVERIFIED</span> — I did not find an explicit DAFI provision addressing headgear wear specifically while riding in or driving a vehicle; the general &quot;outdoors = worn, indoors/no-hat area = not worn&quot; framework is what&#x27;s documented. Do not state a specific vehicle rule as DAFI-sourced without further verification.</li>
+<li>Headgear is <strong>not worn</strong> with mess dress/semi-formal dress (AFROTC ball/dining-out).</li>
+</ul>
+<h3 id="afrotc-specific-notes">AFROTC-Specific Notes</h3>
+<ul>
+<li><strong>Uniform Wear Day / General Cadet Uniform Wear (AFROTCSUP 1.2.12):</strong> cadets wear an authorized uniform for a <strong>full day at least once per week</strong> at Practical Military Training (PMT) events; wear for academic classes on non-LLAB days is at the Det/CC&#x27;s discretion.</li>
+<li><strong>Off-campus wear (AFROTCSUP 1.2.12.1 / 1.2.12.1.1):</strong> uniform choice should match the civilian dress level of the venue — OCP for casual venues, Blues for business-casual, Service Dress for coat-and-tie events, Mess Dress for black-tie. OCP/FDU may be worn for quick convenience stops or dining where patrons wear comparably casual/work attire, but <strong>not</strong> for extended shopping/dining/socializing/entertainment, and never where the dress code (written or unwritten) is more formal.</li>
+<li><strong>Flight cap:</strong> cadets wear the <strong>officer flight cap with diamond braid</strong> with service dress and with the FDU; the &quot;Prop &amp; Wings&quot; insignia is issued upon successful completion of Field Training. POC cadets meeting specific legacy/family-service criteria may wear a gold/silver &quot;Prop &amp; Wings&quot; combination.</li>
+<li><strong>Cadet rank at Field Training:</strong> all cadets wear <strong>Cadet Third Class (C/3C)</strong> rank at FT, regardless of actual GMC/POC status; Cadet Training Assistants (CTAs) wear <strong>Cadet Colonel (C/Col)</strong> rank at FT.</li>
+<li><strong>Only Special Warfare (19Z)-categorized cadets</strong> may wear the navy-blue beret with service dress, Blues, or OCP.</li>
+</ul>
+<hr/>
+<h2 id="confidence-sources">Confidence &amp; Sources</h2>
+<p><strong>High confidence</strong> (directly quoted/paraphrased from the current DAFI 36-2903 text, base 29 Feb 2024 as amended through DAFGM 2026-02, 19 Feb 2026 — obtained via an archived copy of the official e-publishing PDF):</p>
+<ul>
+<li>Paragraph 1.4 &quot;When NOT to Wear the Uniform&quot; (full list, confirmed unmodified by 2025–2026 changes)</li>
+<li>Male hair bulk/length/part measurements</li>
+<li>Sideburn and mustache standards (both the current tightened text and the prior looser text, for contrast)</li>
+<li>Beard authorization conditions and ¼&quot; trim limit</li>
+<li>Women&#x27;s hair bulk/length/ponytail/braid/bun measurements</li>
+<li>Fingernail length/polish rules</li>
+<li>Cosmetics rules</li>
+<li>Jewelry/earrings/bracelets/watches/rings/necklaces rules</li>
+<li>Tattoo authorized/unauthorized locations and hand/neck tattoo size limits</li>
+<li>Body piercing/dental ornamentation/body alteration rules</li>
+<li>Eyewear/contact lens rules</li>
+<li>OCP coat, T-shirt, boot, patrol-cap, backpack, umbrella, and electronic-device-while-walking rules</li>
+<li>Tie requirement nuance (long-sleeve mandatory / short-sleeve optional unless with service coat)</li>
+<li>Headgear outdoor/indoor/no-hat-area rule</li>
+</ul>
+<p><strong>Medium confidence</strong> (from multiple converging, credible secondary sources — militarytimes.com, airforcetimes.com, military.com, taskandpurpose.com, airandspaceforces.com, af.mil — describing DoD/DAF memoranda I could not fully open as primary PDFs due to server access blocks):</p>
+<ul>
+<li>The full PFB shaving-waiver policy timeline (1 Mar 2025 profile-validity change; 31 Jan 2026 grooming-standard effective date; 1 Feb 2026 12-of-24-month accumulation enforcement; a further memo reported effective 28 Jul 2026 spelling out the separation/retention process). Multiple independent outlets agree on the substance and most dates, which is why this is medium-high confidence, but <strong>I was not able to open the underlying DoD/AF-SG memoranda directly</strong> — treat exact dates as reported-by-press-corroborated-by-multiple-outlets rather than hand-verified against the primary memo PDF.</li>
+</ul>
+<p><strong>LOUD FLAGS — verify before the graded test if possible:</strong></p>
+<ol>
+<li><strong>Shaving waiver / PFB separation policy</strong> — this is the most volatile item in this whole document. It changed at least three times in less than a year (Mar 2025 → Dec 2025/Jan 2026 → Jul 2026 reports). If your test date is materially later than 3 Sept 2026, <strong>re-verify this section specifically</strong> — it is exactly the kind of thing likely to have moved again.</li>
+<li><strong>AFROTC Supplement currency</strong> — the only AFROTC-specific supplement I could locate is dated <strong>18 November 2021</strong> and references the pre-2024 base DAFI. I used it only for uniform-combination/insignia/patch specifics that the 2025–2026 changes did not touch, but I could not confirm whether a newer AFROTC supplement exists. If your detachment has a newer AFROTCSUP, defer to that for AFROTC-only content (patches, rank placement, flight cap, ribbons, off-campus wear).</li>
+<li><strong>&quot;Hands in pockets&quot; rule</strong> — could not find this codified in DAFI 36-2903. Likely a bearing/customs-and-courtesies expectation, not a citable DAFI paragraph. Don&#x27;t cite a specific paragraph number for it on a graded test unless your detachment&#x27;s material does.</li>
+<li><strong>Headgear in a vehicle</strong> — could not confirm a specific DAFI provision; only the general outdoor/indoor rule is documented.</li>
+<li><strong>Umbrella &quot;male&quot; restriction</strong> — could not confirm any current sex-specific restriction on umbrella use in the DAFI text (only color/left-hand-carry rules found). If your prep materials say men cannot carry umbrellas in uniform, that appears to be outdated or informal — the current DAFI text applies the same rule to all members.</li>
+<li><strong>Tattoo policy is very precise and easy to get subtly wrong</strong> — note the distinction between the <strong>ring tattoo</strong> (⅜&quot; max width, at the base knuckle) and the <strong>separate additional 1&quot; hand tattoo</strong> — these are two different, both-authorized allowances, not one combined rule.</li>
+</ol>
+<p><strong>Sources:</strong></p>
+<ul>
+<li><a href="https://static.e-publishing.af.mil/production/1/af_a1/publication/dafi36-2903/dafi36-2903.pdf" target="_blank" rel="noopener">DAFI 36-2903, Dress and Personal Appearance (e-Publishing, current)</a> — primary document, base 29 Feb 2024 as amended through DAFGM 2026-02 (19 Feb 2026), retrieved via archived mirror</li>
+<li><a href="https://www.af.mil/Portals/1/documents/2026SAF/DAFI_36_2903_DAFGM_2026_02_20260219.pdf" target="_blank" rel="noopener">DAFI36-2903_DAFGM 2026-02 (af.mil, 19 Feb 2026)</a></li>
+<li><a href="https://www.af.mil/News/Article-Display/Article/4239065/air-force-updates-clarifies-dafi-36-2903-guidance/" target="_blank" rel="noopener">Air Force updates, clarifies DAFI 36-2903 guidance (af.mil news)</a></li>
+<li><a href="https://afrotc.info/user/pages/05.resources/DAFI-36-2903_AFROTCSup-Dress-and-Appearance.pdf" target="_blank" rel="noopener">DAFI36-2903_AFROTCSUP, AFROTC Dress and Personal Appearance Supplement, 18 Nov 2021</a></li>
+<li><a href="https://www.militarytimes.com/news/your-military/2025/12/16/air-force-amends-medical-shaving-guidelines-to-fit-hegseths-standards/" target="_blank" rel="noopener">Air Force amends medical shaving guidelines to fit Hegseth&#x27;s standards (militarytimes.com, Dec 2025)</a></li>
+<li><a href="https://www.airforcetimes.com/news/your-air-force/2025/01/30/air-force-tightens-rules-on-shaving-waivers-uniform-patches/" target="_blank" rel="noopener">Air Force tightens rules on shaving waivers, uniform patches (airforcetimes.com, Jan 2025)</a></li>
+<li><a href="https://www.military.com/daily-news/2025/12/17/air-force-shaving-guidance-update-when-do-new-grooming-changes-take-place.html" target="_blank" rel="noopener">Air Force Shaving Guidance Update: When Do New Grooming Changes Take Place (military.com, Dec 2025)</a></li>
+<li><a href="https://taskandpurpose.com/news/air-force-shaving-waivers/" target="_blank" rel="noopener">Medical shaving waivers will be invalid under Air Force grooming policy (taskandpurpose.com)</a></li>
+<li><a href="https://taskandpurpose.com/news/air-force-beards-waivers/" target="_blank" rel="noopener">Air Force shaving waivers will soon expire under new policy (taskandpurpose.com, ~Mar 2025)</a></li>
+<li><a href="https://taskandpurpose.com/news/air-force-mustache-sideburns/" target="_blank" rel="noopener">Air Force issues new rules on facial hair and grooming standards (taskandpurpose.com)</a></li>
+<li><a href="https://www.airandspaceforces.com/air-force-sets-new-mustache-standard/" target="_blank" rel="noopener">Air Force Issues New Mustache, Sideburn Standards (airandspaceforces.com)</a></li>
+<li><a href="https://www.airandspaceforces.com/air-force-updates-rules-for-booting-troops-with-shaving-profiles/" target="_blank" rel="noopener">Air Force Updates Rules for Booting Troops with Shaving Profiles (airandspaceforces.com, reports Jul 2026 memo)</a></li>
+<li><a href="https://www.af.mil/News/Article-Display/Article/4047550/afsg-updates-medical-shaving-profile-guidance-improving-education-and-aligning/" target="_blank" rel="noopener">AF/SG updates medical shaving profile guidance (af.mil)</a></li>
+<li><a href="https://myairforcebenefits.us.af.mil/DAF-updates-medical-shaving-profile-guidance-to-align-with-Secretary-of-War-grooming-policy" target="_blank" rel="noopener">DAF updates medical shaving profile guidance to align with Secretary of War grooming policy (myairforcebenefits.us.af.mil)</a></li>
+<li><a href="https://taskandpurpose.com/wp-content/uploads/2025/11/Atch-1-DAFGM-36-2903-Approved-29-Oct-25-1.pdf" target="_blank" rel="noopener">DAFGM 36-2903, Approved 29 Oct 2025 (taskandpurpose.com hosted PDF)</a></li>
+</ul>
+<hr/>
+<h2 id="most-likely-test-questions">Most Likely Test Questions</h2>
+<div class="qa"><ol>
+<li><strong>List the circumstances under which it is inappropriate to wear the Air Force uniform.</strong> (Expect all 13 sub-items of DAFI 1.4 — political/discriminatory-organization events, demonstrations implying DAF sanction, discrediting the Armed Forces, post-bad-conduct-discharge, furthering private employment/commercial interest, off-duty civilian jobs, discrediting court proceedings, mixing civilian/military items, non-prescribed combinations, non-compliant items, OCP/FDU at bars or business-attire restaurants, frequent-flyer upgrades.)</li>
+<li><strong>What is the maximum bulk allowed for male hair, and what is the maximum bulk/length allowed at the natural termination point?</strong> (2½ inches bulk; ¼ inch at termination point.)</li>
+<li><strong>Describe the current sideburn standard.</strong> (Straight, even width, not flared, must stay <strong>above the ear opening</strong>, ending in a clean-shaven horizontal line — note this is the tightened 2026 standard.)</li>
+<li><strong>Describe the current mustache standard, and name what&#x27;s prohibited.</strong> (Not below the upper lip line, not beyond the corners of the mouth, must match natural hair color; handlebars, twists, curls, and goatees are strictly prohibited.)</li>
+<li><strong>Under what conditions are beards authorized, and what changed recently about medical shaving waivers?</strong> (Medical or religious accommodation only; medical waivers are now capped — no single profile over 6 months, no more than 12 months of profile within a rolling 24 months before commander referral and possible separation; religious waivers are unaffected.)</li>
+<li><strong>What is the maximum bulk for a woman&#x27;s hair, and what is the pulled-back radius/width limit?</strong> (4 inches max bulk from scalp; when gathered, 6 inches radius each side / 12 inches total width, 6 inches bulk.)</li>
+<li><strong>How long can a ponytail/braid be, and where can it fall?</strong> (Down the back only, not extending below a horizontal line under the arms through the shoulder blades; cannot be worn over the shoulder or pulled forward.)</li>
+<li><strong>What are the fingernail-length and nail-polish rules for men vs. women?</strong> (¼ inch max beyond fingertip for both; men — no polish at all; women — clear, French, or American manicure only, no ombré, no designs.)</li>
+<li><strong>Where on the body are tattoos completely prohibited, and what are the size/location limits for hand and neck tattoos?</strong> (Never on head/face/tongue/lips/eyes/scalp; one neck tattoo ≤1 inch behind the ear-opening lines; one ring tattoo per hand ≤⅜ inch plus one more hand tattoo ≤1 inch per hand.)</li>
+<li><strong>Can male and female Airmen wear earrings in uniform?</strong> (Males: never in uniform or in civilian attire on official duty; females: yes, one small conservative matching set, lower earlobes only.)</li>
+<li><strong>Is it currently authorized to talk on a cell phone or text while walking in uniform?</strong> (Yes — this was relaxed; customs and courtesies still take precedence.)</li>
+<li><strong>Is eating while walking in uniform allowed? What about drinking?</strong> (No food while walking, except when a commander authorizes it for a special function; beverages are authorized.)</li>
+<li><strong>When must a tie be worn with the blues uniform?</strong> (Mandatory with the long-sleeve shirt and always with service dress; optional with the short-sleeve shirt worn alone.)</li>
+<li><strong>On which shoulder(s) can a backpack be worn?</strong> (Two-strap: left shoulder or both shoulders, as long as it doesn&#x27;t block a proper salute; sling-style: across the chest or on the left shoulder.)</li>
+<li><strong>When is headgear worn/not worn?</strong> (Worn outdoors at all times unless in a designated no-hat area; generally not worn indoors except by armed Security Forces on duty; not worn with mess/semi-formal dress; DAF youth-program facilities are no-hat/no-salute areas.)</li>
+<li><strong>AFROTC-specific: what uniform must be worn at LLAB at least once per term, and how often must cadets wear a uniform for a full day?</strong> (Service dress at least once per term; a uniform for a full day at least once per week at PMT events.)</li>
+<li><strong>AFROTC-specific: what cadet rank is worn at Field Training regardless of GMC/POC status?</strong> (Cadet Third Class, C/3C; CTAs wear Cadet Colonel.)</li>
+</ol></div>
+</main>
+</div>
+</div>
+</body>
+</html>

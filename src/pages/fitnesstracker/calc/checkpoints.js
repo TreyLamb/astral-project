@@ -204,13 +204,13 @@ export function formatCheckpointValue(goal, value, units) {
     case 'run': {
       if (!goal.targetDistanceM) return '';
       const distVal = round2(metersToDistance(goal.targetDistanceM, units.distance));
-      const timeAtDist = secToClock(Math.round(equivalentRaceTime(value, goal.targetDistanceM)));
-      // Pace per mile/km, alongside the time-at-distance — Riegel/VDOT-derived
-      // pace isn't a flat division (it legitimately slows with distance), so
-      // this re-uses the same equivalent-time formula at exactly one
-      // mile/km rather than a naive time/distance division.
+      const timeAtDistSec = equivalentRaceTime(value, goal.targetDistanceM);
+      const timeAtDist = secToClock(Math.round(timeAtDistSec));
+      // Average pace over the goal distance. This used to print the VDOT-
+      // equivalent ONE-MILE race time as the pace, so a 13:56 2-mile read
+      // "6:42/mi" when the pace it needs is 6:58/mi.
       const useKm = units.distance === 'km';
-      const paceSec = equivalentRaceTime(value, useKm ? M_PER_KM : M_PER_MILE);
+      const paceSec = timeAtDistSec / (goal.targetDistanceM / (useKm ? M_PER_KM : M_PER_MILE));
       const paceText = `${secToClock(Math.round(paceSec))}/${useKm ? 'km' : 'mi'}`;
       const alreadyOneUnit = Math.abs(distVal - 1) < 0.001;
       return alreadyOneUnit ? `${timeAtDist} at ${distVal}${units.distance}` : `${timeAtDist} at ${distVal}${units.distance} (${paceText})`;

@@ -76,10 +76,10 @@ describe('measuredVdot — only real efforts count', () => {
     expect(got.via).toBe('rpe');
   });
 
-  it('picks the best VDOT when several qualify', () => {
-    const slow = run({ distanceM: 3218.688, durationSec: 1080, rpe: 9, date: '2026-08-01' });
-    const fast = run({ distanceM: 3218.688, durationSec: 900, rpe: 9, date: '2026-08-31' });
-    expect(measuredVdot([slow, fast]).workout.durationSec).toBe(900);
+  it('picks the MOST RECENT effort, not the best one', () => {
+    const fastOld = run({ distanceM: 3218.688, durationSec: 900, rpe: 9, date: '2026-08-01' });
+    const slowNew = run({ distanceM: 3218.688, durationSec: 1080, rpe: 9, date: '2026-08-31' });
+    expect(measuredVdot([fastOld, slowNew]).workout.durationSec).toBe(1080);
   });
 
   it('skips planned sessions — they never happened', () => {
@@ -101,9 +101,15 @@ describe('currentFitness', () => {
     const got = currentFitness([
       run({ distanceM: 5000, durationSec: 1800, rpe: 3, date: '2026-08-18' }),
       run({ distanceM: 3218.688, durationSec: 900, rpe: 9, date: '2026-08-17' }),
-    ]);
+    ], { asOf: '2026-08-18' });
     expect(got.confidence).toBe('measured');
     expect(got.needsTimeTrial).toBe(false);
+  });
+
+  it('asks for a retest once the newest effort is over six weeks old', () => {
+    const got = currentFitness([run({ distanceM: 3218.688, durationSec: 900, rpe: 9, date: '2026-08-17' })], { asOf: '2026-10-21' });
+    expect(got.confidence).toBe('measured');
+    expect(got.needsTimeTrial).toBe(true);
   });
 
   it('falls back to an inferred range and asks for a time trial', () => {
@@ -112,6 +118,23 @@ describe('currentFitness', () => {
     expect(got.needsTimeTrial).toBe(true);
     expect(got.vdot).toBeGreaterThan(got.range[0]);
     expect(got.vdot).toBeLessThan(got.range[1]);
+  });
+
+  it('one mile alone gives a 2-mile RANGE, slower than mile pace', () => {
+    const mile = run({ distanceM: MI, durationSec: 454, note: 'time trial', date: '2026-10-20' });
+    const got = currentFitness([mile], { targetDistanceM: 2 * MI, asOf: '2026-10-21' });
+    expect(got.profile.predict(2 * MI).timeSec).toBeGreaterThan(2 * 454);
+    expect(got.range[0]).toBeLessThan(got.range[1]);
+    expect(got.paces).not.toBeNull();
+  });
+
+  it('with a mile AND a 2-mile, the 2-mile VDOT reflects how his pace actually held', () => {
+    const got = currentFitness([
+      run({ distanceM: MI, durationSec: 454, note: 'time trial', date: '2026-10-20' }),
+      run({ distanceM: 2 * MI, durationSec: 1010, note: 'time trial', date: '2026-10-22' }),
+    ], { targetDistanceM: 2 * MI, asOf: '2026-10-22' });
+    expect(got.vdot).toBeCloseTo(vdotFromRace(2 * MI, 1010), 6);
+    expect(got.vdot).toBeLessThan(vdotFromRace(MI, 454));
   });
 
   it('reports none rather than guessing when nothing is logged', () => {
