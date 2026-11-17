@@ -80,12 +80,18 @@ function makeHelpers(rng, seed) {
       const seen = new Set([String(typeof correct === 'object' && correct !== null && 'value' in correct ? correct.value : correct)]);
       const pool = [];
       let labelled = false;
+      // A percent that is a part of a whole cannot pass 100%, so a wrong option above 100% is
+      // eliminable on sight and turns the item into a coin flip (Trey, 2026-11-02). When the right
+      // answer is a percent of 100 or less, no distractor above 100% is offered.
+      const pctOf = (v) => { const m = String(v).match(/^\s*([\d.]+)\s*%\s*$/); return m ? Number(m[1]) : null; };
+      const rightPct = pctOf(typeof correct === 'object' && correct !== null && 'value' in correct ? correct.value : correct);
       for (const d of distractors) {
         const tagged = d !== null && typeof d === 'object' && 'value' in d;
         if (tagged) labelled = true;
         const value = tagged ? d.value : d;
         const k = String(value);
         if (seen.has(k)) continue;
+        if (rightPct != null && rightPct <= 100 && pctOf(value) > 100) continue;
         seen.add(k);
         pool.push({ value, error: tagged ? (d.error ?? null) : null, why: tagged ? (d.why ?? null) : null });
         if (pool.length >= CHOICES_PER_QUESTION - 1) break;
@@ -107,12 +113,41 @@ function makeHelpers(rng, seed) {
 /**
  * Build one question. Deterministic: same (templateId, seed) => identical output forever.
  */
+// Every number a human reads is written the way a chemist writes it (Trey, 2026-11-02, on an
+// option reading 0.030000000000000006). One pass over every instance, so no template can leak:
+//   - float noise is rounded off (0.30000000000000004 -> 0.3);
+//   - JS exponent form becomes scientific notation (2.17e-3 -> 2.17 × 10⁻³, 10^-6 -> 10⁻⁶);
+//   - an option that came out as Infinity (a division by a 0 °C that was never converted) is dropped.
+const SUP_DIGITS = { '-': '⁻', '+': '', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+const supOf = (e) => String(Number(e)).split('').map((ch) => SUP_DIGITS[ch]).join('');
+function tidyText(s) {
+  if (typeof s !== 'string') return s;
+  return s
+    .replace(/\d+\.\d{12,}/g, (m) => String(Number(Number(m).toPrecision(12))))
+    .replace(/(\d(?:\.\d+)?)e([+-]?\d+)/g, (_, m, e) => `${m} × 10${supOf(e)}`)
+    .replace(/10\^\(?([+-]?\d+)\)?/g, (_, e) => `10${supOf(e)}`);
+}
+function tidy(raw) {
+  const keep = (raw.choices ?? []).map((c, i) => i === raw.correctIndex || !/Infinity|^NaN /.test(String(c)));
+  const pick = (arr) => (arr ? arr.filter((_, i) => keep[i]) : arr);
+  return {
+    ...raw,
+    stem: tidyText(raw.stem),
+    explanation: tidyText(raw.explanation),
+    choices: pick(raw.choices)?.map(tidyText),
+    correctIndex: keep.slice(0, raw.correctIndex).filter(Boolean).length,
+    errors: pick(raw.errors),
+    whys: pick(raw.whys),
+  };
+}
+
 export function generateChemInstance(templateId, seed) {
   const t = registry.get(templateId);
   if (!t) return null;
   const rng = mulberry32(seed);
-  const raw = t.generate(rng, makeHelpers(rng, seed));
-  if (!raw) return null;
+  const raw0 = t.generate(rng, makeHelpers(rng, seed));
+  if (!raw0) return null;
+  const raw = tidy(raw0);
   return {
     templateId: t.id,
     seed,

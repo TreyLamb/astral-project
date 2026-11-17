@@ -10,7 +10,7 @@
  * Reachable before this existed only by opening the file off disk, which is the same problem
  * the recitation sheet and rank drill had before they were routed.
  */
-const BRIEFS = [
+export const BRIEFS = [
   {
     href: '/afrotc/briefs/roma.html',
     title: 'Roma',

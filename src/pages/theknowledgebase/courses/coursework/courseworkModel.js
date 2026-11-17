@@ -10,17 +10,20 @@
 //   4. Manual patches/extras (data/manualCoursework.js) and items Trey adds himself.
 // …then his own check-offs, which override any LMS status (both directions).
 
+// One colour per course, everywhere (Trey, 2026-11-03): CHEM green, the micro courses purple (lab) and
+// fuchsia (lecture), the two fire classes orange (ESFF) and burnt orange (ESMG), and every AERO class
+// and ROTC event a shade of blue.
 export const COURSE_COLORS = {
-  'CHEM 1210': '#38bdf8',
-  'MICR 2060': '#34d399',
+  'CHEM 1210': '#4ade80',
   'MICR 2065': '#c084fc',
+  'MICR 2060': '#e879f9',
   'ESFF 1120': '#fb923c',
-  'ESMG 3200': '#f472b6',
+  'ESMG 3200': '#d2601a',
   'AERO 1100': '#93c5fd',
-  'AERO 2100': '#a5b4fc',
+  'AERO 2100': '#60a5fa',
   'AERO 1430R': '#7dd3fc',
-  'AERO 1800R': '#c4b5fd',
-  'AERO 2000': '#818cf8',
+  'AERO 1800R': '#38bdf8',
+  'AERO 2000': '#3b82f6',
 };
 const FALLBACK_COLOR = '#94a3b8';
 export const courseColor = (code) => COURSE_COLORS[code] ?? FALLBACK_COLOR;

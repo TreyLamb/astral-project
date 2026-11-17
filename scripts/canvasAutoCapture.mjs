@@ -65,6 +65,10 @@ async function autoSignIn(page, c) {
     ]).catch(() => {});
     await page.waitForURL((u) => signedIn(u.toString()), { timeout: 30000 });
   } catch (e) {
+    // Microsoft often signs straight back in from its own cookie and skips the forms, which made a
+    // waitForSelector above time out ON THE CANVAS DASHBOARD. That is a success, not a failure
+    // (2026-11-02: three "unexpected page https://uvu.instructure.com/" failures were all signed in).
+    if (signedIn(page.url())) return;
     const text = (await page.innerText('body').catch(() => '')).toLowerCase();
     if (/verify|approve|authenticator|code|captcha/.test(text)) await fail('Microsoft asked for a verification step');
     if (/incorrect|wrong|doesn.t match|locked/.test(text)) await fail('Microsoft rejected the username or password');

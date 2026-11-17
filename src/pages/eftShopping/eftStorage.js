@@ -64,6 +64,11 @@ export const DEFAULTS = {
     // them. Separate from `disabled`, which is about the shopping list.
     hiddenStations: [],
     stationView: 'all',
+    // Cards folded to a one-line strip at the bottom of the grid, by hand.
+    // Persisted on purpose: a station you have parked stays parked next visit.
+    minimizedStations: [],
+    // Drops item rows already collected (have >= need) from every station card.
+    hideDoneItems: false,
     hideOwned: false,
     showFirOnly: false,
     search: '',
@@ -74,9 +79,9 @@ export const DEFAULTS = {
     // Tile size for the grid, so the same list works on a second monitor and
     // on a phone propped against the keyboard.
     tileSize: 'md',
-    // 'rare' = violet-background/high-value items float up (see
-    // compareRarity in eftHideoutLogic), 'common' flips it.
-    raritySort: 'rare',
+    // How the hideout list is ordered — see sortShoppingRows. 'level' (lowest
+    // station level first) replaced the old rare/common-only `raritySort`.
+    listSort: 'level',
   },
   watchlist: SEED_WATCHLIST,
   raidKits: SEED_RAID_KITS,

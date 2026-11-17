@@ -101,3 +101,7 @@ ch8 q48, q57, q63. What his explanations say about them:
   hand. Not applied yet.
 - Worksheet fields kept as a trail: `priorAnswer`, `priorSource`, `priorRationale` on every question whose answer
   changed or was flagged (16 questions), and `knownWrong` (red X) from graded attempts.
+- `mmahp-ch10-12` Chapter 12: graded OLQ 12 (16.5/20, 11-3) applied 2026-11-07. 33 of its 40 questions are on the worksheet's Ch 12
+  list; 30 scored and are now `graded`. All 7 misses were derived keys he followed: q14 -> C, q51 -> C (his own solved problem calls
+  prevalence 'a chance'), q43 -> E are `corrected`; q46 -> C, q23 -> A, q44 -> D, q54 -> B stay `unsure` (q44 and q54 are M2OS
+  material, not in the chapter text). Chapter 11 is still all derived: the graded OLQ 11 attempt (19.5/20) was never saved to Drive.

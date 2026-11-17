@@ -97,6 +97,18 @@ Cycle 4 Day 1 lands **Mon 8/31**, and carries **Checkpoint Test 1** (2-mile time
 
 ---
 
+## Measured 2-mile results (the record — add every real result here, with its date)
+
+| Date | Event | 2-mile | Per mile | VDOT |
+|---|---|---|---|---|
+| Tue 9/29 | 2-mile (told to agent 2026-11-09) | **18:11** | 9:06 | 32.2 |
+| Thu 10/22 | **USAF PFRA** (told to agent 2026-11-09) | **16:42** | 8:21 | 35.6 |
+
+Near-term target (Trey, 2026-11-09): **7:30 per mile = 15:00**. Official target stays 13:56. Checkpoint Test 1 (planned 8/31, target
+~17:15) has no recorded result; these two are the real data. Derived paces: `training.md`.
+
+---
+
 ## What's next
 
 - **Long-range view:** `cycleProjection.md` projects every cycle out to end-2027 in both a 13-day and an 11-day variant. This file stays the record of what was *actually* built and run; that one is the forecast. **⚠️ Its dates are stale as of the 2026-08-17 rebase** — every table in it is anchored to "Cycle 3 Day 1 = Thu Aug 27," which is now **Mon Aug 17, ten days earlier**. Its *structural* conclusions (13-vs-11-day trade-off, which gaps have to give, the VDOT realism check) are unaffected; only the dates and cycle numbering shifted, and shifting the start 10 days earlier means roughly **one more cycle fits** before test day, not fewer. Re-run it when the numbers matter.

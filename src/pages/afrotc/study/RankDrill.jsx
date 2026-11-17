@@ -1,3 +1,4 @@
+import FlipDeck from '../../shared/FlipDeck';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRotc } from './rotcContext';
 import { RANKS, RANK_IDS, PRESETS, byId } from './rankData';
@@ -147,8 +148,38 @@ export default function RankDrill() {
         </div>
       )}
 
-      <DrillRun key={`${selected.join(',')}|${mode}|${scope}`} deck={deck} mode={mode} form={form} scope={scope} />
+      {mode === 'flash'
+        ? <FlashRun key={`${selected.join(',')}|${form}`} deck={deck} form={form} />
+        : <DrillRun key={`${selected.join(',')}|${mode}|${scope}`} deck={deck} mode={mode} form={form} scope={scope} />}
     </div>
+  );
+}
+
+/** Insignia -> name, on the shared flip card (the Gemini Notebook layout, Trey 2026-10-30). Untracked, as before. */
+function FlashRun({ deck, form }) {
+  const [order, setOrder] = useState(() => shuffle(deck));
+  const [round, setRound] = useState(0);
+  const reshuffle = useCallback(() => { setOrder(shuffle(deck)); setRound((r) => r + 1); }, [deck]);
+  return (
+    <FlipDeck
+      key={round}
+      cards={order.map((r) => ({ ...r, label: 'Insignia → name' }))}
+      tally
+      onReshuffle={reshuffle}
+      renderFront={(r) => (
+        <>
+          <p className="fd-text fd-text-sm">Which cadet grade is this?</p>
+          <div className="arc-s-fd-plates"><Plates rank={r} form={form} /></div>
+        </>
+      )}
+      renderBack={(r) => (
+        <>
+          <p className="fd-text">{r.name}</p>
+          <p className="fd-text fd-text-sm">{r.abbr} · {r.tier}</p>
+          {r.note && <p className="fd-note">{r.note}</p>}
+        </>
+      )}
+    />
   );
 }
 

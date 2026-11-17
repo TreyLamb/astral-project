@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Practice flight drill and the Det 855 Open Ranks Inspection: give commands and watch the flight execute them count by count.">
+<title>Flight Drill Sim</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314305a'/%3E%3Cg fill='%237cc4ff'%3E%3Ccircle cx='9' cy='11' r='3'/%3E%3Ccircle cx='16' cy='11' r='3'/%3E%3Ccircle cx='23' cy='11' r='3'/%3E%3Ccircle cx='9' cy='21' r='3'/%3E%3Ccircle cx='16' cy='21' r='3'/%3E%3Ccircle cx='23' cy='21' r='3'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #eef1f5; --pad: #e3e7ed; --grid: rgba(20, 30, 50, .07); --grid2: rgba(20, 30, 50, .14);
+    --panel: #ffffff; --panel2: #f4f6f9; --line: #d4dae3; --fg: #18202c; --muted: #5d6878;
+    --accent: #1f6fd6; --accent-fg: #ffffff; --accent-soft: rgba(31, 111, 214, .12);
+    --good: #1c8a4e; --bad: #c8402e; --warn: #b67800; --gold: #d29a19;
+    --fc: #c62a3a; --insp: #5b2d8f; --guide: #2b2f36; --ghost: #c62a3a;
+    --e0: #3d7ee0; --e1: #2f9e5b; --e2: #e08a1e; --e3: #8b55d6; --e4: #12a3b8; --e5: #d6457a;
+    --shadow: 0 6px 22px rgba(20, 30, 50, .18);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10141b; --pad: #161b23; --grid: rgba(220, 230, 255, .06); --grid2: rgba(220, 230, 255, .12);
+      --panel: #171c25; --panel2: #1e2430; --line: #2c3442; --fg: #e8edf5; --muted: #98a3b5;
+      --accent: #6aa8ff; --accent-fg: #06121d; --accent-soft: rgba(106, 168, 255, .14);
+      --good: #4cc38a; --bad: #ef7b6c; --warn: #e3b04b; --gold: #e3b04b;
+      --fc: #ff6b78; --insp: #c49bff; --guide: #dfe5ee; --ghost: #ff6b78;
+      --e0: #6aa8ff; --e1: #4cc38a; --e2: #ffad4d; --e3: #b48cff; --e4: #3fd0e2; --e5: #ff7ba8;
+      --shadow: 0 8px 26px rgba(0, 0, 0, .45);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10141b; --pad: #161b23; --grid: rgba(220, 230, 255, .06); --grid2: rgba(220, 230, 255, .12);
+    --panel: #171c25; --panel2: #1e2430; --line: #2c3442; --fg: #e8edf5; --muted: #98a3b5;
+    --accent: #6aa8ff; --accent-fg: #06121d; --accent-soft: rgba(106, 168, 255, .14);
+    --good: #4cc38a; --bad: #ef7b6c; --warn: #e3b04b; --gold: #e3b04b;
+    --fc: #ff6b78; --insp: #c49bff; --guide: #dfe5ee; --ghost: #ff6b78;
+    --e0: #6aa8ff; --e1: #4cc38a; --e2: #ffad4d; --e3: #b48cff; --e4: #3fd0e2; --e5: #ff7ba8;
+    --shadow: 0 8px 26px rgba(0, 0, 0, .45);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--fg); overflow: hidden;
+    font: 16.5px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  kbd { font: .78em ui-monospace, SFMono-Regular, Consolas, monospace; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 .3em; background: var(--panel2); color: var(--muted); }
+
+  .fd-app {
+    height: 100vh; height: 100dvh; display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--panel-w, 380px);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .fd-app.panel-closed { --panel-w: 0px; }
+
+  /* ── top bar: the tool's only bar; the hub link sits far left ── */
+  .fd-top {
+    grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; min-width: 0;
+    padding: 6px 8px; background: var(--panel); border-bottom: 1px solid var(--line); z-index: 5;
+  }
+  .fd-hub { color: var(--muted); text-decoration: none; font-weight: 600; font-size: .9rem; white-space: nowrap; padding-right: 10px; border-right: 1px solid var(--line); }
+  .fd-hub:hover { color: var(--accent); }
+  .fd-title { font-weight: 800; letter-spacing: .02em; white-space: nowrap; }
+  .fd-title span { color: var(--accent); }
+  .fd-hot {
+    flex: 1 1 auto; min-width: 0; display: flex; gap: 6px; align-items: center; overflow-x: auto;
+    padding: 4px 6px; border: 1.5px dashed var(--line); border-radius: 10px; min-height: 44px;
+    scrollbar-width: thin;
+  }
+  .fd-hot.drop { border-color: var(--accent); background: var(--accent-soft); }
+  .fd-hot-hint { color: var(--muted); font-size: .9rem; white-space: nowrap; padding: 0 4px; }
+  .fd-chip {
+    flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--panel2); white-space: nowrap; font-size: .95rem; touch-action: none; user-select: none;
+  }
+  .fd-chip:hover { border-color: var(--accent); }
+  .fd-chip b { font-weight: 800; }
+  .fd-chip .k { font: .75rem ui-monospace, monospace; color: var(--muted); }
+  .fd-chip .foot, .fd-modal .foot, .fd-drag-ghost .foot { font-size: .68rem; font-weight: 800; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 3px; margin-left: 5px; vertical-align: 2px; }
+  body.fd-dragging, body.fd-dragging * { user-select: none !important; -webkit-user-select: none !important; cursor: grabbing; }
+  .fd-chip.dim { opacity: .5; }
+  .fd-chip.expect { border-color: var(--good); box-shadow: 0 0 0 2px var(--good); }
+  .fd-chip .x { border: 0; background: none; color: var(--muted); padding: 0 0 0 2px; font-size: 1rem; line-height: 1; display: none; }
+  .fd-chip:hover .x { display: inline; }
+  .fd-caret { flex: 0 0 3px; align-self: stretch; background: var(--accent); border-radius: 2px; }
+  .fd-top-tools { display: flex; gap: 6px; align-items: center; }
+  .fd-btn {
+    border: 1px solid var(--line); background: var(--panel2); border-radius: 8px; padding: 6px 10px; line-height: 1.2;
+    display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  }
+  .fd-btn:hover:not(:disabled) { border-color: var(--accent); }
+  .fd-btn:disabled { opacity: .45; cursor: default; }
+  .fd-btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 700; }
+  .fd-btn.on { border-color: var(--accent); background: var(--accent-soft); }
+  .fd-btn.icon { padding: 6px 9px; font-size: 1.05rem; }
+
+  /* ── stage ── */
+  .fd-stage { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: var(--pad); }
+  #svg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; user-select: none; -webkit-user-select: none; display: block; }
+  #svg.panning { cursor: grabbing; }
+  .pp { cursor: default; }
+  .pp.actor { cursor: grab; }
+  .pp.actor.dragging { cursor: grabbing; }
+  .pp-body { fill: var(--c); stroke: rgba(0, 0, 0, .55); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .pp-head { fill: color-mix(in srgb, var(--c) 55%, #f3d6bf); stroke: rgba(0, 0, 0, .55); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .pp-bill { fill: #1d2330; }
+  .pp-limb { stroke: var(--c); stroke-width: 3.6; stroke-linecap: round; fill: none; display: none; }
+  .pp.arm-L .arm-l, .pp.arm-R .arm-r, .pp.arm-hip .hip, .pp.pos-salute .salute, .pp.pos-parade .parade { display: inline; }
+  .pp .parade { stroke: rgba(0,0,0,.6); stroke-width: 2.4; }
+  .pp.is-el .pp-body { stroke: var(--gold); stroke-width: 3; }
+  .pp.is-last .pp-body { stroke-dasharray: 3 2; }
+  .pp.pos-atease, .pp.pos-rest, .pp.pos-route { opacity: .88; }
+  .pp.pos-fallout { opacity: .72; }
+  .pp.pos-dismissed { opacity: .28; }
+  .pp.guide { --c: var(--guide); }
+  .pp.fc { --c: var(--fc); }
+  .pp.insp { --c: var(--insp); }
+  .pp.fc .pp-body, .pp.insp .pp-body { stroke: #000; stroke-width: 1.5; }
+  .pp.sel .ring, .pp.actor:hover .ring { display: inline; }
+  .ring { display: none; fill: none; stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 4 3; }
+  .flag-pole { stroke: #444; stroke-width: 1.4; }
+  .flag { fill: #d23b3b; stroke: #6b1111; stroke-width: .6; }
+  .bad-mark { fill: var(--bad); }
+  .lbl { font: 700 9px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .lbl-num { fill: #fff; }
+  .lbl-num-bg { fill: rgba(20, 28, 40, .82); }
+  .lbl-tag { font-size: 8px; font-weight: 800; letter-spacing: .06em; }
+  .lbl-tag.fc { fill: var(--fc); } .lbl-tag.insp { fill: var(--insp); } .lbl-tag.g { fill: var(--muted); }
+  .lbl-h { fill: var(--muted); font-weight: 600; font-size: 7px; }
+  .bub rect { fill: var(--panel); stroke: var(--line); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .bub text { fill: var(--fg); font: 600 8px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+  .bub.fc rect { stroke: var(--fc); } .bub.insp rect { stroke: var(--insp); }
+  .trail { fill: none; stroke: var(--fc); stroke-width: 2.2; stroke-dasharray: 7 6; vector-effect: non-scaling-stroke; }
+  .trail.insp { stroke: var(--insp); }
+  .trail.old { opacity: .35; }
+  .trail.preview { stroke: var(--accent); }
+  .trail-lbl rect { fill: var(--panel); stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .trail-lbl text { fill: var(--fg); font: 700 8px system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+  .mtrail { fill: none; stroke: var(--muted); stroke-width: 1.2; opacity: .45; vector-effect: non-scaling-stroke; }
+  .ghost .pp-body, .ghost .pp-head { fill: none; stroke: var(--ghost); stroke-width: 2; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; }
+  .ghost .gring { fill: var(--accent-soft); stroke: var(--ghost); stroke-width: 1.5; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; }
+  .ghost .garrow { fill: var(--ghost); }
+  .ghost text { fill: var(--ghost); font: 800 8px system-ui, sans-serif; text-anchor: middle; }
+  .hint-route { fill: none; stroke: var(--ghost); stroke-width: 1.5; stroke-dasharray: 2 5; opacity: .8; vector-effect: non-scaling-stroke; }
+  .rankline { stroke: var(--bad); stroke-width: 1; stroke-dasharray: 3 4; opacity: .7; vector-effect: non-scaling-stroke; }
+
+  /* floating chrome over the stage */
+  .fd-float { position: absolute; z-index: 4; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  .fd-status { left: 10px; top: 10px; padding: 7px 11px; font-size: .9rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; max-width: calc(100% - 20px); }
+  .fd-status b { font-weight: 700; }
+  .fd-status .foot { display: inline-flex; gap: 3px; }
+  .fd-status .foot i { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-style: normal; font-size: .72rem; font-weight: 800; border: 1px solid var(--line); color: var(--muted); }
+  .fd-status .foot i.on { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .fd-caption {
+    position: absolute; left: 50%; top: 58px; transform: translateX(-50%); z-index: 3; pointer-events: none;
+    font-size: clamp(1.25rem, 2.6vw, 2rem); font-weight: 500; letter-spacing: .03em; text-align: center;
+    color: var(--fg); text-shadow: 0 1px 0 var(--pad), 0 0 12px var(--pad); opacity: 0; transition: opacity .35s; max-width: min(90%, 760px);
+  }
+  .fd-caption b { font-weight: 900; }
+  .fd-caption.on { opacity: 1; }
+  .fd-transport { left: 50%; bottom: 12px; transform: translateX(-50%); padding: 6px; display: flex; gap: 6px; align-items: center; }
+  .fd-transport select { border: 1px solid var(--line); background: var(--panel2); border-radius: 8px; padding: 6px 6px; }
+  .fd-count { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .88rem; padding: 0 4px; white-space: nowrap; }
+  .fd-zoom { right: 10px; bottom: 12px; padding: 4px; display: flex; flex-direction: column; gap: 4px; }
+  .fd-zoom .fd-btn { justify-content: center; min-width: 38px; }
+  .fd-fcbar { left: 10px; bottom: 12px; padding: 6px; display: flex; gap: 4px; align-items: center; flex-wrap: wrap; max-width: calc(50% - 150px); }
+  .fd-fcbar .lab { font-size: .76rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: var(--fc); padding: 0 4px; }
+  .fd-fcbar .fd-btn { padding: 5px 8px; font-size: .9rem; }
+  .fd-script {
+    right: 10px; top: 10px; width: min(430px, calc(100% - 20px)); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+    max-height: calc(100% - 90px); overflow: auto;
+  }
+  .fd-script[hidden] { display: none; }
+  .fd-script .sec { font-size: .75rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+  .fd-script .txt { font-size: 1.08rem; line-height: 1.45; margin: 0; }
+  .fd-script .quote { font-size: .95rem; color: var(--muted); font-style: italic; margin: 0; border-left: 3px solid var(--line); padding-left: 8px; }
+  .fd-script .note { font-size: .92rem; color: var(--warn); margin: 0; }
+  .fd-script .expect { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .fd-script .res { font-weight: 700; margin: 0; }
+  .fd-script .res.ok { color: var(--good); } .fd-script .res.no { color: var(--bad); }
+  .fd-script .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fd-script .bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .fd-script .bar i { display: block; height: 100%; background: var(--accent); }
+  .fd-toast {
+    position: absolute; left: 50%; bottom: 74px; transform: translateX(-50%); z-index: 6; max-width: min(640px, 92%);
+    padding: 9px 14px; border-radius: 10px; background: var(--fg); color: var(--bg); font-size: .98rem; box-shadow: var(--shadow);
+    opacity: 0; pointer-events: none; transition: opacity .25s;
+  }
+  .fd-toast.on { opacity: 1; }
+  .fd-toast.bad { background: var(--bad); color: #fff; }
+  .fd-toast.good { background: var(--good); color: #fff; }
+  .fd-pop { width: 250px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; font-size: .95rem; }
+  .fd-pop[hidden] { display: none; }
+  .fd-pop .row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fd-pop h4 { margin: 0; font-size: 1rem; }
+  .fd-pop p { margin: 0; color: var(--muted); }
+  .fd-panel-tab {
+    position: absolute; right: 10px; top: 10px; z-index: 4;
+  }
+
+  /* ── side panel ── */
+  .fd-panel { background: var(--panel); border-left: 1px solid var(--line); min-height: 0; min-width: 0; display: flex; flex-direction: column; overflow: hidden; }
+  .panel-closed .fd-panel { display: none; }
+  .fd-tabs { display: flex; border-bottom: 1px solid var(--line); }
+  .fd-tabs button { flex: 1; border: 0; background: none; padding: 10px 6px; font-weight: 700; color: var(--muted); border-bottom: 2.5px solid transparent; }
+  .fd-tabs button.on { color: var(--accent); border-bottom-color: var(--accent); }
+  .fd-tabpane { flex: 1; min-height: 0; overflow: auto; padding: 10px; display: none; }
+  .fd-tabpane.on { display: block; }
+  .fd-search { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel2); margin-bottom: 8px; }
+  .fd-group { border: 1px solid var(--line); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  .fd-group > summary { padding: 8px 10px; font-weight: 800; cursor: pointer; background: var(--panel2); list-style: none; display: flex; justify-content: space-between; }
+  .fd-group > summary::-webkit-details-marker { display: none; }
+  .fd-group > summary .n { color: var(--muted); font-weight: 600; font-size: .85rem; }
+  .fd-cmd { display: flex; align-items: center; gap: 4px; padding: 3px 4px 3px 2px; border-top: 1px solid var(--line); }
+  .fd-grip { cursor: grab; color: var(--muted); padding: 6px 4px; touch-action: none; user-select: none; font-size: 1.05rem; line-height: 1; }
+  .fd-call { flex: 1; min-width: 0; text-align: left; border: 0; background: none; padding: 6px 4px; border-radius: 6px; line-height: 1.3; font-size: .98rem; }
+  .fd-call:hover { background: var(--accent-soft); }
+  .fd-call b { font-weight: 800; }
+  .fd-call .foot { font-size: .7rem; font-weight: 800; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 3px; margin-left: 4px; vertical-align: 2px; }
+  .fd-cmd.no .fd-call { color: var(--muted); }
+  .fd-cmd.expect { background: color-mix(in srgb, var(--good) 14%, transparent); }
+  .fd-cmd.expect .fd-call { font-weight: 600; }
+  .fd-mini { border: 0; background: none; color: var(--muted); padding: 5px 6px; border-radius: 6px; font-size: .95rem; line-height: 1; }
+  .fd-mini:hover { color: var(--accent); background: var(--accent-soft); }
+  .fd-mini.on { color: var(--gold); }
+  .fd-param { display: inline-flex; align-items: center; gap: 2px; }
+  .fd-param button { border: 1px solid var(--line); background: var(--panel2); border-radius: 5px; width: 22px; height: 22px; padding: 0; line-height: 1; }
+  .fd-param span { min-width: 16px; text-align: center; font-weight: 700; }
+  .fd-h { margin: 6px 0 8px; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .fd-p { margin: 0 0 10px; font-size: .98rem; }
+  .fd-p.muted { color: var(--muted); font-size: .92rem; }
+  .fd-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .fd-field { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .98rem; }
+  .fd-field input[type="number"], .fd-field input[type="text"], .fd-field select { width: 120px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel2); }
+  .fd-field input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+  .fd-field small { display: block; color: var(--muted); font-size: .85rem; }
+  .fd-seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .fd-seg button { border: 0; background: var(--panel2); padding: 6px 11px; border-right: 1px solid var(--line); }
+  .fd-seg button:last-child { border-right: 0; }
+  .fd-seg button.on { background: var(--accent); color: var(--accent-fg); font-weight: 700; }
+  .fd-card { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; background: var(--panel2); }
+  .fd-card.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .fd-card h4 { margin: 0 0 3px; font-size: 1.02rem; }
+  .fd-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+  .fd-steps { margin: 0; padding-left: 22px; font-size: .92rem; }
+  .fd-steps li { margin: 3px 0; color: var(--muted); }
+  .fd-steps li.done { color: var(--good); }
+  .fd-steps li.cur { color: var(--fg); font-weight: 700; }
+  .fd-log { list-style: none; margin: 0; padding: 0; font-size: .95rem; }
+  .fd-log li { display: flex; gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--line); }
+  .fd-log .t { font: .78rem ui-monospace, monospace; color: var(--muted); min-width: 48px; }
+  .fd-log .c { flex: 1; }
+  .fd-log .c small { display: block; color: var(--muted); }
+  .fd-log li.bad .c { color: var(--bad); }
+  .fd-log li.sep { color: var(--muted); font-weight: 700; justify-content: center; }
+  .fd-score { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 8px 0; }
+  .fd-score div { border: 1px solid var(--line); border-radius: 8px; padding: 6px; text-align: center; }
+  .fd-score b { display: block; font-size: 1.3rem; }
+  .fd-score span { font-size: .78rem; color: var(--muted); }
+
+  .fd-modal { position: fixed; inset: 0; z-index: 20; background: rgba(0, 0, 0, .35); display: grid; place-items: center; padding: 16px; }
+  .fd-modal[hidden] { display: none; }
+  .fd-modal .box { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); max-width: 560px; width: 100%; padding: 16px 18px; max-height: 90vh; overflow: auto; }
+  .fd-modal h3 { margin: 0 0 4px; font-size: 1.25rem; }
+  .fd-modal h3 b { font-weight: 900; }
+  .fd-modal p { margin: 8px 0; font-size: 1.02rem; }
+  .fd-modal .meta { color: var(--muted); font-size: .9rem; }
+  .fd-drag-ghost { position: fixed; z-index: 30; pointer-events: none; transform: translate(-50%, -120%); }
+
+  @media (max-width: 860px) {
+    .fd-app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .fd-panel {
+      position: fixed; left: 0; right: 0; bottom: 0; height: 52vh; z-index: 10; border-left: 0; border-top: 1px solid var(--line);
+      border-radius: 14px 14px 0 0; box-shadow: var(--shadow);
+    }
+    .fd-title span { display: none; }
+    .fd-hub { padding-right: 6px; }
+    .fd-fcbar { max-width: calc(100% - 20px); bottom: 64px; }
+    .fd-zoom { bottom: 64px; flex-direction: row; right: 10px; top: auto; }
+    .fd-fcbar { bottom: 112px; }
+    .fd-script { top: auto; bottom: 160px; max-height: 40%; }
+    .fd-transport { bottom: 10px; }
+    .fd-caption { top: 52px; }
+  }
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    .fd-title { display: none; }
+    .fd-transport .fd-count { display: none; }
+    .fd-status { font-size: .82rem; gap: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .fd-caption, .fd-toast { transition: none; } }
+</style>
+</head>
+<body>
+<div class="fd-app" id="app">
+  <header class="fd-top">
+    <a class="fd-hub" id="hub" href="/">⌂ Astral Hub</a>
+    <div class="fd-title">Flight Drill <span>Sim</span></div>
+    <div class="fd-hot" id="hot" aria-label="Hot bar: your common commands"></div>
+    <div class="fd-top-tools">
+      <button class="fd-btn icon" id="undo" title="Undo (Ctrl+Z)" aria-label="Undo">↶</button>
+      <button class="fd-btn icon" id="redo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo">↷</button>
+      <button class="fd-btn" id="panelBtn" title="Show or hide the command panel">☰ <span>Panel</span></button>
+    </div>
+  </header>
+
+  <main class="fd-stage" id="stage">
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg" aria-label="Drill pad">
+      <defs>
+        <pattern id="g1" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="var(--grid)" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern>
+        <pattern id="g5" width="120" height="120" patternUnits="userSpaceOnUse"><rect width="120" height="120" fill="url(#g1)"/><path d="M120 0H0V120" fill="none" stroke="var(--grid2)" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern>
+        <marker id="arrFc" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fc)"/></marker>
+        <marker id="arrInsp" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--insp)"/></marker>
+        <marker id="arrPrev" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+        <marker id="arrHint" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ghost)"/></marker>
+      </defs>
+      <rect id="padRect" fill="url(#g5)"/>
+      <g id="lyrMarch"></g>
+      <g id="lyrGuides"></g>
+      <g id="lyrTrails"></g>
+      <g id="lyrGhost"></g>
+      <g id="lyrPeople"></g>
+      <g id="lyrLabels"></g>
+      <g id="lyrBubbles"></g>
+    </svg>
+
+    <div class="fd-float fd-status" id="status" aria-live="polite"></div>
+    <div class="fd-caption" id="caption"></div>
+    <section class="fd-float fd-script" id="scriptCard" hidden aria-live="polite"></section>
+
+    <div class="fd-float fd-fcbar" id="fcbar" aria-label="Your commander">
+      <span class="lab">You</span>
+      <button class="fd-btn" data-fc="left" title="Left face (Q)">↶ Left</button>
+      <button class="fd-btn" data-fc="right" title="Right face (E)">↷ Right</button>
+      <button class="fd-btn" data-fc="about" title="About face (R)">⟲ About</button>
+      <button class="fd-btn" data-fc="halfLeft" title="Half left (Shift+Q)">↖</button>
+      <button class="fd-btn" data-fc="halfRight" title="Half right (Shift+E)">↗</button>
+      <button class="fd-btn" data-fc="face" title="Face the flight (F)">◎ Face flight</button>
+      <button class="fd-btn" data-fc="post" title="March to your regulation post (P)">⌖ Post</button>
+      <button class="fd-btn" data-fc="salute" title="Salute / drop salute (S)">✋</button>
+      <button class="fd-btn" data-fc="clear" title="Clear the dotted paths">⌫ Paths</button>
+    </div>
+
+    <div class="fd-float fd-transport" id="transport">
+      <button class="fd-btn primary icon" id="play" title="Play the counts until the flight stops (press again to pause)" aria-label="Play">▶</button>
+      <button class="fd-btn" id="step1" title="Next count (Space)">⏭ Count</button>
+      <button class="fd-btn" id="step4" title="Four counts (Shift+Space)">×4</button>
+      <select id="speed" aria-label="Speed" title="Speed of each count">
+        <option value="slow">Slow</option><option value="normal">Normal</option><option value="fast">Fast</option><option value="instant">Instant</option>
+      </select>
+      <button class="fd-btn" id="byNumbers" title="By the numbers: every count waits for you">By the #s</button>
+      <span class="fd-count" id="count"></span>
+    </div>
+
+    <div class="fd-float fd-zoom">
+      <button class="fd-btn" id="zin" title="Zoom in" aria-label="Zoom in">+</button>
+      <button class="fd-btn" id="zout" title="Zoom out" aria-label="Zoom out">−</button>
+      <button class="fd-btn" id="zfit" title="Fit the flight (0)" aria-label="Fit">⤢</button>
+      <button class="fd-btn" id="zfollow" title="Keep the flight in view" aria-label="Follow">◎</button>
+    </div>
+
+    <div class="fd-float fd-pop" id="pop" hidden></div>
+    <div class="fd-toast" id="toast" role="status"></div>
+  </main>
+
+  <aside class="fd-panel" id="panel" aria-label="Commands and practice">
+    <nav class="fd-tabs" role="tablist">
+      <button data-tab="commands" class="on">Commands</button>
+      <button data-tab="practice">Practice</button>
+      <button data-tab="log">Log</button>
+      <button data-tab="setup">Setup</button>
+    </nav>
+    <section class="fd-tabpane on" data-pane="commands">
+      <input class="fd-search" id="search" type="search" placeholder="Find a command  ( / )" aria-label="Find a command">
+      <p class="fd-p muted" id="cmdHelp">Tap a command to give it. Drag <b>⠿</b> onto the bar at the top (or tap ☆) to keep it handy; keys <kbd>1</kbd>–<kbd>9</kbd> give the bar's commands. Dimmed commands can't be given right now: tap one to see why.</p>
+      <div id="cmdList"></div>
+    </section>
+    <section class="fd-tabpane" data-pane="practice" id="practice"></section>
+    <section class="fd-tabpane" data-pane="log">
+      <div class="fd-row"><button class="fd-btn" id="logClear">Clear log</button></div>
+      <ul class="fd-log" id="log"></ul>
+    </section>
+    <section class="fd-tabpane" data-pane="setup" id="setup"></section>
+  </aside>
+</div>
+
+<div class="fd-modal" id="info" hidden><div class="box" id="infoBox"></div></div>
+
+<script src="engine.js"></script>
+<script src="commands.js"></script>
+<script src="scripts.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>

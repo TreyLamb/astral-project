@@ -3350,6 +3350,8 @@
 
 .eft-listbar-search { flex: 1; min-width: 150px; max-width: 320px; }
 
+.eft-listbar-sort { display: inline-flex; align-items: center; gap: 6px; }
+
 .eft-listbar-count {
   margin-left: auto;
   font-size: 14px;
@@ -4122,7 +4124,7 @@
 
 .eft-hrow {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 58px 118px 150px;
+  grid-template-columns: minmax(0, 1fr) 58px 118px 196px;
   gap: 8px;
   align-items: center;
   padding: 5px 6px;
@@ -4144,8 +4146,21 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.eft-hrow-sect {
+  padding: 10px 6px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--eft-gold);
+  border-bottom: 1px solid var(--eft-line-bright);
+}
 .eft-hrow-need { text-align: right; font-variant-numeric: tabular-nums; color: var(--eft-text-dim); }
-.eft-hrow-for { justify-self: start; overflow: hidden; }
+.eft-hrow-for { justify-self: start; overflow: hidden; max-width: 100%; }
+.eft-hrow-for .eft-chip { max-width: 100%; }
+/* A long station name gives way before its level does — the level is what the
+   default sort is ordered by. */
+.eft-hrow-station { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 
 @media (max-width: 700px) {
   .eft-hrow { grid-template-columns: minmax(0, 1fr) 46px auto; }
@@ -4759,4 +4774,12 @@
 .eft-space-railchip {
   margin-left: 4px; padding: 0 6px; border-radius: 999px; font-size: 0.72rem;
   color: var(--eft-text-faint); border: 1px dashed var(--eft-line-bright);
+}
+
+/* ---------- Hide-completed-items toggle + the "all collected" card body ---------- */
+
+.eft-app .eft-station-alldone {
+  padding: 6px 2px;
+  font-size: 14px;
+  color: var(--eft-green);
 }

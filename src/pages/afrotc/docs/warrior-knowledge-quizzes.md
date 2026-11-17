@@ -1,7 +1,7 @@
 # Weekly Warrior Knowledge Quizzes — study guide
 
 Det 855. The questions and answer options below are copied **word for word** from the two Google
-Forms Trey posted on 2026-09-25 (Week 1 and Week 2). **The forms do not show an answer key**, so
+Forms posted on 2026-09-25 (Week 1 and Week 2). **The forms do not show an answer key**, so
 every marked answer is one we worked out, not one the quiz told us.
 
 **How to read the marks**

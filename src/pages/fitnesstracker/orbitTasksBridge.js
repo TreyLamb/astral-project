@@ -10,6 +10,9 @@ import { OrbitFirestore } from '../orbit/orbitFirestore';
 import { newTask, newInboxItem, newBase, nextBaseColor } from '../orbit/orbitConfig';
 import { geocodePlaceName } from '../orbit/orbitWeatherService';
 
+/** The day an Orbit to-do sits on the calendar: its scheduled day, else its due day. */
+export const orbitTodoDay = (t) => t.scheduledDate || t.dueDate || null;
+
 function backendFor(user, firebaseReady) {
   if (user && firebaseReady) {
     const uid = user.uid;

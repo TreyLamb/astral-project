@@ -37,6 +37,7 @@ export const SITE_LINKS = [
   { to: '/daily-idiom',            name: 'Daily Chéngyǔ',    desc: 'new chinese idiom every day',       icon: '📖', bg: '#160404', accent: '#f87171', rgb: '248,113,113'  },
   { to: '/lexicon',                name: 'The Lexicon',      desc: 'vocabulary study tool',             icon: '🔤', bg: '#090d14', accent: '#94a3b8', rgb: '148,163,184'  },
   { to: '/VV',                     name: 'Vocab Vault',      desc: 'multi-language vocab & quiz review', icon: '🗃️', bg: '#140a1f', accent: '#c084fc', rgb: '192,132,252' },
+  { to: '/schedule-widget',        name: 'Schedule Widget',  desc: 'now / next / due, for a phone widget', icon: '🗓️', bg: '#0b1220', accent: '#60a5fa', rgb: '96,165,250'   },
   { to: '/daily-idiom-widget',     name: 'Chéngyǔ Widget',   desc: 'embeddable idiom display',          icon: '🪟', bg: '#141004', accent: '#fbbf24', rgb: '251,191,36'   },
 ];
 

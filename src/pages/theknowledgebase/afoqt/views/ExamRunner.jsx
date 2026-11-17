@@ -221,9 +221,9 @@ export default function ExamRunner() {
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (!session || session.status !== 'running' || !step || step.kind !== 'subtest') return;
-      const q = questions[idx];
-      const i = LETTERS.indexOf(e.key.toUpperCase());
-      if (q && i >= 0 && i < q.choices.length) { e.preventDefault(); submit(i); return; }
+      // No letter hotkeys for answers, and never act on a chord (Trey, 2026-11-02: Ctrl+C answered
+      // the question). Answers are tap/click only.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (voice.on && e.key.toUpperCase() === 'R') { e.preventDefault(); voice.readQuestion(); }
     };
     window.addEventListener('keydown', onKey);

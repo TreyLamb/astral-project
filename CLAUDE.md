@@ -2,6 +2,68 @@
 
 This file is for Claude. Read it before touching anything.
 
+## 🔴 Read `PREFERENCES.md` (repo root) first, every session. And WRITE to it.
+It is the list of how Trey wants things done: label wording, colours, what goes in which list, how to work with him.
+Trey, 2026-11-03: *"you just do what i say and you don't learn HOW i want things done for the future. i hate having to
+repeat myself."* **When he corrects you or states a preference, fix it AND add the general rule to `PREFERENCES.md` in the
+same turn** (and enforce it in code/tests where you can). Do not wait to be asked.
+
+---
+
+## 🔴🔴 REUSE BEFORE BUILD: follow the architecture that already exists. Read this before writing any feature.
+
+Trey, 2026-11-02, after the CHEM practice test turned out to be a from-scratch runner with no Back/Next, no hints and A-D
+answer hotkeys he had already asked to be removed: *"IT SHOULDN'T BE SAID THAT AGENTS SHOULD BE FOLLOWING THE SAME
+ARCHITECTURE OF THE WHOLE REST OF THE PROJECT ... IT'S COMMON SENSE ... WE SHOULDN'T EVEN HAVE TO HAVE RULES FOR THIS."*
+He is right. These rules exist because it happened anyway; treat every one as binding.
+
+**Before you build**
+1. **Find the existing version first.** Before writing any component, page, runner, deck, store or script, search the repo
+   for something that already does it (Grep the concept, not just one file name: "quiz", "drill", "runner", "deck", "hint",
+   "next"). Then search his Drive (`G:\My Drive\SupplementalCourseDocs\`) for anything a previous session built there.
+2. **Extend or reuse it. Never fork a second version.** If the existing one is close but not right, generalise it (props,
+   config) and use it in both places. A from-scratch copy drifts, and every fix then has to be made twice.
+3. **If you truly must build new, copy the established pattern feature for feature** and list in your report which existing
+   file you modelled it on.
+4. **Never claim a feature "doesn't exist" or "never existed" from one search.** Check the whole repo, git history and his
+   Drive. If a sibling surface has it and this one doesn't, this one is the bug, not the baseline.
+5. **Parity is the default.** Something that works one way in one sub-app works the same way in every sibling: same keys,
+   same buttons, same layout, same storage behaviour. A difference needs a stated reason.
+
+**Shared pieces that already exist (use them)**
+| Need | Use |
+|---|---|
+| A quiz, drill or test | AFOQT `src/pages/theknowledgebase/afoqt/views/DrillRunner.jsx` / `ExamRunner.jsx` pattern (see the TKB CLAUDE.md rule for what every runner must have) |
+| A flashcard deck | `src/pages/shared/FlipDeck.jsx` |
+| Text to speech | `src/pages/shared/ttsEngine.js` + `ttsCache.js` |
+| A battle screen (games) | `src/pages/shared/GameBattle.jsx` |
+| Error handling for a risky panel | `src/components/errors/Boundary.jsx` |
+| A tool's own top bar | `src/components/HubLink.jsx` + `OWN_TOPBAR_ROUTES` in `Navbar.jsx` |
+| A nav entry / Home card | one entry in `src/siteLinks.js` |
+| Random numbers, shuffles, spaced queues | `src/pages/theknowledgebase/engine/` (`rng.js`, `queue.js`, `selection.js`, `cycle.js`) |
+| localStorage + Firestore sync | the per-sub-app storage module pattern (`mymdbStorage.js`, `rotcStore.jsx`) |
+
+**Every quiz / test / drill, without being asked**
+6. Back / Next between questions (buttons and arrow keys), and answers can be changed until it is finished.
+7. A hint ladder per question (5-7 steps). The first hints name what you need to know (constants, equations) WITHOUT values;
+   no hint ever states the answer.
+8. **No letter hotkeys for answering.** Tap or click only. No hotkey ever fires on a Ctrl/Cmd/Alt chord (Ctrl+C was answering
+   questions).
+9. Hotkeys are ignored while typing in an input or the Notes panel.
+10. A results screen that shows every question, his answer, the right answer and the explanation.
+11. The course reference sheet opens mid-run where the course has one.
+12. A direct, obvious way to START a test from the place he will look for it. A study page that lists templates with no start
+   button is a dead end.
+13. Works on his iPhone in Safari at phone width: tap targets, no hover-only controls.
+
+**Working with him**
+14. **Batch the fixes and push ONCE.** No series of small pushes (Trey, 2026-11-02: "DO NOT DO MULTIPLE PUSHES. FIX IT ALL AND
+   DO ONE PUSH").
+15. Verify on the live site before telling him something works, and say what you checked.
+16. When he is about to use something under time pressure (an exam today), check it the way he will use it, end to end, before
+   handing it over.
+17. When he says something used to exist, believe it enough to search properly before answering. Lead with what you found.
+
 ---
 
 ## ℹ️ Deferred env vars (Google Photos / App Check) — flag to check later, do NOT proactively raise
@@ -725,8 +787,8 @@ request: *"I don't have to walk you through what i want from you."*
 🔒 **Scheduling rules, set 2026-10-25 — every agent that schedules for Trey follows these without being told** (full text: the skill's
 "STANDING SCHEDULING PRINCIPLES" and the top of STATE.md): **stay AHEAD of deadlines — start each item when it unlocks, NEVER plan a late
 submission** (Trey: *"to take care of assignments as SOON as they are available, not the day it closes or the day before … always on average AHEAD,
-not floating barely above water"*); 3-day method per paper (1 hr sources/skeleton/AI brief → 2-3 hr bulk draft → 30 min polish + submit); one ESMG
-discussion post/reply a day until the extra credit is earned; ~5 focused hr/day default (push weeks only when he says); ~2 hr/week of MICR 2060
+not floating barely above water"*); EASY MINIMUM + 2-3 EXTRAS at the end of every day (Trey, 11-10: the minimum must get done, the extras are for a locked-in day to get ahead; kind 'extra' in studyPlan.js, enforced by its test); ONE sitting per paper (Trey, 11-9: 'i always push them off and do them all at once anyways'): a single ~2-hour block to write it (skeleton/brief made by me ahead of time), then my final edit, then he submits; the old 3-day method is retired; one ESMG
+discussion post/reply a day until the extra credit is earned; **MICR 2060 AIWPs submitted the DAY THEY OPEN** (agent drafts, Trey reviews + submits); ~5 focused hr/day default (push weeks only when he says); ~2 hr/week of MICR 2060
 reading in its own blocks; name the course on every quiz; show the week as a calendar (`node scripts/planCalendar.mjs`, source
 `src/pages/fitnesstracker/studyPlan.js`). **CHEM study is not the quizzes:** quizzes are benchmarks; his real exams are ~3x harder and AFOQT-paced (~2 min/question);
 real study = the CURRENT chapter tuned to the national ACS exam. He views CHEM difficulty as three internal "bands" (1 = basics, 2 = professor quizzes, 3 = national exam);
@@ -735,7 +797,23 @@ the skill + STATE.md + this file + the memory folder the same turn.
 ⏱️ **Time tracking (Trey, 2026-10-26): log how long each assignment REALLY takes** — `_ChiefOfStaff/time-log.csv` + `timelog.mjs` (`import-canvas`, `summary` → `TIME_AVERAGES.md`). When he says "start X"/"done X", stamp the clock and log net minutes, planned minutes, focus and reason; **if he gives no reason or the actual is outside 0.7x-1.4x of planned, get curious and ask one specific question.** Size future blocks from the MEDIANS, not guesses.
 ✍️ **Emails and messages Trey will send: write in HIS voice — use the `trey-voice` skill** (Trey, 2026-11-09: *"I want you to start getting better at writing in my voice ... improve every time we have a new chance"*). Knowledge lives on Drive in `_ChiefOfStaff/voice/` (VOICE.md, SAMPLES.md, REVISIONS.md); skill backup in `_ChiefOfStaff/skill-backup/trey-voice/`. Whenever he pastes what he actually sent, log it verbatim, diff it against the draft, and update the profile the same turn.
 📣 **AFROTC events / "what's coming up" from Teams: run the Teams capture yourself**: `npm run capture` in the private **TreyLamb/teams-capture** repo (`C:/Users/clown/projects/teams-capture` on the home PC; clone it on any other computer) (2026-11-09, Trey: *"one script that YOU can run … autonomous of me"*; moved out of astral-project 2026-11-12 at his request). ~1 min, hidden browser, saved session in that repo's `.auth/teams-profile` (one per device); reads Announcements 1-6, GMC Official, Flight Charlie, Yankee Flight - ODC, Holy War Ball Run (last 14 days) into `_ChiefOfStaff/teams-capture/teams-digest.md`. The Det's Teams is in **BYU's** tenant (he's a UVU guest). Exit 2 = session expired → `npm run login` and he signs in once. Charlie Flight GMC is informal chatter, never a source of truth. Details: `teams-capture/CHANNELS.md`.
+🎓 **BYU Learning Suite (AEROS 110 / 210 / 100R / 143R): read it yourself, it is in the same teams-capture repo** (`learningsuite/`, added 2026-11-12). `npm run ls:crawl -- <cid> <outDir>` pulls Content pages, every attached file, Schedule, Grades, Exams, Announcements; `ls:extract` turns PDFs/PPTX into text; `ls:discussion` reads a discussion board. Session expires every few days: `npm run ls:login` (one Duo push). **AEROS 110 was never in the plan and its 50% Mid-Term was missed 2026-11-11 because of it: check Learning Suite deadlines for every AEROS course whenever you plan his week.** Course ids + full usage: the repo README.
 📄 **Memorandums: use the `trey-memo` skill** (2026-11-09). Format verified against The Tongue and Quill ch. 14 + the Det 855 template; `_ChiefOfStaff/voice/memo/make_memo.py` builds the .docx/.pdf on the Det letterhead. Never hand-format a memo (his printed AERO memo had spacing errors from the template's styles); always render the PDF and look at it before handing it over.
+🧪 **Daily (Trey, 2026-11-02): CHEM 1210 gets 3 hr every day, class included** (2 hr prep the night before on the next slides,
+then class), **and a workout is scheduled 5-6 days a week** (before 7 AM; Tue/Thu PT counts). Weekday model = a 7-3 "school shift";
+template `_ChiefOfStaff/Week_Template_7to3.pdf`. Block these first in every plan.
+🪖 **Daily (Trey, 2026-10-28): 30 min of Warrior Knowledge review** (roster names/faces/ranks, insignia, cards, Song and Creed; can be split into 5-minute pieces) goes in every daily plan, and the agent reminds him and calls it out when missed. **Every "do today" list accounts for the next 2-3 days**: pull work forward when later days can't hold it, and say why.
+
+---
+
+## 📚 "Build me a curriculum" = public courses + links, NOT Claude-written lessons
+Trey, 2026-11-01: *"I do not want YOU to build it all from scratch with your wording. Instead i want my curriculum to already
+consist of curriculums that exist publicly"*, written *"by a teacher/professional ... FOR humans by humans"*, with *"a direct link
+to the exact page i need to go to so i can just click and read."* Use the user-level **`public-curriculum` skill**
+(`C:\Users\Trey\.claude\skills\public-curriculum\SKILL.md`). The source database he can browse himself is
+`G:\My Drive\SupplementalCourseDocs\_LearningSources\` (`INDEX.md` has topic quick links): read it first, add to it every time,
+and verify every URL before writing it (a URL from memory was a 404 the day this was set up). His enrolled courses still run on
+their own assigned material first; public sources supplement them.
 
 ---
 
@@ -838,7 +916,20 @@ Steps 4 and 5 have collapsed into step 5 — the navbar no longer has hand-writt
 ## Adding a standalone tool (public/ — no React)
 - Drop folder in `public/` → accessible at `/folder-name/index.html`
 - In Navbar use plain `<a href="/folder-name/index.html">` NOT `<Link>` — Link will break it
-- Current public/ tools: `chinese-idioms/` (standalone page), `lexicon/` (data + node scripts only)
+- Current public/ tools: `chinese-idioms/` (standalone page), `lexicon/` (data + node scripts only), `flight-drill/` (below)
+- **`flight-drill/` — the Flight Drill Sim** (added 2026-10-28; linked from `/AFROTC` → ORI Procedures). Classic
+  `<script>`s, no modules or build, **so it also runs by double-clicking `index.html`** — keep it that way (a
+  `type="module"` script fails over `file://`). `engine.js` (geometry, counts, maneuvers) and `commands.js` (catalog:
+  each command's validity rule, foot, description, ¶ source) and `scripts.js` (Det 855 ORI + AFJROTC 30-step) are pure;
+  `ui.js` draws. `src/pages/afrotc/flightDrill.test.js` loads the same files through `node:vm` and pins the drill
+  geometry to the manual — change a movement, run it. Sources: DAFPAM 34-1203 / AFMAN 36-2203 ch. 3-4 (¶ numbers are
+  AFMAN's), `public/afrotc/ori/` (the Det ORI doc), AFJROTC Drill Pamphlet (Aug 2022). Distances: 24" pace, 40"
+  center-to-center interval and distance, 64" between opened ranks, 22" close interval. The Det doc's "even number of
+  ranks (rows)" centering rule is read as the number of cadets *across* an element — the only reading under which its own
+  Figure 4.1 comes out centered on a person.
+- ⚠️ **Windows resolves imports case-insensitively.** `KnowledgeList.jsx` beside `knowledgeList.js` made
+  `import './KnowledgeList'` resolve to the data file and broke `vite build` locally (it would have passed on Vercel's
+  Linux). Never give two files in one folder names that differ only by case.
 - **LOCAL-ONLY public/ tools (gitignored, NOT deployed):** `birds/`, `rustioclone/`, `rustpunkio/`.
   Untracked 2026-09-14 to cut Vercel Deployment Storage — 28.45 MB of source plus ~28 MB of build
   output, since Vite copies `public/` into `dist/` verbatim. They still run under `npm run dev`
@@ -997,6 +1088,7 @@ lists again; they drifted before.
 | `src/data/qaSkillsTracker.json` | Data for QA Tracker. Skills are `item.tool` inside `cat.items[]`. |
 | `src/data/toolsToAdd.txt` | Scratch pad for skills to add to QA tracker later. Not used by app. |
 | `src/pages/mymdb/mymdbStorage.js` | Reference for localStorage data layer pattern |
+| `src/pages/shared/FlipDeck.jsx` | **Every flashcard deck uses this** (Trey, 2026-10-30: the Gemini Notebook card, dark card on a glowing background that flips, back / ✗ / ✓ / next). AFROTC Knowledge cards, Knowledge list cards, Rank drill flashcards use it outright; AFOQT word cards and the original TKB review only take its look (`FlipDeck.css` + a turn animation) because their controls were specified separately. A new deck uses FlipDeck, never its own card. |
 | `public/lexicon/words.json` | Word list for Lexicon page |
 | `vercel.json` | SPA rewrite rule — don't remove or all deep links break on Vercel |
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { parseYouTubeId, fmtTime, loopDue, nudge, parseTime, activeLine, lineSpan, RATES, END_MODES } from './listenEngine';
+import { getSongFile, putSongFile, deleteSongFile } from './audioStore';
 
 /**
  * "Listen & loop" for the song page: play a recording and repeat one stretch of it, slowed down if
@@ -60,7 +61,7 @@ function TimeField({ label, value, onCommit }) {
     setDraft(null);
   };
   return (
-    <input className="arc-s-listen-time" inputMode="decimal" aria-label={`${label} time`} placeholder="--:--"
+    <input className="arc-s-listen-time" inputMode="text" enterKeyHint="done" autoComplete="off" aria-label={`Type the ${label} time`} placeholder="type m:ss"
       value={shown} onFocus={(e) => e.target.select()} onChange={(e) => setDraft(e.target.value)} onBlur={commit}
       onKeyDown={(e) => { if (e.key === 'Enter') e.currentTarget.blur(); if (e.key === 'Escape') setDraft(null); }} />
   );
@@ -91,7 +92,7 @@ function CroppedFrame({ page }) {
   );
 }
 
-export default function LoopPlayer({ value, onChange, suggested = [], lines = [], onAddLyrics, defaultStart = 0, lyricsPage }) {
+export default function LoopPlayer({ value, onChange, suggested = [], lines = [], onAddLyrics, defaultStart = 0, lyricsPage, songId }) {
   const marksAll = value?.marks ?? {};
   const startId = value?.yt || suggested[0]?.id;
   const [src, setSrc] = useState(() => (startId ? { kind: 'yt', id: startId, key: `yt:${startId}` } : null));
@@ -112,6 +113,8 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
   const host = useRef(null);
   const audio = useRef(null);
   const live = useRef({});
+  const edge = useRef(() => {});
+  const kick = useRef(0);
   // Where playback begins. Saved per recording; a song can set a default (the Air Force Song skips its intro).
   const start = src ? (value?.start?.[src.key] ?? defaultStart) : 0;
   live.current = { a, b, mode, playing, time, dur, start };
@@ -175,27 +178,45 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
     };
   }, [src]);
 
-  // One fast poll drives the loop edge; the readout only repaints about every 100 ms.
+  // One fast poll drives the loop edge; the readout only repaints about every 100 ms. A phone slows or freezes timers
+  // once the app is in the background, so a file's own timeupdate events (which keep firing) call the same check.
   useEffect(() => {
     let shown = 0;
-    const id = setInterval(() => {
+    const check = () => {
       const p = api.current;
       if (!p) return;
       let t = 0;
       try { t = p.time() || 0; } catch { return; }
       const { a: A, b: B, mode: m, playing: on } = live.current;
       if (on && m !== 'free' && loopDue(t, A, B)) {
-        if (m === 'loop') p.seek(A);
+        if (m === 'loop') { p.seek(A); kick.current = performance.now(); }
         else { p.pause(); p.seek(B); }
+      }
+      // A phone can leave the video paused after a jump back; if it has not resumed shortly after, press play again.
+      if (kick.current && performance.now() - kick.current > 600) {
+        kick.current = 0;
+        if (!live.current.playing && live.current.mode === 'loop') { try { p.play(); } catch { /* player busy */ } }
       }
       if (Math.abs(t - shown) >= 0.09) {
         shown = t; setTime(t);
         const d = p.duration?.();
         if (d && Number.isFinite(d)) setDur((old) => (old === d ? old : d));
       }
-    }, TICK_MS);
+    };
+    edge.current = check;
+    const id = setInterval(check, TICK_MS);
     return () => clearInterval(id);
   }, []);
+
+  // A file keeps playing with the screen off and shows lock-screen controls. (A YouTube video cannot: see the note below.)
+  useEffect(() => {
+    if (src?.kind !== 'file' || !('mediaSession' in navigator)) return undefined;
+    const ms = navigator.mediaSession;
+    try { ms.metadata = new MediaMetadata({ title: src.name, artist: 'Song looper' }); } catch { /* not supported */ }
+    ms.setActionHandler('play', () => audio.current?.play());
+    ms.setActionHandler('pause', () => audio.current?.pause());
+    return () => { ms.setActionHandler('play', null); ms.setActionHandler('pause', null); };
+  }, [src]);
 
   const loadVideo = (id) => {
     setSrc({ kind: 'yt', id, key: `yt:${id}` });
@@ -207,12 +228,27 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
     loadVideo(id);
     setLink('');
   };
+  const useBlob = (f) => setSrc({ kind: 'file', url: URL.createObjectURL(f), key: `file:${f.name}:${f.size}`, name: f.name, saved: true });
   const pickFile = (e) => {
     const f = e.target.files?.[0];
     if (!f) return;
-    setSrc({ kind: 'file', url: URL.createObjectURL(f), key: `file:${f.name}:${f.size}`, name: f.name });
+    useBlob(f);
+    if (songId) putSongFile(songId, f);
+  };
+  const dropFile = () => {
+    if (songId) deleteSongFile(songId);
+    const id = value?.yt || suggested[0]?.id;
+    setSrc(id ? { kind: 'yt', id, key: `yt:${id}` } : null);
   };
   useEffect(() => () => { if (src?.kind === 'file') URL.revokeObjectURL(src.url); }, [src]);
+  // The recording picked earlier on this device comes back by itself and wins over the YouTube video.
+  useEffect(() => {
+    if (!songId) return undefined;
+    let dead = false;
+    getSongFile(songId).then((rec) => { if (!dead && rec?.blob) useBlob(rec.blob.name ? rec.blob : new File([rec.blob], rec.name)); });
+    return () => { dead = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [songId]);
 
   const run = (fn) => { try { fn(api.current); } catch { /* player not ready yet */ } };
   const togglePlay = useCallback(() => {
@@ -291,12 +327,22 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
   };
   const cur = activeLine(stamps, time);
 
+  // A typed A or B: clamp to the track, keep B after A, and say so when it is refused.
+  const commitMark = (lbl, set, typed) => {
+    const t = Math.min(typed, live.current.dur || typed);
+    const { a: A, b: B } = live.current;
+    if (lbl === 'B' && A != null && t <= A) { setMsg(`B has to be after A (${fmtTime(A)}).`); return; }
+    setMsg('');
+    set(t);
+    if (lbl === 'A' && B != null && B <= t) setB(null);
+  };
+
   const marker = (lbl, val, set, mark) => (
     <div key={lbl} className="arc-s-listen-mark">
       <button className="arc-s-btn arc-s-listen-set" onClick={mark}>Set {lbl}</button>
       <button className="arc-s-btn arc-s-listen-step" aria-label={`${lbl} 0.1 second earlier`} disabled={val == null}
         {...holdProps(() => set((v) => (v == null ? v : nudge(v, -0.1, live.current.dur))))}>−0.1</button>
-      <TimeField label={lbl} value={val} onCommit={(t) => set(Math.min(t, live.current.dur || t))} />
+      <TimeField label={lbl} value={val} onCommit={(t) => commitMark(lbl, set, t)} />
       <button className="arc-s-btn arc-s-listen-step" aria-label={`${lbl} 0.1 second later`} disabled={val == null}
         {...holdProps(() => set((v) => (v == null ? v : nudge(v, 0.1, live.current.dur))))}>+0.1</button>
     </div>
@@ -330,7 +376,20 @@ export default function LoopPlayer({ value, onChange, suggested = [], lines = []
       {src?.kind === 'yt' && <div className="arc-s-listen-frame" ref={host} />}
       {src?.kind === 'file' && (
         <audio ref={audio} className="arc-s-listen-audio" src={src.url} controls preload="metadata"
-          onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+          onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onTimeUpdate={() => edge.current()} />
+      )}
+      {src?.kind === 'yt' && (
+        <p className="arc-s-note">
+          On a phone, YouTube stops the video when you leave the app or lock the screen, and a web page cannot change that.
+          To keep a loop playing in the background, use a file: tap &ldquo;Use a different video or a file&rdquo; and pick the recording.
+          It is saved on this device, so you only pick it once.
+        </p>
+      )}
+      {src?.kind === 'file' && src.saved && songId && (
+        <p className="arc-s-note">
+          Playing {src.name}, saved on this device.{' '}
+          <button className="arc-s-btn" onClick={dropFile}>Remove it</button>
+        </p>
       )}
 
       {lyricsPage && (

@@ -181,6 +181,7 @@ export function buildShoppingList(pending, items, inventory) {
       totalCost: each * row.needed,
       name: row.item?.name || row.itemId,
       category: row.item?.category || 'Uncategorised',
+      minLevel: Math.min(...row.sources.map((s) => s.level)),
     };
   });
 
@@ -202,6 +203,27 @@ export function buildShoppingList(pending, items, inventory) {
     : 100;
 
   return { rows, totals };
+}
+
+/**
+ * The order the hideout list reads in. 'level' is the default: what the LOWEST
+ * station level wants comes first, because a level-1 station gates more of the
+ * wipe than a level-3 one. An item wanted at several levels ranks by its
+ * earliest, except inside a station group, where it ranks by that station's own
+ * level (`contextLevel`). Whatever the sort, what you already have sinks.
+ */
+const ROW_SORTS = {
+  level: (a, b) => (a.contextLevel ?? a.minLevel) - (b.contextLevel ?? b.minLevel)
+    || compareRarity(a.item, b.item, 1),
+  rare: (a, b) => compareRarity(a.item, b.item, 1),
+  common: (a, b) => compareRarity(a.item, b.item, -1),
+  cost: (a, b) => b.remainingCost - a.remainingCost,
+  name: () => 0,
+};
+
+export function sortShoppingRows(rows, sort = 'level') {
+  const by = ROW_SORTS[sort] || ROW_SORTS.level;
+  return [...rows].sort((a, b) => Number(a.done) - Number(b.done) || by(a, b) || a.name.localeCompare(b.name));
 }
 
 export function filterRows(rows, { search, hideOwned, showFirOnly, stationKey: onlyStation }) {
@@ -249,8 +271,10 @@ function mergeSameItem(items) {
   const out = new Map();
   for (const it of items) {
     const prev = out.get(it.itemId);
-    if (prev) prev.needed += it.needed;
-    else out.set(it.itemId, { ...it });
+    if (prev) {
+      prev.needed += it.needed;
+      prev.contextLevel = Math.min(prev.contextLevel, it.contextLevel);
+    } else out.set(it.itemId, { ...it });
   }
   return [...out.values()].sort((a, b) => a.name.localeCompare(b.name));
 }

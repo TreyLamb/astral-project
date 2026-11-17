@@ -12,6 +12,7 @@ const KEY = {
   zones: (map) => `${P}zones_${map}_v1`,
   routes: (map) => `${P}routes_${map}_v1`,
   found: (map) => `${P}found_${map}_v1`,
+  pinned: (map) => `${P}pinned_${map}_v1`,
   waypoints: (map) => `${P}waypoints_${map}_v1`,
   presets: (map) => `${P}presets_${map}_v1`,
   // One-time flag: has this map's presets already been backfilled with the
@@ -182,6 +183,11 @@ export const MapStore = {
   getFound: (map) => read(KEY.found(map), {}),
   setFound: (map, v) => write(KEY.found(map), v),
 
+  // { [markerId]: true } — markers held on the map regardless of their category
+  // filter. Persisted per map, like found.
+  getPinned: (map) => read(KEY.pinned(map), {}),
+  setPinned: (map, v) => write(KEY.pinned(map), v),
+
   // null means "never seeded", which is distinct from "the user deleted them
   // all" — only the first case gets the starter preset.
   getPresets: (map) => {
@@ -223,6 +229,7 @@ export function exportMapData(mapKeys) {
       zones: MapStore.getZones(m),
       routes: MapStore.getRoutes(m),
       found: MapStore.getFound(m),
+      pinned: MapStore.getPinned(m),
       presets: MapStore.getPresets(m),
       waypoints: MapStore.getWaypoints(m),
     }])),
@@ -248,6 +255,7 @@ export function importMapData(json) {
     if (data.zones) MapStore.setZones(map, data.zones);
     if (data.routes) MapStore.setRoutes(map, data.routes);
     if (data.found) MapStore.setFound(map, data.found);
+    if (data.pinned) MapStore.setPinned(map, data.pinned);
     if (data.presets) MapStore.setPresets(map, data.presets);
     if (data.waypoints) MapStore.setWaypoints(map, data.waypoints);
     restored.push(map);

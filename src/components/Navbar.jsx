@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { isWidgetRoute } from '../widgetRoutes';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { SITE_LINKS } from '../siteLinks';
@@ -48,7 +49,8 @@ function Navbar() {
   const location = useLocation();
   const isGame = GAME_ROUTES.some(r => location.pathname.startsWith(r));
   const hasOwnTopbar = OWN_TOPBAR_ROUTES.some(r => location.pathname.startsWith(r));
-  const isMinimal = isGame || hasOwnTopbar;
+  const isWidget = isWidgetRoute(location.pathname);
+  const isMinimal = isGame || hasOwnTopbar || isWidget;
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Close the mobile panel on navigation so it doesn't stay open after a tap.
@@ -75,6 +77,7 @@ function Navbar() {
     // Games are full-bleed with no bar of their own, so they get the floating
     // "⚡" escape hatch. Own-topbar tools render no badge here — their own bar
     // carries <HubLink /> as its first child instead.
+    if (isWidget) return null;
     return isGame ? (
       <nav className="nav-minimal">
         <Link to="/" className="nav-home-badge" title="Home">⚡</Link>

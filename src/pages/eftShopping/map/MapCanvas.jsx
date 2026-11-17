@@ -46,6 +46,7 @@ export default function MapCanvas({
   toPoint,
   activeFloor,
   found,
+  pinned,
   locks,
   markerSize = 'normal',
   detailZoom,
@@ -55,6 +56,7 @@ export default function MapCanvas({
   draftWaypoint,
   onDraftMove,
   onMarkerClick,
+  onMarkerRightClick,
   onMapClick,
   onMapMove,
   onMapDown,
@@ -75,7 +77,7 @@ export default function MapCanvas({
   s.current = {
     markers, categories, found, locks, toPoint, markersInteractive,
     onMarkerClick, onMapClick, onMapMove, onMapDown, onMapUp, onDraftMove,
-    onMapRightClick,
+    onMapRightClick, onMarkerRightClick,
   };
 
   const showTip = useCallback((marker, containerPoint) => {
@@ -137,8 +139,15 @@ export default function MapCanvas({
     map.on('mouseout', () => showTip(null));
     // Right-click is "I'm done" — Leaflet fires `contextmenu` for it, and the
     // browser menu is suppressed so the gesture only means the one thing.
+    // Over a pin it opens that pin's menu instead — but only when pins are
+    // interactive, so a right-click that ends a route being drawn still ends it.
     map.on('contextmenu', (e) => {
       e.originalEvent?.preventDefault();
+      const marker = hit(e);
+      if (marker && s.current.onMarkerRightClick) {
+        s.current.onMarkerRightClick(marker, e.originalEvent);
+        return;
+      }
       s.current.onMapRightClick?.([e.latlng.lat, e.latlng.lng], e.originalEvent);
     });
 
@@ -242,6 +251,7 @@ export default function MapCanvas({
         point,
         colour: cat?.color ? `#${String(cat.color).replace('#', '')}` : '#cdbb96',
         dim: !!found?.[m.id],
+        pinned: !!pinned?.[m.id],
         // The source decides pin vs place-name per category, with the one override we
         // make on top of it (BTR stops draw as their name) — see drawsPin.
         pin: drawsPin(cat),
@@ -256,7 +266,7 @@ export default function MapCanvas({
     layer.setScale(MARKER_SCALES[markerSize] ?? MARKER_SCALES.normal);
     layer.setDetailZoom(detailZoom);
     layer.setItems(items);
-  }, [markers, categories, found, locks, toPoint, markerSize, detailZoom]);
+  }, [markers, categories, found, pinned, locks, toPoint, markerSize, detailZoom]);
 
   // --- overlays -----------------------------------------------------------
   // A corridor is a real distance on the ground, so its stroke width has to be

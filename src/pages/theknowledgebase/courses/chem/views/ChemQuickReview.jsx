@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
+import ChemStem, { inline } from './ChemStem';
 import { useNavigate } from 'react-router-dom';
 import { CHEM_CHAPTERS } from '../curriculum';
 import { EXAMS, sectionsForExam, currentExamId, isAheadOfClass, STUDIED_THROUGH_CHAPTER } from '../syllabusMap';
@@ -88,8 +89,7 @@ export default function ChemQuickReview() {
         if (picked !== null) { e.preventDefault(); next(); }
         return;
       }
-      const i = ['A', 'B', 'C', 'D'].indexOf(e.key.toUpperCase());
-      if (i >= 0) { e.preventDefault(); answer(i); }
+      // No letter hotkeys for answers (Trey, 2026-11-02): tap/click only.
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -164,7 +164,7 @@ export default function ChemQuickReview() {
       ) : (
         <>
           <div className="chq-quick-card">
-            <p className="chq-stem">{question.stem}</p>
+            <ChemStem text={question.stem} />
             <ol className="chq-choices">
               {question.choices.map((c, i) => {
                 const isAnswer = i === question.correctIndex;
@@ -176,7 +176,7 @@ export default function ChemQuickReview() {
                       onClick={() => answer(i)}
                       disabled={picked !== null}
                     >
-                      <span className="chq-letter">{['A', 'B', 'C', 'D'][i]}</span>{c}
+                      <span className="chq-letter">{['A', 'B', 'C', 'D'][i]}</span>{inline(c, i)}
                     </button>
                   </li>
                 );

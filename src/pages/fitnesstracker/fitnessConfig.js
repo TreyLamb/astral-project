@@ -97,17 +97,13 @@ export function defaultSettings() {
     // totals, or Goals). 'noEvents' hides activityType kind:'event' items
     // (calendar drops like "POGO raichu day"); 'noWorkouts' hides everything
     // else. Cycled by the button in CalendarView's ft-cal-toggles row.
-    // showWeekSideCols: null | boolean — null means "no manual override yet",
-    // so CalendarView falls back to a viewport-based default (on for desktop,
-    // off for mobile where the Goals/Miles columns crush the day grid).
-    // true/false means the user explicitly toggled it, which wins on any device.
     // sideMode: 'todo' | 'goals' — what the right-hand rail AND the narrow per-week column
     // beside each week row are showing. One state for both so they can never disagree.
     // Defaults to 'todo': coursework is a daily check, goals are a weekly one.
     // notesPanel / coursePanel are the two rails' own visibility; courseHorizon is the
     // to-do list's lookahead in days, null meaning "everything left in the term".
     calendarPrefs: {
-      mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all', showWeekSideCols: null,
+      mealDayView: false, showMealsOnCalendar: false, chipFilter: 'all',
       view: 'week', weekCount: 2,
       sideMode: 'todo', notesPanel: true, coursePanel: true, courseHorizon: 14, showCourseChips: true,
       // showClassChips defaults OFF: the recurring class week is identical every week and has
@@ -116,6 +112,9 @@ export function defaultSettings() {
       // Events from his other Google calendars (Settings → Calendars). On by default: seeing the
       // dentist appointment next to the planned run is the point of syncing at all.
       showGoogleEvents: true,
+      // The two stat rails either side of Day view. Off by default (Trey, 2026-11-03): Day view is
+      // for reading the day, and the rails squeezed it into a third of the screen.
+      showDayRails: false,
     },
     // Free-text pad on the left of the calendar. Not a checklist — see CalendarNotes.jsx.
     calendarNotes: '',
