@@ -109,6 +109,19 @@ Near-term target (Trey, 2026-11-09): **7:30 per mile = 15:00**. Official target 
 
 ---
 
+## Retest block: Detachment PT workouts toward the Thu 12/3 PFRA (Trey sends them; runs are planned around them)
+
+Trey, 2026-11-11: he is retesting on 12/1 (height, weight, waist) and 12/3 (push-ups, sit-ups, 2-mile). The boards use the MOST
+RECENT score, so the test must be run fresh. Rule for this block: last hard session Sat 11/28, easy only 11/29-12/2.
+
+| Date | Source | Workout as written | Coach's call |
+|---|---|---|---|
+| Tue 11/17 | Det PT, Group 2 Weight Room | 2 min hand-release push-ups, then straight into a 2-mile run (subgroup 1 first, subgroup 2 after the weight room; switch at 0630) + ONE 20-min superset: (a) reverse goblet lunges 10/leg + tempo push-ups 10, or (b) front-rack dumbbell march 40 s + pike push-ups 10 | **This is a full PFRA rehearsal: treat the 2-mile as a checkpoint and log the time** (the only real input to the plan). 16 days before the test = fully recovered by 12/3. Pace from his own last result: first mile just under 8:21 (16:42 pace), then race the second. Superset (Trey, 11-11): subgroup 1 (run first) -> lunges + tempo push-ups AFTER the run; subgroup 2 (run second) -> march + pike push-ups first so the run is on fresh legs. Agreed: the 2-mile is protected either way. Cost of the subgroup 1 version: lunges the day before his own Wed 11/18 leg day, so go lighter on Wednesday if sore. Ask for subgroup 1 if possible: the 2-mile on fresh legs gives the honest number. |
+| Thu 11/19 | Det PT, Group 2 Basketball Court | Death by burpees 20-18-...-2 (110 burpees) with a lap after each set; then gorilla plank challenge | Trey plans to skip it with his 2nd PT pass. Fine for the 2-mile (not specific to it), BUT check whether that leaves a pass for Wed 12/2, the day before the test, where a pass is worth far more. If skipped: easy 30 min at E pace that day, or rest if Wed's leg day left him sore. |
+| Thu 11/12 (Trey first sent it as "12/2", corrected 11-11) | Det PT, Group 2 Track/Grey | Warm-up; pyramid 4-3-2-1-2-3-4 min at threshold (19 min at threshold), jog rest half the previous rep; finisher push-up ladder 1-10-1 with push presses (about 100 push-ups + 100 push presses) | Do it as written: 3 weeks before the test this is exactly the right session. Threshold pace from VDOT 35.6 (`trainingPaces`): about 9:00 per mile (2:15 per 400 m), slower than his 8:21 test pace, as the sheet itself says. If the 1-minute reps creep toward 8:00, that is a sprint, not threshold. |
+
+---
+
 ## What's next
 
 - **Long-range view:** `cycleProjection.md` projects every cycle out to end-2027 in both a 13-day and an 11-day variant. This file stays the record of what was *actually* built and run; that one is the forecast. **⚠️ Its dates are stale as of the 2026-08-17 rebase** — every table in it is anchored to "Cycle 3 Day 1 = Thu Aug 27," which is now **Mon Aug 17, ten days earlier**. Its *structural* conclusions (13-vs-11-day trade-off, which gaps have to give, the VDOT realism check) are unaffected; only the dates and cycle numbering shifted, and shifting the start 10 days earlier means roughly **one more cycle fits** before test day, not fewer. Re-run it when the numbers matter.

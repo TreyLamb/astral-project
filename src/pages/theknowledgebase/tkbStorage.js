@@ -6,6 +6,7 @@
 import { SEED_SUBJECTS, SEED_QUESTIONS, SEED_WEIGHTS } from './tkbSeed';
 import { ASVAB_SUBJECT } from './asvabSubject';
 import ASVAB_QUESTIONS from './asvabQuestions.json';
+import { COURSE_DECKS, planDeckMerge } from './courseDecks';
 
 export const SCHEMA_VERSION = 1;
 
@@ -204,6 +205,7 @@ function seedIfEmpty() {
     storeRaw(KEYS.settings, migrated);
   }
   mergeAsvabIfMissing();
+  mergeCourseDecksIfMissing();
   syncContentIfStale();
 }
 
@@ -230,6 +232,26 @@ function syncContentIfStale() {
   storeRaw(KEYS.questions, questions);
 
   localStorage.setItem(CONTENT_SYNC_KEY, '1');
+}
+
+// Course decks (courseDecks.js) are merged in once each, under their own flag key, exactly like the
+// ASVAB deck below: only missing subjects, subtopics and question ids are added, so a returning
+// user's existing cards and stats are never touched.
+function mergeCourseDecksIfMissing() {
+  for (const deck of COURSE_DECKS) {
+    const flag = `tkb_deck_merged_${deck.key}`;
+    if (localStorage.getItem(flag) !== null) continue;
+    const subjects = loadRaw(KEYS.subjects, []);
+    const questions = loadRaw(KEYS.questions, []);
+    const plan = planDeckMerge(deck, subjects, new Set(questions.map((q) => q.id)));
+    if (plan.subject) {
+      const i = subjects.findIndex((s) => s.id === plan.subject.id);
+      if (i >= 0) subjects[i] = plan.subject; else subjects.push(plan.subject);
+      storeRaw(KEYS.subjects, subjects);
+    }
+    if (plan.questions.length) storeRaw(KEYS.questions, [...questions, ...plan.questions]);
+    localStorage.setItem(flag, '1');
+  }
 }
 
 // Merges the ASVAB practice deck in exactly once, independent of whether the

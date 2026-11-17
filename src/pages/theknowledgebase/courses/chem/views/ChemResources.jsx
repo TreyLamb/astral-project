@@ -25,6 +25,70 @@ export function ChemReferenceContent() {
         equalities your own quizzes handed you and the list in your class notes.
       </p>
 
+      {/* --- Lewis structures ---------------------------------------------------- */}
+      {/* Trey, 2026-11-11: the step-by-step he works these problems from, kept short and titled so
+          it can be found mid-problem. The long version, with the reasoning for each step, is in
+          lessons/ch07-structure-bonding.md ("Lewis dot structures" and "Formal charge"). */}
+      <section className="chq-res-block" id="lewis-structures">
+        <h3>Lewis structures and formal charge: step by step</h3>
+        <p className="chq-res-sub">
+          Aim for formal charges <strong>as close to zero as possible</strong>, not zero on every
+          atom, and check octets separately.
+        </p>
+        <ol className="chq-res-list">
+          <li><strong>Pick the central atom:</strong> the least electronegative atom that is not
+            H. H is always an outer atom and F nearly always is. Use the arrangement the problem
+            gives you if it gives one.</li>
+          <li><strong>Draw the skeleton</strong> with single bonds only. Each bond line is 2 electrons.</li>
+          <li><strong>Count available valence electrons:</strong> add every atom's valence electrons.
+            Negative ion: add 1 per unit of charge. Positive ion: subtract 1 per unit.</li>
+          <li><strong>Subtract the skeleton:</strong> remaining = available − 2 × (number of bonds).</li>
+          <li><strong>Outer atoms first:</strong> add dots until each has 8 around it (a single bond
+            already gives 2, so it usually takes 3 lone pairs). H gets no dots. Subtract every dot
+            you place.</li>
+          <li><strong>Leftovers go on the central atom</strong>, even if it does not need them.</li>
+          <li><strong>Check the central atom's octet:</strong> electrons around it = dots + 2 × bond
+            lines. If short, move a lone pair from a neighbouring outer atom into the bond between
+            them (single → double → triple). You are moving electrons, not adding any.</li>
+          <li><strong>Formal charge on every atom:</strong> valence electrons − dots − bond lines.</li>
+          <li><strong>Improve it:</strong> prefer charges nearest zero, the least separation of + and −,
+            and a negative charge on the more electronegative atom.</li>
+          <li><strong>Final check:</strong> total electrons drawn = the budget from step 3, formal
+            charges add to the overall charge, and an ion gets brackets with its charge outside.</li>
+        </ol>
+        <div className="chq-res-formula">
+          <div><strong>Formal charge = valence e⁻ − unshared e⁻ (dots) − bond lines</strong></div>
+          <div className="chq-res-sub">Do not halve the bond lines. Counting lines already gives the atom half of each shared pair.</div>
+        </div>
+        <table className="chq-res-table">
+          <thead><tr><th>A single bond counts as</th><th>When you are</th></tr></thead>
+          <tbody>
+            <tr><td><strong>2</strong> electrons</td><td>checking an atom's octet</td></tr>
+            <tr><td><strong>1</strong> electron</td><td>calculating formal charge</td></tr>
+          </tbody>
+        </table>
+        <table className="chq-res-table">
+          <thead><tr><th>Exception</th><th>What to do</th></tr></thead>
+          <tbody>
+            <tr><td>Hydrogen</td><td>2 electrons, not 8</td></tr>
+            <tr><td>C, N, O, F</td><td>never more than 8</td></tr>
+            <tr><td>Be and B</td><td>can stay short of an octet; do not force one</td></tr>
+            <tr><td>Odd number of valence electrons</td><td>one electron stays unpaired, so not every atom gets an octet</td></tr>
+            <tr><td>Period 3 or lower centre (P, S)</td><td>an expanded octet may be allowed; see the warning below</td></tr>
+          </tbody>
+        </table>
+        <p className="chq-res-warn">
+          ⚠️ Zero formal charge does not guarantee a full octet, and a full octet does not guarantee
+          zero formal charge. A −1 ion cannot have zero on every atom: the charges must total −1.
+          Do not keep adding double bonds just to reach zero.
+        </p>
+        <p className="chq-res-warn">
+          ⚠️ For SO₂, SO₄²⁻ and similar, the choice between an expanded-octet drawing and an
+          octet-respecting drawing with charge separation is your instructor's convention. That
+          convention is not confirmed here. Check his example from class before you pick one.
+        </p>
+      </section>
+
       {/* Exam 3 material first (Trey, 2026-11-02): oxidation numbers and the heat/light constants. */}
       {/* --- Oxidation numbers --------------------------------------------------- */}
       {/* Trey's class list, 2026-11-01, kept in his numbering and wording. The warnings below are

@@ -11,6 +11,7 @@ import { db } from '../../firebase';
 import { SEED_SUBJECTS, SEED_QUESTIONS, SEED_WEIGHTS } from './tkbSeed';
 import { ASVAB_SUBJECT } from './asvabSubject';
 import ASVAB_QUESTIONS from './asvabQuestions.json';
+import { COURSE_DECKS, planDeckMerge } from './courseDecks';
 import { uid, todayStr, defaultSettings, MAX_SESSIONS, SCHEMA_VERSION, REMOVED_QUESTION_IDS } from './tkbStorage';
 
 const CONTENT_SYNC_VERSION = 1;
@@ -103,6 +104,41 @@ export const TkbFirestore = {
     }
 
     await setDoc(metaDocRef(uidStr), { contentSyncVersion: CONTENT_SYNC_VERSION }, { merge: true });
+  },
+
+  // Adds each course deck (courseDecks.js) once per account, the Firestore twin of
+  // tkbStorage's mergeCourseDecksIfMissing. Runs for new AND existing accounts (seedIfEmpty only
+  // ever runs for an empty one). Only missing subjects, subtopics and question ids are written;
+  // nothing already there is changed. Merged deck keys are recorded in the meta doc.
+  async mergeCourseDecks(uidStr) {
+    const metaSnap = await getDoc(metaDocRef(uidStr));
+    const done = new Set((metaSnap.exists() ? metaSnap.data().courseDecksMerged : null) ?? []);
+    const pending = COURSE_DECKS.filter((d) => !done.has(d.key));
+    if (!pending.length) return;
+
+    const [qSnap, sSnap] = await Promise.all([getDocs(questionsRef(uidStr)), getDocs(subjectsRef(uidStr))]);
+    const subjects = sSnap.docs.map((d) => d.data());
+    const ids = new Set(qSnap.docs.map((d) => d.id));
+    for (const deck of pending) {
+      const plan = planDeckMerge(deck, subjects, ids);
+      const writes = [];
+      if (plan.subject) {
+        writes.push({ ref: doc(db, 'users', uidStr, 'tkb_subjects', plan.subject.id), data: plan.subject });
+        const i = subjects.findIndex((s) => s.id === plan.subject.id);
+        if (i >= 0) subjects[i] = plan.subject; else subjects.push(plan.subject);
+      }
+      for (const q of plan.questions) {
+        writes.push({ ref: doc(db, 'users', uidStr, 'tkb_questions', q.id), data: q });
+        ids.add(q.id);
+      }
+      for (const group of chunk(writes, 450)) {
+        const batch = writeBatch(db);
+        group.forEach(({ ref, data }) => batch.set(ref, data));
+        await batch.commit();
+      }
+      done.add(deck.key);
+    }
+    await setDoc(metaDocRef(uidStr), { courseDecksMerged: [...done] }, { merge: true });
   },
 
   async getQuestions(uidStr) {

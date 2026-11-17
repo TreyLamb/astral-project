@@ -17,6 +17,9 @@
 > **VDOT 39.2–42.2 — a 2-mile of 14:27–15:24, best estimate 14:54.** Not 18:00. He is roughly
 > **one minute** off the 13:56 goal, not four.
 >
+> 🔴 **Proven wrong by real results (noted 2026-11-11):** his measured 2-miles were 18:11 (9/29) and 16:42 (10/22),
+> about 2 minutes slower than this 14:54 estimate. Do not cite it as his capability; the measured results win.
+>
 > **This is still inferred, not measured.** An easy run bounds a range; it cannot pin a number.
 > **Checkpoint Test 1 (a real 2-mile time trial) is now the single most valuable session on the
 > calendar** — log it noted "time trial" and every number here sharpens automatically.

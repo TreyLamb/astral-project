@@ -38,6 +38,7 @@ export const CLASS_BLOCKS = [
   { id: 'chem-tue', day: 2, start: '13:00', end: '14:00', title: 'Chem I', course: 'CHEM 1210', color: '#6ED6D0' },
   { id: 'chem-wed', day: 3, start: '13:00', end: '14:00', title: 'Chem I', course: 'CHEM 1210', color: '#6ED6D0' },
   { id: 'chem-thu', day: 4, start: '13:00', end: '14:00', title: 'Chem I', course: 'CHEM 1210', color: '#6ED6D0' },
+  { id: 'flightmtg-fri', day: 5, start: '15:00', end: '16:00', title: 'Flight Meeting (Charlie)', code: 'AFROTC', color: '#D9628F' },
   { id: 'microlab-thu', day: 4, start: '16:00', end: '18:00', title: 'Micro Lab', course: 'MICR 2065', color: '#C68B59' },
 ];
 

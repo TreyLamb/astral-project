@@ -2,10 +2,15 @@
 //   Week_Plan.html  a time-axis calendar (30-minute rows, day or week view)
 //   Week_Plan.ics   the same blocks as real calendar events with alarms, importable into Apple/Google Calendar
 // Usage: node scripts/planCalendar.mjs <outDir> [firstDate] [lastDate]
+// For Trey: publish ONE file, `_ChiefOfStaff/Week Plan - CURRENT.html`, and move the previous one into `_ChiefOfStaff/_archive/`
+// (Trey, 2026-11-11: two dated plan files side by side and "there's no way to look and see which is which"). The page header
+// shows its date range and when it was built.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PLAN } from '../src/pages/fitnesstracker/studyPlan.js';
+import { PLAN, KIND_COLORS } from '../src/pages/fitnesstracker/studyPlan.js';
+import { chipDotColor, COLOR_LEGEND, COLOR_ROTC, COLOR_DUE } from '../src/pages/fitnesstracker/calendarText.js';
+import { courseColor } from '../src/pages/theknowledgebase/courses/coursework/courseworkModel.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const outDir = process.argv[2];
@@ -16,12 +21,15 @@ fs.mkdirSync(outDir, { recursive: true });
 
 const rows = PLAN.filter((e) => e.date >= first && e.date <= last).map((e) => ({
   date: e.date, start: e.start, end: e.end, kind: e.kind, title: e.title, course: e.course ?? '', note: e.note ?? '',
+  // Same colour rule as the MFT calendar (PREFERENCES.md, Colour): a course keeps its colour everywhere, ROTC is blue, due is red.
+  color: chipDotColor({ ...e, calId: 'plan' }, courseColor, {}) ?? '',
 }));
+const legend = COLOR_LEGEND.map(([k, label]) => [k === 'rotc' ? COLOR_ROTC : k === 'due' ? COLOR_DUE : courseColor(k), label]);
 
 // ── HTML ──
 const tpl = fs.readFileSync(path.join(here, 'planCalendar.template.html'), 'utf8');
 const json = JSON.stringify(rows).split('<').join('\\u003c');
-fs.writeFileSync(path.join(outDir, 'Week_Plan.html'), tpl.replace('__DATA__', json));
+fs.writeFileSync(path.join(outDir, 'Week_Plan.html'), tpl.replace('__DATA__', json).replace('__LEGEND__', JSON.stringify(legend)).replace('__BUILT__', new Date().toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })));
 
 // ── ICS ──
 const esc = (s) => String(s).split('\\').join('\\\\').split(';').join('\\;').split(',').join('\\,').split('\n').join('\\n');

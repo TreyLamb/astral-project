@@ -1,4 +1,4 @@
-<title>Catch-Up Week Plan</title>
+<title>Week Plan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -20,6 +20,7 @@
   --travel-bg: #e4e6ea; --travel-ink: #3b424d;
   --rest-bg: #f3e8d3;   --rest-ink: #5a4520;
   --due-bg: #fbdcdc;    --due-ink: #7a1f1f;  --due-line: #c0392b;
+  --extra-bg: #e0f2fe;  --extra-ink: #0c4a6e; --extra-line: #38bdf8;
   --font-ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
@@ -33,6 +34,7 @@
     --travel-bg: #2a2f38; --travel-ink: #c3c9d2;
     --rest-bg: #3a2f1c;   --rest-ink: #e6d3a8;
     --due-bg: #4a1f1f;    --due-ink: #f5b8b8; --due-line: #e0685a;
+    --extra-bg: #0c2a3d;  --extra-ink: #a5dcf7; --extra-line: #38bdf8;
     color-scheme: dark;
   }
 }
@@ -45,6 +47,7 @@
   --travel-bg: #2a2f38; --travel-ink: #c3c9d2;
   --rest-bg: #3a2f1c;   --rest-ink: #e6d3a8;
   --due-bg: #4a1f1f;    --due-ink: #f5b8b8; --due-line: #e0685a;
+  --extra-bg: #0c2a3d;  --extra-ink: #a5dcf7; --extra-line: #38bdf8;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -54,7 +57,7 @@ h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; 
 .sub { color: var(--soft); margin: 4px 0 0; max-width: 62ch; }
 .eyebrow { font: 500 0.75rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--soft); margin: 0 0 6px; }
 
-.load { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.load { display: grid; grid-template-columns: repeat(var(--ndays, 7), minmax(0, 1fr)); gap: 6px; }
 .load button { all: unset; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 8px 6px 6px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-align: center; }
 .load button:focus-visible, .tab:focus-visible, .seg button:focus-visible, .blk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .load .d { font: 500 0.7rem var(--font-mono); color: var(--soft); text-transform: uppercase; letter-spacing: 0.05em; }
@@ -78,6 +81,7 @@ h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; 
 .k-travel { background: var(--travel-bg); color: var(--travel-ink); }
 .k-rest { background: var(--rest-bg); color: var(--rest-ink); }
 .k-due { background: var(--due-bg); color: var(--due-ink); }
+.k-extra { background: var(--extra-bg); color: var(--extra-ink); border: 1.5px dashed var(--extra-line) !important; }
 
 .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .tab { all: unset; cursor: pointer; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: 0.88rem; font-weight: 500; }
@@ -92,7 +96,7 @@ h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; 
 .board { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
 .grid { display: grid; min-width: 0; }
 .grid.day { grid-template-columns: 52px minmax(0, 1fr); }
-.grid.week { grid-template-columns: 44px repeat(7, minmax(104px, 1fr)); min-width: 820px; }
+.grid.week { grid-template-columns: 44px repeat(var(--ndays, 7), minmax(104px, 1fr)); min-width: calc(44px + var(--ndays, 7) * 112px); }
 .hdr { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 4; background: var(--surface); border-bottom: 1px solid var(--line); padding: 8px 6px; font-weight: 600; font-size: 0.85rem; text-align: center; }
 .hdr small { display: block; font: 400 0.72rem var(--font-mono); color: var(--soft); }
 .allday { grid-column: 1 / -1; padding: 6px 10px; font-size: 0.82rem; background: var(--rest-bg); color: var(--rest-ink); border-bottom: 1px solid var(--line); }
@@ -105,6 +109,17 @@ h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; 
 .blk { all: unset; cursor: pointer; position: absolute; left: 3px; right: 3px; border-radius: 6px; padding: 3px 7px; overflow: hidden; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); display: block; }
 .blk:hover { filter: brightness(0.97); }
 .blk.sel { outline: 2px solid var(--accent); outline-offset: 1px; z-index: 3; }
+.blk.k-work { background: var(--work-bg); color: var(--work-ink); }
+.blk.k-fixed { background: var(--fixed-bg); color: var(--fixed-ink); }
+.blk.k-class { background: var(--class-bg); color: var(--class-ink); }
+.blk.k-travel { background: var(--travel-bg); color: var(--travel-ink); }
+.blk.k-rest { background: var(--rest-bg); color: var(--rest-ink); }
+.blk.k-due { background: var(--due-bg); color: var(--due-ink); }
+.blk.k-extra { background: var(--extra-bg); color: var(--extra-ink); border: 1.5px dashed var(--extra-line); }
+.blk.tint { background: color-mix(in srgb, var(--c) 30%, var(--surface)); color: var(--ink); border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-left: 5px solid var(--c); }
+.blk.tint.k-class, .blk.tint.k-fixed { background: color-mix(in srgb, var(--c) 48%, var(--surface)); }
+.blk.tint.k-extra { background: color-mix(in srgb, var(--c) 12%, var(--surface)); border: 1.5px dashed var(--c); border-left: 5px solid var(--c); }
+.legend.courses i { border: 0; }
 .blk .t { display: block; font-weight: 600; font-size: 0.82rem; line-height: 1.2; }
 .blk .m { display: block; font: 400 0.7rem var(--font-mono); opacity: 0.85; font-variant-numeric: tabular-nums; }
 .compact .blk { padding: 2px 4px; left: 2px; right: 2px; }
@@ -118,8 +133,8 @@ h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; 
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">Sun Oct 25 to Sat Oct 31</p>
-    <h1>Catch-up week</h1>
+    <p class="eyebrow" id="range"></p>
+    <h1>Week plan</h1>
     <p class="sub">Every block is on a 30-minute grid. Tap a block for its notes and its deadline. Work hours are focused work only, not classes, meals or travel.</p>
   </header>
 
@@ -143,14 +158,18 @@ h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; 
 
 <script>
 const DATA = __DATA__;
-const KIND = { work: 'Work', fixed: 'Fixed', class: 'Class', travel: 'Travel', rest: 'Meal / rest', due: 'Deadline' };
-const START = 6 * 60, END = 23 * 60, STEP = 30;
+const LEGEND = __LEGEND__;
+const KIND = { work: 'Work', fixed: 'Fixed', class: 'Class', travel: 'Travel', rest: 'Meal / rest', due: 'Deadline', extra: 'Extra if you have time' };
+const START = 5 * 60, END = 23 * 60, STEP = 30;
 const ROWS = (END - START) / STEP;
 const days = [];
 DATA.forEach(function (e) { if (days.indexOf(e.date) < 0) days.push(e.date); });
 days.sort();
 const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-function dayInfo(d) { const dt = new Date(d + 'T12:00:00'); return { dow: DOW[dt.getDay()], num: dt.getDate() }; }
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function dayInfo(d) { const dt = new Date(d + 'T12:00:00'); return { dow: DOW[dt.getDay()], num: dt.getDate(), mon: MON[dt.getMonth()] }; }
+document.documentElement.style.setProperty('--ndays', String(days.length));
+(function () { const a = dayInfo(days[0]), b = dayInfo(days[days.length - 1]); document.getElementById('range').textContent = a.dow + ' ' + a.mon + ' ' + a.num + ' to ' + b.dow + ' ' + b.mon + ' ' + b.num + ' · built __BUILT__'; })();
 function mins(s) { const p = s.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
 function clock(s) { const p = s.split(':'); const h = Number(p[0]); return (h % 12 || 12) + ':' + p[1] + (h < 12 ? ' AM' : ' PM'); }
 function dur(m) { return m % 60 === 0 ? m / 60 + ' h' : m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; }
@@ -174,9 +193,10 @@ function renderLoad() {
   }).join('');
 }
 function renderLegend() {
-  document.getElementById('legend').innerHTML = ['work', 'fixed', 'class', 'travel', 'rest'].map(function (k) {
+  document.getElementById('legend').innerHTML = ['work', 'extra', 'fixed', 'class', 'travel', 'rest'].map(function (k) {
     return '<span><i class="k-' + k + '"></i>' + KIND[k] + '</span>';
   }).join('') + '<span><i style="border-style:dashed;border-color:var(--due-line)"></i>Deadline</span>';
+  document.getElementById('legend').innerHTML += LEGEND.map(function (l) { return '<span><i style="background:' + l[0] + ';border-color:' + l[0] + '"></i>' + esc(l[1]) + '</span>'; }).join('');
 }
 function renderTabs() {
   document.getElementById('tabs').style.display = view === 'day' ? 'flex' : 'none';
@@ -206,7 +226,7 @@ function colHtml(d, rh) {
     const a = mins(e.start), b = mins(e.end);
     const top = ((a - START) / STEP) * rh + 1, h = Math.max(((b - a) / STEP) * rh - 2, 14);
     const meta = clock(e.start).replace(' ', '') + '–' + clock(e.end).replace(' ', '');
-    s += '<button type="button" class="blk k-' + e.kind + (sel === idx ? ' sel' : '') + '" data-i="' + idx + '" style="top:' + top + 'px;height:' + h + 'px">' +
+    s += '<button type="button" class="blk k-' + e.kind + (e.color ? ' tint' : '') + (sel === idx ? ' sel' : '') + '" data-i="' + idx + '" style="top:' + top + 'px;height:' + h + 'px' + (e.color ? ';--c:' + e.color : '') + '">' +
       '<span class="t">' + esc(e.title) + '</span>' + (h >= 34 ? '<span class="m">' + meta + '</span>' : '') + '</button>';
   });
   return s + '</div>';
@@ -219,7 +239,7 @@ function renderGrid() {
   if (view === 'day') {
     const rh = 40, i = dayInfo(cur), ad = allDayHtml(cur);
     host.innerHTML = '<div class="grid day">' +
-      '<div class="hdr" style="grid-column:1/-1">' + i.dow + ' Oct ' + i.num + '<small>' + workHours(cur).toFixed(1) + ' h of focused work</small></div>' +
+      '<div class="hdr" style="grid-column:1/-1">' + i.dow + ' ' + i.mon + ' ' + i.num + '<small>' + workHours(cur).toFixed(1) + ' h of focused work</small></div>' +
       (ad ? '<div class="allday">All day: ' + ad + '</div>' : '') + axisHtml(rh) + colHtml(cur, rh) + '</div>';
   } else {
     const rh = 26;

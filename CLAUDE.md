@@ -785,7 +785,7 @@ readable on his phone); read it first and update it as facts arrive. A backup of
 request: *"I don't have to walk you through what i want from you."*
 
 🔒 **Scheduling rules, set 2026-10-25 — every agent that schedules for Trey follows these without being told** (full text: the skill's
-"STANDING SCHEDULING PRINCIPLES" and the top of STATE.md): **stay AHEAD of deadlines — start each item when it unlocks, NEVER plan a late
+"STANDING SCHEDULING PRINCIPLES" and the top of STATE.md): **FEASIBILITY FIRST and a REALISTIC day (Trey, 11-11: committed time incl. classes/ROTC/travel <= 11 h, 45-min meals, a break before every work block, 45+ min downtime, a conversation with numbers when a goal does not fit; enforced by studyPlan.test.js); stay AHEAD of deadlines — start each item when it unlocks, NEVER plan a late
 submission** (Trey: *"to take care of assignments as SOON as they are available, not the day it closes or the day before … always on average AHEAD,
 not floating barely above water"*); EASY MINIMUM + 2-3 EXTRAS at the end of every day (Trey, 11-10: the minimum must get done, the extras are for a locked-in day to get ahead; kind 'extra' in studyPlan.js, enforced by its test); ONE sitting per paper (Trey, 11-9: 'i always push them off and do them all at once anyways'): a single ~2-hour block to write it (skeleton/brief made by me ahead of time), then my final edit, then he submits; the old 3-day method is retired; one ESMG
 discussion post/reply a day until the extra credit is earned; **MICR 2060 AIWPs submitted the DAY THEY OPEN** (agent drafts, Trey reviews + submits); ~5 focused hr/day default (push weeks only when he says); ~2 hr/week of MICR 2060

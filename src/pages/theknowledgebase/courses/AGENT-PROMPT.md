@@ -239,7 +239,7 @@ All of these were verified 2026-08-31 against the real folder. Do not re-derive 
 |---|---|---|
 | `.md`, `.txt` | ✅ | Read tool. |
 | `.pdf` **with** a text layer | ✅ | `node scripts/extractBook.mjs "<path>" --pages 15-40 --out <scratchpad>/x.txt` |
-| `.pdf` **scanned** (no text layer) | ⚠️ render it | `pdf-parse` v2's `getScreenshot({first,last,scale:5})` → PNG → **Read the PNG**. Full recipe in `theknowledgebase/CLAUDE.md`. `Microbiology_LAB/SyllabusQuiz.pdf` is one of these — it returns empty text, it is *not* an empty file. |
+| `.pdf` **scanned** (no text layer) | ⚠️ render it | `pdf-parse` v2's `getScreenshot({first,last,scale:5})` → PNG → **Read the PNG**. Full recipe in `theknowledgebase/CLAUDE.md`. `MICR 2065/SyllabusQuiz.pdf` is one of these — it returns empty text, it is *not* an empty file. |
 | `.docx` | ✅ | It is a zip. `unzip -q file.docx -d out/` then parse `word/document.xml` (`<w:p>` → `<w:t>` runs). Images are in `word/media/`. Working snippet in §4.1. |
 | `.xlsx` | ✅ | Also a zip. Parse `xl/sharedStrings.xml` + `xl/worksheets/sheetN.xml`. Snippet in §4.1. |
 | `.pptx` | ✅ | Also a zip: `ppt/slides/slideN.xml`, text in `<a:t>` runs. The ledger chunks it **one chunk per slide** — a slide is the unit a lecture moves in. Lecture decks are usually the closest thing to "what the instructor thinks is important." |
@@ -247,7 +247,7 @@ All of these were verified 2026-08-31 against the real folder. Do not re-derive 
 | `.jpg` / `.png` | ✅ | Read tool displays them. `PerTable.jpg` is a periodic table. |
 
 ⚠️ **A 0-byte file is a real thing here.** `chem/Chem1210 Question Database.docx` and
-`Microbiology/microsyllabusquiz.md` are both currently empty. Report them as empty and ask —
+`MICR 2065/microsyllabusquiz.md` are both currently empty. Report them as empty and ask —
 never silently skip them, and never assume the `.gdoc` next to them is the same content.
 
 ### 4.1 Verified extraction snippets
@@ -619,7 +619,7 @@ Rules:
   raises earlier ones, so a bad Exam 1 is recoverable" beats "exams are cumulative."
 - **A Canvas due date beats a printed syllabus date** when they conflict; instructors move dates
   in Canvas without reissuing the PDF. Note the conflict rather than silently picking one.
-- **A syllabus quiz is a syllabus source.** `Microbiology_LAB/SyllabusQuiz.pdf` is a graded quiz
+- **A syllabus quiz is a syllabus source.** `MICR 2065/SyllabusQuiz.pdf` is a graded quiz
   *about* the syllabus — its questions state grading components and attendance rules directly.
   Mine it like a syllabus (and note which items he missed: those are the policies he has already
   demonstrated he doesn't know).
@@ -807,7 +807,7 @@ Bonding · States of Matter). Ch 9-16 are Chem 2 — **not in scope** unless ask
 
 Vocabulary-dominant → system **A** is the primary fit, with worksheets (**C**) for the MCI sets.
 
-- `Microbiology/MCI for OLQs 1-4 on MMAHP Ch 1-4.pdf` — 36 pp of real MCQs covering MMAHP
+- `MICR 2060/MCI for OLQs 1-4 on MMAHP Ch 1-4.pdf` — 36 pp of real MCQs covering MMAHP
   Ch 1-4. That UNANSWERED file has no key. 🔴 **But an official key does exist** (corrected
   2026-10-10): `MICR 2060/files/MCIs for OLQs 1-4 Answered & explained.pdf` marks the correct
   option with `*` and explains each one. This section used to say "no answer key anywhere",
@@ -832,8 +832,8 @@ Vocabulary-dominant → system **A** is the primary fit, with worksheets (**C**)
 - Already parsed as worksheet `mmahp-ch1-4` via `scripts/parseMciWorksheet.mjs`. That script is
   written for the whole MCI *family* — re-run it for the next file in the series rather than
   writing a new parser. It hard-fails on structural mismatch by design.
-- `Microbiology/microsyllabusquiz.md` is **0 bytes**. `MicroOQL's.gdoc` is **unreadable** (§4).
-- `Microbiology_LAB/SyllabusQuiz.pdf` and `SAFETYQUIZ.pdf` are **scanned** — render, don't parse.
+- `MICR 2065/microsyllabusquiz.md` is **0 bytes**. `MicroOQL's.gdoc` is **unreadable** (§4).
+- `MICR 2065/SyllabusQuiz.pdf` and `SAFETYQUIZ.pdf` are **scanned** — render, don't parse.
 
 ### The rest
 

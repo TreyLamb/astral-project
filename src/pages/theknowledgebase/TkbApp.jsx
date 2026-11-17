@@ -76,6 +76,7 @@ export default function TkbApp() {
         if (signedIn) {
           await TkbFirestore.seedIfEmpty(user.uid);
           await TkbFirestore.syncContentIfStale(user.uid);
+          await TkbFirestore.mergeCourseDecks(user.uid);
           const [q, s, meta] = await Promise.all([
             TkbFirestore.getQuestions(user.uid),
             TkbFirestore.getSubjects(user.uid),

@@ -39,6 +39,8 @@ Do not wait to be told to write it down. Mention in your reply, in one line, whi
   as a class. A new course gets a unique colour in `COURSE_COLORS` (`courses/coursework/courseworkModel.js`) and a line in
   `COLOR_LEGEND`; the colour key under the calendar shows them. Never assign colour by an incidental category such as "work block".
   Source of truth: `COURSE_COLORS` + `chipDotColor`/`chipTextColor` in `calendarText.js` (a test pins the hues).
+  **Every schedule view uses it, including the HTML week calendar** (`scripts/planCalendar.mjs` colours each block with
+  `chipDotColor`). Trey, 2026-11-11, on a calendar drawn by block type: *"Color coordinate it, everything is white and gray."*
 
 ## Lists and panels
 - **The calendar To-do tab is NOT school.** It is the extra things he has to do (Orbit to-dos). School work lives in the
@@ -63,6 +65,16 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
 - **Verify before saying it works**: run it, look at the screenshot, say what you checked. Live-site check after a push.
 - **He cannot open HTML files or Claude artifacts.** Send PNG images, or put text in chat; longer docs as .md/.docx in Drive.
 - (2026-11-09) **No phone notifications for now.** He doesn't use them: never call PushNotification and never mention push in reports ("a waste of tokens"). About once a week, one line in a brief: phone notifications are an option if he wants them. Anything urgent goes at the top of the next message instead.
+- (2026-11-11) **Research is saved once and reused: `G:\My Drive\SupplementalCourseDocs\_ResearchLibrary\`.** Before
+  researching any paper or brief, read `INDEX.md` and the topic's `KEY_NUMBERS.md`, `SOURCES.md` and `SEARCH_LOG.md`.
+  After researching, add every number (with source and read depth: FULL TEXT / ABSTRACT / PAGE / SECONDARY), every
+  reference and every search (including ones that found nothing, plus a "NOT searched" list) the same day. The library is
+  a head start, never "the complete literature": anything outside its search log gets searched. Trey: "so that in the
+  future you don't have to RE-DO all this searching ... It's simply supposed to decrease research in the future not be
+  the ultimate source of all knowledge."
+- (2026-11-11) **ESMG 3200's main risk topic from now on is cardiovascular health and fitness** (A4 rewritten on it;
+  reuse it for A6 and the final reflection when the prompt allows). A5 case analysis: a hazardous materials incident,
+  never a fire one; EMS is the backup; wildland or disaster operations are acceptable.
 - (2026-11-09) **Papers are planned as ONE ~2-hour sitting, not spread over 3 days.** Trey: "i always push them off and do them all at once anyways." Skeleton/brief ready beforehand, then my final edit, then he submits.
 - **Design suggestions are shown, not imposed**: captioned NOW-vs-PROPOSED PNG mockups in a folder, researched against
   real apps (Google/Apple Calendar). Outright bugs get fixed. He has made many deliberate layout choices; do not
@@ -84,6 +96,8 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
   didn't remind me at all this week to reply to the extra discussions."* Tests loop over every week in the plan, and every
   daily habit (ESMG replies, Warrior Knowledge) gets a line in the morning brief. (2026-11-04)
 
+- **Skeletons: gray text ONLY where he writes, directly UNDER a section header** (Trey, 2026-11-10: "stop putting gray text ABOVE the header. I just want gray text in places i need to write. so nothing goes below or above the first header where nothing is written. It all begins at the explanation, under the header."). No gray NOTE above a header, nothing gray between a paper/initiative title and its first section header, nothing gray under References. The guidance for a section goes inside that section's one gray placeholder. Build skeletons with C:/Users/Trey/.claude/skills/paper-final-edit/scripts/skel.py (Skel.section(label, words, prompt)); its save() refuses a file that breaks this. (2026-11-10)
+- **Paper briefs follow the paper's own skeleton, section by section** (Trey, 2026-11-10: "You are supposed to be doing the research and summing up things for me into sections using the same skeleton that i write with so i can choose how i want to write by section ... This brief is half useless"). For every heading of every part (ESFF: Explanation, Implementation, Impact, Reflection under EACH initiative), give that paragraph's own research (facts, quotes, numbers, sources) and 2-3 ways he could write it. No overview that explains each initiative once and then repeats it; nothing repeated between initiatives; the instructor's latest ask goes under the heading it belongs to. **DEPTH (Trey, 2026-11-10, on the short version: "this brief is worse. you are cutting corners and making it too short. How can i write 100 words if you only give me 50 words to learn about the topic? you are supposed to be giving me information based off sources so when i say things im at least referencing sources."):** each section gets several paragraphs of sourced material, roughly 3-6 times the paragraph's word target (a 80-word paragraph gets 250-500 words of research), written out from sources read IN FULL (download the page, not a fetch summary), with quotes and numbers and the source to cite at the end of each block. One-line bullets are not a brief. (2026-11-10)
 - **Briefs are never ambiguous about scope.** Each topic opens with one bold sentence saying what it IS focused on, then
   names what is only one part of it. If the sources or examples lean toward one subtopic, the brief says so outright
   ("cancer is one of four parts, not the focus"). Trey: *"Stop being ambiguous, we have talked about that for briefs like
@@ -123,6 +137,11 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
 - **Never create a second folder for something that already has one.** Before making a folder, list the parent and reuse the
   existing one even if its name differs (`Lab8_Pics` already existed when I made `LabNotebook8` for the same lab; he had to move
   the files himself). If two names fit, use the older one and say which. (2026-11-06)
+  **Repeated 2026-11-12 for course folders in `G:\My Drive\SupplementalCourseDocs\`:** *"you keep making new 'microbiology'
+  folders ... we already have micro 2065 folder."* Course folders are named by code and number (`MICR 2065`, `MICR 2060`,
+  `CHEM 1210`, `ESMG 3200`, `AERO 1100`, `AEROS 210 (BYU Learning Suite)`). New files go in the existing one, in a subfolder
+  only if one already fits. Never create `Microbiology/`, `Chem/` or any topic-named course folder. `INGEST-HOWTO.md` and
+  `DATA-MODEL.md` used to tell agents to make one per course; they are corrected.
 - **A study document holds the CONTENT, not the working notes.** The Det 855 handbook page exists to be a virtual copy of his
   pocket handbook, and earlier agents filled it with "Trey's chain", "photo cut off", "Trey chose", source-hunting asides and a
   to-do list. Content docs under `src/pages/afrotc/docs/` and the study pages state the facts and, at most, one short line of
@@ -150,6 +169,10 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
   "usual wording" and present it as what the recording says. Trey, after a speech-to-text pass on a cadence video came out wrong:
   *"i dont like that method if it is inaccurate."* (2026-11-10)
 
+- **FEASIBILITY FIRST, THEN A REALISTIC DAY (Trey, 2026-11-11: "This schedule is INSANELY packed, like unrealistically ... you are scheduling things within minutes of each other like I can simply go from one task to the next seamlessly, like i'm in a vacuum ... Like I shove food into my face in 15 minutes ... If i said definitively that i want to GET AHEAD by monday ... then it is YOUR JOB to come back and tell me what that looks like and it needs to be a conversation.")** Getting ahead is the STANDING goal, never a new request. Before building or changing a multi-day plan: (1) list every must-do with its deadline, its hours (TIME_AVERAGES.md medians, else estimate) and whether late work still counts; (2) compute each day's real capacity = waking window minus classes, ROTC, events and travel, minus meals (lunch and dinner 45 min, breakfast 15+), minus a break or transition before every work block (longer after LLAB, lab, PT, ODC and crowded events), minus 45+ min of downtime; (3) if a goal ("ahead by Sunday") does not fit, say so WITH THE NUMBERS and offer 2-3 options as a conversation before building; (4) state the plan's goal at the top of the plan. Caps count the WHOLE day: committed time (work + class + ROTC + travel) <= 11 h (a longer day needs a written reason), no work block over about 2 h, the must-do list ends by 9:30 PM before a 6 AM PT/ODC. All of it is enforced in src/pages/fitnesstracker/studyPlan.test.js ('is realistic from 11-12 on'). (2026-11-11)
+- **One schedule file, obviously current.** The week calendar is published as `_ChiefOfStaff/Week Plan - CURRENT.html` (its header shows the
+  date range and when it was built); every older plan file goes to `_ChiefOfStaff/_archive/`. Trey, 2026-11-11, on two dated plan files:
+  *"there's no way to look and see which is which just by looking at them."* (2026-11-11)
 - **Schedules are an EASY minimum plus 2-3 extras at the end of each day.** The minimum is what must get done plus a little more;
   the extras are real assignments he can pick up on a locked-in day to get ahead. Enforced by the studyPlan test 'ends every planned
   day from 11-10 with 2-3 extra blocks'. Trey: *"From now on always do the schedule that way."* (2026-11-10)
@@ -158,3 +181,14 @@ results screen with every question. Reuse the AFOQT `DrillRunner`/`ExamRunner` p
 - Root `CLAUDE.md` (project rules) and `src/pages/theknowledgebase/CLAUDE.md` (TKB/AFOQT/courses).
 - `~/.claude/CLAUDE.md` (global) and the auto-memory folder `~/.claude/projects/c--Projects-astral-project/memory/`.
 - `G:\My Drive\SupplementalCourseDocs\_ChiefOfStaff\STATE.md` (school/ROTC scheduling rules).
+
+- 2026-11-12 (Trey, ESMG A4 intro): a skeleton or brief prompt must say exactly what each required element is, with the choices listed. "End with ONE sentence naming the program and its main parts" was not enough because it never said which parts. Under every such prompt, list the menu of parts or items (with where they are defined), and state the word target next to the section it belongs to; never leave a required element implied. Do not mix up section word targets (Introduction about 140, Evidence of Need about 220).
+- 2026-11-12 (Trey, A4 brief): when he asks to update a brief or PDF, update the EXISTING file in place under its same name. Do not make a new file next to it (no _UPDATED or _v2 copies). If the file is locked, say so and retry, rather than saving a second copy.
+- 2026-11-12 (Trey): briefs and study sheets are delivered as a PDF ONLY. Never also save a .docx (or .md/.html) copy in his folders; build any working file in the scratchpad and put only the PDF in Drive. Skeletons he writes in are the exception (those are .docx because he types in them).
+- 2026-11-13 (Trey): a MICR 2065 Pre-Lab on its own is planned at 30 minutes; the 90-minute block is only for Pre-Lab + Case Study together (enforced in studyPlan.test.js).
+- 2026-11-13 (Trey: "this should have been documented MONTHS AGO"): anything that happens every week is a STANDING block the first time it shows up twice: add it to classSchedule.js, the chief-of-staff profile's weekly table and a test the same turn. Never plan a recurring event one week at a time. When an event appears a second time, ask once whether it is weekly.
+- 2026-11-13 (Trey, after MICR 2060 AIWP 1 + 2 were missed because no agent told him in time): every graded item in every course is surfaced the day it OPENS, not only near its due date. The morning check lists any open, unsubmitted Canvas/Learning Suite item that has no block in the plan.
+- 2026-11-14 (Trey, Friday's 15-minute to-do list did not happen: "Scheduling was too tight for most of those things"): small no-deadline tasks (messages, emails, forms) go on the LIGHTEST day of the next three with buffer around them, never wedged into a day already full of deadlines, and a missed one moves forward the next morning instead of riding along as a reminder.
+- 2026-11-16 (Trey: "I want to hyperfocus on my chem test tomorrow. Anything without a hard deadline tonight or tomorrow morning needs pushed"): the day before an exam holds only exam study plus items due that night or the next morning (and fixed events like PT). Everything else, including TBAS, Warrior Knowledge, late work and replies, moves past the exam. The TBAS test excuses such days through its written `EXAM_EVE` list.
+- 2026-11-16 (Trey: "i definitely didnt wake up at 6am"): when he checks the plan mid-morning, re-plan the day from the current time. Never hand him a schedule whose first blocks are already in the past. The 4:30 AM morning check must not assume a 6 AM start on a day with no 6 AM fixed event; start his day after 7 AM unless he says otherwise.
+- 2026-11-16 (Trey: "thats 3 questions in one"): one question per number, answerable in one word. Never bundle several questions into one numbered item.

@@ -58,21 +58,56 @@ A Lewis structure is a bookkeeping diagram: every valence electron in the molecu
 either as a bonding pair (shared, drawn as a line or two dots between atoms) or a lone pair
 (unshared, drawn on one atom).
 
-**The procedure:**
-1. **Count total valence electrons** — sum each atom's valence electron count (its main group
-   number for main-group elements), multiplied by how many atoms of it are present. For an ion,
-   add one electron per negative charge or subtract one per positive charge.
-2. **Arrange atoms** — the least electronegative atom (other than H, which is always terminal)
-   is usually central.
-3. **Place a bonding pair between every connected pair of atoms**, then **fill in lone pairs**
-   to satisfy octets (or duets, for H), starting from the outer atoms.
-4. **If the central atom is short an octet**, convert a lone pair on a neighboring atom into an
-   additional bonding pair (forming a double or triple bond) instead of leaving anyone electron-
-   deficient.
+**The procedure** (the short version is on the reference sheet under "Lewis structures and formal
+charge: step by step"):
+1. **Choose the central atom and the arrangement.** Usually the least electronegative atom,
+   excluding hydrogen. H is always an outer atom and F normally is. An element appearing only once
+   is a clue, not a guarantee. Some molecules have more than one central atom, so do not force
+   every atom onto one centre; use the arrangement the problem gives you. ("Least electronegative"
+   means weakest pull on shared electrons, not lowest energy.)
+2. **Draw the skeleton with single bonds only.** No dots yet. Each bond line is 2 electrons.
+3. **Count the available valence electrons.** Sum every atom's valence electrons (its main group
+   number). Negative ion: add 1 per unit of charge. Positive ion: subtract 1 per unit. This is the
+   budget for the whole drawing, bonds and dots together. It is not how many electrons the atoms
+   need to fill their shells.
+4. **Subtract the skeleton:** remaining electrons = available − 2 × (number of single bonds).
+5. **Outer atoms first.** For each outer atom, count the electrons already around it from its
+   bond, add dots until it has 8, and subtract each dot from the remaining budget. An outer atom
+   with one single bond already has 2, so it normally gets 3 lone pairs. Hydrogen is the exception:
+   its bond already gives it the 2 it needs. You are completing shells here, not trying to make
+   formal charges zero.
+6. **Leftover electrons go on the central atom,** normally as lone pairs. They go there because
+   they belong to the budget, not because the centre needs exactly that many. After this, every
+   electron is placed, and the centre may still lack an octet.
+7. **Check the central atom's octet.** Electrons around an atom = its dots + 2 × its bond lines
+   (a double bond is two lines, a triple is three). If it is short, take a lone pair from a
+   neighbouring outer atom and move it into the bond between them, making a double bond (then a
+   triple if needed and allowed). This moves existing electrons and adds none to the budget.
+   Recheck the outer atom's octet after each move, and check the exceptions below first.
+8. **Calculate the formal charge on every atom** (next section).
+9. **Improve the formal charges when allowed.** Compare possible structures that keep the same
+   electron budget and respect the shell rules.
+10. **Final check.** Count every bond electron and every dot once: the total must equal the budget
+    from step 3. Check each atom's shell and every formal charge. Show resonance structures when
+    asked. For an ion, put brackets around the whole structure with the charge outside.
 
 > **The trap:** losing track of the running total. Every electron placed — bonding or lone —
-> has to come out of the total counted in step 1. Coming up short (or over) by exactly 2 usually
+> has to come out of the total counted in step 3. Coming up short (or over) by exactly 2 usually
 > means one lone pair got dropped (or double-counted) somewhere in the structure.
+
+**Exceptions to "every atom gets eight":**
+
+| Situation | What to remember |
+|---|---|
+| Hydrogen | Two electrons, not eight. |
+| C, N, O, F | Never more than eight in an ordinary Chemistry 1 Lewis structure. |
+| Be and B | Some compounds have incomplete octets. Do not force an octet. |
+| Odd total number of valence electrons | At least one electron stays unpaired, so not every atom can have an octet. |
+| Central atom in period 3 or below (P, S) | An expanded octet may be allowed in the course's treatment. |
+
+For compounds such as SO₂, whether to draw an expanded octet or an octet-respecting structure with
+charge separation is the instructor's convention. That convention has not been confirmed from his
+material, so check his worked examples.
 
 ## Formal charge
 
@@ -80,17 +115,27 @@ Once a Lewis structure is drawn, **formal charge** checks whether the electron b
 each individual atom looks reasonable — it's a diagnostic, not a real physical charge sitting on
 the atom.
 
-> **Formal charge = (valence electrons) − (nonbonding electrons) − ½(bonding electrons)**
+> **Formal charge = (valence electrons) − (unshared electrons, counting each dot as 1) − (bond lines)**
+>
+> This is the same as the textbook form, valence − nonbonding − ½(bonding electrons).
 
 Walk through it atom by atom: start from that atom's own valence electron count, subtract every
-electron in its lone pairs (it "owns" those fully), and subtract half of every electron it shares
-in a bond (it only gets credit for half of a shared pair). Two mistakes account for nearly every
-formal-charge error: forgetting the **½** on the bonding-electron term (subtracting the full
-bonding electron count instead of half of it), and forgetting to subtract the lone-pair electrons
+dot (a lone pair is 2), and subtract one for every bond line (single = 1, double = 2, triple = 3).
+Do **not** halve the bond lines: counting lines already gives the atom half of each shared pair.
+Two mistakes account for nearly every formal-charge error: halving the bond lines a second time
+(or, with the textbook form, forgetting the ½), and forgetting to subtract the lone-pair electrons
 at all.
 
+**The two counts stay separate.** A single bond counts as 2 electrons when you check an atom's
+octet, and as 1 electron when you calculate its formal charge. A zero formal charge does not
+guarantee a full octet, and a full octet does not guarantee zero formal charge.
+
+**The charges must add up** to zero for a neutral molecule and to the stated charge for an ion.
+A −1 ion cannot have zero on every atom.
+
 **Using formal charge to pick between valid Lewis structures**, when more than one honors the
-octet rule:
+shell rules (aim for as close to zero as possible, not necessarily zero on every atom, and do not
+keep adding double bonds just to reach zero):
 - Prefer the structure where formal charges are **closest to zero**.
 - When some charge separation is unavoidable, put the **negative** formal charge on the **more
   electronegative** atom — it's more physically reasonable for the atom that pulls harder on

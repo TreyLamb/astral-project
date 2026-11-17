@@ -193,8 +193,12 @@ Just drag them into the right course folder. No conversion, no cleanup, no renam
 
 Two things that genuinely help:
 
-1. **Put it in the course's folder** (`chem/`, `Microbiology/`, …). Create one per course as you
-   go — matching the code (`ESMG3200/`) is ideal but not required.
+1. **Put it in the course's EXISTING folder** in `G:\My Drive\SupplementalCourseDocs\`, named by course code
+   and number: `CHEM 1210/`, `MICR 2060/`, `MICR 2065/`, `ESMG 3200/`, `AERO 1100/`, and so on. **List the
+   parent first and never create a new course folder** (no `Microbiology/`, no `Chem/`); if a course truly has no
+   folder yet, ask Trey the name. (Trey, 2026-11-12: *"you keep making new 'microbiology' folders ... we already
+   have micro 2065 folder."* The old `Microbiology/` and `Microbiology_LAB/` folders were merged into `MICR 2065/` and
+   `MICR 2060/` on 2026-11-12, and the doc references were updated.)
 2. **Google Docs: export as Markdown, not `.docx`.** `File → Download → Markdown (.md)`. A
    `.gdoc` file in Drive is only a shortcut — it has no content on disk and literally cannot be
    read by any local tool, which is why your three `.gdoc` files currently can't be ingested.

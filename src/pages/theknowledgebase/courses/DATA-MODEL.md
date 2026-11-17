@@ -27,7 +27,8 @@ rebuilt:
 
 Bulk content (full syllabi, slide decks, scanned book notes) never lives in this repo or in
 Firestore — it stays in Trey's own Drive/cloud-drive folder, `G:\My Drive\SupplementalCourseDocs\`
-(one folder per course/subject; see e.g. the `chem/` and `Microbiology/` subfolders). This
+(one folder per course, named by course code: `CHEM 1210/`, `MICR 2060/`, `MICR 2065/`. Use the existing
+one; never create another). This
 mirrors the existing precedent in this repo: AFOQT's calibration books live at `G:\My Drive\`
 and are never committed, only referenced by path in scripts.
 

@@ -594,7 +594,7 @@ produced no files**. Nothing from it was committed — the tree is clean, not ha
 ## RESOLVED (2026-09-02)
 
 - **Canvas is wired end to end and the first real pull happened.** UVU runs
-  `uvu.instructure.com` — discovered by rendering the scanned `Microbiology_LAB/SyllabusQuiz.pdf`
+  `uvu.instructure.com` — discovered by rendering the scanned `MICR 2065/SyllabusQuiz.pdf`
   to PNG and reading the footer URL, not assumed. **Only 3 of 10 courses appear in Canvas**
   (CHEM 1210, MICR 2060, MICR 2065); the AERO/ESMG/ESFF courses are not published there. Trey
   noted AERO runs through **BYU's** site and he has not checked it yet — that is a separate,
@@ -673,7 +673,7 @@ produced no files**. Nothing from it was committed — the tree is clean, not ha
 - **Canvas is the primary ingest path** — `scripts/canvasFetch.mjs`, answering Trey's *"are you
   able to scrape my course modules for me if you have my login?"* / *"what is the best way to get
   all of my course materials into the folders the fastest?"*. **UVU runs Canvas at
-  `uvu.instructure.com`** — discovered by rendering the scanned `Microbiology_LAB/SyllabusQuiz.pdf`
+  `uvu.instructure.com`** — discovered by rendering the scanned `MICR 2065/SyllabusQuiz.pdf`
   to PNG and reading the footer URL (`uvu.instructure.com/courses/637860/quizzes/2351558`), not
   assumed. The script pulls syllabus, assignments, quizzes (**with due dates + point values** —
   the direct raw input for `SCHEDULE.md`), modules, pages and every uploaded file into
@@ -753,7 +753,7 @@ produced no files**. Nothing from it was committed — the tree is clean, not ha
     cannot be populated yet. The format is fully specified in AGENT-PROMPT.md §6A and the
     roster/meeting-time half is available from the xlsx; only the assessment dates are missing.
   - 0-byte files that look like content: `chem/Chem1210 Question Database.docx`,
-    `Microbiology/microsyllabusquiz.md`. `Microbiology_LAB/*.pdf` are scanned (no text layer).
+    `MICR 2065/microsyllabusquiz.md`. `MICR 2065/SyllabusQuiz.pdf` and `SAFETYQUIZ.pdf` are scanned (no text layer).
   - `chem/chem1210.docx` (2.6 MB, ~380 paragraphs, 6 images) is the richest source in the folder
     and carries four layers needing different routing: OpenStax-style prose, MCQs with per-option
     `Correct:`/`Wrong:` rationales (ready-made error modes), Trey's own AI-discussion transcripts
