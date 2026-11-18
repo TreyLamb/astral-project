@@ -1,0 +1,68 @@
+/* Air Force Library and How-to's tabs on /AFROTC. Uses the page's --arc-* tokens; classes are arc-lib- / arc-ht-. */
+
+.arc-lib-card.missing { opacity: 0.85; border-style: dashed; }
+.arc-lib-badge { font-size: 0.75rem; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--arc-border); color: var(--arc-muted); }
+.arc-lib-badge.warn { color: #f0b44c; border-color: rgba(240, 180, 76, 0.5); }
+.arc-refs .arc-lib-warn, .arc-lib-warn { color: #f0b44c; font-size: 0.9rem; margin: 4px 0; }
+.arc-refs .arc-lib-meta { font-size: 0.85rem; }
+.arc-refs .arc-lib-missing { font-size: 0.88rem; color: var(--arc-text); }
+.arc-lib-missing code { font-size: 0.82rem; word-break: break-all; color: var(--arc-accent); }
+.arc-lib-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.arc-lib-reader { display: flex; flex-direction: column; gap: 10px; }
+.arc-lib-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px solid var(--arc-border); }
+.arc-lib-title { flex: 1 1 260px; font-size: 1.05rem; }
+.arc-lib-find {
+  width: 100%; max-width: 640px; padding: 10px 12px; font-size: 1rem; color: var(--arc-text);
+  background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 10px;
+}
+.arc-lib-find::placeholder { color: var(--arc-muted); }
+.arc-lib-toc summary { cursor: pointer; color: var(--arc-accent); padding: 6px 0; }
+.arc-lib-toc ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 2px; }
+.arc-lib-toc button { background: none; border: 0; color: var(--arc-text); text-align: left; padding: 6px 4px; font-size: 0.95rem; cursor: pointer; }
+.arc-lib-chapter { font-size: 1.15rem; color: var(--arc-accent); margin: 18px 0 6px; }
+/* 190px clears the sticky AFROTC top bar, the same offset the page's own pages and slides use. */
+.arc-lib-sec { padding: 10px 0; border-bottom: 1px solid var(--arc-border); scroll-margin-top: 190px; }
+.arc-lib-sec-head { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.arc-lib-para { font-weight: 700; color: var(--arc-accent); font-variant-numeric: tabular-nums; }
+.arc-lib-sec-title { font-weight: 600; flex: 1 1 200px; }
+.arc-lib-pdf { font-size: 0.8rem; color: var(--arc-muted); white-space: nowrap; }
+.arc-lib-text { margin: 6px 0 0; white-space: pre-line; line-height: 1.55; max-width: 90ch; }
+.arc-lib-text mark, .arc-lib-sec-title mark { background: rgba(124, 196, 255, 0.3); color: inherit; }
+
+.arc-ht { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+/* .arc-blurb is a 360px flex-basis built for row toolbars; in a column it would be 360px tall. */
+.arc-ht .arc-blurb, .arc-lib-reader .arc-blurb { flex: none; }
+.arc-ht-title { margin: 4px 0 0; font-size: 1.4rem; }
+.arc-ht-llab { margin: 0; color: var(--arc-muted); font-size: 0.92rem; }
+.arc-ht-roles { margin-top: 6px; }
+.arc-ht-roles button { padding: 8px 12px; min-height: 40px; }
+.arc-ht-role { margin: 6px 0 0; font-size: 1.15rem; color: var(--arc-accent); }
+.arc-ht-steps { margin: 0; padding-left: 1.6em; display: flex; flex-direction: column; gap: 14px; max-width: 80ch; }
+.arc-ht-steps li p { margin: 0; line-height: 1.5; }
+.arc-ht-phase { font-weight: 700; color: var(--arc-muted); text-transform: none; margin: 8px 0 4px; font-size: 0.9rem; }
+.arc-ht-say {
+  margin: 6px 0 0; padding: 6px 12px; border-left: 3px solid var(--arc-accent); background: var(--arc-panel);
+  font-weight: 700; letter-spacing: 0.01em; border-radius: 0 8px 8px 0;
+}
+.arc-ht-foot { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.arc-ht-cites { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.arc-ht-cite {
+  font-size: 0.78rem; padding: 3px 9px; border-radius: 999px; cursor: pointer; font: inherit; font-size: 0.78rem;
+  color: var(--arc-accent); background: rgba(124, 196, 255, 0.1); border: 1px solid rgba(124, 196, 255, 0.35);
+}
+.arc-ht-cite.old { color: #f0b44c; background: rgba(240, 180, 76, 0.1); border-color: rgba(240, 180, 76, 0.4); }
+.arc-ht-cite.unofficial, .arc-ht-cite.teams { color: var(--arc-muted); background: var(--arc-panel); border-color: var(--arc-border); }
+.arc-ht-cite.teams { cursor: default; }
+.arc-ht-cite.ref { color: var(--arc-text); }
+.arc-ht-box { width: 100%; max-width: 86ch; padding: 12px 16px; background: var(--arc-panel); border: 1px solid var(--arc-border); border-radius: 12px; }
+.arc-ht-box h3 { margin: 0 0 6px; font-size: 1rem; }
+.arc-ht-box ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; line-height: 1.5; }
+.arc-ht-box.local { border-color: rgba(124, 196, 255, 0.4); }
+.arc-ht-box.open { border-color: rgba(240, 180, 76, 0.45); }
+.arc-ht-box.open h3 { color: #f0b44c; }
+.arc-ht-key { margin: 0; font-size: 0.82rem; color: var(--arc-muted); max-width: 86ch; }
+
+@media (max-width: 600px) {
+  .arc-ht-steps { padding-left: 1.3em; }
+}

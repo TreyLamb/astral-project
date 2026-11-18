@@ -3,6 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { currentExamId, EXAMS, COURSE_CHAPTERS, sectionsForExam, examChapterWeights } from '../syllabusMap';
 import { allChemTemplates } from '../engine/generator';
 import { allocateByChapter } from '../engine/drill';
+import { STYLES, chapterOf } from '../practiceExam/index.js';
+
+// The study-guide practice exam (practiceExam/): every question style on any of his review
+// sheets, 3 questions each. Counted here so the buttons always state the real size.
+const PE = (() => {
+  const ex4 = STYLES.filter((s) => s.asked.some((a) => a.startsWith('ex4:'))).length;
+  const late = STYLES.filter((s) => chapterOf(s) >= 5).length;
+  return { all: STYLES.length, ex4, late };
+})();
 
 // Practice scoped to a REAL graded event, by the course's own chapter numbers.
 //
@@ -82,6 +91,36 @@ export default function ChemExamPrep() {
         Scoped to what an exam actually covers, using your course's chapter numbers — not the
         ACS ordering the chapter list below uses. Straight from the syllabus.
       </p>
+
+      <section className="chq-sheet-callout">
+        <h3>Study-guide practice exam</h3>
+        <p className="chq-note">
+          Every kind of question from your review sheets (Chapter 1-2 Review, Exam 1 Review, Exam 2 review
+          sheet, Supplemental Instruction Exam 2 Review, Exam 2 Prep Quiz, Exam 2 sample exam, Exam 3 Review
+          and the Exam 4 review). Each style appears once, with 3 questions: your real one first, then 2 of the same kind with
+          new numbers. {PE.all} styles in course order.
+        </p>
+        <div className="chq-row chq-wrap-row">
+          <button
+            className="chq-btn chq-primary"
+            onClick={() => navigate(`/TKB/courses/chem/drill/run?${new URLSearchParams({ sheet: 'practice-exam', label: 'Study-guide practice exam' })}`)}
+          >
+            Whole exam — {PE.all * 3} questions
+          </button>
+          <button
+            className="chq-btn"
+            onClick={() => navigate(`/TKB/courses/chem/drill/run?${new URLSearchParams({ sheet: 'practice-exam', only: 'ex4', label: 'Exam 4 review styles' })}`)}
+          >
+            Exam 4 review styles — {PE.ex4 * 3} questions
+          </button>
+          <button
+            className="chq-btn"
+            onClick={() => navigate(`/TKB/courses/chem/drill/run?${new URLSearchParams({ sheet: 'practice-exam', chapters: '5,6,7,8', label: 'Study-guide practice exam, Chapters 5-8' })}`)}
+          >
+            Chapters 5-8 only — {PE.late * 3} questions
+          </button>
+        </div>
+      </section>
 
       <section>
         <h3>Which exam</h3>

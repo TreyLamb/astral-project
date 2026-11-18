@@ -10,6 +10,15 @@ same turn** (and enforce it in code/tests where you can). Do not wait to be aske
 
 ---
 
+## 🗂️ This repo is the WEBSITE, not a database (Trey, 2026-11-18)
+*"We've started using astral project as a database and it's not for that."* Website code and the data a page renders
+live here. Documents go to Google Drive. **Everything else (capture/automation tools, form fillers, personal data,
+one-off ops scripts) goes to the private ops repo `TreyLamb/teams-capture`** (`C:\Projects\teams-capture`); its README
+has the layout and the list of scripts still to move out of here. A new script that does not ship with the site starts
+there.
+
+---
+
 ## 🔴🔴 REUSE BEFORE BUILD: follow the architecture that already exists. Read this before writing any feature.
 
 Trey, 2026-11-02, after the CHEM practice test turned out to be a from-scratch runner with no Back/Next, no hints and A-D
@@ -1045,7 +1054,7 @@ canonical casing. Legacy paths redirect the same way. Both live in
 | `/POGO-ACCS/*` | pogoaccs/PogoAccsApp.jsx | was `/pogo-accs` |
 | `/EFTsh/*` | eftShopping/EftShoppingApp.jsx | **EFT Shopping** — Tarkov hideout shopping list + raid companion. Built from BSG's own game files (SPT mirror) with tarkov.dev layered on top for prices only. `npm run eft:snapshot` regenerates the committed snapshot. Includes `/EFTsh/crafts`, a left-to-right craft flow chart — see the craft-data note below. `/EFTsh/uses` is the one-stop "what is this item used for" search (hideout/craft/quest/barter/armor) — see the barters + gear catalog note below. `/EFTsh/loops` finds the semi-infinite craft loops from data — see the craft-loops note below. |
 | `/TT` | TranscriptTool/TranscriptToolApp.jsx | **Transcript / GPA what-if calculator.** Deliberately NOT in `SITE_LINKS` — URL-only, at Trey's request, so it appears in neither the navbar dropdown nor Home. `TT` is still in `CANONICAL_SEGMENTS` so `/tt` redirects rather than 404s. See the transcript-parsing note below. |
-| `/AFROTC` | afrotc/AfrotcApp.jsx | **AFROTC page — ALL AFROTC lives here, never under TKB (moved 2026-10-25).** Study tabs (`study/`): recitation, rank drill, knowledge cards, song & creed memorizer, airframe briefs; reference docs in `fundamentals/`. Old `/TKB/afoqt/afrotc` links redirect. **AFROTC document hub** — tabs for the QRC study packet (23 pages as images in `public/afrotc/qrc/`, source PDF beside it; a MARCH cross-reference page plus AFTTP 3-4 pages 64-76, 13 (QRC 7.1 only) and 51-58 — all of TCCC 19.1-19.14, MEDEVAC, weapon safety, 5-Cs/IED/UXO), the Det 855 handbook transcript (markdown), and links into TKB's AFROTC study tools. Add a document = one entry in `DOCS` in `AfrotcApp.jsx`. |
+| `/AFROTC` | afrotc/AfrotcApp.jsx | **AFROTC page — ALL AFROTC lives here, never under TKB (moved 2026-10-25).** Study tabs (`study/`): recitation, rank drill, knowledge cards, song & creed memorizer, airframe briefs; reference docs in `fundamentals/`. Old `/TKB/afoqt/afrotc` links redirect. **AFROTC document hub** — tabs for the QRC study packet (23 pages as images in `public/afrotc/qrc/`, source PDF beside it; a MARCH cross-reference page plus AFTTP 3-4 pages 64-76, 13 (QRC 7.1 only) and 51-58 — all of TCCC 19.1-19.14, MEDEVAC, weapon safety, 5-Cs/IED/UXO), the Det 855 handbook transcript (markdown), and links into TKB's AFROTC study tools. Add a document = one entry in `DOCS` in `AfrotcApp.jsx`. **Air Force Library + How-to's (2026-11-17):** `src/pages/afrotc/library/` — `pubCatalog.js` lists every publication; `npm run afrotc:pubs` copies each PDF found under Drive `SupplementalCourseDocs/AFROTC/Publications/` to `public/afrotc/pubs/` and splits its text into numbered paragraphs (`pubText.js`), searchable from the page's search box. e-Publishing and every .mil host 403 to scripts (WebFetch too): Trey saves those by hand. Two Drive 'PDFs' (AFH 1, AFH 36-2647 in the AEROS 110 folder) were Access Denied pages saved as .pdf; the script now refuses non-PDFs. `howTos.js` holds the how-to's; `howTos.test.js` fails if a citation does not resolve. Drill citations point at the 2013 AFMAN 36-2203 only until DAFPAM 34-1203 is saved: then re-point them. `?doc=refs` redirects to the library. |
 | `/medaldex/*` | medaldex/MedalDexApp.jsx | |
 | `/stashmap/*` | stashmap/StashMapApp.jsx | |
 | `/antiquityquest/*` | antiquityquest/AntiquityQuestApp.jsx | |

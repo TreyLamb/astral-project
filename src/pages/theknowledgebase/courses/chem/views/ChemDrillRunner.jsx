@@ -13,6 +13,7 @@ import { chemHints } from '../engine/hints';
 import ChemStem, { inline } from './ChemStem';
 import { allChemTemplates } from '../engine/generator';
 import { buildPracticeSet } from '../engine/practice';
+import { buildPracticeExam } from '../practiceExam/index.js';
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 
@@ -54,10 +55,17 @@ export default function ChemDrillRunner({ practice = null }) {
   // ?sheet=exam2-review works the professor's whole Exam 2 review sheet in its own order — every
   // question once, options shuffled — instead of sampling it like a template pool.
   const sheet = params.get('sheet');
+  // ?sheet=practice-exam: every question STYLE from his study guides, 3 questions each, in course
+  // order (practiceExam/index.js). &only=ex4 keeps the Exam 4 review's styles; &chapters=5,6,7,8 a range.
+  const peOnly = params.get('only');
+  const peChapters = params.get('chapters');
   const resume = params.get('resume') === 'last' ? loadSaved() : null;
   const questions = useMemo(() => {
     if (practice) return practice.questions;
     if (resume?.questions?.length) return resume.questions;
+    if (sheet === 'practice-exam') {
+      return buildPracticeExam({ seed: Date.now() >>> 0, only: peOnly, chapters: peChapters ? peChapters.split(',').map(Number) : null });
+    }
     const rng = mulberry32(Date.now());
     if (sheet === 'exam2-review') {
       return REVIEW2_REAL_ITEMS.map((it, i) => {
@@ -76,7 +84,7 @@ export default function ChemDrillRunner({ practice = null }) {
     }
     return buildChemDrill({ count, rng, chapterId: chapter ? chapter.id : null, distinct: isGate, sections, chapterWeights });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, chapter?.id, isGate, sectionParam, chapterWeights, sheet]);
+  }, [count, chapter?.id, isGate, sectionParam, chapterWeights, sheet, peOnly, peChapters]);
 
   const [idx, setIdx] = useState(() => (resume && !practice ? resume.idx ?? 0 : 0));
   // Practice mode (engine/practice.js): a set built around the question he is on. The test stays

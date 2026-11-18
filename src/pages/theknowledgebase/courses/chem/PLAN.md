@@ -5,6 +5,24 @@ Band 2; **Band 2 = the professor's quizzes; Band 3 = the national (ACS) exam lev
 some fast logic, some heavy math). **Quizzes are benchmarks that feed this question engine; they are not the real study.** His real chem study = the CURRENT
 chapter's topics tuned to the national test, timed. When extending banks, drills or the exam tool, target Band 3 content and pacing, and keep Band 2 coverage honest to the quizzes.
 
+**2026-11-17, study-guide practice exam (`practiceExam/`), built the day before Exam 4.** Trey: a test based fully on the
+practice exams handed out before every chem exam, organised by QUESTION STYLE across all of them (not per guide): each style
+gets 3 questions, his real one first and 2 generated siblings of the identical frame (rule in PREFERENCES.md). Sources:
+`ch12` Ch 1-2 Review (examReviewItems.js), `ex1` Exam 1 Review (Drive `CHEM 1210/IMG_8423-8425.jpg`, never transcribed before),
+`ex2` professor's Exam 2 sheet (examReview2Items.js), `si2` Supplemental Instruction Exam 2 Review (+ key, docx), `prep` Canvas
+"Exam 2 Prep Quiz Practice" (112 slots, many repeats; same-frame repeats merged into one style), `sample2` Exam 2 sample-exam
+screenshots (`chem/exam3 review/`, only Q1-7, 16, 17 visible), `ex4` Exam 4 review Ch 1-8 (Drive `CHEM 1210/Exam4_Review_page1-4`,
+41 questions -> 35 styles), `ex3` Exam 3 Review Ch 1-6 (Drive `CHEM 1210/Exam3_Review_page1-4`, sent the same evening:
+42 questions; 9 new styles in `styles-exam3.js`, the rest mapped onto existing styles in `EXTRA_ASKED` in index.js). Total
+113 styles / 339 questions. Exam 3 data flags: Q31's combustion numbers do not close (O comes out 1.10, intended answer is
+almost certainly CH₂O); Q33's ΔH = -5470 kJ/mol is keyed per equation as written (2 octane) = 8.66 × 10⁴ g CO₂, half that if
+he means per mole of octane; Q23 gives an unrealistic 6.9 J/g°C (that is what the numbers give). Files: `data.js` (elements, ions, formula parser, solubility),
+`styles-ch1/ch2/ch3-4/ch5-8.js` (one generator per style; `real` reproduces his question and the test checks its answer),
+`ladders.js` (5+ step hint ladder per style; engine/hints.js accepts a `ladder`), `index.js` (`buildPracticeExam`). Runner:
+`?sheet=practice-exam` (`&only=ex4`, `&chapters=5,6,7,8`); start buttons on Exam prep. Flags raised to Trey: SO₃ pi bonds (3 by
+formal charge vs 1 by octet), Pb⁴⁺ valence electrons (0 vs 18), As vs Xe size order, Exam 4 Q18 unbalanced as printed, two wrong
+keys on the Supplemental Instruction Exam 2 key (KBr -> Br₂ is 0.336 mol, not 0.67; the MgSO₄ hydrate data give ·4H₂O, not ·7H₂O).
+
 **2026-10-27, Exam 3 (Mon 11-2, ch 1-6 cumulative) bank build.** Trey: heat math is the weak spot, ch 3-4 needs heavy review, ch 6 is
 easy, and the national (ACS) exam is now the bar for every chapter (AGENT-PROMPT §9). Done: (1) wired `acs-ch00/01/03-*.js` into the barrel:
 33 ACS-level templates had been committed in an unrelated AFOQT commit (73c1643) and NEVER imported, so no exam or gate could draw one;

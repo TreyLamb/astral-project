@@ -1,0 +1,72 @@
+{
+  "dafi36-2903": {
+    "pages": 159,
+    "sections": 863,
+    "mode": "paragraphs",
+    "pdf": "/afrotc/pubs/dafi36-2903.pdf",
+    "mb": 6.5
+  },
+  "dafi36-2903-afrotcsup": {
+    "pages": 25,
+    "sections": 119,
+    "mode": "paragraphs",
+    "pdf": "/afrotc/pubs/dafi36-2903-afrotcsup.pdf",
+    "mb": 1.8
+  },
+  "afrotci36-2011v3": {
+    "pages": 171,
+    "sections": 1087,
+    "mode": "paragraphs",
+    "pdf": "/afrotc/pubs/afrotci36-2011v3.pdf",
+    "mb": 1.3
+  },
+  "afrotci36-2011v1": {
+    "pages": 66,
+    "sections": 410,
+    "mode": "paragraphs",
+    "pdf": "/afrotc/pubs/afrotci36-2011v1.pdf",
+    "mb": 3
+  },
+  "afi1-1": {
+    "pages": 38,
+    "sections": 189,
+    "mode": "paragraphs",
+    "pdf": "/afrotc/pubs/afi1-1.pdf",
+    "mb": 0.5
+  },
+  "afh33-337": {
+    "pages": 370,
+    "sections": 370,
+    "mode": "pages",
+    "pdf": "/afrotc/pubs/afh33-337.pdf",
+    "mb": 7.9
+  },
+  "afttp3-4": {
+    "pages": 83,
+    "sections": 0,
+    "mode": "pages",
+    "pdf": "/afrotc/pubs/afttp3-4.pdf",
+    "mb": 18
+  },
+  "det855-ori": {
+    "pages": 7,
+    "sections": 7,
+    "mode": "pages",
+    "pdf": "/afrotc/ORI_Procedures.pdf",
+    "mb": 1.1
+  },
+  "afman36-2203-2013": {
+    "pages": 118,
+    "sections": 608,
+    "mode": "paragraphs",
+    "pdf": "/afrotc/pubs/afman36-2203-2013.pdf",
+    "mb": 3.9
+  },
+  "det025-manual": {
+    "pages": 62,
+    "sections": 62,
+    "mode": "pages",
+    "pdf": "/afrotc/pubs/det025-manual.pdf",
+    "mb": 3.5
+  }
+}

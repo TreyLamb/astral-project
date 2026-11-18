@@ -22,6 +22,11 @@ import brief14n from './docs/brief14n.json';
 import brief14nClaims from './docs/brief14nClaims.json';
 import briefMd from './docs/14n-speakers-brief.md?raw';
 import cadetWing from './docs/cadetWing.json';
+import LibraryDoc from './library/LibraryDoc';
+import HowToDoc from './library/HowToDoc';
+import { getLibraryEntries } from './library/libraryData';
+import { HOWTOS, howToSearchText } from './library/howTos';
+import { PUBS } from './library/pubCatalog';
 import './Afrotc.css';
 
 // To add a document: drop its pages/markdown in, then add one entry here.
@@ -97,8 +102,12 @@ const DOCS = [
     blurb: 'Weeks 1 and 2 of the weekly quiz, word for word, with answers marked sure or best-guess.',
   },
   {
-    slug: 'refs', label: 'Official Air Force documents', kind: 'refs',
-    blurb: 'Links to the core publications behind what you are taught: drill, uniforms, standards, fitness, cadet operations and doctrine. Official copies first; where only a university-hosted copy turned up, it says so.',
+    slug: 'library', label: 'Air Force Library', kind: 'library',
+    blurb: 'The real publications (DAFI, DAFPAM, AFROTCI, AFI, AFH and more), hosted here and searchable paragraph by paragraph, with the PDF one tap away. Ones not on the site yet say exactly what to save.',
+  },
+  {
+    slug: 'howto', label: 'How-to’s', kind: 'howto',
+    blurb: 'Step-by-step procedures by role, simple to complex: falling in, reporting in, reveille and retreat, and the full Open Ranks Inspection. Every step names its source.',
   },
   {
     slug: 'wing', label: 'Cadet Wing Who’s Who', kind: 'wing',
@@ -130,68 +139,6 @@ const DOCS = [
     blurb: 'Roma, Sea Scout and the seven-airframe dossier.',
   },
 ];
-
-// Every link below was returned by a web search of the publisher's own site or a unit hosting a copy.
-// The .mil servers refuse scripts, so none could be opened automatically: Trey's browser is the real test.
-// `copy` marks a university-hosted copy where no official address was found; check the date against e-Publishing.
-const REF_GROUPS = [
-  {
-    title: 'Drill and appearance',
-    items: [
-      { id: 'DAFPAM 34-1203', title: 'Drill and Ceremonies', dated: '13 Sep 2022', use: 'Every drill movement and command, the source behind the Drill Sim and the ORI procedures.', href: 'https://static.e-publishing.af.mil/production/1/af_a1/publication/dafpam34-1203/dafpam34-1203.pdf' },
-      { id: 'DAFI 36-2903', title: 'Dress and Personal Appearance of Department of the Air Force Personnel', dated: '29 Feb 2024', use: 'Uniform wear, grooming, insignia placement and name tapes.', href: 'https://www.afpc.af.mil/Portals/70/documents/DRESS%20AND%20APPEARANCE/dafi36-2903%20(29Feb24).pdf' },
-    ],
-  },
-  {
-    title: 'AFROTC and cadet life',
-    items: [
-      { id: 'AFROTCI 36-2011 Vol 3', title: 'Cadet Operations', dated: '21 Jun 2023', use: 'Cadet grades, conduct, the Cadet Wing, and the rules cadets are held to.', href: 'https://manhattan.edu/admissions/rotc-dept/AFROTCI-36-2011-Vol-3---Cadet-Operations---21%20June%202023.pdf', copy: 'Manhattan University copy' },
-      { id: 'AFROTCI 36-2011 Vol 1', title: 'Leadership Laboratory Curriculum', dated: '3 Sep 2024', use: 'What each Leadership Lab teaches and what a cadet must be able to do.', href: 'https://usm.edu/aerospace-studies/afrotci36-2011_vol1_llab_curriculum_2024_09_03.pdf', copy: 'University of Southern Mississippi copy' },
-      { id: 'AFROTC', title: 'Air Force ROTC official site', use: 'Program news, scholarships and detachment finder.', href: 'https://www.afrotc.com/' },
-    ],
-  },
-  {
-    title: 'Standards, conduct and fitness',
-    items: [
-      { id: 'AFI 1-1', title: 'Air Force Culture, Air Force Standards', dated: '18 Aug 2023', use: 'The standards of conduct, performance and discipline expected of every Airman.', href: 'https://afrotc.utah.edu/_resources/documents/afi1-1.pdf', copy: 'University of Utah AFROTC copy' },
-      { id: 'AFI 36-2909', title: 'Air Force Professional Relationships and Conduct', dated: '14 Nov 2019', use: 'Professional and unprofessional relationships, fraternization. A newer edition may exist.', href: 'https://static.e-publishing.af.mil/production/1/af_ja/publication/afi36-2909/afi36-2909.pdf' },
-      { id: 'DAFMAN 36-2905', title: 'Department of the Air Force Physical Fitness Program', use: 'The fitness test, scoring and standards. Check the date on the cover: it has been revised recently.', href: 'https://www.afpc.af.mil/Portals/70/documents/FITNESS/dafman36-2905.pdf' },
-    ],
-  },
-  {
-    title: 'Doctrine and where to find the rest',
-    items: [
-      { id: 'AFDP 1', title: 'The Air Force (capstone doctrine), in the Doctrine Smart Book', dated: '20 Apr 2026', use: 'Why we fight, who we are, what we do, and how we do it. Read this before quoting core functions: older lists are out of date.', href: 'https://www.doctrine.af.mil/Portals/61/documents/SmartBook/AFDoctrineSmartBook.pdf' },
-      { id: 'Doctrine', title: 'Air Force Doctrine Hub', use: 'Every doctrine publication, including tactical-level doctrine such as the Airman’s Manual.', href: 'https://www.doctrine.af.mil/Tactical-Level-Doctrine' },
-      { id: 'e-Publishing', title: 'Air Force e-Publishing', use: 'The official library of every instruction, manual and pamphlet. Search any publication number here.', href: 'https://www.e-publishing.af.mil/' },
-      { id: 'AFPC', title: 'Air Force Personnel Center', use: 'Dress and appearance, fitness, ribbons and personnel programs.', href: 'https://www.afpc.af.mil/' },
-    ],
-  },
-];
-
-function RefsDoc({ doc }) {
-  return (
-    <>
-      <div className="arc-toolbar"><p className="arc-blurb">{doc.blurb}</p></div>
-      {REF_GROUPS.map((g) => (
-        <section key={g.title} className="arc-refs">
-          <h2>{g.title}</h2>
-          <ul>
-            {g.items.map((r) => (
-              <li key={r.id}>
-                <div className="arc-ref-head"><b>{r.id}</b>{r.dated ? <span className="arc-ref-date">{r.dated}</span> : null}</div>
-                <div className="arc-ref-title">{r.title}</div>
-                <p>{r.use}</p>
-                {r.copy ? <p className="arc-ref-copy">Hosted copy ({r.copy}); the official version is in e-Publishing.</p> : null}
-                <a className="arc-btn" href={r.href} target="_blank" rel="noreferrer">Open</a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </>
-  );
-}
 
 const WING_GROUPS = ['Wing leadership', 'Wing Staff', 'Training Group', 'Operations Group', 'Mission Generation Group'];
 const WING_CHAIN = [
@@ -489,14 +436,15 @@ function StudyDoc({ doc, go }) {
 
 // The menu on the main page. Every DOCS slug appears in exactly one section.
 const MENU = [
+  { title: 'Air Force Library', note: 'The real Air Force publications, searchable, and step-by-step how-to’s built from them.', slugs: ['library', 'howto'] },
   { title: 'Warrior Knowledge', note: 'The weekly quiz and the recitation: learn it, then test yourself.', slugs: ['list', 'sheet', 'cards', 'drill', 'song', 'quizzes'] },
-  { title: 'Reference', note: 'Look things up: the handbook, official Air Force documents, and who is who in the wing.', slugs: ['handbook', 'refs', 'wing'] },
+  { title: 'Reference', note: 'Look things up: the handbook and who is who in the wing.', slugs: ['handbook', 'wing'] },
   { title: 'Leadership Lab skills', note: 'Hands-on procedures: first aid and the flight inspection.', slugs: ['qrc', 'ori'] },
   { title: 'Briefings', note: 'Decks and speaker notes you present from.', slugs: ['brief14n', 'brief14n-text', 'briefs'] },
 ];
 const ICONS = {
   list: '📋', sheet: '🗣️', song: '🎵', drill: '🎖️', cards: '🃏', briefs: '✈️',
-  quizzes: '❓', handbook: '📘', refs: '🔗', qrc: '🩹', ori: '🧭', brief14n: '🖥️', 'brief14n-text': '📄', wing: '👥',
+  quizzes: '❓', handbook: '📘', library: '📚', howto: '🪜', qrc: '🩹', ori: '🧭', brief14n: '🖥️', 'brief14n-text': '📄', wing: '👥',
 };
 
 // ---- Search -------------------------------------------------------------------------------------------------
@@ -533,7 +481,9 @@ function getSearchIndex() {
   RANKS.forEach((r) => add('drill', `${r.name} (${r.abbr})`, join(r.tier, r.note), { where: 'Cadet grades' }));
   add('song', 'Airman’s Creed', AIRMANS_CREED, { where: 'Song & Creed' });
   BRIEFS.forEach((b) => add('briefs', b.title, join(b.meta, b.desc), { href: b.href, hrefLabel: 'Open the document' }));
-  REF_GROUPS.forEach((g) => g.items.forEach((r) => add('refs', `${r.id}: ${r.title}`, join(r.use, r.dated), { where: g.title, href: r.href, hrefLabel: 'Open the publication' })));
+  // Publications themselves (catalog cards); their full text is loaded on the first search by getLibraryEntries().
+  PUBS.forEach((p) => add('library', `${p.id}: ${p.title}`, join(p.use, p.dated, p.newer), { where: 'Publication', extra: { p: p.slug }, weight: 6 }));
+  HOWTOS.forEach((h) => add('howto', `How-to: ${h.title}`, howToSearchText(h), { where: h.roles.map((r) => r.role).join(', '), extra: { h: h.slug }, weight: 5 }));
   cadetWing.people.forEach((p) => add('wing', `${p.rank} ${p.name}`, `${p.title} (${p.symbol}). ${p.group}${p.sub && p.sub !== p.group ? ` · ${p.sub}` : ''}`, { where: 'Cadet Wing' }));
   SEARCH_INDEX = out;
   return out;
@@ -580,8 +530,10 @@ function Marked({ parts }) {
 function SearchResults({ query, onOpen }) {
   const base = useMemo(getSearchIndex, []);
   const [sheet, setSheet] = useState([]);
+  const [library, setLibrary] = useState([]);
   useEffect(() => { let live = true; getSheetEntries().then((e) => { if (live) setSheet(e); }); return () => { live = false; }; }, []);
-  const index = useMemo(() => [...base, ...sheet], [base, sheet]);
+  useEffect(() => { let live = true; getLibraryEntries().then((e) => { if (live) setLibrary(e); }); return () => { live = false; }; }, []);
+  const index = useMemo(() => [...base, ...sheet, ...library], [base, sheet, library]);
   const { total, hits } = useMemo(() => searchEntries(index, query, 500), [index, query]);
   const [only, setOnly] = useState('all');
   const [openId, setOpenId] = useState(null);
@@ -662,7 +614,9 @@ function Menu({ go }) {
 
 export default function AfrotcApp() {
   const [params, setParams] = useSearchParams();
-  const doc = DOCS.find((d) => d.slug === params.get('doc')) ?? null;
+  // 'refs' was the links-only documents tab the library replaced; old bookmarks land on the library.
+  const docSlug = params.get('doc') === 'refs' ? 'library' : params.get('doc');
+  const doc = DOCS.find((d) => d.slug === docSlug) ?? null;
   const at = params.get('at');
   const find = params.get('f');
   const [zoom, setZoom] = useState(readZoom);
@@ -691,7 +645,8 @@ export default function AfrotcApp() {
 
   // Land on the exact heading, slide or page a search result pointed at. Pages build asynchronously, so keep looking briefly.
   useEffect(() => {
-    if (!at) return undefined;
+    // The library loads its text over the network and scrolls to its own target once it arrives.
+    if (!at || doc?.kind === 'library') return undefined;
     let tries = 0;
     let timer;
     const attempt = () => {
@@ -708,11 +663,13 @@ export default function AfrotcApp() {
     return () => clearTimeout(timer);
   }, [doc?.slug, at, find]);
 
-  const go = (slug, anchor, sub) => {
-    setParams(slug ? { doc: slug, ...(anchor ? { at: anchor } : {}), ...(sub ? { f: sub } : {}) } : {});
-    if (!anchor) window.scrollTo({ top: 0 });
+  // `extra` carries a tab's own parameters: the library's publication (p) and cited paragraph (pa) or page (pg),
+  // the how-to being read (h).
+  const go = (slug, anchor, sub, extra) => {
+    setParams(slug ? { doc: slug, ...(extra ?? {}), ...(anchor ? { at: anchor } : {}), ...(sub ? { f: sub } : {}) } : {});
+    if (!anchor && !extra?.pa && !extra?.pg) window.scrollTo({ top: 0 });
   };
-  const openHit = (hit) => { setShowResults(false); go(hit.slug, hit.at, hit.find); };
+  const openHit = (hit) => { setShowResults(false); go(hit.slug, hit.at, hit.find, hit.extra); };
   const navigate = (slug) => { setShowResults(false); go(slug); };
 
   return (
@@ -756,7 +713,8 @@ export default function AfrotcApp() {
         {!searching && doc?.kind === 'pages' && <PagesDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {!searching && doc?.kind === 'markdown' && <MarkdownDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {!searching && doc?.kind === 'slides' && <SlidesDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
-        {!searching && doc?.kind === 'refs' && <RefsDoc doc={doc} />}
+        {!searching && doc?.kind === 'library' && <LibraryDoc params={params} go={go} />}
+        {!searching && doc?.kind === 'howto' && <HowToDoc params={params} go={go} />}
         {!searching && doc?.kind === 'wing' && <WingDoc doc={doc} zoomDef={zoomDef} zoom={zoom} setZoom={setZoom} />}
         {!searching && doc?.kind === 'study' && <StudyDoc doc={doc} go={navigate} />}
       </main>

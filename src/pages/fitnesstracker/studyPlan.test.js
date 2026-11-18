@@ -1,10 +1,22 @@
 import { describe, it, expect } from 'vitest';
-import { PLAN, workHoursByDay, planOverlayByDate, clock, minutesOf } from './studyPlan.js';
+import { PLAN, IMPORTANT_DATES, workHoursByDay, planOverlayByDate, clock, minutesOf } from './studyPlan.js';
+import { COURSEWORK_EXTRA } from '../theknowledgebase/courses/data/manualCoursework.js';
 
 describe('study plan', () => {
+  // Trey, 2026-11-18: "I keep missing deadlines because i rely on you to remind me of things and you act like its no big
+  // deal." Every open item the agent tracks by hand (Learning Suite has no feed) must show up in the plan on its due date.
+  it('puts every open hand-tracked deadline (Learning Suite, Det, exams) in the plan on its date', () => {
+    const FROM = '2026-11-18';
+    const onDay = (d) => [...PLAN.filter((e) => e.date === d), ...IMPORTANT_DATES.filter((e) => e.date === d)].map((e) => `${e.course || ''} ${e.title}`).join(' | ');
+    for (const it of COURSEWORK_EXTRA.filter((x) => x.status === 'todo' && x.due >= FROM)) {
+      const course = it.course.split(' ')[0];
+      expect({ id: it.id, due: it.due, inPlan: onDay(it.due).includes(course) }).toEqual({ id: it.id, due: it.due, inPlan: true });
+    }
+  });
+
   it('every timed entry has a valid, ordered time range on a real day', () => {
     for (const e of PLAN) {
-      expect(e.date).toMatch(/^2026-1[01]-\d\d$/);
+      expect(e.date).toMatch(/^2026-1[012]-\d\d$/);
       if (e.start) {
         expect(e.start).toMatch(/^\d\d:\d\d$/);
         if (e.end) expect(minutesOf(e)).toBeGreaterThan(0);
@@ -108,7 +120,7 @@ describe('study plan', () => {
   it('plans 30+ minutes of TBAS practice on most planned days until the test (Trey, 11-6; realistic version 11-11)', () => {
     // Trey asked for TBAS every day (11-6). On 11-11 the realism rules showed Wed/Thu cannot hold it without cutting meals or
     // sleep, so the must-do is 30 min on at least 4 of every 7 planned days, and it is an extra on the others.
-    const TBAS_TEST = null; // set to the test date once Capt Malone schedules it
+    const TBAS_TEST = '2026-11-24'; // Trey, 11-18: TBAS is scheduled Tue 11-24 at 12:30
     // The day before an exam is chemistry plus hard deadlines only, and it drops out of the count. Each needs a written reason.
     const EXAM_EVE = { '2026-11-16': 'Trey, 11-16: "I want to hyperfocus on my chem test tomorrow. Anything without a hard deadline tonight or tomorrow morning needs pushed"' };
     const days = [...new Set(PLAN.filter((e) => e.start && e.end && e.kind === 'work').map((e) => e.date))]

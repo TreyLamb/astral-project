@@ -180,7 +180,7 @@ const CONCEPT_HINTS = {
 };
 
 /** @returns {string[]} hints in reveal order */
-export function chemHints({ stem = '', explanation = '', choices, correctIndex, concepts = [] }) {
+export function chemHints({ stem = '', explanation = '', choices, correctIndex, concepts = [], ladder = null }) {
   const text = `${stem}\n${explanation}`;
   const answer = choices && correctIndex != null ? choices[correctIndex] : null;
   const leaks = answerTests(answer);
@@ -190,11 +190,14 @@ export function chemHints({ stem = '', explanation = '', choices, correctIndex, 
     const given = consts.filter((c) => c.test.test(stem));
     out.push(`You need to know ${listOf(consts.map((c) => c.name))}.` + (given.length ? ` (This question gives ${consts.length > 1 ? 'some of them' : 'it'}, but the exam may not: know ${consts.length > 1 ? 'them' : 'it'} cold.)` : ''));
   }
+  // A question that carries its own written ladder (practiceExam/ladders.js) leads with it; the
+  // worked explanation's steps then fill the ladder out to MAX_HINTS.
+  if (Array.isArray(ladder)) for (const h of ladder) if (!leaks.some((t) => t(h))) out.push(h);
   const rels = RELATIONS.filter((r) => r.test.test(text));
   if (rels.length) out.push(`Use ${listOf(rels.map((r) => r.name))}.`);
   for (const r of rels) for (const h of r.how ?? []) out.push(h);
   const before = out.length;
-  for (const c of concepts) for (const h of CONCEPT_HINTS[c] ?? []) if (!out.includes(h)) out.push(h);
+  if (!Array.isArray(ladder)) for (const c of concepts) for (const h of CONCEPT_HINTS[c] ?? []) if (!out.includes(h)) out.push(h);
   // A concept ladder already walks the reasoning; the explanation's sentences would only say it
   // again (Trey saw the trend rule twice in one ladder).
   if (out.length > before && !rels.length) return out.slice(0, MAX_HINTS);

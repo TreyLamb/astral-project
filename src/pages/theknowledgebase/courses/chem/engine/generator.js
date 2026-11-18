@@ -70,7 +70,7 @@ export const mentalChemTemplates = () => allChemTemplates().filter((t) => t.ment
 export function _resetChemRegistry() { registry.clear(); }
 
 /** Same contract as afoqt/engine/generator.js's makeHelpers — see that file for the reasoning. */
-function makeHelpers(rng, seed) {
+export function makeHelpers(rng, seed) {
   return {
     rng,
     seed,
@@ -127,7 +127,7 @@ function tidyText(s) {
     .replace(/(\d(?:\.\d+)?)e([+-]?\d+)/g, (_, m, e) => `${m} × 10${supOf(e)}`)
     .replace(/10\^\(?([+-]?\d+)\)?/g, (_, e) => `10${supOf(e)}`);
 }
-function tidy(raw) {
+export function tidy(raw) {
   const keep = (raw.choices ?? []).map((c, i) => i === raw.correctIndex || !/Infinity|^NaN /.test(String(c)));
   const pick = (arr) => (arr ? arr.filter((_, i) => keep[i]) : arr);
   return {
