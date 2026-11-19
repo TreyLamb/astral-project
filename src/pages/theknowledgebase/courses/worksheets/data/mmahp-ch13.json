@@ -1,0 +1,2591 @@
+{
+ "id": "mmahp-ch13",
+ "title": "MMAHP Ch 13 + OpenStax Ch 22-23: practice questions for OLQ 13 (Ch 13 answers starred by the professor; OpenStax answers are ours)",
+ "courseCode": "MICR 2060",
+ "sourceFile": "13. Skin and musculoskeletal.pdf; OpenStax Micro Ch 22 Respiratory Diseases.pdf; OpenStax Micro Ch 23 Urinogenital Diseaes.pdf",
+ "chapters": [
+  {
+   "number": 13,
+   "title": "Skin and Musculoskeletal System",
+   "sections": [
+    {
+     "heading": "The four tissues",
+     "questions": [
+      {
+       "number": 1,
+       "stem": "The endothelial cells in the lumens of the blood vessels and the endocardium of the heart are parts of ________ tissues, and the main cell types of the connective tissues are _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "connective/ endothelial cells"
+        },
+        {
+         "letter": "B",
+         "text": "epithelial/ fibroblasts"
+        },
+        {
+         "letter": "C",
+         "text": "neural/ myocytes"
+        },
+        {
+         "letter": "D",
+         "text": "muscle/ neurons"
+        }
+       ],
+       "id": "ch13-q1",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 2,
+       "stem": "What is the most critical reason for epithelial cells being more vulnerable to tumorigenesis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The cells are exposed to an external environment."
+        },
+        {
+         "letter": "B",
+         "text": "The cells often encounter microbes."
+        },
+        {
+         "letter": "C",
+         "text": "The cells differentiate and sshed."
+        },
+        {
+         "letter": "D",
+         "text": "The cells divide frequently."
+        }
+       ],
+       "id": "ch13-q2",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 3,
+       "stem": "Gametes are products of the __________ epithelium, and lamina propria is a product of the __________ tissue.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "squamous/ endothelial"
+        },
+        {
+         "letter": "B",
+         "text": "glandular/ connective"
+        },
+        {
+         "letter": "C",
+         "text": "columnar/ neural"
+        },
+        {
+         "letter": "D",
+         "text": "cuboidal/ muscle"
+        }
+       ],
+       "id": "ch13-q3",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 4,
+       "stem": "Vasodilation occurs partly due to the relaxation of ___________ muscles and meninges of the brain are made of ________ tissues.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "smooth/ connective"
+        },
+        {
+         "letter": "B",
+         "text": "cardiac/ epithelial"
+        },
+        {
+         "letter": "C",
+         "text": "voluntary/ neural"
+        },
+        {
+         "letter": "D",
+         "text": "striated/ muscle"
+        }
+       ],
+       "id": "ch13-q4",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 5,
+       "stem": "Of the connective tissues _________support the mucous membranes, and __________ covers the bones.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "lamina propria/ periosteum"
+        },
+        {
+         "letter": "B",
+         "text": "meninges/hypodermis"
+        },
+        {
+         "letter": "C",
+         "text": "tendons/ ligaments"
+        },
+        {
+         "letter": "D",
+         "text": "fascia/ sclera"
+        }
+       ],
+       "id": "ch13-q5",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 6,
+       "stem": "The axons of the neurons are insulated (from electric signal loss) by ________ cells in the periphery, and by ___________ in the CNS.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Schwann cells/ feet of oligodendrocytes"
+        },
+        {
+         "letter": "B",
+         "text": "Ranvier’s nodes/ ependymal cells"
+        },
+        {
+         "letter": "C",
+         "text": "dendrites/microglial cells"
+        },
+        {
+         "letter": "D",
+         "text": "myelin/ feet of astrocytes"
+        }
+       ],
+       "id": "ch13-q6",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 7,
+       "stem": "Which of these statements is CORRECT about the neural cells and tissues?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Schwan cells are a type of neuroglial cell."
+        },
+        {
+         "letter": "B",
+         "text": "Myelin found in Schawn cells is made entirely of proteins."
+        },
+        {
+         "letter": "C",
+         "text": "Oligodendrocytes and astrocytes are types of Schawn cells."
+        },
+        {
+         "letter": "D",
+         "text": "A neuron can have many dendrites and one axon, which can be branched."
+        },
+        {
+         "letter": "E",
+         "text": "The axon carries impulses inward, and dendrites transmit impulses outward from the neural cell body."
+        }
+       ],
+       "id": "ch13-q7",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "The four membranes",
+     "questions": [
+      {
+       "number": 8,
+       "stem": "The bacterial pathogen Bordetella pertussis destroys __________ of the mucous membrane before causing the whooping cough, and ascites fluid may accumulate in the lumen of ________ membrane.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "lamina propria/ bursae"
+        },
+        {
+         "letter": "B",
+         "text": "flagella/ serous membrane"
+        },
+        {
+         "letter": "C",
+         "text": "basement membrane/ synovial membrane"
+        }
+       ],
+       "id": "ch13-q8",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 9,
+       "stem": "Of the serous membrane, ___________ covers the lung and _________ cover the coelom (the body cavity and solid oragns).",
+       "options": [
+        {
+         "letter": "A",
+         "text": "pleura/ peritoneum"
+        },
+        {
+         "letter": "B",
+         "text": "peritoneum/ pericardium"
+        },
+        {
+         "letter": "C",
+         "text": "pericardium/ peritoneum"
+        }
+       ],
+       "id": "ch13-q9",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 10,
+       "stem": "The entirety of the surface of the _________ membrane, and _________ membrane of specific organs are occupied by resident microbiota.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "mucous/ serous"
+        },
+        {
+         "letter": "B",
+         "text": "serous/ synovial"
+        },
+        {
+         "letter": "C",
+         "text": "cutaneous/ mucous"
+        }
+       ],
+       "id": "ch13-q10",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 11,
+       "stem": "Which of these statements is INCORRECT about synovial cavities and bursae?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Both are placed between bones."
+        },
+        {
+         "letter": "B",
+         "text": "Both can be infected by blood-borne pathogens."
+        },
+        {
+         "letter": "C",
+         "text": "Both contain synovial fluid with some macrophages and fibroblasts."
+        },
+        {
+         "letter": "D",
+         "text": "Both are inflamed if activated macrophages secrete cytokines and enzymes."
+        }
+       ],
+       "id": "ch13-q11",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 12,
+       "stem": "Which portion of the skin is the cutaneous epithelium?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Dermis."
+        },
+        {
+         "letter": "B",
+         "text": "Epidermis."
+        },
+        {
+         "letter": "C",
+         "text": "Hypodermis."
+        },
+        {
+         "letter": "D",
+         "text": "Stratum corneum."
+        }
+       ],
+       "id": "ch13-q12",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "The integumentary system: structure",
+     "questions": [
+      {
+       "number": 13,
+       "stem": "Of the skin cell layers, _________ rest on the basement membrane; and of the skin glands, __________glands are generally occupied by skin microbiota,",
+       "options": [
+        {
+         "letter": "A",
+         "text": "dermis and hypodermis/ceruminous"
+        },
+        {
+         "letter": "B",
+         "text": "epidermis/ sebaceous"
+        },
+        {
+         "letter": "C",
+         "text": "hypodermis/ sweat"
+        },
+        {
+         "letter": "D",
+         "text": "dermis/ mammary"
+        }
+       ],
+       "id": "ch13-q13",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file (the star sits on B; the PDF dropped its period). His text: the basal layer of the EPIDERMIS rests on the basement membrane, and sebaceous glands are where skin microbiota live."
+      }
+     ]
+    },
+    {
+     "heading": "The integumentary system: viral infections",
+     "questions": [
+      {
+       "number": 14,
+       "stem": "Viral, bacterial, and fungal infections of the skin may cause red rashes. How does the redness in these rashes develop?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Dilation of blood vessels and increased blood flow in the skin."
+        },
+        {
+         "letter": "B",
+         "text": "Accumulation of lymphocytes in the skin."
+        },
+        {
+         "letter": "C",
+         "text": "Bleeding in the skin."
+        },
+        {
+         "letter": "D",
+         "text": "Blood clot."
+        }
+       ],
+       "id": "ch13-q14",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 15,
+       "stem": "Among skin infections, cancers, tumors, and warts are caused only by certain species of __________, while chancres are caused only by specific species of _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "bacteria/ fungi"
+        },
+        {
+         "letter": "B",
+         "text": "fungi/ parasites"
+        },
+        {
+         "letter": "C",
+         "text": "viruses/ bacteria"
+        },
+        {
+         "letter": "D",
+         "text": "parasites/ Bacteria"
+        }
+       ],
+       "id": "ch13-q15",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "The integumentary system: bacterial infections",
+     "questions": [
+      {
+       "number": 16,
+       "stem": "Which of these infections are caused by both Staphylococcus aureus and Streptococcus pyogenes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Impetigo."
+        },
+        {
+         "letter": "B",
+         "text": "Folliculitis."
+        },
+        {
+         "letter": "C",
+         "text": "Carbuncle."
+        },
+        {
+         "letter": "D",
+         "text": "Scarlet fever."
+        },
+        {
+         "letter": "E",
+         "text": "Ritter’s disease."
+        }
+       ],
+       "id": "ch13-q16",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "The integumentary system: fungal infections",
+     "questions": [
+      {
+       "number": 17,
+       "stem": "Which of these mycoses are also called tinea?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Ringworm, athletes’ feet, jock itch, hair, and nail infections."
+        },
+        {
+         "letter": "B",
+         "text": "Mycetoma."
+        },
+        {
+         "letter": "C",
+         "text": "Dandruff."
+        },
+        {
+         "letter": "D",
+         "text": "Piedra"
+        }
+       ],
+       "id": "ch13-q17",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "The integumentary system: parasitic infections",
+     "questions": [
+      {
+       "number": 18,
+       "stem": "Of the parasitic skin diseases, myiasis is caused by _________, and Chagas disease is caused by _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "insect pests/ protozoan parasites"
+        },
+        {
+         "letter": "B",
+         "text": "protozoan parasites/ fungal pathogens"
+        },
+        {
+         "letter": "C",
+         "text": "fungal pathogens/ bacterial pathogens"
+        }
+       ],
+       "id": "ch13-q18",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "Skin pathologies",
+     "questions": [
+      {
+       "number": 19,
+       "stem": "Which of these pathologies of acne is directly caused by Propionibacterium acnes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Formation of cystic lesions."
+        },
+        {
+         "letter": "B",
+         "text": "Formation of the whiteheads."
+        },
+        {
+         "letter": "C",
+         "text": "Formation of the blackheads."
+        },
+        {
+         "letter": "D",
+         "text": "Formation of papules and pustules."
+        },
+        {
+         "letter": "E",
+         "text": "Activating TLR signaling and macrophages."
+        }
+       ],
+       "id": "ch13-q19",
+       "answer": "E",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 20,
+       "stem": "Which of these pairs is a mismatch?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Folliculitis: Superficial inflammation of the hair follicle."
+        },
+        {
+         "letter": "B",
+         "text": "Furuncle: Inflammation of one hair follicle deep to the dermis."
+        },
+        {
+         "letter": "C",
+         "text": "Carbuncle: Inflammation of multiple follicles deep to the epidermis."
+        }
+       ],
+       "id": "ch13-q20",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 21,
+       "stem": "Which of these pieces of information about Chagas disease is CORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The disease belt has extended to several Southern States of the USA."
+        },
+        {
+         "letter": "B",
+         "text": "About 90% of the bitten subject develops Romana’s sign and chronic infections."
+        },
+        {
+         "letter": "C",
+         "text": "Trypanosoma cruzi, the causative agent, is found in the saliva of the kissing bug."
+        },
+        {
+         "letter": "D",
+         "text": "The parasite initially replicates in the skin and later in the blood, but not in any solid organs."
+        },
+        {
+         "letter": "E",
+         "text": "There is a vaccine for the pathogen, and late-stage chronic infections can be treated with benzimidazole."
+        }
+       ],
+       "id": "ch13-q21",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 22,
+       "stem": "Which of these conditions is erysiploid, not erysipelas?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is caused by Streptococcus pyogenes."
+        },
+        {
+         "letter": "B",
+         "text": "It is an occupational hazard for meat handlers."
+        },
+        {
+         "letter": "C",
+         "text": "The condition can be treated with oral antibiotics."
+        },
+        {
+         "letter": "D",
+         "text": "It is a superficial skin infection with reddish coloration."
+        },
+        {
+         "letter": "E",
+         "text": "Signs of the disease include pain and a burning sensation."
+        }
+       ],
+       "id": "ch13-q22",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 23,
+       "stem": "Which of these is erythema migrans?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is redness of the skin due to increased blood flow in the superficial capillaries in response to infections."
+        },
+        {
+         "letter": "B",
+         "text": "It is indicated by concentric round red patches around a Borellia sp.-infested tick bite."
+        },
+        {
+         "letter": "C",
+         "text": "It occurs around the herpes simplex virus-1 infection site."
+        },
+        {
+         "letter": "D",
+         "text": "It is caused by streptococcal infection."
+        },
+        {
+         "letter": "E",
+         "text": "It is caused by parvovirus B infection."
+        }
+       ],
+       "id": "ch13-q23",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 24,
+       "stem": "Which of the exanthems is the 6th disease (i.e., the sixth childhood exanthem)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Rubeola."
+        },
+        {
+         "letter": "B",
+         "text": "Rubella."
+        },
+        {
+         "letter": "C",
+         "text": "Roseola."
+        },
+        {
+         "letter": "D",
+         "text": "Chicken pox."
+        },
+        {
+         "letter": "E",
+         "text": "Scarlett fever."
+        }
+       ],
+       "id": "ch13-q24",
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred in the file. His text: 'rubeola, scarlet fever, rubella, fifth disease, and roseola are called the 1st, 2nd, 3rd, 5th, and 6th childhood' exanthems, so the 6th is roseola (human herpesvirus 6 and 7)."
+      },
+      {
+       "number": 25,
+       "stem": "Which of these is a hard chancre?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is caused by Treponeam pallidum or Mycobacterium tuberculosis; it is a tumor-like soft granuloma."
+        },
+        {
+         "letter": "B",
+         "text": "It is an untreated deep impetigo caused by Staphylococcus aureus, filled with pus."
+        },
+        {
+         "letter": "C",
+         "text": "It is an open lesion of the skin harboring many Hemophilus ducreyi."
+        },
+        {
+         "letter": "D",
+         "text": "It is a painless lesion at the site of entry of Treponema pallidum."
+        }
+       ],
+       "id": "ch13-q25",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 26,
+       "stem": "Which of these pieces of information about Kaposi’s sarcoma is CORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The disease is caused by the human herpesvirus-6."
+        },
+        {
+         "letter": "B",
+         "text": "About 50% of the latently infected subjects develop Kaposi’s sarcoma."
+        },
+        {
+         "letter": "C",
+         "text": "It is endemic among people in Central America, and one-third of them are infected."
+        },
+        {
+         "letter": "D",
+         "text": "The virus latently infects blood granulocytes, leading to disease symptoms when it infects skin and muscle cells."
+        },
+        {
+         "letter": "E",
+         "text": "Kaposi’s sarcoma is treated initially by addressing the cause of immunosuppression and then chemo/radiotherapy."
+        }
+       ],
+       "id": "ch13-q26",
+       "answer": "E",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 27,
+       "stem": "Which of these is a case of tuberculoid (paucibacillary) leprosy?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The affected lesion has low or no sensation."
+        },
+        {
+         "letter": "B",
+         "text": "The subject has subnormal T cell immunity."
+        },
+        {
+         "letter": "C",
+         "text": "The subject has about nine lesions on the skin."
+        },
+        {
+         "letter": "D",
+         "text": "The subject has lost the ears and the tip of the nose due to the disease."
+        },
+        {
+         "letter": "E",
+         "text": "Biopsy of the lesion shows undetectable levels of Mycobacterium leprae cells."
+        }
+       ],
+       "id": "ch13-q27",
+       "answer": "E",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 28,
+       "stem": "Which of these statements is CORRECT about leprosy?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "WHO planned to effectively eradicate leprosy by 2050."
+        },
+        {
+         "letter": "B",
+         "text": "Humans are the only reservoir of the Mycobacterium leprae."
+        },
+        {
+         "letter": "C",
+         "text": "No new cases of leprosy have been reported in the US since 1990."
+        },
+        {
+         "letter": "D",
+         "text": "Leprosy is always treated with a combination of antibiotic therapy."
+        },
+        {
+         "letter": "E",
+         "text": "The tissue damage of leprosy is caused largely by enzymes and exotoxins of M. leprae."
+        }
+       ],
+       "id": "ch13-q28",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 29,
+       "stem": "Which of these is pinta?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is a wound infection caused by fly larvae."
+        },
+        {
+         "letter": "B",
+         "text": "It is a tumor-like papule caused by a poxvirus."
+        },
+        {
+         "letter": "C",
+         "text": "It is a skin lesion caused by infection with sheep/goat poxvirus."
+        },
+        {
+         "letter": "D",
+         "text": "It is an ethnic skin discoloration disease caused by the spirochete Treponema carateum."
+        }
+       ],
+       "id": "ch13-q29",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 30,
+       "stem": "How are monkeypox and rickettsial pox similar?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "They accompany no additional inflammatory responses."
+        },
+        {
+         "letter": "B",
+         "text": "They are both bacterial infections."
+        },
+        {
+         "letter": "C",
+         "text": "They heal, leaving no scar."
+        },
+        {
+         "letter": "D",
+         "text": "They form pustules."
+        }
+       ],
+       "id": "ch13-q30",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 31,
+       "stem": "Which of these points about shingles is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Like chicken pox, shingles has a highly effective vaccine."
+        },
+        {
+         "letter": "B",
+         "text": "A person could have shingles only if he had chicken pox before."
+        },
+        {
+         "letter": "C",
+         "text": "One can have shingles 40 years after recovery from chickenpox."
+        },
+        {
+         "letter": "D",
+         "text": "Like chicken pox, shingles occurs randomly in various parts of the body."
+        },
+        {
+         "letter": "E",
+         "text": "Stress, immunosuppression, chemotherapy, or radiotherapy may trigger shingles."
+        }
+       ],
+       "id": "ch13-q31",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 32,
+       "stem": "Which of these statements about warts is not necessarily CORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "All skin warts are tumors, but they rarely become cancers."
+        },
+        {
+         "letter": "B",
+         "text": "All warts are formed due to repeated division of the infected cells."
+        },
+        {
+         "letter": "C",
+         "text": "All warts are caused by the human papillomavirus infecting skin cells."
+        },
+        {
+         "letter": "D",
+         "text": "All human papillomaviruses transform the host cells upon infecting them."
+        },
+        {
+         "letter": "E",
+         "text": "All skin warts should be surgically removed because they are painful and disfiguring."
+        }
+       ],
+       "id": "ch13-q32",
+       "answer": "E",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "Wound infections",
+     "questions": [
+      {
+       "number": 33,
+       "stem": "Which of these bacterial wound infections (and later systemic infections) occurs mostly from cat bites?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Streptobacillus moniliformis."
+        },
+        {
+         "letter": "B",
+         "text": "Pasteurella moltocida."
+        },
+        {
+         "letter": "C",
+         "text": "Letospira interrigans."
+        },
+        {
+         "letter": "D",
+         "text": "Bartonella henseliae."
+        },
+        {
+         "letter": "E",
+         "text": "Bacteroides sp."
+        }
+       ],
+       "id": "ch13-q33",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 34,
+       "stem": "If a person is bitten by a bat, which of these must be done on the patient?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Soak the wound with antisera to rabies lyssavirus."
+        },
+        {
+         "letter": "B",
+         "text": "Give the person vaccines for rabies lyssavirus."
+        },
+        {
+         "letter": "C",
+         "text": "Open the wound surgically for deep cleaning."
+        },
+        {
+         "letter": "D",
+         "text": "Wash the wound."
+        },
+        {
+         "letter": "E",
+         "text": "All these."
+        }
+       ],
+       "id": "ch13-q34",
+       "answer": "E",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 35,
+       "stem": "Of the burn wounds, ____________ are painless, and burn wounds infected by ____________ may appear green.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "1st degree/ Acinetobacter baumannii"
+        },
+        {
+         "letter": "B",
+         "text": "2nd degree/ Staphylococcus aureus"
+        },
+        {
+         "letter": "C",
+         "text": "3rd degree/ Pseudomonas aeruginosa"
+        },
+        {
+         "letter": "D",
+         "text": "4th degree/ Candida albicans"
+        }
+       ],
+       "id": "ch13-q35",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 36,
+       "stem": "Which of these statements about surgical site infections (SSI) is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The infection can be localized or systemic (involving blood)."
+        },
+        {
+         "letter": "B",
+         "text": "The infections can be caused by a single or multiple bacterial and fungal species."
+        },
+        {
+         "letter": "C",
+         "text": "The SSI rate is <0.3% in developed countries and about 3% in less-developed countries."
+        },
+        {
+         "letter": "D",
+         "text": "SSI incidence can be lowered through better infection control but not completely eliminated."
+        },
+        {
+         "letter": "E",
+         "text": "Treatment of SSI may involve drainage, debridement (removal of dead tissues), and additional surgery."
+        }
+       ],
+       "id": "ch13-q36",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 37,
+       "stem": "A person has fever blisters and a whitlow. How can she prevent herpetic keratitis (eye infection)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "She should take medication such as oral acyclovir."
+        },
+        {
+         "letter": "B",
+         "text": "She should not touch fever blisters."
+        },
+        {
+         "letter": "C",
+         "text": "She should not touch her eyes."
+        },
+        {
+         "letter": "D",
+         "text": "She should wear gloves."
+        }
+       ],
+       "id": "ch13-q37",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 38,
+       "stem": "How is larva migrans disease different from swimmers' itch?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Larva migrans moves; swimmers' itch does not."
+        },
+        {
+         "letter": "B",
+         "text": "Larva migrans does not itch; swimmers' itch does."
+        },
+        {
+         "letter": "C",
+         "text": "Larva migrans is caused by flukes; swimmers' itch is caused by nematodes."
+        },
+        {
+         "letter": "D",
+         "text": "Larva migrans can be prevented by avoiding affected water; swimmers' itch can be prevented by wearing shoes."
+        }
+       ],
+       "id": "ch13-q38",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 39,
+       "stem": "Endospores of Clostridium perfringens germinated in a solid skin wound, and the bacterium released various substances in the wound. Which of the substances would cause the wound to be dark black?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Nucleases."
+        },
+        {
+         "letter": "B",
+         "text": "Proteases."
+        },
+        {
+         "letter": "C",
+         "text": "Collagenase."
+        },
+        {
+         "letter": "D",
+         "text": "Phospholipase A and hemolysins."
+        },
+        {
+         "letter": "E",
+         "text": "Hydrogen gas and carbon dioxide gas."
+        }
+       ],
+       "id": "ch13-q39",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 40,
+       "stem": "Older gardeners pricked by a thorn have about 90% chance of contracting __________, the wound infection may lead to open wounds and lymphadenopathy (swelling of the lymph nodes).",
+       "options": [
+        {
+         "letter": "A",
+         "text": "bacteria, such as Bacillus subtillis."
+        },
+        {
+         "letter": "B",
+         "text": "fungi, such as Sporothrix schenkii."
+        },
+        {
+         "letter": "C",
+         "text": "algae, such as Prototheca wickerhamii."
+        },
+        {
+         "letter": "D",
+         "text": "protozoa, such as Acanthamoeba castellani."
+        }
+       ],
+       "id": "ch13-q40",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "Musculoskeletal system: Structure",
+     "questions": [
+      {
+       "number": 41,
+       "stem": "Of the various types of fasciae in the skeletal muscles, _____________ is the outermost, encircling muscle bundles, blood vessels and nerves; while _____________ encases individual fascicles.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "perimysium/ endomysium"
+        },
+        {
+         "letter": "B",
+         "text": "endomysium/epimysium"
+        },
+        {
+         "letter": "C",
+         "text": "epimysium/perimysium"
+        }
+       ],
+       "id": "ch13-q41",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 42,
+       "stem": "Muscles are connected to the bones by __________ and bones are connected to other bones by _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "fascia/periosteum"
+        },
+        {
+         "letter": "B",
+         "text": "periosteum/ tendons"
+        },
+        {
+         "letter": "C",
+         "text": "tendons/ ligaments"
+        },
+        {
+         "letter": "D",
+         "text": "ligaments/ cartilages"
+        }
+       ],
+       "id": "ch13-q42",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 43,
+       "stem": "If bacteria release the enzyme hyaluronidase in the synovial fluid, which of these components of the cartilages (on the ends of the long bones) would be damaged?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Matrix."
+        },
+        {
+         "letter": "B",
+         "text": "Elastin fibers."
+        },
+        {
+         "letter": "C",
+         "text": "Collagen fibers."
+        },
+        {
+         "letter": "D",
+         "text": "Chondroblasts."
+        }
+       ],
+       "id": "ch13-q43",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "Microbes that infect the musculoskeletal system",
+     "questions": [
+      {
+       "number": 44,
+       "stem": "Meat-eating disease caused by Staphylococcus aureus and Streptococcus pyogenes, affects _________ of the muscle; Trichinella spiralis encysts mainly in the _______ muscles.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "fascia/ striated (i.e., skeletal)"
+        },
+        {
+         "letter": "B",
+         "text": "endomysium/ cardiac"
+        },
+        {
+         "letter": "C",
+         "text": "epimysium/ smooth"
+        }
+       ],
+       "id": "ch13-q44",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 45,
+       "stem": "Which of these statements is CORRECT about spongy bone?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It makes the rim of the long bones."
+        },
+        {
+         "letter": "B",
+         "text": "It remains unaffected by osteoporosis."
+        },
+        {
+         "letter": "C",
+         "text": "It can be present in and around the bone marrow cavity."
+        },
+        {
+         "letter": "D",
+         "text": "It is made of fibrous materials but lacks deposited minerals such as calcium phosphate."
+        }
+       ],
+       "id": "ch13-q45",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 46,
+       "stem": "Bones are connected to each other by ________; elastase (an enzyme secreted by some species of Streptococcus, Staphylococcus, or Pseudomonas) may degrade ___________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "ligaments/ cartilages"
+        },
+        {
+         "letter": "B",
+         "text": "tendons/ compact bone"
+        },
+        {
+         "letter": "C",
+         "text": "skeletal muscles/ spongy bone"
+        }
+       ],
+       "id": "ch13-q46",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "Pathologies caused by infections of the musculoskeletal system",
+     "questions": [
+      {
+       "number": 47,
+       "stem": "Parvovirus B19 infecting low birthweight babies may cause aplastic crisis. Which of these is aplastic crisis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Lack of elasticity of the tendons and ligaments."
+        },
+        {
+         "letter": "B",
+         "text": "Lack of erythrocyte production by the bone marrow."
+        },
+        {
+         "letter": "C",
+         "text": "Lack of relaxation or contraction of the skeletal muscles."
+        },
+        {
+         "letter": "D",
+         "text": "Lack of breathing due to a malfunction of the diaphragm."
+        }
+       ],
+       "id": "ch13-q47",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 48,
+       "stem": "Survivors of poliomyelitis often suffer from muscular atrophy (wasting of muscle, muscle weakness, and a drastic reduction of muscle mass). How does the viral infection cause the condition?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Polioviruses infect and kill myocytes."
+        },
+        {
+         "letter": "B",
+         "text": "Leucocytes kill poliovirus-infected muscle cells."
+        },
+        {
+         "letter": "C",
+         "text": "Poliovirus destroys neurons that innervate skeletal muscles."
+        },
+        {
+         "letter": "D",
+         "text": "Poliovirus infection induces autoimmune destruction of muscle cells."
+        }
+       ],
+       "id": "ch13-q48",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 49,
+       "stem": "Which of these is the major cause of necrosis and granulomas in the muscle due to schistosomiasis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The flukes (or their larvae) encyst in the muscle cells and induce inflammation."
+        },
+        {
+         "letter": "B",
+         "text": "Autoimmune antibodies induced by the fluke deposit in the muscle and cause inflammation."
+        },
+        {
+         "letter": "C",
+         "text": "The eggs of the flukes become entangled in the muscle's blood vessels and induce inflammation."
+        }
+       ],
+       "id": "ch13-q49",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 50,
+       "stem": "A nurse cell is a ___________ occupied by a Trichinella larva, and as much _________ larvae can encyst in a gram of skeletal muscle of an infected person.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "stellate cell/30,000"
+        },
+        {
+         "letter": "B",
+         "text": "modified muscle cell/ 3,000"
+        },
+        {
+         "letter": "C",
+         "text": "resident muscle macrophage/ 300"
+        }
+       ],
+       "id": "ch13-q50",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 51,
+       "stem": "Which step of Trichinella infection gives the more intense and prolonged disease symptoms?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "When the larvae of the worm emerge from the ingested undercooked or uncooked meat."
+        },
+        {
+         "letter": "B",
+         "text": "After the larvae enter the muscle, brain, and other organs via the bloodstream, and they encyst there."
+        },
+        {
+         "letter": "C",
+         "text": "When the larvae emerging from ingested food penetrate the wall of the stomach and enter the bloodstream."
+        }
+       ],
+       "id": "ch13-q51",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 52,
+       "stem": "When can the larvae of the tapeworm Echinococcus granulosus cause an anaphylactic shock?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "When the larvae penetrate the stomach wall and migrate to the bloodstream."
+        },
+        {
+         "letter": "B",
+         "text": "When the hydatid cyst produces daughter hydatid cysts within the solid tissue."
+        },
+        {
+         "letter": "C",
+         "text": "When the larvae in the bloodstream settle in a solid organ and create a small hydatid cyst."
+        },
+        {
+         "letter": "D",
+         "text": "When a hydatid cyst ruptures and releases larva and fluid from the hydatid cyst into the organ."
+        },
+        {
+         "letter": "E",
+         "text": "When the larvae in the hydatid cyst replicate asexually and produce many new larvae in the hydatid cyst."
+        }
+       ],
+       "id": "ch13-q52",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 53,
+       "stem": "Bacterial or fungal mycetoma may cause each of these EXCEPT _________. Note: Toxemia is the presence of toxins in the blood.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "painless nodules in the skin"
+        },
+        {
+         "letter": "B",
+         "text": "bone marrow infection (osteomyelitis)"
+        },
+        {
+         "letter": "C",
+         "text": "secretion of fungal toxins leading to toxemia"
+        },
+        {
+         "letter": "D",
+         "text": "sinus drainage, deformities, and loss of function in the affected limbs"
+        }
+       ],
+       "id": "ch13-q53",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 54,
+       "stem": "Mycetoma and zygomycosis (now called mucormycosis) are endemic in ___________ of the globe, and zygomycoses caused by Codnidiobolus coronatus mostly affect _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "tropical regions/ nose, face, and mouth"
+        },
+        {
+         "letter": "B",
+         "text": "subtropical regions/ feet and legs"
+        },
+        {
+         "letter": "C",
+         "text": "temperate/ visceral organs"
+        }
+       ],
+       "id": "ch13-q54",
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 55,
+       "stem": "Myositis is distinct from myalgia by which of these attributes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Virus infections."
+        },
+        {
+         "letter": "B",
+         "text": "Pain in the muscles."
+        },
+        {
+         "letter": "C",
+         "text": "Weakness of the muscles."
+        },
+        {
+         "letter": "D",
+         "text": "Autoantibodies bind to muscle cells."
+        }
+       ],
+       "id": "ch13-q55",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 56,
+       "stem": "Which of these is primarily responsible for necrosis in the gangrenes, such as necrotizing fasciitis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Sepsis (a comorbidity of necrotizing fasciitis)"
+        },
+        {
+         "letter": "B",
+         "text": "Bacterial collagenase and hyaluronidase"
+        },
+        {
+         "letter": "C",
+         "text": "Bacterial lipases and other exotoxins."
+        },
+        {
+         "letter": "D",
+         "text": "DAMPs"
+        }
+       ],
+       "id": "ch13-q56",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 57,
+       "stem": "A systemic infection is __________, and __________ usually occur following or simultaneously with a systemic infection.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "infection of the blood vessels/ osteomyelitis"
+        },
+        {
+         "letter": "B",
+         "text": "infection of a particular organ system (say, the musculoskeletal system)/ cellulitis"
+        },
+        {
+         "letter": "C",
+         "text": "infection of the whole body involving the blood and lymphatics/ gangrene, osteomyelitis, and cellulitis"
+        }
+       ],
+       "id": "ch13-q57",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 58,
+       "stem": "Which of these subjects is least prone to osteomyelitis compared to the others listed?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "People with chronic diabetes."
+        },
+        {
+         "letter": "B",
+         "text": "People with a poor immune system."
+        },
+        {
+         "letter": "C",
+         "text": "People who have had recent trauma or surgery."
+        },
+        {
+         "letter": "D",
+         "text": "People with long-term intravenous antibiotic therapy."
+        }
+       ],
+       "id": "ch13-q58",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 59,
+       "stem": "The enzyme creatine kinase is normally found in the muscle cells. What does it mean if high levels of the enzyme are detected in the blood? Note: Be specific.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Myalgia."
+        },
+        {
+         "letter": "B",
+         "text": "Myositis."
+        },
+        {
+         "letter": "C",
+         "text": "Damage to muscle cells."
+        },
+        {
+         "letter": "D",
+         "text": "High level of physical activity."
+        },
+        {
+         "letter": "E",
+         "text": "Production of the enzyme by the blood cells."
+        }
+       ],
+       "id": "ch13-q59",
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred, so this is our guess. Creatine kinase belongs inside muscle cells; finding it in the blood means muscle cells were damaged and leaked it (C). His text lists high creatine kinase as one way myositis is DETECTED, so B is the runner-up, but myositis is one cause of the damage, not what the finding means. 'Be specific' points away from D (activity) and E.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C",
+        "B"
+       ]
+      },
+      {
+       "number": 60,
+       "stem": "An infant has osteomyelitis caused by Staphylococcus aureus. The child has no organs infected other than a very low-level infection of the blood. Will the antibodies secreted by newly matured B cells of the child bind antigens on S. aureus?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Yes, because the thymus of the child is not infected by the bacterium."
+        },
+        {
+         "letter": "B",
+         "text": "Yes, because the infections have not damaged the lymph node and spleen of the child."
+        },
+        {
+         "letter": "C",
+         "text": "No, because the bacterial antigens in the bone marrow will negatively select maturing B cells."
+        }
+       ],
+       "id": "ch13-q60",
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 61,
+       "stem": "In viral septic arthritis, which of these would cause most of the direct damages to the joints (i.e., the cartilages in the synovial cavity)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The viruses kill infected cells in the joint."
+        },
+        {
+         "letter": "B",
+         "text": "Cytokines released by the virus-infected cells."
+        },
+        {
+         "letter": "C",
+         "text": "PAMPs and DAMPs that activate the leucocytes in the synovium."
+        },
+        {
+         "letter": "D",
+         "text": "Enzymes released by the activated leucocytes in the synovium."
+        }
+       ],
+       "id": "ch13-q61",
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      },
+      {
+       "number": 62,
+       "stem": "If the incidence rate of septic arthritis is 3 per 100,000 people, and 11% of the affected people die of the disease, how many total cases of the disease occur in the USA, and how many people die of it? Note: The current US population is about 342,000,000.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "About 100,000 cases, 11,000 deaths."
+        },
+        {
+         "letter": "B",
+         "text": "About 10,000 cases, 1,100 deaths."
+        },
+        {
+         "letter": "C",
+         "text": "About 1,000 cases, 110 deaths."
+        },
+        {
+         "letter": "D",
+         "text": "About 100 cases, 11 deaths."
+        }
+       ],
+       "id": "ch13-q62",
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 13 chapter file."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 22,
+   "title": "OpenStax Microbiology Ch 22: Respiratory System Infections (also on OLQ 13)",
+   "sections": [
+    {
+     "heading": "OpenStax review questions (multiple choice)",
+     "questions": [
+      {
+       "id": "os22-q1",
+       "number": 1,
+       "stem": "Which of the following is not directly connected to the nasopharynx?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "middle ear"
+        },
+        {
+         "letter": "B",
+         "text": "oropharynx"
+        },
+        {
+         "letter": "C",
+         "text": "lacrimal glands"
+        },
+        {
+         "letter": "D",
+         "text": "nasal cavity"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "The nasopharynx connects to the middle ear (auditory tube), the oropharynx and the nasal cavity; the lacrimal glands drain into the nasal cavity, not the nasopharynx."
+      },
+      {
+       "id": "os22-q2",
+       "number": 2,
+       "stem": "What type of cells produce the mucus for the mucous membranes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "goblet cells"
+        },
+        {
+         "letter": "B",
+         "text": "macrophages"
+        },
+        {
+         "letter": "C",
+         "text": "phagocytes"
+        },
+        {
+         "letter": "D",
+         "text": "ciliated epithelial cells"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q3",
+       "number": 3,
+       "stem": "Which of these correctly orders the structures through which air passes during inhalation?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "pharynx → trachea → larynx → bronchi"
+        },
+        {
+         "letter": "B",
+         "text": "pharynx → larynx → trachea → bronchi"
+        },
+        {
+         "letter": "C",
+         "text": "larynx → pharynx → bronchi → trachea"
+        },
+        {
+         "letter": "D",
+         "text": "larynx → pharynx → trachea → bronchi"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q4",
+       "number": 4,
+       "stem": "The ___________ separates the upper and lower respiratory tract.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "bronchi"
+        },
+        {
+         "letter": "B",
+         "text": "larynx"
+        },
+        {
+         "letter": "C",
+         "text": "epiglottis"
+        },
+        {
+         "letter": "D",
+         "text": "palatine tonsil"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax: the larynx (voice box) marks the boundary between the upper and lower respiratory tract."
+      },
+      {
+       "id": "os22-q5",
+       "number": 5,
+       "stem": "Which microbial virulence factor is most important for attachment to host respiratory tissues?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "adhesins"
+        },
+        {
+         "letter": "B",
+         "text": "lipopolysaccharide"
+        },
+        {
+         "letter": "C",
+         "text": "hyaluronidase"
+        },
+        {
+         "letter": "D",
+         "text": "capsules"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q6",
+       "number": 6,
+       "stem": "Which of the following does not involve a bacterial exotoxin?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "diphtheria"
+        },
+        {
+         "letter": "B",
+         "text": "whooping cough"
+        },
+        {
+         "letter": "C",
+         "text": "scarlet fever"
+        },
+        {
+         "letter": "D",
+         "text": "Q fever"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q7",
+       "number": 7,
+       "stem": "What disease is caused by Coxiella burnetii?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Q fever"
+        },
+        {
+         "letter": "B",
+         "text": "tuberculosis"
+        },
+        {
+         "letter": "C",
+         "text": "diphtheria"
+        },
+        {
+         "letter": "D",
+         "text": "walking pneumonia"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q8",
+       "number": 8,
+       "stem": "In which stage of pertussis is the characteristic whooping sound made?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "convalescence"
+        },
+        {
+         "letter": "B",
+         "text": "catarrhal"
+        },
+        {
+         "letter": "C",
+         "text": "paroxysmal"
+        },
+        {
+         "letter": "D",
+         "text": "prodromal"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q9",
+       "number": 9,
+       "stem": "What is the causative agent of Q fever?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Coxiella burnetii"
+        },
+        {
+         "letter": "B",
+         "text": "Chlamydophila psittaci"
+        },
+        {
+         "letter": "C",
+         "text": "Mycoplasma pneumoniae"
+        },
+        {
+         "letter": "D",
+         "text": "Streptococcus pyogenes"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q10",
+       "number": 10,
+       "stem": "Which of these microbes causes “walking pneumonia”?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Klebsiella pneumoniae"
+        },
+        {
+         "letter": "B",
+         "text": "Streptococcus pneumoniae"
+        },
+        {
+         "letter": "C",
+         "text": "Mycoplasma pneumoniae"
+        },
+        {
+         "letter": "D",
+         "text": "Chlamydophila pneumoniae"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q11",
+       "number": 11,
+       "stem": "Which of the following viruses is not commonly associated with the common cold?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "coronavirus"
+        },
+        {
+         "letter": "B",
+         "text": "adenovirus"
+        },
+        {
+         "letter": "C",
+         "text": "rhinovirus"
+        },
+        {
+         "letter": "D",
+         "text": "varicella-zoster virus"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q12",
+       "number": 12,
+       "stem": "Which of the following viral diseases has been eliminated from the general population worldwide?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "smallpox"
+        },
+        {
+         "letter": "B",
+         "text": "measles"
+        },
+        {
+         "letter": "C",
+         "text": "German measles"
+        },
+        {
+         "letter": "D",
+         "text": "influenza"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q13",
+       "number": 13,
+       "stem": "What term refers to multinucleated cells that form when many host cells fuse together during infections?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Ghon elements"
+        },
+        {
+         "letter": "B",
+         "text": "Reye syndrome"
+        },
+        {
+         "letter": "C",
+         "text": "Koplik’s spots"
+        },
+        {
+         "letter": "D",
+         "text": "syncytia"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q14",
+       "number": 14,
+       "stem": "Which of the following diseases is not associated with coronavirus infections?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Middle East respiratory syndrome"
+        },
+        {
+         "letter": "B",
+         "text": "German measles"
+        },
+        {
+         "letter": "C",
+         "text": "the common cold"
+        },
+        {
+         "letter": "D",
+         "text": "severe acute respiratory syndrome"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q15",
+       "number": 15,
+       "stem": "Which of these viruses is responsible for causing shingles?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "rubella virus"
+        },
+        {
+         "letter": "B",
+         "text": "measles virus"
+        },
+        {
+         "letter": "C",
+         "text": "varicella-zoster virus"
+        },
+        {
+         "letter": "D",
+         "text": "variola major virus"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q16",
+       "number": 16,
+       "stem": "Which of these infections is also referred to as Valley fever?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "histoplasmosis"
+        },
+        {
+         "letter": "B",
+         "text": "coccidioidomycosis"
+        },
+        {
+         "letter": "C",
+         "text": "blastomycosis"
+        },
+        {
+         "letter": "D",
+         "text": "aspergillosis"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q17",
+       "number": 17,
+       "stem": "Which of the following is not caused by a dimorphic fungus?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "histoplasmosis"
+        },
+        {
+         "letter": "B",
+         "text": "coccidioidomycosis"
+        },
+        {
+         "letter": "C",
+         "text": "blastomycosis"
+        },
+        {
+         "letter": "D",
+         "text": "aspergillosis"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q18",
+       "number": 18,
+       "stem": "Which of the following is caused by infections by bread molds?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "mucormycosis"
+        },
+        {
+         "letter": "B",
+         "text": "coccidioidomycosis"
+        },
+        {
+         "letter": "C",
+         "text": "cryptococcosis"
+        },
+        {
+         "letter": "D",
+         "text": "Pneumocystis pneumonia"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q19",
+       "number": 19,
+       "stem": "In the United States, most histoplasmosis cases occur",
+       "options": [
+        {
+         "letter": "A",
+         "text": "in the Pacific northwest."
+        },
+        {
+         "letter": "B",
+         "text": "in the desert southwest."
+        },
+        {
+         "letter": "C",
+         "text": "in the Mississippi river valley."
+        },
+        {
+         "letter": "D",
+         "text": "in Colorado river valley."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os22-q20",
+       "number": 20,
+       "stem": "Which of the following infections can be diagnosed using a skin test similar to the tuberculin test?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "histoplasmosis"
+        },
+        {
+         "letter": "B",
+         "text": "cryptococcosis"
+        },
+        {
+         "letter": "C",
+         "text": "blastomycosis"
+        },
+        {
+         "letter": "D",
+         "text": "aspergillosis Fill in the Blank"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "A histoplasmin skin test works like the tuberculin test."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 23,
+   "title": "OpenStax Microbiology Ch 23: Urogenital System Infections (also on OLQ 13)",
+   "sections": [
+    {
+     "heading": "OpenStax review questions (multiple choice)",
+     "questions": [
+      {
+       "id": "os23-q1",
+       "number": 1,
+       "stem": "When it first leaves the kidney, urine flows through",
+       "options": [
+        {
+         "letter": "A",
+         "text": "the urinary bladder."
+        },
+        {
+         "letter": "B",
+         "text": "the urethra."
+        },
+        {
+         "letter": "C",
+         "text": "the ureter."
+        },
+        {
+         "letter": "D",
+         "text": "the glomeruli."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q2",
+       "number": 2,
+       "stem": "What part of the male urogenital tract is shared by the urinary and reproductive systems?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "the prostate gland"
+        },
+        {
+         "letter": "B",
+         "text": "the seminal vesicles"
+        },
+        {
+         "letter": "C",
+         "text": "the vas deferens"
+        },
+        {
+         "letter": "D",
+         "text": "the urethra"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q3",
+       "number": 3,
+       "stem": "Which species is not associated with NGU?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Neisseria gonorrhoeae"
+        },
+        {
+         "letter": "B",
+         "text": "Mycoplasma hominis"
+        },
+        {
+         "letter": "C",
+         "text": "Chlamydia trachomatis"
+        },
+        {
+         "letter": "D",
+         "text": "Mycoplasma genitalium"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q4",
+       "number": 4,
+       "stem": "A strain of bacteria associated with a bladder infection shows gram-negative rods. What species is most likely to be the causative agent?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Mycoplasma hominis"
+        },
+        {
+         "letter": "B",
+         "text": "Escherichia coli"
+        },
+        {
+         "letter": "C",
+         "text": "Neisseria gonorrhoeae"
+        },
+        {
+         "letter": "D",
+         "text": "Chlamydia trachomatis"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q5",
+       "number": 5,
+       "stem": "Treponemal and non-treponemal serological testing can be used to test for",
+       "options": [
+        {
+         "letter": "A",
+         "text": "vaginosis."
+        },
+        {
+         "letter": "B",
+         "text": "chlamydia."
+        },
+        {
+         "letter": "C",
+         "text": "syphilis."
+        },
+        {
+         "letter": "D",
+         "text": "gonorrhea."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q6",
+       "number": 6,
+       "stem": "Lymphogranuloma venereum is caused by serovars of",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Neisseria gonorrhoeae."
+        },
+        {
+         "letter": "B",
+         "text": "Chlamydia trachomatis."
+        },
+        {
+         "letter": "C",
+         "text": "Treponema pallidum."
+        },
+        {
+         "letter": "D",
+         "text": "Haemophilis ducreyi."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q7",
+       "number": 7,
+       "stem": "The latent stage of syphilis, which may last for years, can occur between",
+       "options": [
+        {
+         "letter": "A",
+         "text": "the secondary and tertiary stages."
+        },
+        {
+         "letter": "B",
+         "text": "the primary and secondary stages."
+        },
+        {
+         "letter": "C",
+         "text": "initial infection and the primary stage."
+        },
+        {
+         "letter": "D",
+         "text": "any of the three stages."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q8",
+       "number": 8,
+       "stem": "Based on its shape, which microbe is this? for Disease Control and Prevention)",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Neisseria gonorrhoeae"
+        },
+        {
+         "letter": "B",
+         "text": "Chlamydia trachomatis"
+        },
+        {
+         "letter": "C",
+         "text": "Treponema pallidum"
+        },
+        {
+         "letter": "D",
+         "text": "Haemophilis ducreyi"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "The figure (23.26) did not come through in the text. Its question is \"based on its shape\": a spiral (spirochete) shape is Treponema pallidum. Check the picture in OpenStax if it looks different.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C"
+       ]
+      },
+      {
+       "id": "os23-q9",
+       "number": 9,
+       "stem": "Genital herpes is most commonly caused by",
+       "options": [
+        {
+         "letter": "A",
+         "text": "herpes simplex virus 1."
+        },
+        {
+         "letter": "B",
+         "text": "varicella-zoster virus."
+        },
+        {
+         "letter": "C",
+         "text": "herpes simplex virus 2."
+        },
+        {
+         "letter": "D",
+         "text": "cytomegalovirus."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q10",
+       "number": 10,
+       "stem": "Koilocytes are characteristic of",
+       "options": [
+        {
+         "letter": "A",
+         "text": "cells infected with human papillomavirus"
+        },
+        {
+         "letter": "B",
+         "text": "cells infected with herpes simplex virus 2"
+        },
+        {
+         "letter": "C",
+         "text": "cells infected with all forms of herpesviruses"
+        },
+        {
+         "letter": "D",
+         "text": "cervical cancer cells"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q11",
+       "number": 11,
+       "stem": "Which oral medication is recommended as an initial topical treatment for genital yeast infections?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "penicillin"
+        },
+        {
+         "letter": "B",
+         "text": "acyclovir"
+        },
+        {
+         "letter": "C",
+         "text": "fluconazole"
+        },
+        {
+         "letter": "D",
+         "text": "miconazole"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "The question says ORAL: fluconazole is the oral antifungal; miconazole is topical."
+      },
+      {
+       "id": "os23-q12",
+       "number": 12,
+       "stem": "What is the only common infection of the reproductive tract caused by a protozoan?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "gonorrhea"
+        },
+        {
+         "letter": "B",
+         "text": "chlamydia"
+        },
+        {
+         "letter": "C",
+         "text": "trichomoniasis"
+        },
+        {
+         "letter": "D",
+         "text": "candidiasis"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os23-q13",
+       "number": 13,
+       "stem": "Which test is preferred for detecting T. vaginalis because of its high sensitivity?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "NAAT"
+        },
+        {
+         "letter": "B",
+         "text": "wet mounts"
+        },
+        {
+         "letter": "C",
+         "text": "Pap tests"
+        },
+        {
+         "letter": "D",
+         "text": "all of the above are equally good Fill in the Blank"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

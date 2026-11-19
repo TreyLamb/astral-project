@@ -69,7 +69,9 @@ describe('study plan', () => {
     // only Week 3, so Week 4 shipped with no reply after Monday and the extra credit was nearly missed (Trey, 11-4).
     const dates = [...new Set(PLAN.map((e) => e.date))].sort();
     const shift = (d, n) => new Date(Date.parse(`${d}T12:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
-    const mondays = dates.filter((d) => new Date(`${d}T12:00:00Z`).getUTCDay() === 1 && dates.includes(shift(d, 3)));
+    // ESMG 3200 is a 7-week block that ends Thu 12-3 (Week 7 is its last discussion), and Thanksgiving week has no discussion.
+    const NO_DISCUSSION = { '2026-11-23': 'Thanksgiving break: nothing due; the Week 7 post is due Mon 11-30' };
+    const mondays = dates.filter((d) => new Date(`${d}T12:00:00Z`).getUTCDay() === 1 && dates.includes(shift(d, 3)) && d <= '2026-11-30' && !NO_DISCUSSION[d]);
     expect(mondays.length).toBeGreaterThan(0);
     for (const mon of mondays) {
       const week = [-1, 0, 1, 2, 3].map((n) => shift(mon, n));
@@ -122,7 +124,7 @@ describe('study plan', () => {
     // sleep, so the must-do is 30 min on at least 4 of every 7 planned days, and it is an extra on the others.
     const TBAS_TEST = '2026-11-24'; // Trey, 11-18: TBAS is scheduled Tue 11-24 at 12:30
     // The day before an exam is chemistry plus hard deadlines only, and it drops out of the count. Each needs a written reason.
-    const EXAM_EVE = { '2026-11-16': 'Trey, 11-16: "I want to hyperfocus on my chem test tomorrow. Anything without a hard deadline tonight or tomorrow morning needs pushed"' };
+    const EXAM_EVE = { '2026-11-18': 'Trey, 11-18 3:45 PM: none of ESFF 9+10 (one attempt) or OLQ 13 started; both due tonight, he works from 7:15 after a run. Hard deadlines only.', '2026-11-16': 'Trey, 11-16: "I want to hyperfocus on my chem test tomorrow. Anything without a hard deadline tonight or tomorrow morning needs pushed"' };
     const days = [...new Set(PLAN.filter((e) => e.start && e.end && e.kind === 'work').map((e) => e.date))]
       .filter((d) => d >= '2026-11-06' && (!TBAS_TEST || d < TBAS_TEST) && !EXAM_EVE[d]).sort();
     const has = (d) => PLAN.filter((e) => e.date === d && e.end && e.kind === 'work' && /^TBAS practice/.test(e.title)).reduce((s, e) => s + minutesOf(e), 0) >= 30;
@@ -134,7 +136,7 @@ describe('study plan', () => {
 
   it('ends every planned day from 11-10 with 2-3 "extra if you have time" blocks (Trey, 11-10)', () => {
     // A day whose must-do list runs to midnight has no room for extras; it needs a written reason here.
-    const NO_EXTRAS = { '2026-11-12': 'Trey, 11-11: Post-Lab #9 + ESMG A5 + ESMG A4 all Thursday night, past midnight' };
+    const NO_EXTRAS = { '2026-11-18': 'Trey, 11-18 3:45 PM: none of ESFF 9+10 (one attempt) or OLQ 13 started; both due tonight, he works from 7:15 after a run. Hard deadlines only.', '2026-11-12': 'Trey, 11-11: Post-Lab #9 + ESMG A5 + ESMG A4 all Thursday night, past midnight' };
     const days = [...new Set(PLAN.filter((e) => e.start && e.end && e.kind === 'work' && e.date >= '2026-11-10').map((e) => e.date))].filter((d) => !NO_EXTRAS[d]);
     for (const d of days) {
       const timed = PLAN.filter((e) => e.date === d && e.start && e.end);
@@ -202,11 +204,13 @@ describe('study plan', () => {
       }
     });
 
+    // A late night before 6 AM PT needs a written reason here.
+    const LATE_NIGHT = { '2026-11-18': 'Trey, 11-18 3:45 PM: none of ESFF 9+10 (one attempt) or OLQ 13 started; both due tonight, he works from 7:15 after a run. Hard deadlines only. He is going to PT anyway (11-18).' };
     it('ends the must-do list by 9:30 PM the night before a 6 AM PT or ODC', () => {
       const shift = (d, n) => new Date(Date.parse(`${d}T12:00:00Z`) + n * 864e5).toISOString().slice(0, 10);
       for (const d of days) {
         const early = PLAN.some((e) => e.date === shift(d, 1) && e.kind === 'fixed' && e.start && e.start <= '06:00');
-        if (!early) continue;
+        if (!early || LATE_NIGHT[d]) continue;
         const last = timedOn(d).filter((e) => ['work', 'class', 'fixed', 'travel'].includes(e.kind)).reduce((m, e) => (e.end > m ? e.end : m), '00:00');
         expect({ d, last, ok: last <= '21:30' }).toEqual({ d, last, ok: true });
       }

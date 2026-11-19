@@ -1,21 +1,21 @@
 // Builds two phone-friendly views of the study plan (src/pages/fitnesstracker/studyPlan.js):
-//   Week_Plan.html  a time-axis calendar (30-minute rows, day or week view)
+//   Week_Plan.html  a calendar: month grid (an agenda list on a phone), a time-axis week and day view, key dates as ★ rows
 //   Week_Plan.ics   the same blocks as real calendar events with alarms, importable into Apple/Google Calendar
 // Usage: node scripts/planCalendar.mjs <outDir> [firstDate] [lastDate]
-// For Trey: publish ONE file, `_ChiefOfStaff/Week Plan - CURRENT.html`, and move the previous one into `_ChiefOfStaff/_archive/`
+// For Trey: publish ONE set, `_ChiefOfStaff/Plan - CURRENT.html` (+ .pdf for his phone: Drive cannot preview HTML, + .ics), and move the previous one into `_ChiefOfStaff/_archive/`
 // (Trey, 2026-11-11: two dated plan files side by side and "there's no way to look and see which is which"). The page header
 // shows its date range and when it was built.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PLAN, KIND_COLORS } from '../src/pages/fitnesstracker/studyPlan.js';
+import { PLAN, IMPORTANT_DATES } from '../src/pages/fitnesstracker/studyPlan.js';
 import { chipDotColor, COLOR_LEGEND, COLOR_ROTC, COLOR_DUE } from '../src/pages/fitnesstracker/calendarText.js';
 import { courseColor } from '../src/pages/theknowledgebase/courses/coursework/courseworkModel.js';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const outDir = process.argv[2];
-const first = process.argv[3] ?? '2026-10-25';
-const last = process.argv[4] ?? '2026-10-31';
+const first = process.argv[3] ?? '2026-11-18';
+const last = process.argv[4] ?? '2026-12-31';
 if (!outDir) { console.error('usage: node scripts/planCalendar.mjs <outDir> [firstDate] [lastDate]'); process.exit(1); }
 fs.mkdirSync(outDir, { recursive: true });
 
@@ -24,6 +24,16 @@ const rows = PLAN.filter((e) => e.date >= first && e.date <= last).map((e) => ({
   // Same colour rule as the MFT calendar (PREFERENCES.md, Colour): a course keeps its colour everywhere, ROTC is blue, due is red.
   color: chipDotColor({ ...e, calId: 'plan' }, courseColor, {}) ?? '',
 }));
+// Key dates (exams, ROTC events, holidays) ride along as all-day ★ rows, one per day of a multi-day window.
+const nextDay = (d) => new Date(Date.parse(`${d}T12:00:00Z`) + 864e5).toISOString().slice(0, 10);
+for (const k of IMPORTANT_DATES) {
+  for (let d = k.date; d <= (k.end ?? k.date); d = nextDay(d)) {
+    if (d < first || d > last) continue;
+    rows.push({ date: d, start: null, end: null, kind: 'important', title: `★ ${k.title}${k.tbc ? ' (to confirm)' : ''}`, course: k.course ?? '', note: '',
+      color: chipDotColor({ ...k, kind: 'fixed', calId: 'plan' }, courseColor, {}) ?? '' });
+  }
+}
+rows.sort((a, b) => a.date.localeCompare(b.date));
 const legend = COLOR_LEGEND.map(([k, label]) => [k === 'rotc' ? COLOR_ROTC : k === 'due' ? COLOR_DUE : courseColor(k), label]);
 
 // ── HTML ──

@@ -1,4 +1,4 @@
-<title>Week Plan</title>
+<title>Plan to December</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -129,87 +129,209 @@ h1 { font-size: 1.55rem; line-height: 1.15; margin: 0; letter-spacing: -0.01em; 
 .dueline span { position: absolute; right: 4px; top: -1px; transform: translateY(-100%); background: var(--due-bg); color: var(--due-ink); font: 600 0.68rem var(--font-mono); padding: 1px 6px; border-radius: 4px; max-width: 92%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .note { color: var(--soft); font-size: 0.82rem; max-width: 70ch; }
 @media (max-width: 520px) { h1 { font-size: 1.35rem; } .load .h { font-size: 0.95rem; } }
+:root { --imp-bg: #fdf3c7; --imp-ink: #6b4e00; --today: #0f6b80; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --imp-bg: #3d3210; --imp-ink: #f3dc8a; --today: #6cc3dc; } }
+:root[data-theme="dark"] { --imp-bg: #3d3210; --imp-ink: #f3dc8a; --today: #6cc3dc; }
+.k-important { background: var(--imp-bg); color: var(--imp-ink); }
+.weeknav { display: inline-flex; gap: 6px; align-items: center; }
+.weeknav button { all: unset; cursor: pointer; padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-weight: 600; font-size: 0.88rem; }
+.weeknav button:focus-visible, .cell:focus-visible, .adi:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.weeknav span { font: 500 0.8rem var(--font-mono); color: var(--soft); }
+
+/* Month grid (wide screens) */
+.month { margin-bottom: 18px; }
+.month h2 { font-size: 1.15rem; margin: 4px 0 8px; }
+.mgrid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.mgrid .dh { font: 600 0.72rem var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--soft); padding: 6px 8px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.cell { all: unset; box-sizing: border-box; display: flex; flex-direction: column; gap: 3px; min-height: 128px; padding: 6px 6px 8px; border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); cursor: pointer; min-width: 0; }
+.cell:nth-child(7n + 7) { border-right: 0; }
+.cell.out { background: var(--bg); cursor: default; opacity: 0.55; }
+.cell.today { box-shadow: inset 0 0 0 2px var(--today); }
+.cell .num { font: 600 0.82rem var(--font-ui); display: flex; justify-content: space-between; align-items: baseline; }
+.cell .num small { font: 400 0.66rem var(--font-mono); color: var(--soft); }
+.chip { display: block; font-size: 0.7rem; line-height: 1.2; padding: 2px 5px; border-radius: 4px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: break-word; }
+.chip.tint { background: color-mix(in srgb, var(--c) 26%, var(--surface)); color: var(--ink); border-left: 3px solid var(--c); }
+.chip.k-due { background: var(--due-bg); color: var(--due-ink); border-left: 3px solid var(--due-line); }
+.chip.k-important { background: var(--imp-bg); color: var(--imp-ink); font-weight: 600; }
+.chip.k-extra { background: transparent; color: var(--soft); border: 1px dashed var(--extra-line); }
+.chip.k-rest { background: var(--rest-bg); color: var(--rest-ink); }
+.chip.must::before { content: "● "; }
+.chip b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Agenda (phones) */
+.agenda { display: flex; flex-direction: column; gap: 10px; }
+.agenda .wk { font: 600 0.78rem var(--font-mono); color: var(--soft); text-transform: uppercase; letter-spacing: 0.06em; margin: 10px 0 0; }
+.aday { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.aday.today { border-color: var(--today); box-shadow: 0 0 0 1px var(--today) inset; }
+.aday h3 { margin: 0 0 6px; font-size: 0.95rem; display: flex; justify-content: space-between; gap: 8px; }
+.aday h3 button { all: unset; cursor: pointer; font: 500 0.75rem var(--font-mono); color: var(--accent); }
+.aday ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.aday li .chip { -webkit-line-clamp: unset; font-size: 0.8rem; padding: 4px 7px; }
+
+/* All-day list in day view */
+.adlist { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.adi { all: unset; cursor: pointer; display: block; font-size: 0.84rem; line-height: 1.3; padding: 5px 8px; border-radius: 6px; }
+.adi.sel { outline: 2px solid var(--accent); }
+.adi.tint { background: color-mix(in srgb, var(--c) 22%, var(--surface)); border-left: 4px solid var(--c); }
+.adi.k-extra { border: 1px dashed var(--extra-line); color: var(--soft); }
+.adi.must::before { content: "● "; }
+.adi.k-important { background: var(--imp-bg); color: var(--imp-ink); font-weight: 600; }
+.adi.k-rest { background: var(--rest-bg); color: var(--rest-ink); }
+.adi.k-fixed { background: var(--fixed-bg); color: var(--fixed-ink); }
+.adcell { display: flex; flex-direction: column; gap: 3px; padding: 4px 3px 6px; border-right: 1px solid var(--line-soft); border-bottom: 1px solid var(--line); min-width: 0; }
+.adcell .adi { font-size: 0.7rem; line-height: 1.2; padding: 3px 5px; word-break: break-word; }
+.adhead { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+@media (max-width: 760px) { .monthwrap { display: none; } }
+@media (min-width: 761px) { .agendawrap { display: none; } }
 </style>
 
 <div class="wrap">
   <header>
     <p class="eyebrow" id="range"></p>
-    <h1>Week plan</h1>
-    <p class="sub">Every block is on a 30-minute grid. Tap a block for its notes and its deadline. Work hours are focused work only, not classes, meals or travel.</p>
+    <h1 id="ttl">Plan to the end of December</h1>
+    <p class="sub">Month shows every day at a glance: ★ key dates, red deadlines, times for classes and ROTC, ● the day's must-do list, and the extras count. Tap a day for its full list; tap any item for its notes. Hour-by-hour blocks get built two or three days ahead.</p>
   </header>
-
-  <section aria-label="Work hours per day">
-    <div class="load" id="load"></div>
-  </section>
 
   <div class="controls">
     <div class="seg" role="group" aria-label="View">
-      <button type="button" id="vDay" aria-pressed="true">Day</button>
+      <button type="button" id="vMonth" aria-pressed="true">Month</button>
       <button type="button" id="vWeek" aria-pressed="false">Week</button>
+      <button type="button" id="vDay" aria-pressed="false">Day</button>
     </div>
-    <div class="legend" id="legend"></div>
+    <div class="weeknav" id="nav">
+      <button type="button" id="prev" aria-label="Previous">‹</button>
+      <span id="navlbl"></span>
+      <button type="button" id="next" aria-label="Next">›</button>
+    </div>
   </div>
+  <div class="legend" id="legend"></div>
 
+  <section aria-label="Work hours per day" id="loadwrap"><div class="load" id="load"></div></section>
   <div class="tabs" id="tabs" role="group" aria-label="Pick a day"></div>
-  <div class="detail" id="detail" aria-live="polite"><p class="hint">Tap a block to see what it is, how long it is, and what it is for.</p></div>
-  <div class="board"><div id="grid"></div></div>
+  <div class="detail" id="detail" aria-live="polite"><p class="hint">Tap an item to see its notes.</p></div>
+  <div id="monthHost"></div>
+  <div class="board" id="boardwrap"><div id="grid"></div></div>
   <p class="note" id="foot"></p>
 </div>
 
 <script>
 const DATA = __DATA__;
 const LEGEND = __LEGEND__;
-const KIND = { work: 'Work', fixed: 'Fixed', class: 'Class', travel: 'Travel', rest: 'Meal / rest', due: 'Deadline', extra: 'Extra if you have time' };
-const START = 5 * 60, END = 23 * 60, STEP = 30;
-const ROWS = (END - START) / STEP;
-const days = [];
-DATA.forEach(function (e) { if (days.indexOf(e.date) < 0) days.push(e.date); });
-days.sort();
+const KIND = { work: 'Must do', fixed: 'Fixed', class: 'Class', travel: 'Travel', rest: 'Meal / rest / day off', due: 'Deadline', extra: 'Extra if you have time', important: 'Key date' };
+const START = 5 * 60, END = 23 * 60 + 59, STEP = 30;
+const ROWS = Math.ceil((END - START) / STEP);
 const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-function dayInfo(d) { const dt = new Date(d + 'T12:00:00'); return { dow: DOW[dt.getDay()], num: dt.getDate(), mon: MON[dt.getMonth()] }; }
-document.documentElement.style.setProperty('--ndays', String(days.length));
-(function () { const a = dayInfo(days[0]), b = dayInfo(days[days.length - 1]); document.getElementById('range').textContent = a.dow + ' ' + a.mon + ' ' + a.num + ' to ' + b.dow + ' ' + b.mon + ' ' + b.num + ' · built __BUILT__'; })();
+const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+function iso(dt) { return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0'); }
+function shift(d, n) { const dt = new Date(d + 'T12:00:00'); dt.setDate(dt.getDate() + n); return iso(dt); }
+function dayInfo(d) { const dt = new Date(d + 'T12:00:00'); return { dow: DOW[dt.getDay()], num: dt.getDate(), mon: MON[dt.getMonth()], wd: dt.getDay(), m: dt.getMonth(), y: dt.getFullYear() }; }
+const seen = {};
+DATA.forEach(function (e) { seen[e.date] = 1; });
+const FIRST = Object.keys(seen).sort()[0], LAST = Object.keys(seen).sort().slice(-1)[0];
+const days = [];
+for (let d = FIRST; d <= LAST; d = shift(d, 1)) days.push(d);
+(function () { const a = dayInfo(FIRST), b = dayInfo(LAST); document.getElementById('range').textContent = a.dow + ' ' + a.mon + ' ' + a.num + ' to ' + b.dow + ' ' + b.mon + ' ' + b.num + ' · built __BUILT__'; })();
 function mins(s) { const p = s.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
-function clock(s) { const p = s.split(':'); const h = Number(p[0]); return (h % 12 || 12) + ':' + p[1] + (h < 12 ? ' AM' : ' PM'); }
+function clock(s) { const p = s.split(':'); const h = Number(p[0]); return (h % 12 || 12) + (p[1] === '00' ? '' : ':' + p[1]) + (h < 12 ? ' AM' : ' PM'); }
 function dur(m) { return m % 60 === 0 ? m / 60 + ' h' : m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; }
 function workHours(d) { let m = 0; DATA.forEach(function (e) { if (e.date === d && e.kind === 'work' && e.start && e.end) m += mins(e.end) - mins(e.start); }); return m / 60; }
-function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function weekStart(d) { return shift(d, -dayInfo(d).wd); }
 
-let view = window.matchMedia('(min-width: 900px)').matches ? 'week' : 'day';
-let cur = days[0];
-const today = new Date();
-const ts = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-if (days.indexOf(ts) >= 0) cur = ts;
+const TODAY = iso(new Date());
+let view = 'month';
+let cur = TODAY >= FIRST && TODAY <= LAST ? TODAY : FIRST;
 let sel = null;
 
+const ORDER = { important: 0, due: 1, fixed: 2, class: 2, travel: 3, work: 4, rest: 5, extra: 6 };
+function itemsFor(d) {
+  return DATA.map(function (e, i) { return { e: e, i: i }; }).filter(function (x) { return x.e.date === d; }).sort(function (a, b) {
+    const oa = a.e.start && a.e.kind !== 'due' && a.e.kind !== 'work' && a.e.kind !== 'rest' ? 2 : ORDER[a.e.kind], ob = b.e.start && b.e.kind !== 'due' && b.e.kind !== 'work' && b.e.kind !== 'rest' ? 2 : ORDER[b.e.kind];
+    if (oa !== ob) return oa - ob;
+    return (a.e.start || '').localeCompare(b.e.start || '');
+  });
+}
+function shortTitle(e) { return e.kind === 'due' ? e.title.replace(/^DUE: /, '') : e.title.replace(/^Extra if you have time: /, ''); }
+function chipCls(e) {
+  if (e.kind === 'due' || e.kind === 'important' || e.kind === 'extra' || (e.kind === 'rest' && !e.color)) return 'k-' + e.kind;
+  return e.color ? 'tint' : 'k-' + e.kind;
+}
+function chip(x, full) {
+  const e = x.e;
+  const t = (e.start && (e.kind === 'due' || !e.end) ? '<b>' + clock(e.start) + '</b> ' : e.start ? '<b>' + clock(e.start) + '</b> ' : '');
+  const must = e.kind === 'work' && !e.start ? ' must' : '';
+  return '<span class="chip ' + chipCls(e) + must + '" data-i="' + x.i + '"' + (e.color ? ' style="--c:' + e.color + '"' : '') + '>' + t + esc(full ? e.title : shortTitle(e)) + '</span>';
+}
+function cellBody(d) {
+  const xs = itemsFor(d);
+  const extras = xs.filter(function (x) { return x.e.kind === 'extra'; });
+  const rest = xs.filter(function (x) { return x.e.kind !== 'extra' && !(x.e.kind === 'rest' && x.e.start); });
+  return rest.map(function (x) { return chip(x, false); }).join('') + (extras.length ? '<span class="chip k-extra">+' + extras.length + ' extra' + (extras.length > 1 ? 's' : '') + '</span>' : '');
+}
+
+function renderMonth() {
+  const host = document.getElementById('monthHost');
+  if (view !== 'month') { host.innerHTML = ''; return; }
+  let html = '<div class="monthwrap">';
+  const months = [];
+  days.forEach(function (d) { const k = d.slice(0, 7); if (months.indexOf(k) < 0) months.push(k); });
+  months.forEach(function (k) {
+    const y = Number(k.slice(0, 4)), m = Number(k.slice(5, 7)) - 1;
+    const first = k + '-01';
+    const lastDay = iso(new Date(y, m + 1, 0));
+    html += '<section class="month"><h2>' + MONTH[m] + ' ' + y + '</h2><div class="mgrid">' + DOW.map(function (w) { return '<div class="dh">' + w + '</div>'; }).join('');
+    const from = weekStart(first < FIRST ? FIRST : first);
+    for (let d = from; d <= lastDay || dayInfo(d).wd !== 0; d = shift(d, 1)) {
+      const inMonth = d.slice(0, 7) === k, inRange = d >= FIRST && d <= LAST;
+      if (!inMonth || !inRange) { html += '<div class="cell out"><span class="num">' + (inMonth ? dayInfo(d).num : '') + '</span></div>'; continue; }
+      const h = workHours(d);
+      html += '<button type="button" class="cell' + (d === TODAY ? ' today' : '') + '" data-d="' + d + '"><span class="num">' + dayInfo(d).num + (h ? '<small>' + h.toFixed(1) + ' h</small>' : '') + '</span>' + cellBody(d) + '</button>';
+    }
+    html += '</div></section>';
+  });
+  html += '</div><div class="agendawrap"><div class="agenda">';
+  days.forEach(function (d) {
+    const i = dayInfo(d);
+    if (i.wd === 0 || d === FIRST) html += '<p class="wk">Week of ' + dayInfo(weekStart(d)).mon + ' ' + dayInfo(weekStart(d)).num + '</p>';
+    const xs = itemsFor(d).filter(function (x) { return !(x.e.kind === 'rest' && x.e.start); });
+    html += '<div class="aday' + (d === TODAY ? ' today' : '') + '"><h3><span>' + i.dow + ' ' + i.mon + ' ' + i.num + '</span><button type="button" data-d="' + d + '">open day ›</button></h3><ul>' +
+      (xs.length ? xs.map(function (x) { return '<li>' + chip(x, true) + '</li>'; }).join('') : '<li class="note">Nothing planned.</li>') + '</ul></div>';
+  });
+  html += '</div></div>';
+  host.innerHTML = html;
+}
+
+function visibleDays() { if (view === 'day') return [cur]; const s = weekStart(cur); return [0, 1, 2, 3, 4, 5, 6].map(function (n) { return shift(s, n); }); }
 function renderLoad() {
-  const max = 8;
-  document.getElementById('load').innerHTML = days.map(function (d) {
-    const h = workHours(d), i = dayInfo(d);
+  const wrap = document.getElementById('loadwrap');
+  wrap.style.display = view === 'month' ? 'none' : '';
+  const vd = visibleDays().length === 1 ? (function () { const s = weekStart(cur); return [0, 1, 2, 3, 4, 5, 6].map(function (n) { return shift(s, n); }); })() : visibleDays();
+  document.getElementById('load').innerHTML = vd.map(function (d) {
+    const h = workHours(d), i = dayInfo(d), n = itemsFor(d).filter(function (x) { return x.e.kind === 'work' && !x.e.start; }).length;
     return '<button type="button" data-d="' + d + '" aria-pressed="' + (d === cur) + '" class="' + (h > 5 ? 'heavy' : '') + '">' +
-      '<span class="d">' + i.dow + ' ' + i.num + '</span><span class="h">' + h.toFixed(1) + ' h</span>' +
-      '<span class="bar"><i style="width:' + Math.min(100, (h / max) * 100) + '%"></i></span></button>';
+      '<span class="d">' + i.dow + ' ' + i.num + '</span><span class="h">' + (h ? h.toFixed(1) + ' h' : n ? n + ' to do' : '–') + '</span>' +
+      '<span class="bar"><i style="width:' + Math.min(100, (h / 8) * 100) + '%"></i></span></button>';
   }).join('');
 }
 function renderLegend() {
-  document.getElementById('legend').innerHTML = ['work', 'extra', 'fixed', 'class', 'travel', 'rest'].map(function (k) {
+  document.getElementById('legend').innerHTML = ['important', 'work', 'extra', 'fixed', 'class', 'rest'].map(function (k) {
     return '<span><i class="k-' + k + '"></i>' + KIND[k] + '</span>';
-  }).join('') + '<span><i style="border-style:dashed;border-color:var(--due-line)"></i>Deadline</span>';
-  document.getElementById('legend').innerHTML += LEGEND.map(function (l) { return '<span><i style="background:' + l[0] + ';border-color:' + l[0] + '"></i>' + esc(l[1]) + '</span>'; }).join('');
+  }).join('') + '<span><i style="background:var(--due-bg);border-color:var(--due-line)"></i>Deadline</span>' +
+    LEGEND.map(function (l) { return '<span><i style="background:' + l[0] + ';border-color:' + l[0] + '"></i>' + esc(l[1]) + '</span>'; }).join('');
 }
-function renderTabs() {
-  document.getElementById('tabs').style.display = view === 'day' ? 'flex' : 'none';
-  document.getElementById('tabs').innerHTML = days.map(function (d) {
-    const i = dayInfo(d);
-    return '<button type="button" class="tab" data-d="' + d + '" aria-pressed="' + (d === cur) + '">' + i.dow + ' ' + i.num + '</button>';
-  }).join('');
+function renderNav() {
+  const lbl = document.getElementById('navlbl');
+  document.getElementById('nav').style.display = view === 'month' ? 'none' : 'inline-flex';
+  if (view === 'week') { const s = weekStart(cur), a = dayInfo(s), b = dayInfo(shift(s, 6)); lbl.textContent = a.mon + ' ' + a.num + ' – ' + b.mon + ' ' + b.num; }
+  else { const i = dayInfo(cur); lbl.textContent = i.dow + ' ' + i.mon + ' ' + i.num; }
 }
 function axisHtml(rh) {
   let s = '<div class="axis" style="height:' + ROWS * rh + 'px">';
   for (let r = 0; r <= ROWS; r += 2) {
     const m = START + r * STEP;
-    s += '<span style="top:' + r * rh + 'px">' + clock(String(Math.floor(m / 60)).padStart(2, '0') + ':00').replace(':00', '') + '</span>';
+    if (m > 23 * 60) break;
+    s += '<span style="top:' + r * rh + 'px">' + clock(String(Math.floor(m / 60)).padStart(2, '0') + ':00') + '</span>';
   }
   return s + '</div>';
 }
@@ -225,55 +347,71 @@ function colHtml(d, rh) {
     }
     const a = mins(e.start), b = mins(e.end);
     const top = ((a - START) / STEP) * rh + 1, h = Math.max(((b - a) / STEP) * rh - 2, 14);
-    const meta = clock(e.start).replace(' ', '') + '–' + clock(e.end).replace(' ', '');
+    const meta = clock(e.start) + '–' + clock(e.end);
     s += '<button type="button" class="blk k-' + e.kind + (e.color ? ' tint' : '') + (sel === idx ? ' sel' : '') + '" data-i="' + idx + '" style="top:' + top + 'px;height:' + h + 'px' + (e.color ? ';--c:' + e.color : '') + '">' +
       '<span class="t">' + esc(e.title) + '</span>' + (h >= 34 ? '<span class="m">' + meta + '</span>' : '') + '</button>';
   });
   return s + '</div>';
 }
-function allDayHtml(d) {
-  return DATA.filter(function (e) { return e.date === d && !e.start; }).map(function (e) { return esc(e.title); }).join(' · ');
+function allDayList(d, compact) {
+  const xs = itemsFor(d).filter(function (x) { return !x.e.start; });
+  if (!xs.length) return '';
+  return xs.map(function (x) {
+    const e = x.e;
+    return '<button type="button" class="adi ' + chipCls(e) + (e.kind === 'work' ? ' must' : '') + (sel === x.i ? ' sel' : '') + '" data-i="' + x.i + '"' + (e.color ? ' style="--c:' + e.color + '"' : '') + '>' + (compact ? dayInfo(d).dow + ' ' + dayInfo(d).num + ': ' : '') + esc(e.title) + '</button>';
+  }).join('');
 }
 function renderGrid() {
-  const host = document.getElementById('grid');
+  const host = document.getElementById('grid'), wrap = document.getElementById('boardwrap');
+  wrap.style.display = view === 'month' ? 'none' : '';
+  if (view === 'month') { host.innerHTML = ''; return; }
   if (view === 'day') {
-    const rh = 40, i = dayInfo(cur), ad = allDayHtml(cur);
+    const rh = 40, i = dayInfo(cur), ad = allDayList(cur, false);
     host.innerHTML = '<div class="grid day">' +
-      '<div class="hdr" style="grid-column:1/-1">' + i.dow + ' ' + i.mon + ' ' + i.num + '<small>' + workHours(cur).toFixed(1) + ' h of focused work</small></div>' +
-      (ad ? '<div class="allday">All day: ' + ad + '</div>' : '') + axisHtml(rh) + colHtml(cur, rh) + '</div>';
+      '<div class="hdr" style="grid-column:1/-1">' + i.dow + ' ' + i.mon + ' ' + i.num + '<small>' + (workHours(cur) ? workHours(cur).toFixed(1) + ' h of timed work' : 'list day: the hour-by-hour plan is built two or three days ahead') + '</small></div>' +
+      (ad ? '<div class="adlist">' + ad + '</div>' : '') + axisHtml(rh) + colHtml(cur, rh) + '</div>';
   } else {
-    const rh = 26;
+    const rh = 26, vd = visibleDays();
+    document.documentElement.style.setProperty('--ndays', '7');
     let head = '<div class="hdr"></div>', body = axisHtml(rh), ad = '';
-    days.forEach(function (d) {
+    vd.forEach(function (d) {
       const i = dayInfo(d);
-      head += '<div class="hdr">' + i.dow + ' ' + i.num + '<small>' + workHours(d).toFixed(1) + ' h</small></div>';
+      head += '<div class="hdr">' + i.dow + ' ' + i.num + '<small>' + (workHours(d) ? workHours(d).toFixed(1) + ' h' : '') + '</small></div>';
       body += colHtml(d, rh);
-      const a = allDayHtml(d);
-      if (a) ad += '<div class="allday">' + i.dow + ' ' + i.num + ' (all day): ' + a + '</div>';
+      ad += '<div class="adcell">' + allDayList(d, false) + '</div>';
     });
-    host.innerHTML = '<div class="grid week compact">' + head + ad + body + '</div>';
+    host.innerHTML = '<div class="grid week compact">' + head + '<div class="adhead"></div>' + ad + body + '</div>';
   }
+}
+function renderTabs() {
+  const el = document.getElementById('tabs');
+  el.style.display = view === 'day' ? 'flex' : 'none';
+  const s = weekStart(cur);
+  el.innerHTML = [0, 1, 2, 3, 4, 5, 6].map(function (n) { const d = shift(s, n), i = dayInfo(d); return '<button type="button" class="tab" data-d="' + d + '" aria-pressed="' + (d === cur) + '">' + i.dow + ' ' + i.num + '</button>'; }).join('');
 }
 function renderDetail() {
   const el = document.getElementById('detail');
-  if (sel === null) { el.innerHTML = '<p class="hint">Tap a block to see what it is, how long it is, and what it is for.</p>'; return; }
-  const e = DATA[sel];
-  el.innerHTML = '<b>' + esc(e.title) + '</b><div class="meta">' + dayInfo(e.date).dow + ' ' + dayInfo(e.date).num + ' · ' + clock(e.start) + ' to ' + clock(e.end) + ' · ' + dur(mins(e.end) - mins(e.start)) + ' · ' + KIND[e.kind] + (e.course ? ' · ' + esc(e.course) : '') + '</div>' + (e.note ? '<p>' + esc(e.note) + '</p>' : '');
+  if (sel === null) { el.innerHTML = '<p class="hint">Tap an item to see its notes.</p>'; return; }
+  const e = DATA[sel], i = dayInfo(e.date);
+  const when = e.start ? (e.end ? clock(e.start) + ' to ' + clock(e.end) + ' · ' + dur(mins(e.end) - mins(e.start)) : 'by ' + clock(e.start)) : 'any time that day';
+  el.innerHTML = '<b>' + esc(e.title) + '</b><div class="meta">' + i.dow + ' ' + i.mon + ' ' + i.num + ' · ' + when + ' · ' + KIND[e.kind] + (e.course ? ' · ' + esc(e.course) : '') + '</div>' + (e.note ? '<p>' + esc(e.note) + '</p>' : '');
 }
 function renderAll() {
-  renderLoad(); renderTabs(); renderGrid(); renderDetail();
-  document.getElementById('vDay').setAttribute('aria-pressed', String(view === 'day'));
-  document.getElementById('vWeek').setAttribute('aria-pressed', String(view === 'week'));
+  renderNav(); renderLoad(); renderTabs(); renderMonth(); renderGrid(); renderDetail();
+  ['Month', 'Week', 'Day'].forEach(function (v) { document.getElementById('v' + v).setAttribute('aria-pressed', String(view === v.toLowerCase())); });
 }
 document.addEventListener('click', function (ev) {
+  const c = ev.target.closest('[data-i]');
+  if (c && !c.classList.contains('cell')) { sel = Number(c.dataset.i); if (view !== 'month') cur = DATA[sel].date; renderAll(); if (view === 'month') document.getElementById('detail').scrollIntoView({ block: 'nearest' }); return; }
   const t = ev.target.closest('button');
   if (!t) return;
-  if (t.id === 'vDay') { view = 'day'; renderAll(); return; }
+  if (t.id === 'vMonth') { view = 'month'; renderAll(); return; }
   if (t.id === 'vWeek') { view = 'week'; renderAll(); return; }
-  if (t.dataset.d) { cur = t.dataset.d; view = 'day'; sel = null; renderAll(); return; }
-  if (t.classList.contains('blk')) { sel = Number(t.dataset.i); cur = DATA[sel].date; renderGrid(); renderDetail(); }
+  if (t.id === 'vDay') { view = 'day'; renderAll(); return; }
+  if (t.id === 'prev' || t.id === 'next') { const n = (view === 'week' ? 7 : 1) * (t.id === 'prev' ? -1 : 1); const d = shift(cur, n); if (d >= weekStart(FIRST) && d <= LAST) { cur = d < FIRST ? FIRST : d; sel = null; renderAll(); } return; }
+  if (t.dataset.d) { cur = t.dataset.d; view = 'day'; sel = null; renderAll(); window.scrollTo({ top: 0 }); }
 });
-document.getElementById('foot').textContent = 'Plan source: study plan data kept with your fitness tracker calendar. Times marked assumed in the notes are guesses until you confirm them.';
+document.getElementById('foot').textContent = 'Source: the study plan kept with your fitness tracker calendar (studyPlan.js). Anything marked "to confirm" or "assumed" is a guess until you tell me.';
 renderLegend();
 renderAll();
 </script>

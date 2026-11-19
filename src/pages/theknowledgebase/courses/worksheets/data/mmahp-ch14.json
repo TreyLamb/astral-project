@@ -1,0 +1,2813 @@
+{
+ "id": "mmahp-ch14",
+ "title": "MMAHP Ch 14 + OpenStax Ch 24-25: practice questions for OLQ 14 (7 starred by the professor; the rest derived from his text)",
+ "courseCode": "MICR 2060",
+ "sourceFile": "14. Infections of the Nervous, Digestive & Resiratory Systems.pdf",
+ "chapters": [
+  {
+   "number": 14,
+   "title": "Infections of the Nervous, Digestive and Respiratory Systems",
+   "sections": [
+    {
+     "heading": "The nervous system",
+     "questions": [
+      {
+       "id": "ch14-q1",
+       "number": 1,
+       "stem": "All ganglia and sensory receptors are part of the _________; all the __________ are part of the CNS.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "CNS/ axons"
+        },
+        {
+         "letter": "B",
+         "text": "PNS/ ventricles"
+        },
+        {
+         "letter": "C",
+         "text": "CNS/ neuron cell bodies"
+        },
+        {
+         "letter": "D",
+         "text": "PNS/ neuronal junctions (synapses)"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "His text: the PNS is the nerves, ganglia and sensory receptors; the CNS is the brain and spinal cord, so all the ventricles (cavities of the brain) are CNS."
+      },
+      {
+       "id": "ch14-q2",
+       "number": 2,
+       "stem": "Of the three meninges, ______________ is the innermost, and the three meninges cover _____________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "pia mater/ the entire CNS"
+        },
+        {
+         "letter": "B",
+         "text": "dura mater/ only the brain"
+        },
+        {
+         "letter": "C",
+         "text": "arachnoid mater/ only the brain and medulla oblongata"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q3",
+       "number": 3,
+       "stem": "Cerebrospinal fluid (CSF) circulates in all these spaces EXCEPT ___________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "the ventricles of the brain"
+        },
+        {
+         "letter": "B",
+         "text": "the central canal of the spinal cord"
+        },
+        {
+         "letter": "C",
+         "text": "between the pia mater and arachnoid mater"
+        },
+        {
+         "letter": "D",
+         "text": "between the arachnoid mater and dura mater"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "His text: CSF circulates between the pia and arachnoid mater, in the ventricles and in the central canal; not between the arachnoid and dura."
+      },
+      {
+       "id": "ch14-q4",
+       "number": 4,
+       "stem": "The blood-brain barrier is created mainly by the _________, and _________ mater is the outermost of the three meninges of the brain.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "feet of the astrocytes/ dura"
+        },
+        {
+         "letter": "B",
+         "text": "tight junction of the capillary endothelial cells/ arachnoid"
+        },
+        {
+         "letter": "C",
+         "text": "tightness of the basement membrane under the capillary endothelial cells/ pia"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "His text says astrocytes cover the brain capillaries and form the blood-brain barrier; the dura is the outermost meninx. B and C pair a right first half with a wrong outermost layer."
+      },
+      {
+       "id": "ch14-q5",
+       "number": 5,
+       "stem": "Which of these statements about the brain is CORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The brain lacks white matter."
+        },
+        {
+         "letter": "B",
+         "text": "The spinal cord lacks gray matter."
+        },
+        {
+         "letter": "C",
+         "text": "Gray matter is rich in the cell bodies of neurons."
+        },
+        {
+         "letter": "D",
+         "text": "Nerves have many axons but no other type of cells or tissues."
+        },
+        {
+         "letter": "E",
+         "text": "Sensory neurons carry impulses from the brain to the sensory organs and tactile receptors in the skin back to the brain, and motor neurons carry impulses from muscles and glands to the brain."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q6",
+       "number": 6,
+       "stem": "Which of these is NOT involved in the spinal nerves?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Gray matter."
+        },
+        {
+         "letter": "B",
+         "text": "White matter."
+        },
+        {
+         "letter": "C",
+         "text": "Dorsal root ganglion."
+        },
+        {
+         "letter": "D",
+         "text": "Ventral root ganglion."
+        },
+        {
+         "letter": "E",
+         "text": "Dorsal and ventral roots."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 14 chapter file."
+      },
+      {
+       "id": "ch14-q7",
+       "number": 7,
+       "stem": "All these are excitatory neurotransmitters EXCEPT ______________, which is an inhibitory neurotransmitter.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "GABA"
+        },
+        {
+         "letter": "B",
+         "text": "glutamate"
+        },
+        {
+         "letter": "C",
+         "text": "acetylcholine"
+        },
+        {
+         "letter": "D",
+         "text": "nitric oxide and histamine"
+        },
+        {
+         "letter": "E",
+         "text": "dopamine and epinephrine"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q8",
+       "number": 8,
+       "stem": "Infection/inflammation of the _________ is meningitis; the same of the _________ is encephalitis (or encephalopathy).",
+       "options": [
+        {
+         "letter": "A",
+         "text": "pia, arachnoid or dura mater/ brain cells and tissues"
+        },
+        {
+         "letter": "B",
+         "text": "sensory neurons/ motor neurons"
+        },
+        {
+         "letter": "C",
+         "text": "forebrain/ hindbrain"
+        },
+        {
+         "letter": "D",
+         "text": "PNS/CNS"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q9",
+       "number": 9,
+       "stem": "Most of these viruses infect brain cells through blood EXCEPT ____________; it reaches the brain through _________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "alphaviruses/ meninges"
+        },
+        {
+         "letter": "B",
+         "text": "measles virus/ lymphatics"
+        },
+        {
+         "letter": "C",
+         "text": "JC virus/ cerebrospinal fluid"
+        },
+        {
+         "letter": "D",
+         "text": "herpes simplex virus 1/ neurons"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      }
+     ]
+    },
+    {
+     "heading": "Microbes that infect the nervous system",
+     "questions": [
+      {
+       "id": "ch14-q10",
+       "number": 10,
+       "stem": "All these viruses may cause encephalitis, but which of them can cause sclerosing panencephalopathy?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "JC virus"
+        },
+        {
+         "letter": "B",
+         "text": "Measles virus."
+        },
+        {
+         "letter": "C",
+         "text": "West Nile virus."
+        },
+        {
+         "letter": "D",
+         "text": "Borna disease virus."
+        },
+        {
+         "letter": "E",
+         "text": "Human herpesvirus-1 and 2."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q11",
+       "number": 11,
+       "stem": "Of the viruses named here, _____________ may latently infect neuronal ganglia and ____________cause neuralgia.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Human herpes virus-1/ Varicella Zoster virus"
+        },
+        {
+         "letter": "B",
+         "text": "Dengue virus/ Japanese encephalitis virus"
+        },
+        {
+         "letter": "C",
+         "text": "lymphochoriomeningitis virus/ poliovirus"
+        },
+        {
+         "letter": "D",
+         "text": "rabies lyssavirus/ Junin virus"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q12",
+       "number": 12,
+       "stem": "Shown below are some bacterial pathogens and diseases they cause or contribute to. Which of these is a MISMATCH?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Helicobacter pylori/Guillain-Barré syndrome."
+        },
+        {
+         "letter": "B",
+         "text": "Clostridium botulinum/flaccid paralysis."
+        },
+        {
+         "letter": "C",
+         "text": "Clostridium tetani/spastic paralysis."
+        },
+        {
+         "letter": "D",
+         "text": "Hemophilus influenzae/ meningitis."
+        },
+        {
+         "letter": "E",
+         "text": "Treponema pallidum/ encephalitis"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q13",
+       "number": 13,
+       "stem": "Fungal meningitis is found most frequently among which of these groups of people?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Gardeners."
+        },
+        {
+         "letter": "B",
+         "text": "Soil movers."
+        },
+        {
+         "letter": "C",
+         "text": "People with atopy."
+        },
+        {
+         "letter": "D",
+         "text": "Immunocompromised subjects."
+        },
+        {
+         "letter": "E",
+         "text": "Subjects with an aggressive immune system (have autoimmune arthritis)"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 14 chapter file."
+      },
+      {
+       "id": "ch14-q14",
+       "number": 14,
+       "stem": "Which of these parasites are paired with the disease they cause CORRECTLY?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Trypanosoma cruzi/ African sleeping sickness"
+        },
+        {
+         "letter": "B",
+         "text": "Naegleria fowleri/ cerebral malaria."
+        },
+        {
+         "letter": "C",
+         "text": "Taenia saginata/ brain cysticercosis"
+        },
+        {
+         "letter": "D",
+         "text": "Toxocara canis/ meningitis."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "None of the four matches his text exactly: he lists Toxocara canis as causing ENCEPHALOPATHY, T. solium (not T. saginata) for cysticercosis, T. brucei for sleeping sickness, Naegleria for brain-eating disease. D (a Toxocara brain infection) is the only one not plainly wrong. Check this one if it appears.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D"
+       ]
+      }
+     ]
+    },
+    {
+     "heading": "Brain pathologies due to infections",
+     "questions": [
+      {
+       "id": "ch14-q15",
+       "number": 15,
+       "stem": "Which of these statements about African Sleeping Sickness is CORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The causative agent is transmitted to humans by mosquitoes."
+        },
+        {
+         "letter": "B",
+         "text": "The infected subject develops nighttime insomnia but a daytime urge to sleep."
+        },
+        {
+         "letter": "C",
+         "text": "Urban citizens living in dense apartments are more vulnerable to getting the disease."
+        },
+        {
+         "letter": "D",
+         "text": "The disease is treated primarily with melarsoprol, a highly toxic arsenic organic compound."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "His text: stage 2 brings \"daytime sleepiness, nighttime insomnia.\" Tsetse flies (not mosquitoes), rural (not urban), and melarsoprol \"is no longer used.\""
+      },
+      {
+       "id": "ch14-q16",
+       "number": 16,
+       "stem": "One may develop brain cysticercosis if one ____________ and the disease is treated with ___________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "food contaminated with pig feces/ praziquantel"
+        },
+        {
+         "letter": "B",
+         "text": "undercooked or uncooked pork/ albendazole"
+        },
+        {
+         "letter": "C",
+         "text": "bitten by wild pig/ meglumine antimonate"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "His text: eggs in SOILED food and drink, \"not from consuming uncooked or undercooked pork,\" treated with albendazole or praziquantel. Only A has soiled food and a correct drug."
+      },
+      {
+       "id": "ch14-q17",
+       "number": 17,
+       "stem": "Which of these gives the most effective protection in preventing Acanthamoeba sp. infection of the eye?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Not using contact lenses while swimming in natural freshwater ponds."
+        },
+        {
+         "letter": "B",
+         "text": "Washing contact lenses daily with the prescribed cleaning solution."
+        },
+        {
+         "letter": "C",
+         "text": "Not using contact lenses (use prescription eyeglasses instead)."
+        },
+        {
+         "letter": "D",
+         "text": "Taking prophylactic antiprotozoal drugs regularly."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "His text: Acanthamoeba survives in contact lens cleaning solutions, so washing lenses (B) does not protect; contact lenses contaminated during swimming are the route. Not wearing lenses at all is the surest protection; A is the runner-up.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C",
+        "A"
+       ]
+      },
+      {
+       "id": "ch14-q18",
+       "number": 18,
+       "stem": "Which of these signs causes cerebral malaria and the related deaths?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The parasite destroys the liver, and liver failure causes encephalopathy"
+        },
+        {
+         "letter": "B",
+         "text": "The parasite destroys red blood cells, and the cellular debris causes a brain stroke."
+        },
+        {
+         "letter": "C",
+         "text": "The parasite reproduces inside erythrocytes and alters its shape; the cells stick to the blood vessels in the brain."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q19",
+       "number": 19,
+       "stem": "Which of these statements is CORRECT about rabies?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Negri bodies found in the brain are inclusion particles made mainly of clumped rabies virus particles."
+        },
+        {
+         "letter": "B",
+         "text": "To be protected, one must receive the rabies vaccine before being bitten by a rabid animal."
+        },
+        {
+         "letter": "C",
+         "text": "Hydrophobia occurs because of schizophrenia-like behavioral changes in rabies patients."
+        },
+        {
+         "letter": "D",
+         "text": "Rabies cannot be transmitted from inhaled aerosols released by rabid animals."
+        },
+        {
+         "letter": "E",
+         "text": "The virus moves to the brain from the bite site via the blood."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Negri bodies are clumps of rabies virus particles in brain cells. Pre-exposure vaccine is not required (post-exposure works), the virus travels to the brain along nerves, and bat-cave aerosols can transmit it."
+      },
+      {
+       "id": "ch14-q20",
+       "number": 20,
+       "stem": "The botulinum toxin (A subunit) causes flaccid paralysis by which of these mechanisms?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It cleaves snare proteins, thereby preventing the release of excitatory neurotransmitters."
+        },
+        {
+         "letter": "B",
+         "text": "It cleaves synaptobrevin proteins and thus prevents the release of inhibitory neurotransmitters."
+        },
+        {
+         "letter": "C",
+         "text": "It outcompetes excitatory neurotransmitters from binding to their receptors on the muscle cells."
+        },
+        {
+         "letter": "D",
+         "text": "It binds excitatory neurotransmitters and prevents the neurotransmitters from binding to their receptors."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q21",
+       "number": 21,
+       "stem": "Which of these pieces of information is CORRECT about Guillain-Barré syndrome? Note- Be specific.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is caused by Zika virus, SARS-CoV-2, influenza, or Campylobacter jejuni."
+        },
+        {
+         "letter": "B",
+         "text": "It is treated with blood transfusion or temporary use of immunosuppressive drugs."
+        },
+        {
+         "letter": "C",
+         "text": "It is an autoimmune disease resulting from antibody-mediated destruction of neurons."
+        },
+        {
+         "letter": "D",
+         "text": "It occurs after infection with the influenza virus or Borrelia burgdorferi and is generally fatal."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "\"Be specific\": his text says antibodies made during infection bind neurons and destroy them through complement. A lists triggers, not the disease itself; treatment is plasmapheresis, not transfusion."
+      },
+      {
+       "id": "ch14-q22",
+       "number": 22,
+       "stem": "Which of these is NOT an initial contributing factor to meningitis or an immediate outcome of meningitis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Infection of the brain cells."
+        },
+        {
+         "letter": "B",
+         "text": "Microbial PAMPs activating leucocytes in meninges."
+        },
+        {
+         "letter": "C",
+         "text": "Leukocyte migration and release of reactive oxygen species."
+        },
+        {
+         "letter": "D",
+         "text": "Intracranial pressure, brain swelling (edema), and damage to brain tissue."
+        },
+        {
+         "letter": "E",
+         "text": "Cytokine secretion, cytotoxic activities (cleaning infected cells), antibody deposition, and complement activation."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q23",
+       "number": 23,
+       "stem": "Which of these is a FANCY, not a fact, about neuralgia?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It is pain on the path of a neuron."
+        },
+        {
+         "letter": "B",
+         "text": "Once it develops, the disease persists for the lifetime."
+        },
+        {
+         "letter": "C",
+         "text": "It can develop due to infections or non-infectious causes."
+        },
+        {
+         "letter": "D",
+         "text": "The pain can be triggered by movement or changes in the environmental conditions."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 14 chapter file."
+      },
+      {
+       "id": "ch14-q24",
+       "number": 24,
+       "stem": "PCR using DNA extracted from the CSF of a person indicated the presence of the JC virus. Which of these statements is CORRECT about the patient?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The person was infected with the JC virus long ago."
+        },
+        {
+         "letter": "B",
+         "text": "The person may have a neurodegenerative disease"
+        },
+        {
+         "letter": "C",
+         "text": "The person has an autoimmune brain destruction."
+        },
+        {
+         "letter": "D",
+         "text": "The person has a poor immune system."
+        },
+        {
+         "letter": "E",
+         "text": "All these statements."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "His text: almost everyone carries JC virus latently, and it reactivates only with severe immunosuppression, causing PML. A, B and D are all true, but C (autoimmune) is false, so \"all these\" fails; D is the specific clinical point. Runner-up E.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "D",
+        "E"
+       ]
+      },
+      {
+       "id": "ch14-q25",
+       "number": 25,
+       "stem": "Which of these persons may develop spastic paralysis due to the tetanospasmin toxin of Clostridium tetani? Note: assume that none of these persons had a tetanus shot in the past ten years.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The person had received an injection to treat skin wrinkles from a physician’s assistant."
+        },
+        {
+         "letter": "B",
+         "text": "The person (adult) has eaten meat containing endospores of Clostridium tetani?"
+        },
+        {
+         "letter": "C",
+         "text": "The person has eaten improperly prepared acidic canned food."
+        },
+        {
+         "letter": "D",
+         "text": "The person has stepped on a nail and has a deep wound."
+        },
+        {
+         "letter": "E",
+         "text": "Any of these persons."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q26",
+       "number": 26,
+       "stem": "Which of these statements is CORRECT about Subacute Sclerosing Panencephalitis (SSPE)?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The affected children have impaired cell-mediated immunity but produce antibodies against viral antigens."
+        },
+        {
+         "letter": "B",
+         "text": "The disease is caused by the measles vaccine because the vaccine is a live attenuated virus."
+        },
+        {
+         "letter": "C",
+         "text": "The disease signs appear within 6-10 months of initial measles infection."
+        },
+        {
+         "letter": "D",
+         "text": "The disease is caused by certain aggressive strains of the measles virus."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "His text: affected children show poor cell-mediated immunity but an excessive antibody response. Symptoms appear 6 to 10 YEARS later, the vaccine does not cause it, and the virus is a defective mutant, not an aggressive strain."
+      }
+     ]
+    },
+    {
+     "heading": "The digestive system",
+     "questions": [
+      {
+       "id": "ch14-q27",
+       "number": 27,
+       "stem": "Children infected with the Epstein-Barr virus may develop cancers of the mouth/upper respiratory canal, particularly the _________ among East Asian and Suh Sharan African children.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "hard palate"
+        },
+        {
+         "letter": "B",
+         "text": "oropharynx"
+        },
+        {
+         "letter": "C",
+         "text": "nasopharynx"
+        },
+        {
+         "letter": "D",
+         "text": "laryngopharynx"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q28",
+       "number": 28,
+       "stem": "The inflammation of the ________ glands of the mouth characterizes mumps virus infection.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "parotid"
+        },
+        {
+         "letter": "B",
+         "text": "sublingual"
+        },
+        {
+         "letter": "C",
+         "text": "submaxillary"
+        },
+        {
+         "letter": "D",
+         "text": "submandibular"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q29",
+       "number": 29,
+       "stem": "Polybacterial biofilm deposited on __________ of the teeth causes gingivitis.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "gum"
+        },
+        {
+         "letter": "B",
+         "text": "enamel"
+        },
+        {
+         "letter": "C",
+         "text": "dentine"
+        },
+        {
+         "letter": "D",
+         "text": "pulp cavity"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "His text: \"accumulation of plaque on the surfaces of teeth adjacent to the gums\" triggers gingivitis. The tooth surface is enamel; A (gum) is the runner-up because the inflammation is in the gum.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B",
+        "A"
+       ]
+      },
+      {
+       "id": "ch14-q30",
+       "number": 30,
+       "stem": "Which of these is periodontitis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Cavity in the enamel and dentine"
+        },
+        {
+         "letter": "B",
+         "text": "Softening and discoloration of the enamel."
+        },
+        {
+         "letter": "C",
+         "text": "Sensation of the teeth to cold or hot food substances."
+        },
+        {
+         "letter": "D",
+         "text": "Pain due to activation of the neurons in the pulp cavity."
+        },
+        {
+         "letter": "E",
+         "text": "Pain due to disease in the gum and the underlying bone that supports teeth."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q31",
+       "number": 31,
+       "stem": "The pH of the stomach may reach as low as 2.0. Yet the bacterium ________ may thrive in the stomach because the enzyme ____________ the bacterium produces.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Helicobacter pylori/ urease"
+        },
+        {
+         "letter": "B",
+         "text": "Clsotridiodes difficile/ acid hydrolase"
+        },
+        {
+         "letter": "C",
+         "text": "Campylobacter jejuni/ alkaline phosphatase"
+        },
+        {
+         "letter": "D",
+         "text": "Yersinia pseudotuberculosis/ oxidoreductase"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q32",
+       "number": 32,
+       "stem": "Of the organs that is directly connected to the digestive tract, ___________ is not considered a part of the digestive system, rather is part of the __________ system.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "mouth/integumentary"
+        },
+        {
+         "letter": "B",
+         "text": "liver/ blood vascular"
+        },
+        {
+         "letter": "C",
+         "text": "panaceas/endocrine"
+        },
+        {
+         "letter": "D",
+         "text": "appendix/ immune"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "His text: \"The appendix is not part of the digestive system; it contains lymphoid tissue.\""
+      },
+      {
+       "id": "ch14-q33",
+       "number": 33,
+       "stem": "Ulceration of ______________ of the intestine may cause the most severe complications including death; however, it is ____________ where maximum absorption of digested food occurs.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "duodenum/ jejunum"
+        },
+        {
+         "letter": "B",
+         "text": "jejunum/ ileum"
+        },
+        {
+         "letter": "C",
+         "text": "ileum/colon."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "His text: absorption occurs mainly in the jejunum; duodenal ulcers are the dangerous ones."
+      },
+      {
+       "id": "ch14-q34",
+       "number": 34,
+       "stem": "How does the hepatitis A virus cause hepatitis and jaundice?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The infection kills hepatocytes; the liver fails to process bilirubin."
+        },
+        {
+         "letter": "B",
+         "text": "The virus blocks the bile duct, and the bile is exported to the blood."
+        },
+        {
+         "letter": "C",
+         "text": "The infection kills hepatocytes, and the bile being synthesized in the cells leaks into the blood."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q35",
+       "number": 35,
+       "stem": "Many viruses and bacteria cause diarrhea by causing decreased absorption and excess secretion of water and electrolytes. Which of these may cause reduced absorption and excess secretion of water and electrolytes?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Activation of electrolyte and water transport channels of the epithelial cells."
+        },
+        {
+         "letter": "B",
+         "text": "Inflammation of the villi of the intestine."
+        },
+        {
+         "letter": "C",
+         "text": "Ulceration in the intestine."
+        },
+        {
+         "letter": "D",
+         "text": "All these."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 14 chapter file."
+      }
+     ]
+    },
+    {
+     "heading": "Microbes that infect the digestive system",
+     "questions": [
+      {
+       "id": "ch14-q36",
+       "number": 36,
+       "stem": "All these viruses infect some organs of the digestive or respiratory system. Which of them most often causes Reye’s syndrome?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Herpes simplex virus 1 and 2, cytomegalovirus, Coxsackie virus, and measles virus."
+        },
+        {
+         "letter": "B",
+         "text": "Hantan virus, Puumala virus, Sin Nombre virus, and rotavirus."
+        },
+        {
+         "letter": "C",
+         "text": "Roseola viruses and the mumps virus."
+        },
+        {
+         "letter": "D",
+         "text": "Influenza virus."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q37",
+       "number": 37,
+       "stem": "Of the bacterial pathogens, dysentery is caused mainly by _____________ and pigbel is caused exclusively by __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Shigella sp., and some E. coli strains/Clostridium perfringens"
+        },
+        {
+         "letter": "B",
+         "text": "Corynebacterium diphtheriae, C. ulcerans and C. pseudotuberculosis/ Clostridium difficile"
+        },
+        {
+         "letter": "C",
+         "text": "Leptospira interrogans and some other spirochetes/ Klebsiella pneumoniae and K. oxytoca"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q38",
+       "number": 38,
+       "stem": "Which of these fungi are the main (direct) causative agents of thrush?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Paracoccidodes barsiliensis."
+        },
+        {
+         "letter": "B",
+         "text": "Histoplasma capsulatum."
+        },
+        {
+         "letter": "C",
+         "text": "Malassezia furfur."
+        },
+        {
+         "letter": "D",
+         "text": "Candida albican."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q39",
+       "number": 39,
+       "stem": "All these bacteria are involved in dental caries and or periodontal diseases EXCEPT _______, it causes hepatitis.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Porphyromonas sp., Fusobacterium sp., and Prevotella sp."
+        },
+        {
+         "letter": "B",
+         "text": "Streptococcus mutans, S. salivarius, and S. sobrinus"
+        },
+        {
+         "letter": "C",
+         "text": "oral spirochetes"
+        },
+        {
+         "letter": "D",
+         "text": "Leptospira sp."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q40",
+       "number": 40,
+       "stem": "Of the Clostridia, __________ causes pigbel, and ________ causes pseudomembrane colitis.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "C. perfringens/ C. difficile"
+        },
+        {
+         "letter": "B",
+         "text": "C. butyricum/ C. kluyveri"
+        },
+        {
+         "letter": "C",
+         "text": "C. tetani/ C. botulinum"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 14 chapter file."
+      },
+      {
+       "id": "ch14-q41",
+       "number": 41,
+       "stem": "Of the protozoan parasite, ______________ may cause dysentery, and ____________cause diarrhea.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Entamoeba sp. and Balantidium sp./ Cryptosporidium sp. and Cyclospora sp."
+        },
+        {
+         "letter": "B",
+         "text": "Giardia sp. and Isospora sp./ Enchelpalitozoon sp."
+        },
+        {
+         "letter": "C",
+         "text": "Cyclospora sp./ Lesimania donovani"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q42",
+       "number": 42,
+       "stem": "Of the flatworms, _________ may cause bile duct obstruction and _________ may cause vitamin B12 deficiency.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Taenia solium/ Taenia saginata"
+        },
+        {
+         "letter": "B",
+         "text": "Fasciola hepatica/ Diphyllobothrium latum"
+        },
+        {
+         "letter": "C",
+         "text": "Schistosoma mansoni/ Schistosoma japonicum"
+        },
+        {
+         "letter": "D",
+         "text": "Hymenolepis nana/ Echinococcus granulosus"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q43",
+       "number": 43,
+       "stem": "Bacteria such as the genera _________, as protozoans such as __________ cause dysentery, a disease characterized by bloody diarrhea, and excess mucus and pus in the feces.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Shigella, Salmonella, and Campylobacter/ Entamoeba histolytica, and Balantidium coli"
+        },
+        {
+         "letter": "B",
+         "text": "Klebsiella pneumoniae and K. oxytoca/ the genera Cryptosporidium, Cyclospora and Isospora"
+        },
+        {
+         "letter": "C",
+         "text": "Vinbrio parahaemolyticus, V. vulnificus, and Yersinia enterocolitica/ the genera Encephalitozoon, Enterocytozoon"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      }
+     ]
+    },
+    {
+     "heading": "Diseases due to infection of the digestive system",
+     "questions": [
+      {
+       "id": "ch14-q44",
+       "number": 44,
+       "stem": "Appendicitis is initially caused due to __________, and a definitive sign of the disease is ___________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "obstruction/ swelling and pain on the right side of the lower abdomen"
+        },
+        {
+         "letter": "B",
+         "text": "infection of the tube/ nausea, vomiting, and fever"
+        },
+        {
+         "letter": "C",
+         "text": "rupture of the tube/ sepsis"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q45",
+       "number": 45,
+       "stem": "Which of the following statements about diarrhea is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The initial main concern of diarrhea is electrolyte and water loss."
+        },
+        {
+         "letter": "B",
+         "text": "It is defined as passing watery stool more than three times in 24 hours."
+        },
+        {
+         "letter": "C",
+         "text": "Untreated diarrhea may cause hypotension, organ failure, coma, and death"
+        },
+        {
+         "letter": "D",
+         "text": "Injectable saline can be prepared by mixing 1 spoonful of NaCl, 1 spoonful of sucrose, and 2 liters of boiled water."
+        },
+        {
+         "letter": "E",
+         "text": "Viral diarrhea is generally acute and non-bleeding; bacterial diarrhea could be due to exotoxins and may involve blood loss."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Salt, sugar and boiled water make an ORAL rehydration solution, not an injectable saline."
+      },
+      {
+       "id": "ch14-q46",
+       "number": 46,
+       "stem": "Why is antibiotic treatment insufficient in treating diphtheria, and must antiserum therapy be administered?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Corynebacterium diphtheriae is resistant to most antibiotics."
+        },
+        {
+         "letter": "B",
+         "text": "Antibiotics that kill the causative agent are too toxic to children."
+        },
+        {
+         "letter": "C",
+         "text": "The disease is caused by an exotoxin that the bacterium releases, not by the bacterium itself."
+        },
+        {
+         "letter": "D",
+         "text": "Only antiserum therapy may remove the diphtheria membrane from the mouth of the affected children."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q47",
+       "number": 47,
+       "stem": "Which of these ultimately causes cancer due to infection by Helicobacter pylori?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "H. pylori survives in the intestine by creating ammonia from urea."
+        },
+        {
+         "letter": "B",
+         "text": "H pylori toxins cause dysplasia and metaplasia of the stomach epithelial cells."
+        },
+        {
+         "letter": "C",
+         "text": "Activated leucocytes migrate into the inflamed stomach mucosa and release ROSs and NO."
+        },
+        {
+         "letter": "D",
+         "text": "The thick layers of mucus on the gastric epithelium deteriorate, exposing the mucosa to gastric acid."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "His text: leukocytes release ROS and NO that cause DNA damage in stomach cells, and some become tumors. Toxins contributing to metaplasia and dysplasia (B) are also in his text, so B is the runner-up.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C",
+        "B"
+       ]
+      },
+      {
+       "id": "ch14-q48",
+       "number": 48,
+       "stem": "Which of these causes liver fibrosis and hepatic hypertension? Note: Be specific.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Chronic inflammation, continuous killing, and regeneration of liver cells."
+        },
+        {
+         "letter": "B",
+         "text": "Death of hepatocytes and the reduced processing of bilirubin and other toxic chemicals."
+        },
+        {
+         "letter": "C",
+         "text": "Activated stellate cells of the liver differentiate into myofibroblasts and secrete collagen."
+        },
+        {
+         "letter": "D",
+         "text": "Increase in the size of the liver due to unregulated regrowth (regeneration) of the liver tissues."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "\"Be specific\": his text says activated stellate cells differentiate into myofibroblasts that lay down collagen."
+      },
+      {
+       "id": "ch14-q49",
+       "number": 49,
+       "stem": "Perihepatitis is associated with each of these EXCEPT__________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "human papillomavirus and human herpesvirus-2"
+        },
+        {
+         "letter": "B",
+         "text": "sexually transmitted infections"
+        },
+        {
+         "letter": "C",
+         "text": "pelvic inflammatory diseases"
+        },
+        {
+         "letter": "D",
+         "text": "gender specificity"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "His text: perihepatitis is caused by Neisseria gonorrhoeae or Chlamydia trachomatis (sexually transmitted), follows PID and affects women."
+      },
+      {
+       "id": "ch14-q50",
+       "number": 50,
+       "stem": "Which of these is associated with Reye’s syndrome?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Children 13-15 years old."
+        },
+        {
+         "letter": "B",
+         "text": "Post-infection autoimmune responses."
+        },
+        {
+         "letter": "C",
+         "text": "High liver-specific enzymes in the blood, lethargy, seizure, convulsion, and coma."
+        },
+        {
+         "letter": "D",
+         "text": "Human herpesvirus-1 and cytomegalovirus infection and use of acetaminophen for fever reduction."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      }
+     ]
+    },
+    {
+     "heading": "The respiratory system",
+     "questions": [
+      {
+       "id": "ch14-q51",
+       "number": 51,
+       "stem": "If the vocal folds of a person are infected by bacteria or viruses, the person will have __________, and if ___________ is serious, the person may develop pneumonia due to entrance of saliva in the lungs.?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "pharyngitis/ laryngitis"
+        },
+        {
+         "letter": "B",
+         "text": "laryngitis/ epiglottitis"
+        },
+        {
+         "letter": "D",
+         "text": "epiglottitis/tonsilitis"
+        },
+        {
+         "letter": "E",
+         "text": "tonsilitis/uvulitis"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q52",
+       "number": 52,
+       "stem": "The thinnest of the pipes of the bronchial tree is _________, and __________ is the inflammation of the alveoli.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "respiratory bronchioles- emphysema"
+        },
+        {
+         "letter": "B",
+         "text": "secondary bronchioles- pneumonia"
+        },
+        {
+         "letter": "C",
+         "text": "terminal bronchioles- bronchiolitis"
+        },
+        {
+         "letter": "D",
+         "text": "bronchial ducts/ pneumonitis"
+        },
+        {
+         "letter": "E",
+         "text": "tertiary bronchi/ bronchitis"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 14 chapter file."
+      },
+      {
+       "id": "ch14-q53",
+       "number": 53,
+       "stem": "Oxygen in the air of the alveoli must diffuse through each of these obstacles to reach the iron atoms of the hemoglobin inside the erythrocytes. Which of them is the first of the obstacles?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Basement membrane of the blood capillaries."
+        },
+        {
+         "letter": "B",
+         "text": "Endothelial cells of the blood capillaries."
+        },
+        {
+         "letter": "C",
+         "text": "Blood plasma around erythrocytes."
+        },
+        {
+         "letter": "D",
+         "text": "Alveolar epithelium."
+        },
+        {
+         "letter": "E",
+         "text": "Alveolar surfactants."
+        }
+       ],
+       "answer": "E",
+       "answerSource": "derived",
+       "answerRationale": "His text: oxygen diffuses through the surfactant fluid first, then the alveolar epithelium, basement membrane, endothelium and plasma."
+      },
+      {
+       "id": "ch14-q54",
+       "number": 54,
+       "stem": "A person breathes between 17,000 and 23,000 times in 24 hours, and inhales about 500 ml of air/breath. If one milliliter of air contains one dust particle or microbes (viruses, bacteria, fungal spores, protozoan cysts, or worm eggs), how many particles does the person inhale daily?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "9-12 million."
+        },
+        {
+         "letter": "B",
+         "text": "90,000- 120,000."
+        },
+        {
+         "letter": "C",
+         "text": "90-120 million."
+        },
+        {
+         "letter": "D",
+         "text": "0.9-1.2 million."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "17,000 x 500 mL = 8.5 million; 23,000 x 500 mL = 11.5 million, so about 9 to 12 million."
+      },
+      {
+       "id": "ch14-q55",
+       "number": 55,
+       "stem": "Pink eye is the infection/inflammation of the _________, and a stye is the infection/inflammation of __________.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "sclera/ cornea"
+        },
+        {
+         "letter": "B",
+         "text": "cornea/ conjunctiva"
+        },
+        {
+         "letter": "C",
+         "text": "conjunctiva/eyebrow follicles"
+        },
+        {
+         "letter": "D",
+         "text": "eyebrow follicles/ lachrymal glands"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q56",
+       "number": 56,
+       "stem": "Inflammation in the Eustachian canal would impact the ___________ear; and the same for the semicircular canals of the labyrinth would affect the function of the ___________ ear.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "inner/outer"
+        },
+        {
+         "letter": "B",
+         "text": "outer/ middle"
+        },
+        {
+         "letter": "C",
+         "text": "middle/ inner"
+        },
+        {
+         "letter": "D",
+         "text": "inner/middle"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q57",
+       "number": 57,
+       "stem": "The eardrum may get perforated if a child has __________; a person would get vertigo if the __________is damaged following viral encephalitis.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "otitis media/labyrinthitis"
+        },
+        {
+         "letter": "B",
+         "text": "swimmer’s ear/ otitis media"
+        },
+        {
+         "letter": "C",
+         "text": "otitis externa/ bullous myringitis"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      }
+     ]
+    },
+    {
+     "heading": "Microbes that infect the respiratory system, eye, and ear",
+     "questions": [
+      {
+       "id": "ch14-q58",
+       "number": 58,
+       "stem": "Of the viral infections of the upper respiratory canals and the eyes, ____________ may cause keratitis (severe inflammation of the eye) and ___________ may cause retinitis.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "coxsackie virus/ Chikungunya virus"
+        },
+        {
+         "letter": "B",
+         "text": "herpes simplex virus/ cytomegalovirus"
+        },
+        {
+         "letter": "C",
+         "text": "rhinovirus and orthoreovirus/ Epstein-Barr virus"
+        },
+        {
+         "letter": "D",
+         "text": "Ebola virus and Marburg virus/ human paramyxovirus"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q59",
+       "number": 59,
+       "stem": "Many pathogenic bacteria and some environmental bacteria can cause __________; but only ____________ can cause scarlet fever following a sore throat.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "sinusitis/ Legionella pneumophila and Chlamydophila trachomatis"
+        },
+        {
+         "letter": "B",
+         "text": "pneumonia/ Burkholderia cepacian and Streptococcus pneumoniae"
+        },
+        {
+         "letter": "C",
+         "text": "otitis media/ Moraxella catarrhalis and Hemophilus influenzae"
+        },
+        {
+         "letter": "D",
+         "text": "sinusitis, otitis media, and pneumonia/ Streptococcus pyogenes"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q60",
+       "number": 60,
+       "stem": "Of the fungal pathogens, ____________ may cause disfiguring nodules in the nose, and __________can cause pneumonia.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Basidiobolus ranarum and Conidiobolus coronatus/ Pneumocystis jirovecii"
+        },
+        {
+         "letter": "B",
+         "text": "Blastomyces dermatitidis and Penicillium marneffei/ Histoplasma capsulatum"
+        },
+        {
+         "letter": "C",
+         "text": "Paracoccidioides brasiliensis and Cryptococcus neoformans/ Candida albicans"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "His text: Basidiobolus ranarum and Conidiobolus coronatus cause disfiguring nasal nodules; Pneumocystis causes pneumonia."
+      },
+      {
+       "id": "ch14-q61",
+       "number": 61,
+       "stem": "A contact lens user may develop a corneal ulcer or brain-eating disease caused by ___________ ; the fluke __________ may cause bleeding in the lung.",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Toxoplasma gondii/ Echinococcus multilocularis"
+        },
+        {
+         "letter": "B",
+         "text": "Acanthamoeba sp. / Paragonimus westermani"
+        },
+        {
+         "letter": "C",
+         "text": "Encephalitozoon/ Onchocerca volvulus"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      }
+     ]
+    },
+    {
+     "heading": "Pathologies due to infection of the respiratory system, eye and ear",
+     "questions": [
+      {
+       "id": "ch14-q62",
+       "number": 62,
+       "stem": "The worms Loa loa, Toxocara canis and Onchocerca volvulus can infect the eyes. Which of the following is the distinctive feature of eye infections by O. volvulus?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The worms or their larvae may infect other organs besides the eyes."
+        },
+        {
+         "letter": "B",
+         "text": "It is transmitted through the biting of infested flies."
+        },
+        {
+         "letter": "C",
+         "text": "It readily causes blindness."
+        },
+        {
+         "letter": "D",
+         "text": "It is endemic in Africa."
+        },
+        {
+         "letter": "E",
+         "text": "It is a nematode."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q63",
+       "number": 63,
+       "stem": "Which of these is NOT a sign of acute respiratory distress syndrome?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Rapid breathing and cough."
+        },
+        {
+         "letter": "B",
+         "text": "Severe shortness of breath."
+        },
+        {
+         "letter": "C",
+         "text": "Confusion and death."
+        },
+        {
+         "letter": "D",
+         "text": "Pneumonitis."
+        },
+        {
+         "letter": "E",
+         "text": "Cyanosis."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "His text lists ARDS signs: severe shortness of breath, rapid breathing, cough, cyanosis, confusion and death. Pneumonitis is not on the list."
+      },
+      {
+       "id": "ch14-q64",
+       "number": 64,
+       "stem": "Untreated bronchitis/bronchiolitis may develop chronic obstructive pulmonary disease (COPD) and emphysema, especially among smokers. Which of these is strictly a specific sign of emphysema?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Chest tightness."
+        },
+        {
+         "letter": "B",
+         "text": "Damages in the alveoli."
+        },
+        {
+         "letter": "C",
+         "text": "Blockages in the bronchioles."
+        },
+        {
+         "letter": "D",
+         "text": "Shortness of breath and cough."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "His text: COPD becomes emphysema when it involves alveolar damage. Chest tightness, blockage and shortness of breath are COPD in general."
+      },
+      {
+       "id": "ch14-q65",
+       "number": 65,
+       "stem": "Which of these ultimately causes the signs (such as watery eyes, runny nose, and fever) of a common cold?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Virus killing the infected epithelial cells."
+        },
+        {
+         "letter": "B",
+         "text": "The immune system kills the virus-infected epithelial cells."
+        },
+        {
+         "letter": "C",
+         "text": "The killed epithelial cells release bradykinin and histamines"
+        },
+        {
+         "letter": "D",
+         "text": "Secondary infections of the mucosa by the resident microbes."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "starred",
+       "answerRationale": "Starred in your Ch 14 chapter file."
+      },
+      {
+       "id": "ch14-q66",
+       "number": 66,
+       "stem": "Which of these eye infections is trachoma?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Infection and inflammation of the membrane that covers the cornea."
+        },
+        {
+         "letter": "B",
+         "text": "Infection/inflammation of the conjunctiva, cornea, and retina."
+        },
+        {
+         "letter": "C",
+         "text": "Keratoconjunctivitis caused by a particular bacterial species."
+        },
+        {
+         "letter": "D",
+         "text": "Keratoconjunctivitis caused by a particular viral species."
+        },
+        {
+         "letter": "E",
+         "text": "Infection/inflammation of the conjunctiva and cornea."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "His text: \"Trachoma is a keratoconjunctivitis caused by the bacterium Chlamydia trachomatis.\""
+      },
+      {
+       "id": "ch14-q67",
+       "number": 67,
+       "stem": "How is croup different from simple coughs?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Croup involves a hoarse cough; simple coughing does not."
+        },
+        {
+         "letter": "B",
+         "text": "Croup is a reflex to clear the airways by forced exhaling; cough is not."
+        },
+        {
+         "letter": "C",
+         "text": "Croup does not involve breathing and swallowing difficulties; coughing does."
+        },
+        {
+         "letter": "D",
+         "text": "Croup is usually due to bacterial infections, and simple coughing is usually due to viral infections."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "His text: croup is \"marked by a barking (hoarse) cough.\""
+      },
+      {
+       "id": "ch14-q68",
+       "number": 68,
+       "stem": "Recovery from viral and bacterial lung infection may lead to lung fibrosis. Which of these describes lung fibrosis properly?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Activation of lung myofibroblasts."
+        },
+        {
+         "letter": "B",
+         "text": "Shortness of breath, persistent dry cough."
+        },
+        {
+         "letter": "C",
+         "text": "Improper healing of the lung tissues and accumulation of scar tissue."
+        },
+        {
+         "letter": "D",
+         "text": "Damages of the lung tissues, including the mucosal membrane of the alveoli."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "Not starred; answer derived from his Chapter 14 text."
+      },
+      {
+       "id": "ch14-q69",
+       "number": 69,
+       "stem": "Which of this information about influenza is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The causative agents are some of the most rapidly evolving pathogens known."
+        },
+        {
+         "letter": "B",
+         "text": "The disease signs may include ARDS, pneumonia, cardiovascular complications, and encephalitis."
+        },
+        {
+         "letter": "C",
+         "text": "The incidence and mortality due to the disease in the US are about 50 million and 40,000, respectively."
+        },
+        {
+         "letter": "D",
+         "text": "Annual vaccination, frequent handwashing, and using masks fully protect health care workers from infection."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "His text gives about 50 million cases and over 40,000 deaths (so C is correct) and says vaccinated people are \"not completely protected.\" \"Fully protect\" is the incorrect statement."
+      },
+      {
+       "id": "ch14-q70",
+       "number": 70,
+       "stem": "Which of these is a sign of acute otitis media?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Pain, swelling, and drainage from open wounds of the outer ears."
+        },
+        {
+         "letter": "B",
+         "text": "An otoscopic examination shows a reddened/ inflamed eardrum."
+        },
+        {
+         "letter": "C",
+         "text": "An otoscopic examination shows fluid and pus under the eardrum."
+        },
+        {
+         "letter": "D",
+         "text": "An otoscopic examination shows a perforated eardrum releasing pus."
+        },
+        {
+         "letter": "E",
+         "text": "The affected subject has vertigo after recovering from a systemic viral infection."
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "His text describes middle-ear fluid, gas and pressure behind the eardrum (and rupture in severe cases); pus and fluid under the eardrum is the defining sign. A is otitis externa; E is labyrinthitis. Runner-up B.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "C",
+        "B"
+       ]
+      },
+      {
+       "id": "ch14-q71",
+       "number": 71,
+       "stem": "Which of these is MDR-TB?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Active TB, the bacillus is resistant to isoniazid and rifampicin."
+        },
+        {
+         "letter": "B",
+         "text": "Asymptomatic TB, found among 95% of patients after initial infection by the bacillus."
+        },
+        {
+         "letter": "C",
+         "text": "In active TB, the bacillus is resistant to isoniazid, rifampicin, pyrazinamide, or ethambutol."
+        },
+        {
+         "letter": "D",
+         "text": "Active TB, the bacillus is resistant to fluoroquinolone, and at least one of the three injectable second-line antibiotics."
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "MDR-TB means resistant to at least isoniazid and rifampicin (D describes XDR-TB)."
+      },
+      {
+       "id": "ch14-q72",
+       "number": 72,
+       "stem": "Which of these statements about whopping cough is INCORRECT?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "The disease is caused by multiple bacterial pathogens."
+        },
+        {
+         "letter": "B",
+         "text": "The disease is caused by an exotoxin, not by the bacteria."
+        },
+        {
+         "letter": "C",
+         "text": "Older children and the elderly in the United States are getting the disease."
+        },
+        {
+         "letter": "D",
+         "text": "The disease is named for the hoarse noise during the exhalation phase of the cough."
+        },
+        {
+         "letter": "E",
+         "text": "The disease can make children get exhausted and may cause seizures, brain damage, and death."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "His text: the loud whoop comes when the child struggles to INHALE after the paroxysm, not during exhalation."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 24,
+   "title": "OpenStax Microbiology Ch 24: Digestive System Infections (also on OLQ 14)",
+   "sections": [
+    {
+     "heading": "OpenStax review questions (multiple choice)",
+     "questions": [
+      {
+       "id": "os24-q1",
+       "number": 1,
+       "stem": "Which of the following is NOT a way the normal microbiota of the intestine helps to prevent infection?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It produces acids that lower the pH of the stomach."
+        },
+        {
+         "letter": "B",
+         "text": "It speeds up the process by which microbes are flushed from the digestive tract."
+        },
+        {
+         "letter": "C",
+         "text": "It consumes food and occupies space, outcompeting potential pathogens."
+        },
+        {
+         "letter": "D",
+         "text": "It generates large quantities of oxygen that kill anaerobic pathogens."
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q2",
+       "number": 2,
+       "stem": "What types of microbes live in the intestines?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Diverse species of bacteria, archaea, and fungi, especially Bacteroides and Firmicutes bacteria"
+        },
+        {
+         "letter": "B",
+         "text": "A narrow range of bacteria, especially Firmicutes"
+        },
+        {
+         "letter": "C",
+         "text": "A narrow range of bacteria and fungi, especially Bacteroides"
+        },
+        {
+         "letter": "D",
+         "text": "Archaea and fungi only"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q3",
+       "number": 3,
+       "stem": "What pathogen is the most important contributor to biofilms in plaque?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Staphylococcus aureus"
+        },
+        {
+         "letter": "B",
+         "text": "Streptococcus mutans"
+        },
+        {
+         "letter": "C",
+         "text": "Escherichia coli"
+        },
+        {
+         "letter": "D",
+         "text": "Clostridium difficile"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q4",
+       "number": 4,
+       "stem": "What type of organism causes thrush?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "a bacterium"
+        },
+        {
+         "letter": "B",
+         "text": "a virus"
+        },
+        {
+         "letter": "C",
+         "text": "a fungus"
+        },
+        {
+         "letter": "D",
+         "text": "a protozoan"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q5",
+       "number": 5,
+       "stem": "In mumps, what glands swell to produce the disease’s characteristic appearance?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "the sublingual glands"
+        },
+        {
+         "letter": "B",
+         "text": "the gastric glands"
+        },
+        {
+         "letter": "C",
+         "text": "the parotid glands"
+        },
+        {
+         "letter": "D",
+         "text": "the submandibular glands"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q6",
+       "number": 6,
+       "stem": "Which of the following is true of HSV-1?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "It causes oral thrush in immunocompromised patients."
+        },
+        {
+         "letter": "B",
+         "text": "Infection is generally self-limiting."
+        },
+        {
+         "letter": "C",
+         "text": "It is a bacterium."
+        },
+        {
+         "letter": "D",
+         "text": "It is usually treated with amoxicillin."
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q7",
+       "number": 7,
+       "stem": "Which type of E. coli infection can be severe with life-threatening consequences such as hemolytic uremic syndrome?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "ETEC"
+        },
+        {
+         "letter": "B",
+         "text": "EPEC"
+        },
+        {
+         "letter": "C",
+         "text": "EHEC"
+        },
+        {
+         "letter": "D",
+         "text": "EIEC"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q8",
+       "number": 8,
+       "stem": "Which species of Shigella has a type that produces Shiga toxin?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "S. boydii"
+        },
+        {
+         "letter": "B",
+         "text": "S. flexneri"
+        },
+        {
+         "letter": "C",
+         "text": "S. dysenteriae"
+        },
+        {
+         "letter": "D",
+         "text": "S. sonnei"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q9",
+       "number": 9,
+       "stem": "Which type of bacterium produces an A-B toxin?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Salmonella"
+        },
+        {
+         "letter": "B",
+         "text": "Vibrio cholera"
+        },
+        {
+         "letter": "C",
+         "text": "ETEC"
+        },
+        {
+         "letter": "D",
+         "text": "Shigella dysenteriae"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax names the cholera toxin as its A-B toxin example. Shiga toxin is also an A-B toxin, so D is the runner-up.",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "B",
+        "D"
+       ]
+      },
+      {
+       "id": "os24-q10",
+       "number": 10,
+       "stem": "Which form of hepatitisvirus can only infect an individual who is already infected with another hepatitisvirus?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "HDV"
+        },
+        {
+         "letter": "B",
+         "text": "HAV"
+        },
+        {
+         "letter": "C",
+         "text": "HBV"
+        },
+        {
+         "letter": "D",
+         "text": "HEV"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q11",
+       "number": 11,
+       "stem": "Which cause of viral gastroenteritis commonly causes projectile vomiting?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "hepatitisvirus"
+        },
+        {
+         "letter": "B",
+         "text": "Astroviruses"
+        },
+        {
+         "letter": "C",
+         "text": "Rotavirus"
+        },
+        {
+         "letter": "D",
+         "text": "Noroviruses"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q12",
+       "number": 12,
+       "stem": "Which protozoan is associated with the ability to cause severe dysentery?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Giardia lamblia"
+        },
+        {
+         "letter": "B",
+         "text": "Cryptosporidium hominis"
+        },
+        {
+         "letter": "C",
+         "text": "Cyclospora cayetanesis"
+        },
+        {
+         "letter": "D",
+         "text": "Entamoeba histolytica"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q13",
+       "number": 13,
+       "stem": "Which protozoan has a unique appearance, with a blue halo, when viewed using ultraviolet fluorescence microscopy?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Giardia lamblia"
+        },
+        {
+         "letter": "B",
+         "text": "Cryptosporidium hominis"
+        },
+        {
+         "letter": "C",
+         "text": "Cyclospora cayetanesis"
+        },
+        {
+         "letter": "D",
+         "text": "Entamoeba histolytica"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q14",
+       "number": 14,
+       "stem": "The micrograph shows protozoans attached to the intestinal wall of a gerbil. Based on what you know about protozoan intestinal parasites, what is it?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Giardia lamblia"
+        },
+        {
+         "letter": "B",
+         "text": "Cryptosporidium hominis"
+        },
+        {
+         "letter": "C",
+         "text": "Cyclospora cayetanesis"
+        },
+        {
+         "letter": "D",
+         "text": "Entamoeba histolytica"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "The figure did not come through; Giardia is the protozoan that attaches to the intestinal wall (with its ventral disc).",
+       "confidence": "unsure",
+       "likelyOptions": [
+        "A"
+       ]
+      },
+      {
+       "id": "os24-q15",
+       "number": 15,
+       "stem": "What is another name for Trichuris trichiura?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "pinworm"
+        },
+        {
+         "letter": "B",
+         "text": "whipworm"
+        },
+        {
+         "letter": "C",
+         "text": "hookworm"
+        },
+        {
+         "letter": "D",
+         "text": "ascariasis"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os24-q16",
+       "number": 16,
+       "stem": "Which type of helminth infection can be diagnosed using tape?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "pinworm"
+        },
+        {
+         "letter": "B",
+         "text": "whipworm"
+        },
+        {
+         "letter": "C",
+         "text": "hookworm"
+        },
+        {
+         "letter": "D",
+         "text": "tapeworm"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 25,
+   "title": "OpenStax Microbiology Ch 25: Circulatory and Lymphatic System Infections (also on OLQ 14)",
+   "sections": [
+    {
+     "heading": "OpenStax review questions (multiple choice)",
+     "questions": [
+      {
+       "id": "os25-q1",
+       "number": 1,
+       "stem": "Which term refers to an inflammation of the blood vessels?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "lymphangitis"
+        },
+        {
+         "letter": "B",
+         "text": "endocarditis"
+        },
+        {
+         "letter": "C",
+         "text": "pericarditis"
+        },
+        {
+         "letter": "D",
+         "text": "vasculitis"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q2",
+       "number": 2,
+       "stem": "Which of the following is located in the interstitial spaces within tissues and releases nutrients, immune factors, and oxygen to those tissues?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "lymphatics"
+        },
+        {
+         "letter": "B",
+         "text": "arterioles"
+        },
+        {
+         "letter": "C",
+         "text": "capillaries"
+        },
+        {
+         "letter": "D",
+         "text": "veins"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q3",
+       "number": 3,
+       "stem": "Which of these conditions results in the formation of a bubo?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "lymphangitis"
+        },
+        {
+         "letter": "B",
+         "text": "lymphadenitis"
+        },
+        {
+         "letter": "C",
+         "text": "ischemia"
+        },
+        {
+         "letter": "D",
+         "text": "vasculitis"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q4",
+       "number": 4,
+       "stem": "Which of the following is where are most microbes filtered out of the fluids that accumulate in the body tissues?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "spleen"
+        },
+        {
+         "letter": "B",
+         "text": "lymph nodes"
+        },
+        {
+         "letter": "C",
+         "text": "pericardium"
+        },
+        {
+         "letter": "D",
+         "text": "blood capillaries"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q5",
+       "number": 5,
+       "stem": "Which of the following diseases is caused by a spirochete?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "tularemia"
+        },
+        {
+         "letter": "B",
+         "text": "relapsing fever"
+        },
+        {
+         "letter": "C",
+         "text": "rheumatic fever"
+        },
+        {
+         "letter": "D",
+         "text": "Rocky Mountain spotted fever"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q6",
+       "number": 6,
+       "stem": "Which of the following diseases is transmitted by body lice?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "tularemia"
+        },
+        {
+         "letter": "B",
+         "text": "bubonic plague"
+        },
+        {
+         "letter": "C",
+         "text": "murine typhus"
+        },
+        {
+         "letter": "D",
+         "text": "epidemic typhus"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q7",
+       "number": 7,
+       "stem": "What disease is most associated with Clostridium perfringens?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "endocarditis"
+        },
+        {
+         "letter": "B",
+         "text": "osteomyelitis"
+        },
+        {
+         "letter": "C",
+         "text": "gas gangrene"
+        },
+        {
+         "letter": "D",
+         "text": "rat bite fever"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q8",
+       "number": 8,
+       "stem": "Which bacterial pathogen causes plague?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Yersinia pestis"
+        },
+        {
+         "letter": "B",
+         "text": "Bacillus moniliformis"
+        },
+        {
+         "letter": "C",
+         "text": "Bartonella quintana"
+        },
+        {
+         "letter": "D",
+         "text": "Rickettsia rickettsii"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q9",
+       "number": 9,
+       "stem": "Which of the following viruses is most widespread in the human population?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "human immunodeficiency virus"
+        },
+        {
+         "letter": "B",
+         "text": "Ebola virus"
+        },
+        {
+         "letter": "C",
+         "text": "Epstein-Barr virus"
+        },
+        {
+         "letter": "D",
+         "text": "hantavirus"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q10",
+       "number": 10,
+       "stem": "Which of these viruses is spread through mouse urine or feces?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Epstein-Barr"
+        },
+        {
+         "letter": "B",
+         "text": "hantavirus"
+        },
+        {
+         "letter": "C",
+         "text": "human immunodeficiency virus"
+        },
+        {
+         "letter": "D",
+         "text": "cytomegalovirus"
+        }
+       ],
+       "answer": "B",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q11",
+       "number": 11,
+       "stem": "A patient at a clinic has tested positive for HIV. Her blood contained 700/μL CD4 T cells and she does not have any apparent illness. Her infection is in which stage?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "1"
+        },
+        {
+         "letter": "B",
+         "text": "2"
+        },
+        {
+         "letter": "C",
+         "text": "3"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "CDC stage 1 is 500 or more CD4 T cells per microliter with no AIDS-defining illness."
+      },
+      {
+       "id": "os25-q12",
+       "number": 12,
+       "stem": "Which of the following diseases is caused by a helminth?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "leishmaniasis"
+        },
+        {
+         "letter": "B",
+         "text": "malaria"
+        },
+        {
+         "letter": "C",
+         "text": "Chagas disease"
+        },
+        {
+         "letter": "D",
+         "text": "schistosomiasis"
+        }
+       ],
+       "answer": "D",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q13",
+       "number": 13,
+       "stem": "Which of these is the most common form of leishmaniasis?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "cutaneous"
+        },
+        {
+         "letter": "B",
+         "text": "mucosal"
+        },
+        {
+         "letter": "C",
+         "text": "visceral"
+        },
+        {
+         "letter": "D",
+         "text": "intestinal"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q14",
+       "number": 14,
+       "stem": "Which of the following is a causative agent of malaria?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "Trypanosoma cruzi"
+        },
+        {
+         "letter": "B",
+         "text": "Toxoplasma gondii"
+        },
+        {
+         "letter": "C",
+         "text": "Plasmodium falciparum"
+        },
+        {
+         "letter": "D",
+         "text": "Schistosoma mansoni"
+        }
+       ],
+       "answer": "C",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      },
+      {
+       "id": "os25-q15",
+       "number": 15,
+       "stem": "Which of the following diseases does not involve an arthropod vector?",
+       "options": [
+        {
+         "letter": "A",
+         "text": "schistosomiasis"
+        },
+        {
+         "letter": "B",
+         "text": "malaria"
+        },
+        {
+         "letter": "C",
+         "text": "Chagas disease"
+        },
+        {
+         "letter": "D",
+         "text": "babesiosis"
+        }
+       ],
+       "answer": "A",
+       "answerSource": "derived",
+       "answerRationale": "OpenStax review question; answer from the OpenStax chapter text (standard microbiology, high confidence)."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
